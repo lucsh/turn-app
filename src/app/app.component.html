@@ -1,15 +1,23 @@
+<!-- Wrapper-->
 <div id="wrapper">
-	<app-navigation></app-navigation>
 
-	<div id="page-wrapper" class="gray-bg">
+  <!-- Left navigation bar -->
+  <navigation></navigation>
 
-		<div class="wrapper wrapper-content">
+  <!-- Main page wrapper -->
+  <div id="page-wrapper" class="gray-bg">
 
-			<router-outlet></router-outlet>
+    <!-- Top navigation -->
+    <topnavbar></topnavbar>
 
-		</div>
+    <!-- Main view/routes wrapper-->
+    <router-outlet></router-outlet>
 
-		<app-footer></app-footer>
+    <!-- Footer -->
+    <footer></footer>
 
-	</div>
+  </div>
+  <!-- End page wrapper-->
+
 </div>
+<!-- End wrapper-->
