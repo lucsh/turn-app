@@ -6,16 +6,21 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
+import {BsDropdownModule} from 'ngx-bootstrap';
+
+
 import { routing } from './app.routing';
 import { FooterComponent } from './ui/footer.component';
 import { NavigationComponent } from './ui/navigation/navigation.component';
+import { TopnavbarComponent } from './ui/topnavbar/topnavbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     FooterComponent,
-    NavigationComponent
+    NavigationComponent,
+    TopnavbarComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { FooterComponent } from './ui/footer.component';
+import { detectBody } from './app.helpers';
+
+declare var jQuery:any;
+
 
 @Component({
   selector: 'app-root',
@@ -7,5 +11,12 @@ import { FooterComponent } from './ui/footer.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
+
+  public ngOnInit():any {
+    detectBody();
+  }
+
+  public onResize(){
+    detectBody();
+  }
 }
