@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import 'jquery-slimscroll';
-import { BsDropdownModule } from 'ngx-bootstrap';
 
 
 declare var jQuery:any;
