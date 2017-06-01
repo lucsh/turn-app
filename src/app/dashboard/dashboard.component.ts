@@ -1,4 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { DashboardService } from './dashboard.service';
+import { Observable } from 'rxjs/Rx';
+
 
 declare var jQuery:any;
 
@@ -11,22 +14,93 @@ declare var jQuery:any;
 export class DashboardComponent implements OnDestroy, OnInit {
 	
   public nav:any;
-  public todos: any;
+  todos: string[];
+  citas: string[];
+  mensajes: string[];
+  estadosCitas: any;
+  whatTime: any;
 
-  public constructor() {
+  constructor(private dashboardService: DashboardService){
     this.nav = document.querySelector('nav.navbar');
-    this.todos = [
-      {name: "Buy a milk", completed: true},
-      {name: "Go to shop and find some products.", completed: false},
-      {name: "Send documents to Mike ", completed: false, time: 1},
-      {name: "Go to the doctor dr Smith", completed: false},
-      {name: "Plan vacation", completed: true},
-      {name: "Create new stuff", completed: false},
-      {name: "Call to Anna for dinner", completed: false},
-    ];
+    this.whatTime = Observable.interval(1000)
+    .map(x => new Date()).share();
+  }
+
+  claseEstadoCita(status){
+    var clase = "btn-default";
+    for (var i in this.estadosCitas) {
+      if (status == this.estadosCitas[i].nombre){
+        clase = "btn-" + this.estadosCitas[i].clase;
+      }
+      //console.log(this.estadosCitas[i])
+    }
+
+    return clase
+  }
+
+  getAllMensajes(){
+    this.dashboardService.getMensajes()
+    .subscribe(
+      data => this.mensajes = data,
+      error => console.log('Server Error')
+    );
+  }
+  getAllEstadosCitas(){
+    this.dashboardService.getEstadosCitas()
+    .subscribe(
+      data => this.estadosCitas = data,
+      error => console.log('Server Error')
+    );
+  }
+  getAllCitas(){
+    this.dashboardService.getCitas()
+    .subscribe(
+      data => this.citas = data,
+      error => console.log('Server Error')
+    );
+  }
+  updateCita(cita,estado){
+    console.log(cita);
+    console.log(estado);
+    cita.status=estado;
+    this.dashboardService.updateCita(cita).subscribe(
+      data => {
+        this.getAllTodos();
+      });
+  
+  }
+
+  getAllTodos(){
+    this.dashboardService.getTodos()
+    .subscribe(
+      data => this.todos = data,
+      error => console.log('Server Error')
+    );
+  }
+  createTodo(newTodo : string){
+    this.dashboardService.createTodo(newTodo).subscribe(
+      data => {
+        this.getAllTodos();
+      });
+  }
+  updateTodo(todoId:string, todo:string, newStatus:boolean){
+    this.dashboardService.updateTodo(todoId,todo,newStatus).subscribe(
+      data => {
+        this.getAllTodos();
+      });
+  }
+  deleteTodo(todoId : string){
+    this.dashboardService.deleteTodo(todoId).subscribe(
+     data => {
+        this.getAllTodos();
+      });
   }
 
   public ngOnInit():any {
+    this.getAllTodos();
+    this.getAllCitas();
+    this.getAllMensajes();
+    this.getAllEstadosCitas();
     this.nav.className += " white-bg";
   }
 
