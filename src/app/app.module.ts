@@ -6,7 +6,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
-import {BsDropdownModule} from 'ngx-bootstrap';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 
 import { routing } from './app.routing';
@@ -26,6 +26,7 @@ import { TopnavbarComponent } from './ui/topnavbar/topnavbar.component';
     BrowserModule,
     FormsModule,
     HttpModule,
+    BsDropdownModule.forRoot(),
     routing
   ],
   providers: [],

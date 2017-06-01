@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { smoothlyMenu } from '../../app.helpers';
+import { BsDropdownModule } from 'ngx-bootstrap';
+//import { BsDropdownMenu } from 'ngx-bootstrap';
+
 declare var jQuery:any; 
 
 @Component({
