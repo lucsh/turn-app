@@ -34,96 +34,84 @@
   "citas": [
     {
       "id": 1,
-      "dia": "01-06-2017",
-      "hora": "10:00",
+      "turno": "01-06-2017 09:00:00",
       "status": "Pendiente",
       "paciente": "Francisco",
       "doctor": "Dr. Romero"
     },
     {
       "id": 2,
-      "dia": "01-06-2017",
-      "hora": "10:00",
+      "turno": "01-06-2017 09:00:00",
       "status": "Pendiente",
       "paciente": "Juan",
       "doctor": "Dra. Manzazno"
     },
     {
       "id": 3,
-      "dia": "01-06-2017",
-      "hora": "10:30",
+      "turno": "01-06-2017 09:30:00",
       "status": "Pendiente",
       "paciente": "Claudio",
       "doctor": "Dr. Romero"
     },
     {
       "id": 4,
-      "dia": "01-06-2017",
-      "hora": "10:30",
+      "turno": "01-06-2017 09:30:00",
       "status": "Pendiente",
       "paciente": "Franco",
       "doctor": "Dra. Manzazno"
     },
     {
       "id": 5,
-      "dia": "01-06-2017",
-      "hora": "11:00",
+      "turno": "01-06-2017 10:00:00",
       "status": "Pendiente",
       "paciente": "Susana",
       "doctor": "Dr. Romero"
     },
     {
       "id": 6,
-      "dia": "01-06-2017",
-      "hora": "11:00",
+      "turno": "01-06-2017 10:00:00",
       "status": "Cancelada",
       "paciente": "Osvaldo",
       "doctor": "Dra. Manzazno"
     },
     {
       "id": 7,
-      "dia": "01-06-2017",
-      "hora": "11:30",
+      "turno": "01-06-2017 10:30:00",
       "status": "Pendiente",
       "paciente": "Gustavo",
       "doctor": "Dr. Romero"
     },
     {
       "id": 8,
-      "dia": "01-06-2017",
-      "hora": "11:30",
+      "turno": "01-06-2017 10:30:00",
       "status": "Pendiente",
       "paciente": "Ana",
       "doctor": "Dra. Manzazno"
     },
     {
       "id": 9,
-      "dia": "01-06-2017",
-      "hora": "12:00",
+      "turno": "01-06-2017 11:00:00",
       "status": "Pendiente",
       "paciente": "Miguel",
       "doctor": "Dr. Romero"
     },
     {
       "id": 10,
-      "dia": "01-06-2017",
-      "hora": "12:00",
+      "turno": "01-06-2017 11:00:00",
       "status": "Pendiente",
       "paciente": "Maria",
       "doctor": "Dra. Manzazno"
     },
     {
       "id": 11,
-      "dia": "01-06-2017",
-      "hora": "12:30",
+      "turno": "01-06-2017 11:30:00",
       "status": "Otro Estado",
       "paciente": "Fernanda",
       "doctor": "Dr. Romero"
     },
     {
       "id": 12,
-      "dia": "01-06-2017",
-      "hora": "12:30",
+      "turno": "01-06-2017 11:30:00",
       "status": "En espera",
       "paciente": "Raul",
       "doctor": "Dra. Manzazno"

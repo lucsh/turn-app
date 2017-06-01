@@ -12,6 +12,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 // http://valor-software.com/ngx-bootstrap/
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import {MomentModule} from 'angular2-moment';
+
 
 import { DashboardService } from './dashboard/dashboard.service';
 
@@ -33,6 +35,7 @@ import { TopnavbarComponent } from './ui/topnavbar/topnavbar.component';
     FormsModule,
     HttpModule,
     BsDropdownModule.forRoot(),
+    MomentModule,
     routing
   ],
   providers: [
