@@ -1,0 +1,196 @@
+{
+  "todos": [
+    {
+      "todo": "Enviar email de recordatorio a Juan Perez",
+      "completa": false,
+      "id": 1
+    },
+    {
+      "id": 2,
+      "todo": "Pedir presupuesto a Codetry",
+      "completa": false
+    },
+    {
+      "id": 3,
+      "todo": "Pagar factura de internet",
+      "completa": false
+    },
+    {
+      "id": 4,
+      "todo": "Enviar documentacion a la Dra. Manzano",
+      "completa": true
+    },
+    {
+      "id": 5,
+      "todo": "Llamar al electricista",
+      "completa": false
+    },
+    {
+      "id": 6,
+      "todo": "Encargar almuerzo",
+      "completa": true
+    }
+  ],
+  "citas": [
+    {
+      "id": 1,
+      "dia": "01-06-2017",
+      "hora": "10:00",
+      "status": "Pendiente",
+      "paciente": "Francisco",
+      "doctor": "Dr. Romero"
+    },
+    {
+      "id": 2,
+      "dia": "01-06-2017",
+      "hora": "10:00",
+      "status": "Pendiente",
+      "paciente": "Juan",
+      "doctor": "Dra. Manzazno"
+    },
+    {
+      "id": 3,
+      "dia": "01-06-2017",
+      "hora": "10:30",
+      "status": "Pendiente",
+      "paciente": "Claudio",
+      "doctor": "Dr. Romero"
+    },
+    {
+      "id": 4,
+      "dia": "01-06-2017",
+      "hora": "10:30",
+      "status": "Pendiente",
+      "paciente": "Franco",
+      "doctor": "Dra. Manzazno"
+    },
+    {
+      "id": 5,
+      "dia": "01-06-2017",
+      "hora": "11:00",
+      "status": "Pendiente",
+      "paciente": "Susana",
+      "doctor": "Dr. Romero"
+    },
+    {
+      "id": 6,
+      "dia": "01-06-2017",
+      "hora": "11:00",
+      "status": "Cancelada",
+      "paciente": "Osvaldo",
+      "doctor": "Dra. Manzazno"
+    },
+    {
+      "id": 7,
+      "dia": "01-06-2017",
+      "hora": "11:30",
+      "status": "Pendiente",
+      "paciente": "Gustavo",
+      "doctor": "Dr. Romero"
+    },
+    {
+      "id": 8,
+      "dia": "01-06-2017",
+      "hora": "11:30",
+      "status": "Pendiente",
+      "paciente": "Ana",
+      "doctor": "Dra. Manzazno"
+    },
+    {
+      "id": 9,
+      "dia": "01-06-2017",
+      "hora": "12:00",
+      "status": "Pendiente",
+      "paciente": "Miguel",
+      "doctor": "Dr. Romero"
+    },
+    {
+      "id": 10,
+      "dia": "01-06-2017",
+      "hora": "12:00",
+      "status": "Pendiente",
+      "paciente": "Maria",
+      "doctor": "Dra. Manzazno"
+    },
+    {
+      "id": 11,
+      "dia": "01-06-2017",
+      "hora": "12:30",
+      "status": "Otro Estado",
+      "paciente": "Fernanda",
+      "doctor": "Dr. Romero"
+    },
+    {
+      "id": 12,
+      "dia": "01-06-2017",
+      "hora": "12:30",
+      "status": "En espera",
+      "paciente": "Raul",
+      "doctor": "Dra. Manzazno"
+    }
+  ],
+  "estados-citas": [
+    {
+      "id": 1,
+      "nombre": "En espera",
+      "clase": "warning"
+    },
+    {
+      "id": 2,
+      "nombre": "Cancelada",
+      "clase": "danger"
+    },
+    {
+      "id": 3,
+      "nombre": "Pendiente",
+      "clase": "default"
+    },
+    {
+      "id": 4,
+      "nombre": "Otro Estado",
+      "clase": "default"
+    }
+  ],
+  "mensajes": [
+    {
+      "id": 1,
+      "nombre": "George Orwell",
+      "dni": "5123564",
+      "fecha_hora": "2017-05-31 01:05:00"
+    },
+    {
+      "id": 2,
+      "nombre": "Julio Verne",
+      "dni": "10482754",
+      "fecha_hora": "2017-05-31 07:30:00"
+    },
+    {
+      "id": 3,
+      "nombre": "Aldous Huxley",
+      "dni": "13267793",
+      "fecha_hora": "2017-05-31 08:50:00"
+    },
+    {
+      "id": 4,
+      "nombre": "Isaac Asimov",
+      "dni": "7503471",
+      "fecha_hora": "2017-05-31 09:30:00"
+    },
+    {
+      "id": 5,
+      "nombre": "Ray Bradbury",
+      "dni": "8432749",
+      "fecha_hora": "2017-05-31 10:04:00"
+    },
+    {
+      "id": 6,
+      "nombre": "William Golding",
+      "dni": "25293502",
+      "fecha_hora": "2017-05-31 10:20:00"
+    }
+  ],
+  "profile": {
+    "id": 1,
+    "nombre": "Lucas"
+  }
+}
