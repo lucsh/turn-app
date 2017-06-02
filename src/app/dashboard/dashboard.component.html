@@ -9,17 +9,24 @@
         </div>
         <div class="ibox-content ibox-heading">
           <h3><i class="fa fa-envelope-o"></i> Pedido de usuario</h3>
-          <small><i class="fa fa-tim"></i> Tenes 22 solicitudes de usuario nuevas.</small>
+          <small><i class="fa fa-tim"></i> Tenes {{mensajes?.lenght}} solicitudes de usuario nuevas.</small>
         </div>
         <div class="ibox-content">
           <div class="feed-activity-list">
-
-            <div class="feed-element">
+          <!--
+          {
+            "id": 5,
+            "nombre": "Ray Bradbury",
+            "dni": "8432749",
+            "fecha_hora": "2017-05-31 10:04:00"
+          }
+          -->
+            <div class="feed-element" *ngFor="let mensaje of mensajes">
               <div>
-                <small class="pull-right text-navy">hace 1m</small>
-                <strong>Monica Aleatorio</strong>
-                <div>DNI: 12345678</div>
-                <small class="text-muted">Hoy 5:60 pm - 12.06.2014</small>
+                <small class="pull-right text-navy">hace {{aDate(mensaje?.fecha_hora) | amTimeAgo:true }}</small>
+                <strong>{{mensaje.nombre}}</strong>
+                <div>DNI: {{mensaje.dni}}</div>
+                <small class="text-muted">{{mensaje.fecha_hora | amDateFormat:'DD-mm HH:mm'}}</small>
               </div>
             </div>
 
@@ -34,8 +41,8 @@
         <div class="col-lg-12">
           <div class="ibox float-e-margins">
             <div class="ibox-title">
-              <h5>Pacientes del día {{whatTime | async | amDateFormat:'hh:mm'}}  </h5>
-               <!--<iboxtools></iboxtools>-->
+              <h5>Pacientes del día</h5>
+               <!--<iboxtools></iboxtools>  {{whatTime | async | amDateFormat:'hh:mm'}}  -->
             </div>
             <div class="ibox-content">
               <table class="table table-hover no-margins">
@@ -72,9 +79,9 @@
                   </div>
 
                   </td>
-                  <td><i class="fa fa-calendar-o"></i> {{cita.turno | amDateFormat:'hh:mm'}}</td>
+                  <td><i class="fa fa-calendar-o"></i> {{cita.turno | amDateFormat:'HH:mm'}}</td>
                   <td>{{cita.paciente}}</td>
-                  <td class="text-warning"><i class="fa fa-clock-o"></i> {{ whatTime | async | amDateFormat:'hh:mm:ss' | amDifference: cita.turno | amDateFormat:'hh:mm' : 'minutes' }}</td>
+                  <td><span *ngIf="cita.status == 'En espera'" class="text-warning"><i class="fa fa-clock-o"></i> Hace {{ aDate(cita.turno) | timeAgo }}</span></td>
                   <td>{{cita.doctor}}</td>
                 </tr>
                 </tbody>
@@ -101,6 +108,10 @@
               <!-- 
               Input para agregar tareas
               -->
+                <hr>
+                  <div class="input-group"><input  #newTodo placeholder="Nueva tarea" type="text" class="form-control"> <span class="input-group-btn"> <button (click)="createTodo(newTodo.value);newTodo.value=''" type="button" class="btn btn-primary">Agregar
+                  </button> </span></div>
+
             </div>
           </div>
         </div>

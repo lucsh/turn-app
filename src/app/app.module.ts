@@ -13,14 +13,17 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import {MomentModule} from 'angular2-moment';
+import 'moment/locale/es';
 
 
 import { DashboardService } from './dashboard/dashboard.service';
+import { NavigationService } from './ui/navigation/navigation.service';
 
 import { routing } from './app.routing';
 import { FooterComponent } from './ui/footer.component';
 import { NavigationComponent } from './ui/navigation/navigation.component';
 import { TopnavbarComponent } from './ui/topnavbar/topnavbar.component';
+import { TimeAgoPipe } from './time-ago.pipe';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,8 @@ import { TopnavbarComponent } from './ui/topnavbar/topnavbar.component';
     DashboardComponent,
     FooterComponent,
     NavigationComponent,
-    TopnavbarComponent
+    TopnavbarComponent,
+    TimeAgoPipe
   ],
   imports: [
     BrowserModule,
@@ -39,7 +43,8 @@ import { TopnavbarComponent } from './ui/topnavbar/topnavbar.component';
     routing
   ],
   providers: [
-    DashboardService
+    DashboardService,
+    NavigationService
   ],
   bootstrap: [AppComponent]
 })

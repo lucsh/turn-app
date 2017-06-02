@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NavigationService } from './navigation.service';
+
 import 'jquery-slimscroll';
 
 
@@ -12,7 +14,9 @@ declare var jQuery:any;
 
 export class NavigationComponent {
 
-  constructor(private router: Router) {}
+  profile: string[];
+
+  constructor(private router: Router, private navigationService: NavigationService) {}
 
   ngAfterViewInit() {
     jQuery('#side-menu').metisMenu();
@@ -28,5 +32,17 @@ export class NavigationComponent {
     return this.router.url.indexOf(routename) > -1;
   }
 
+
+  getUsuario(){
+    this.navigationService.getUsuario()
+    .subscribe(
+      data => this.profile = data,
+      error => console.log('Server Error')
+    );
+  }
+
+  public ngOnInit():any {
+    this.getUsuario();
+  }
 
 }

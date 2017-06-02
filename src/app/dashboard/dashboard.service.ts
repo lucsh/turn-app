@@ -36,7 +36,7 @@ export class DashboardService {
 	}
 
 	createCita(newHora : string, newPaciente : string, newDoctor : string) : Observable<any>{
-		//sobre turnos desde escritorio
+		//sobreturnos desde escritorio
 		return this.http.post("http://localhost:3000/citas", 
 			{
 			  dia:'01-06-2017',//hoy

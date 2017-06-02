@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DashboardService } from './dashboard.service';
+import * as moment from 'moment';
+
 import { Observable } from 'rxjs/Rx';
 
 
@@ -23,9 +25,15 @@ export class DashboardComponent implements OnDestroy, OnInit {
   constructor(private dashboardService: DashboardService){
     this.nav = document.querySelector('nav.navbar');
     this.whatTime = Observable.interval(1000)
-    .map(x => new Date()).share();
+    .map(x => moment()).share();
   }
-
+  aDate(turno){
+    //var fecha = new Date(turno);
+    var momentDate = moment(turno);
+    var fecha = momentDate.toDate();
+    //console.log(fecha)
+    return fecha
+  }
   claseEstadoCita(status){
     var clase = "btn-default";
     for (var i in this.estadosCitas) {

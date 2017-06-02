@@ -29,89 +29,94 @@
       "id": 6,
       "todo": "Encargar almuerzo",
       "completa": true
+    },
+    {
+      "todo": "Terminar Turnero",
+      "completa": false,
+      "id": 7
     }
   ],
   "citas": [
     {
       "id": 1,
-      "turno": "01-06-2017 09:00:00",
+      "turno": "2017-06-01 09:00:00",
       "status": "Pendiente",
       "paciente": "Francisco",
       "doctor": "Dr. Romero"
     },
     {
       "id": 2,
-      "turno": "01-06-2017 09:00:00",
-      "status": "Pendiente",
+      "turno": "2017-06-01 20:10:00",
+      "status": "En espera",
       "paciente": "Juan",
       "doctor": "Dra. Manzazno"
     },
     {
       "id": 3,
-      "turno": "01-06-2017 09:30:00",
-      "status": "Pendiente",
+      "turno": "2017-06-01 09:30:00",
+      "status": "En espera",
       "paciente": "Claudio",
       "doctor": "Dr. Romero"
     },
     {
       "id": 4,
-      "turno": "01-06-2017 09:30:00",
+      "turno": "2017-06-01 09:30:00",
       "status": "Pendiente",
       "paciente": "Franco",
       "doctor": "Dra. Manzazno"
     },
     {
       "id": 5,
-      "turno": "01-06-2017 10:00:00",
+      "turno": "2017-06-01 10:00:00",
       "status": "Pendiente",
       "paciente": "Susana",
       "doctor": "Dr. Romero"
     },
     {
       "id": 6,
-      "turno": "01-06-2017 10:00:00",
+      "turno": "2017-06-01 10:00:00",
       "status": "Cancelada",
       "paciente": "Osvaldo",
       "doctor": "Dra. Manzazno"
     },
     {
       "id": 7,
-      "turno": "01-06-2017 10:30:00",
+      "turno": "2017-06-01 10:30:00",
       "status": "Pendiente",
       "paciente": "Gustavo",
       "doctor": "Dr. Romero"
     },
     {
       "id": 8,
-      "turno": "01-06-2017 10:30:00",
+      "turno": "2017-06-01 10:30:00",
       "status": "Pendiente",
       "paciente": "Ana",
       "doctor": "Dra. Manzazno"
     },
     {
       "id": 9,
-      "turno": "01-06-2017 11:00:00",
+      "turno": "2017-06-01 11:00:00",
       "status": "Pendiente",
       "paciente": "Miguel",
       "doctor": "Dr. Romero"
     },
     {
       "id": 10,
-      "turno": "01-06-2017 11:00:00",
+      "turno": "2017-06-01 11:00:00",
       "status": "Pendiente",
       "paciente": "Maria",
       "doctor": "Dra. Manzazno"
     },
     {
       "id": 11,
-      "turno": "01-06-2017 11:30:00",
+      "turno": "2017-06-01 11:30:00",
       "status": "Otro Estado",
       "paciente": "Fernanda",
       "doctor": "Dr. Romero"
     },
     {
       "id": 12,
-      "turno": "01-06-2017 11:30:00",
+      "turno": "2017-06-01 11:30:00",
       "status": "En espera",
       "paciente": "Raul",
       "doctor": "Dra. Manzazno"
@@ -179,6 +184,7 @@
   ],
   "profile": {
     "id": 1,
-    "nombre": "Lucas"
+    "nombre": "Lucas",
+    "cargo":"Secretario"
   }
 }
