@@ -20,7 +20,7 @@
       "prefix": "app",
       "styles": [
         "../node_modules/fullcalendar/dist/fullcalendar.css",
-        "../node_modules/fullcalendar/dist/fullcalendar.print..css",
+        "../node_modules/fullcalendar/dist/fullcalendar.print.css",
         "styles.scss"
       ],
       "scripts": [
