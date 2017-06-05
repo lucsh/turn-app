@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TurnosService } from './turnos.service';
 
-import * as moment from 'moment';
 
 declare var $: any;
 
@@ -87,7 +86,7 @@ export class TurnosComponent implements OnInit {
 		});
 	}
 
-	constructor(route: ActivatedRoute,private turnosService: TurnosService) { 
+	constructor(route: ActivatedRoute,private turnosService: TurnosService) {
 		this.url = route.snapshot.params['doctor'];
 	}
 	verificarUrl(){
