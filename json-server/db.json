@@ -186,5 +186,35 @@
     "id": 1,
     "nombre": "Lucas",
     "cargo":"Secretario"
-  }
+  },
+  "doctores":[
+    {
+      "id": 1,
+      "nombre": "Fabian",
+      "Apellido": "Romero",
+      "Matricula": "84349",
+      "url":"FRomero"
+    },
+    {
+      "id": 2,
+      "nombre": "Susana",
+      "Apellido": "Manzano",
+      "Matricula": "55673",
+      "url":"SManzano"
+    },
+    {
+      "id": 3,
+      "nombre": "Roberto",
+      "Apellido": "Saieg",
+      "Matricula": "75729",
+      "url":"RSaieg"
+    },
+    {
+      "id": 4,
+      "nombre": "Doctor",
+      "Apellido": "Cuatro",
+      "Matricula": "11111",
+      "url":"DCuatro"
+    }
+  ]
 }

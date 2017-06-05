@@ -17,6 +17,7 @@ import 'moment/locale/es';
 
 
 import { DashboardService } from './dashboard/dashboard.service';
+import { TurnosService } from './turnos/turnos.service';
 import { NavigationService } from './ui/navigation/navigation.service';
 
 import { routing } from './app.routing';
@@ -24,6 +25,7 @@ import { FooterComponent } from './ui/footer.component';
 import { NavigationComponent } from './ui/navigation/navigation.component';
 import { TopnavbarComponent } from './ui/topnavbar/topnavbar.component';
 import { TimeAgoPipe } from './time-ago.pipe';
+import { TurnosComponent } from './turnos/turnos.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { TimeAgoPipe } from './time-ago.pipe';
     FooterComponent,
     NavigationComponent,
     TopnavbarComponent,
-    TimeAgoPipe
+    TimeAgoPipe,
+    TurnosComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +47,7 @@ import { TimeAgoPipe } from './time-ago.pipe';
   ],
   providers: [
     DashboardService,
+    TurnosService,
     NavigationService
   ],
   bootstrap: [AppComponent]
