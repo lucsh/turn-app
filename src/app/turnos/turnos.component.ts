@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TurnosService } from './turnos.service';
 
-import * as moment from 'moment';
 
 declare var $: any;
 
