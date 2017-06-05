@@ -20,9 +20,11 @@ export class TurnosComponent implements OnInit {
 		//.addClass("done");
 		.fullCalendar({
 			header: {
+				locale: 'es',
 				left: 'prev,next today',
 				center: 'title',
 				right: 'month,agendaWeek,agendaDay,listWeek'
+
 			},
 			defaultDate: '2017-05-12',
 			navLinks: true, // can click day/week names to navigate views
@@ -87,7 +89,7 @@ export class TurnosComponent implements OnInit {
 		});
 	}
 
-	constructor(route: ActivatedRoute,private turnosService: TurnosService) { 
+	constructor(route: ActivatedRoute,private turnosService: TurnosService) {
 		this.url = route.snapshot.params['doctor'];
 	}
 	verificarUrl(){
