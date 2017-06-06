@@ -15,15 +15,7 @@ export class DoctoresService {
 
 	constructor(private http: Http) { 
 
-	}
-
-	/*
-	getDoctores(): Observable<Doctor>{
-		return this.http.get("http://localhost:3000/doctores")
-		.map( (res: Response) => res.json() )
-		.catch((error:any) => Observable.throw(error.json().error || ' Server Error '));
-	}
-	*/
+	}//Al ser promise (y no Observable), no le quita reactividad?
 	getDoctores(): Promise<Doctor[]>{
         return this.http.get(this.doctoresURL)
         .toPromise()

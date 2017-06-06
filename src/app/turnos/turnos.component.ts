@@ -26,24 +26,22 @@ export class TurnosComponent implements OnInit {
 
 	loadCalendar(){
 		$('#calendar')
-		//.addClass("done");
 		.fullCalendar({
 			header: {
 				locale: 'es',
 				left: 'prev,next today',
 				center: 'title',
 				right: 'month,agendaWeek,agendaDay,listWeek'
-
 			},
 			defaultView:'agendaWeek',
 			weekends: false,
 			allDaySlot:false,
-			slotDuration:'00:15:00',//deberia ser dinamico, dependiendo del medico al menos para la vista de clientes
+			slotDuration:'00:15:00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
 			minTime:'09:00:00',
 			maxTime:'18:00:00',
 			defaultDate: '2017-06-06',
 			navLinks: true, // can click day/week names to navigate views
-			editable: true,
+			editable: true, //falso para la vista de clientes 
 			eventLimit: true, // allow "more" link when too many events
 			events: this.turnos,
 			dayClick: function(date, jsEvent, view) {
@@ -55,6 +53,7 @@ export class TurnosComponent implements OnInit {
 				var color = '#f8ac59';
 
 				//creo el obj
+				//el "end" deberia ser dinamico, dependiendo del medico? (doctor.turno)
 				var newTurno = {"title":paciente,"allDay":false,"start":date.format(),"end":date.add(30, 'm').format(),"color":color};
 				//lo pusheo al calendar
 				$('#calendar').fullCalendar('renderEvent', newTurno, true)
@@ -64,6 +63,7 @@ export class TurnosComponent implements OnInit {
 			},
 			eventDrop: function(event, delta, revertFunc) {
 				if (!confirm("¿Estas seguro que queres cambiar el turno?")) {
+					//ToDO SweetAlert
 					revertFunc();
 				}
 			},
@@ -82,20 +82,11 @@ export class TurnosComponent implements OnInit {
 	verificarUrl(){
 
 		console.log(this.url);
-		console.log (this.doctores.find(doctor => doctor.url == "this.url"));
+		console.log (this.doctores.find(doctor => doctor.url == "this.url")); 
+		//^^ no lo encuentra
 		console.log(this.doctores);
 
 	}
-	/*
-	getAllDoctores(){
-		this.turnosService.getDoctores()
-		.subscribe(
-			data => this.doctores = data,
-			error => console.log('Server Error'),
-			() => this.verificarUrl() //GG promise
-			);
-	}
-	*/
 
 	getAllDoctores(): void {
 		this.doctoresService

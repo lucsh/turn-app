@@ -28,10 +28,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
     .map(x => moment()).share();
   }
   aDate(turno){
-    //var fecha = new Date(turno);
     var momentDate = moment(turno);
     var fecha = momentDate.toDate();
-    //console.log(fecha)
     return fecha
   }
   claseEstadoCita(status){
@@ -40,7 +38,6 @@ export class DashboardComponent implements OnDestroy, OnInit {
       if (status == this.estadosCitas[i].nombre){
         clase = "btn-" + this.estadosCitas[i].clase;
       }
-      //console.log(this.estadosCitas[i])
     }
 
     return clase

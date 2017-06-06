@@ -3,6 +3,6 @@ export class Doctor{
 	nombre: string;
 	apellido: string;
 	matricula: number;
-	turno:int;
+	turno:int; //Duracion del turno de consulta
 	url: string;
 }
