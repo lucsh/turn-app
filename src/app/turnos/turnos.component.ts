@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TurnosService } from './turnos.service';
 
+import { Doctor } from './doctor'
 
 declare var $: any;
 
@@ -10,10 +11,13 @@ declare var $: any;
 	templateUrl: './turnos.component.html',
 	styleUrls: ['./turnos.component.css']
 })
+
 export class TurnosComponent implements OnInit {
 
 	url: string;
-	doctores: string[];
+
+	doctores: Doctor[];
+
 	loadCalendar(){
 		$('#calendar')
 		//.addClass("done");
@@ -99,7 +103,7 @@ export class TurnosComponent implements OnInit {
 		console.log(this.doctores)
 
 	}
-
+	/*
 	getAllDoctores(){
 		this.turnosService.getDoctores()
 		.subscribe(
@@ -108,6 +112,17 @@ export class TurnosComponent implements OnInit {
 			() => this.verificarUrl() //GG promise
 			);
 	}
+	*/
+
+	getAllDoctores(): void {
+        this.turnosService
+        .getDoctores()
+        .then(docs => {
+            this.doctores = docs;
+            
+        });
+    }
+
 
 	ngOnInit() {
 		this.getAllDoctores()
