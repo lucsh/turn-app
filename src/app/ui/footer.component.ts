@@ -3,14 +3,14 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'footer',
   template:`
-	    <div class="footer">
+	    <section class="footer" style="z-index:999;">
             <div class="pull-right">
                 10GB of <strong>250GB</strong> Free.
             </div>
             <div>
                 <strong>Copyright</strong> Codetry &copy; 2017
             </div>
-        </div>
+        </section>
   `
 })
 export class FooterComponent implements OnInit {
