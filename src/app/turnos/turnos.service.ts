@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
-import { Doctor } from './doctor'
+import { Turno } from './turno.tipo'
 
 import 'rxjs/add/operator/map'; 
 import 'rxjs/add/operator/catch';
@@ -11,7 +11,7 @@ import 'rxjs/add/operator/catch';
 export class TurnosService {
 
 	private headers = new Headers({'Content-Type': 'application/json'});
-    private contratosURL = 'http://localhost:3000/doctores';  // URL to web api
+    private turnosURL = 'http://localhost:3000/turnos';  // URL to web api
 
 	constructor(private http: Http) { 
 
@@ -24,19 +24,13 @@ export class TurnosService {
 		.catch((error:any) => Observable.throw(error.json().error || ' Server Error '));
 	}
 	*/
-	getDoctores(): Promise<Doctor[]>{
-        return this.http.get(this.contratosURL)
+	getTurnos(): Promise<Turno[]>{
+        return this.http.get(this.turnosURL)
         .toPromise()
-        .then(response => response.json() as Doctor[])
+        .then(response => response.json() as Turno[])
         .catch(this.handleError);
     }
-
-
-	getTodos(): Observable<any>{
-		return this.http.get("http://localhost:3000/todos")
-		.map( (res: Response) => res.json() )
-		.catch((error:any) => Observable.throw(error.json().error || ' Server Error '));
-	}
+    
 	createTodo(newTodo : string) : Observable<any>{
 		return this.http.post("http://localhost:3000/todos", 
 		{

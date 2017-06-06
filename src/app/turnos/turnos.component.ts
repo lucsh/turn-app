@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TurnosService } from './turnos.service';
+import { DoctoresService } from './doctores.service';
 
-import { Doctor } from './doctor'
+import * as moment from 'moment';
+
+
+import { Doctor } from './doctor.tipo';
+import { Turno } from './turno.tipo';
 
 declare var $: any;
 
@@ -17,6 +22,7 @@ export class TurnosComponent implements OnInit {
 	url: string;
 
 	doctores: Doctor[];
+	turnos: Turno[];
 
 	loadCalendar(){
 		$('#calendar')
@@ -29,78 +35,55 @@ export class TurnosComponent implements OnInit {
 				right: 'month,agendaWeek,agendaDay,listWeek'
 
 			},
-			defaultDate: '2017-05-12',
+			defaultView:'agendaWeek',
+			weekends: false,
+			allDaySlot:false,
+			slotDuration:'00:15:00',//deberia ser dinamico, dependiendo del medico al menos para la vista de clientes
+			minTime:'09:00:00',
+			maxTime:'18:00:00',
+			defaultDate: '2017-06-06',
 			navLinks: true, // can click day/week names to navigate views
 			editable: true,
 			eventLimit: true, // allow "more" link when too many events
-			events: [
-			{
-				title: 'All Day Event',
-				start: '2017-05-01'
+			events: this.turnos,
+			dayClick: function(date, jsEvent, view) {
+				console.log('Clicked on: ' + date.format());
+
+				//tengo que pedir el nombre del paciente y verificar que exista
+				var paciente = 'Nuevo Paciente';
+				//El color depende del medico al que le estoy cargando el turno
+				var color = '#f8ac59';
+
+				//creo el obj
+				var newTurno = {"title":paciente,"allDay":false,"start":date.format(),"end":date.add(30, 'm').format(),"color":color};
+				//lo pusheo al calendar
+				$('#calendar').fullCalendar('renderEvent', newTurno, true)
+				//lo guardo en la db
+				// ???
+
 			},
-			{
-				title: 'Long Event',
-				start: '2017-05-07',
-				end: '2017-05-10'
+			eventDrop: function(event, delta, revertFunc) {
+				if (!confirm("¿Estas seguro que queres cambiar el turno?")) {
+					revertFunc();
+				}
 			},
-			{
-				id: 999,
-				title: 'Repeating Event',
-				start: '2017-05-09T16:00:00'
-			},
-			{
-				id: 999,
-				title: 'Repeating Event',
-				start: '2017-05-16T16:00:00'
-			},
-			{
-				title: 'Conference',
-				start: '2017-05-11',
-				end: '2017-05-13'
-			},
-			{
-				title: 'Meeting',
-				start: '2017-05-12T10:30:00',
-				end: '2017-05-12T12:30:00'
-			},
-			{
-				title: 'Lunch',
-				start: '2017-05-12T12:00:00'
-			},
-			{
-				title: 'Meeting',
-				start: '2017-05-12T14:30:00'
-			},
-			{
-				title: 'Happy Hour',
-				start: '2017-05-12T17:30:00'
-			},
-			{
-				title: 'Dinner',
-				start: '2017-05-12T20:00:00'
-			},
-			{
-				title: 'Birthday Party',
-				start: '2017-05-13T07:00:00'
-			},
-			{
-				title: 'Click for Google',
-				url: 'http://google.com/',
-				start: '2017-05-28'
+			eventResize: function(event, delta, revertFunc) {
+				//revertFunc();
+				console.log(event)
+				//actualizar el turno en la db (tenemos el event.id)
+				//???
 			}
-			]
 		});
 	}
 
-	constructor(route: ActivatedRoute,private turnosService: TurnosService) {
+	constructor(route: ActivatedRoute,private turnosService: TurnosService,private doctoresService: DoctoresService) {
 		this.url = route.snapshot.params['doctor'];
 	}
 	verificarUrl(){
 
-		//console.log (this.doctores.find(doctor => doctor.url == "FRomero"));
-		// ^^ Supongo que no funciona por el tipo.
-
-		console.log(this.doctores)
+		console.log(this.url);
+		console.log (this.doctores.find(doctor => doctor.url == "this.url"));
+		console.log(this.doctores);
 
 	}
 	/*
@@ -115,18 +98,27 @@ export class TurnosComponent implements OnInit {
 	*/
 
 	getAllDoctores(): void {
-        this.turnosService
-        .getDoctores()
-        .then(docs => {
-            this.doctores = docs;
-            
-        });
-    }
+		this.doctoresService
+		.getDoctores()
+		.then(docs => {
+			this.doctores = docs;
+			this.verificarUrl();
+			this.getAllTurnos(this.url)
+		});
+	}
+	getAllTurnos(url): void {
+		console.log(url)//parametro para la consulta
+		this.turnosService
+		.getTurnos()
+		.then(docs => {
+			this.turnos = docs;
+			this.loadCalendar()
+		});
+	}
 
 
 	ngOnInit() {
 		this.getAllDoctores()
-		this.loadCalendar()
 	}
 
 }

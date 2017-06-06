@@ -18,6 +18,7 @@ import 'moment/locale/es';
 
 import { DashboardService } from './dashboard/dashboard.service';
 import { TurnosService } from './turnos/turnos.service';
+import { DoctoresService } from './turnos/doctores.service';
 import { NavigationService } from './ui/navigation/navigation.service';
 
 import { routing } from './app.routing';
@@ -48,6 +49,7 @@ import { TurnosComponent } from './turnos/turnos.component';
   providers: [
     DashboardService,
     TurnosService,
+    DoctoresService,
     NavigationService
   ],
   bootstrap: [AppComponent]
