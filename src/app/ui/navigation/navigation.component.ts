@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavigationService } from './navigation.service';
 
+import { DoctoresService } from '../../turnos/doctores.service';
+import { Doctor } from '../../turnos/doctor.tipo';
+
 import 'jquery-slimscroll';
 
 
@@ -16,7 +19,13 @@ export class NavigationComponent {
 
   profile: string[];
 
-  constructor(private router: Router, private navigationService: NavigationService) {}
+  private doctores: Doctor[];
+
+  constructor(
+      private router: Router,
+      private navigationService: NavigationService,
+      private doctoresService: DoctoresService
+  ) {}
 
   ngAfterViewInit() {
     jQuery('#side-menu').metisMenu();
@@ -42,7 +51,13 @@ export class NavigationComponent {
   }
 
   public ngOnInit():any {
+
     this.getUsuario();
+
+    const yo = this;
+    this.doctoresService.getDoctores().then((docs)=>{
+        yo.doctores = docs;
+    });
   }
 
 }

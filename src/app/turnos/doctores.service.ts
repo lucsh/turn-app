@@ -4,22 +4,25 @@ import { Observable } from 'rxjs/Rx';
 
 import { Doctor } from './doctor.tipo'
 
-import 'rxjs/add/operator/map'; 
+import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class DoctoresService {
 
 	private headers = new Headers({'Content-Type': 'application/json'});
-    private doctoresURL = 'http://localhost:3000/doctores';  // URL to web api
+    private doctoresURL = 'http://localhost:3030/medicos';  // URL to web api
 
-	constructor(private http: Http) { 
+	constructor(private http: Http) {
 
 	}//Al ser promise (y no Observable), no le quita reactividad?
 	getDoctores(): Promise<Doctor[]>{
         return this.http.get(this.doctoresURL)
         .toPromise()
-        .then(response => response.json() as Doctor[])
+        .then(response => {
+			console.log(response.json());
+			return response.json() as Doctor[];
+		})
         .catch(this.handleError);
     }
 

@@ -18,7 +18,7 @@
           <img alt="image" class="img-circle" src="assets/images/profile_small.jpg">
         </div>
       </li>
-      
+
       <li [ngClass]="{active: activeRoute('starter')}">
         <a [routerLink]="['/']"><i class="fa fa-th-large"></i> <span class="nav-label">Escritorio</span></a>
       </li>
@@ -38,11 +38,15 @@
         <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Turnos</span> <span class="fa arrow"></span> </a>
         <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('turnos')}">
           <!-- *ngFor="let doctor of doctores" -->
-          <li [ngClass]="{active: activeRoute('FRomero')}"><a [routerLink]="['/turnos/FRomero']">F. Romero</a></li>
+
+          <li *ngFor='let doc of doctores'><a [routerLink]="['/turnos/' + doc.nombre +'/'+doc.matricula]">{{doc.nombre}} {{doc.apellido}}</a></li>
+
+
+          <!-- <li [ngClass]="{active: activeRoute('FRomero')}"><a [routerLink]="['/turnos/FRomero']">F. Romero</a></li>
           <li [ngClass]="{active: activeRoute('SManzano')}"><a [routerLink]="['/turnos/SManzano']">S. Manzano</a></li>
           <li [ngClass]="{active: activeRoute('RSaieg')}"><a [routerLink]="['/turnos/RSaieg']">R. Saieg</a></li>
           <li [ngClass]="{active: activeRoute('DCuatro')}"><a [routerLink]="['/turnos/DCuatro']">D. Cuatro</a></li>
-          <li [ngClass]="{active: activeRoute('NoExiste')}"><a [routerLink]="['/turnos/NoExiste']">D. Cinco</a></li>
+          <li [ngClass]="{active: activeRoute('NoExiste')}"><a [routerLink]="['/turnos/NoExiste']">D. Cinco</a></li> -->
         </ul>
       </li>
 

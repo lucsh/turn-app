@@ -1,5 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+
+import {
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  OnDestroy,
+} from '@angular/core';
+
 import { ActivatedRoute } from '@angular/router';
+import { Router, NavigationStart, NavigationEnd, NavigationError, NavigationCancel, RoutesRecognized } from '@angular/router';
+
+
 import { TurnosService } from './turnos.service';
 import { DoctoresService } from './doctores.service';
 
@@ -8,11 +18,15 @@ import * as moment from 'moment';
 
 import { Doctor } from './doctor.tipo';
 import { Turno } from './turno.tipo';
+import { TurnoSocketService } from './turnos-socket.service';
+
+import { Subscription } from 'rxjs/Subscription';
 
 declare var $: any;
 
 @Component({
 	selector: 'turnos',
+	providers:[TurnoSocketService],
 	templateUrl: './turnos.component.html',
 	styleUrls: ['./turnos.component.css']
 })
@@ -20,11 +34,61 @@ declare var $: any;
 export class TurnosComponent implements OnInit {
 
 	url: string;
+	matricula: string;
 
 	doctores: Doctor[];
 	turnos: Turno[];
 
-	loadCalendar(){
+	 private subscription: Subscription;
+
+	constructor(route: ActivatedRoute,private turnosService: TurnosService,private doctoresService: DoctoresService,
+		private turnosSocketService : TurnoSocketService,
+		private router: Router,
+	   private ref: ChangeDetectorRef
+	) {
+		this.url = route.snapshot.params['doctor'];
+		this.matricula = route.snapshot.params['matricula'];
+		let yo = this;
+
+		this.turnosSocketService.iniciar(this.matricula);
+
+		router.events.forEach((event) => {
+		    if(event instanceof NavigationStart) {
+				//console.log('Entre en el IF');
+				//console.log(event.url);
+
+				let matriucla = event.url.split('/',4)[3];
+				//console.log(matriucla);
+				yo.loadCalendar(matriucla);
+
+		    }
+		    // NavigationEnd
+		    // NavigationCancel
+		    // NavigationError
+		    // RoutesRecognized
+		  });
+
+	//	this.turnosSocketService.setComponent(this);
+	}
+
+	loadCalendar(matricula: string){
+
+		//console.log('LLEGUE A LOAD CALENDAR');
+		//console.log(matricula);
+
+		var yo = this;
+
+		let calendario = $('#calendar');
+
+		//Limpiamos el calendario
+		// calendario.fullCalendar( 'destroy' );
+		calendario.fullCalendar( 'removeEvents' );
+		console.log('DSTROY0');
+
+		//Limpiamos el service
+
+		this.turnosSocketService.cambiarMedico(matricula);
+
 		$('#calendar')
 		.fullCalendar({
 			header: {
@@ -39,9 +103,9 @@ export class TurnosComponent implements OnInit {
 			slotDuration:'00:15:00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
 			minTime:'09:00:00',
 			maxTime:'18:00:00',
-			defaultDate: '2017-06-06',
+			defaultDate: new Date(),
 			navLinks: true, // can click day/week names to navigate views
-			editable: true, //falso para la vista de clientes 
+			editable: true, //falso para la vista de clientes
 			eventLimit: true, // allow "more" link when too many events
 			events: this.turnos,
 			dayClick: function(date, jsEvent, view) {
@@ -52,11 +116,18 @@ export class TurnosComponent implements OnInit {
 				//El color depende del medico al que le estoy cargando el turno
 				var color = '#f8ac59';
 
+				yo.turnosSocketService.GILADA();
+
 				//creo el obj
 				//el "end" deberia ser dinamico, dependiendo del medico? (doctor.turno)
-				var newTurno = {"title":paciente,"allDay":false,"start":date.format(),"end":date.add(30, 'm').format(),"color":color};
+
+			//	var newTurno = {"title":paciente,"allDay":false,"start":date.format(),"end":date.add(30, 'm').format(),"color":color};
+
+
 				//lo pusheo al calendar
-				$('#calendar').fullCalendar('renderEvent', newTurno, true)
+
+			//	$('#calendar').fullCalendar('renderEvent', newTurno, true)
+
 				//lo guardo en la db
 				// ???
 
@@ -76,13 +147,11 @@ export class TurnosComponent implements OnInit {
 		});
 	}
 
-	constructor(route: ActivatedRoute,private turnosService: TurnosService,private doctoresService: DoctoresService) {
-		this.url = route.snapshot.params['doctor'];
-	}
+
 	verificarUrl(){
 
 		console.log(this.url);
-		console.log (this.doctores.find(doctor => doctor.url == "this.url")); 
+		console.log (this.doctores.find(doctor => doctor.url == "this.url"));
 		//^^ no lo encuentra
 		console.log(this.doctores);
 
@@ -94,22 +163,31 @@ export class TurnosComponent implements OnInit {
 		.then(docs => {
 			this.doctores = docs;
 			this.verificarUrl();
-			this.getAllTurnos(this.url)
+			this.getAllTurnos(this.url, this.matricula)
 		});
 	}
-	getAllTurnos(url): void {
+	getAllTurnos(url, matricula): void {
 		console.log(url)//parametro para la consulta
 		this.turnosService
 		.getTurnos()
 		.then(docs => {
 			this.turnos = docs;
-			this.loadCalendar()
+			this.loadCalendar(matricula)
 		});
 	}
 
 
 	ngOnInit() {
-		this.getAllDoctores()
+		this.subscription = this.turnosSocketService.turnos$.subscribe((turnos: Turno[]) => {
+	  this.turnos = turnos;
+	  this.ref.markForCheck();
+	  }, (err) => {
+	  console.error(err);
+	  });
+	  //this.turnosSocketService.find();
+
+		this.getAllDoctores();
+		//alert(this.url);
 	}
 
 }

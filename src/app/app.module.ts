@@ -28,6 +28,8 @@ import { TopnavbarComponent } from './ui/topnavbar/topnavbar.component';
 import { TimeAgoPipe } from './time-ago.pipe';
 import { TurnosComponent } from './turnos/turnos.component';
 
+import { TurnoSocketService } from './turnos/turnos-socket.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,7 +52,8 @@ import { TurnosComponent } from './turnos/turnos.component';
     DashboardService,
     TurnosService,
     DoctoresService,
-    NavigationService
+    NavigationService,
+    TurnoSocketService
   ],
   bootstrap: [AppComponent]
 })
