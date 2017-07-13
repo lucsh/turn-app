@@ -83,7 +83,7 @@ export class TurnosComponent implements OnInit {
 		//Limpiamos el calendario
 		// calendario.fullCalendar( 'destroy' );
 		calendario.fullCalendar( 'removeEvents' );
-		console.log('DSTROY0');
+
 
 		//Limpiamos el service
 
@@ -136,15 +136,37 @@ export class TurnosComponent implements OnInit {
 				if (!confirm("¿Estas seguro que queres cambiar el turno?")) {
 					//ToDO SweetAlert
 					revertFunc();
-				}
+				}else{
+          console.log(event);
+          console.log("#########");
+  				console.log(event.start.format()); // Es la nueva hora de inicio del evento
+  				console.log(event.end.format()); // Es la nueva hora de fin del evento
+
+          yo.turnosSocketService.temporalActualizar(event);
+        }
 			},
 			eventResize: function(event, delta, revertFunc) {
 				//revertFunc();
-				console.log(event)
+				console.log(event);
+        if (!confirm("¿Estas seguro que queres cambiar el turno?")) {
+					//ToDO SweetAlert
+					revertFunc();
+				}else{
+
+          yo.turnosSocketService.temporalActualizar(event);
+        }
+
 				//actualizar el turno en la db (tenemos el event.id)
 				//???
 			}
 		});
+
+
+
+
+
+
+
 	}
 
 

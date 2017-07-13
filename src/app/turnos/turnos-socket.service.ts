@@ -29,7 +29,7 @@ export class TurnoSocketService {
     };
 
     private matricula: string;
-
+    private socket;
     constructor() {
     }
 
@@ -37,8 +37,8 @@ export class TurnoSocketService {
 
         this.matricula = matricula;
 
-        const socket = io(this.urlServidor);
-        const feathersApp = feathers().configure(feathers.socketio(socket));
+        this.socket = io(this.urlServidor);
+        const feathersApp = feathers().configure(feathers.socketio(this.socket));
 
         //Obtenemos el service que queremos
         this.turnosSocketService = feathersApp.service('turnos');
@@ -47,6 +47,7 @@ export class TurnoSocketService {
         this.turnosSocketService.on('created', (turno) => this.onCreated(turno));
         this.turnosSocketService.on('updated', (turno) => this.onUpdated(turno));
         this.turnosSocketService.on('removed', (turno) => this.onRemoved(turno));
+        this.turnosSocketService.on('patched', (turno) => this.onPatched(turno));
 
 
         this.turnos$ = new Observable((observer) => {
@@ -86,7 +87,7 @@ export class TurnoSocketService {
 
             horaInicial: newTurno.start,
             horaFin: newTurno.end,
-            matricula:'75233'
+            matricula:this.matricula
 
             }).then((clienteNuevo)=>{
                 console.log('Desde el cliente Angular se creo un nuevo cliente');
@@ -96,7 +97,18 @@ export class TurnoSocketService {
             });
 
         //lo pusheo al calendar
-        $('#calendar').fullCalendar('renderEvent', newTurno, true)
+        //$('#calendar').fullCalendar('renderEvent', newTurno, true)
+    }
+
+    public temporalActualizar(turno){
+
+      let newHoraInicial = turno.start.format();
+      let newHoraFin = turno.end.format();
+      let id = turno._id;
+      this.turnosSocketService.patch(id, {"horaInicial":newHoraInicial,"horaFin":newHoraFin}).then((turnoActualizado)=>{
+        // console.log("Se actualizo correctamente el turno");
+        // console.log(turnoActualizado);
+      });
     }
 
     public cambiarMedico(matricula){
@@ -107,6 +119,9 @@ export class TurnoSocketService {
     public cleanService(){
         //this.turnosSocketService = null;
         //Obtenemos el service que queremos
+        console.log("ENTRE AL CLIEAN");
+        console.log(this.socket);
+        this.socket.disconnect();
         this.turnosSocketService = null;
 
         this.turnos$ = null;
@@ -151,11 +166,7 @@ export class TurnoSocketService {
 
             //Aca vamos a renderizar el calendario de nuevo despues de obtener todos los turnos de ese medico.
             for (let i = 0; i < turnos.length; i++) {
-
-                let horaInicial = turnos[i].horaInicial.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
-                let horaFin = turnos[i].horaFin.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
-                let newTurno = {"title":"SIN NOMBRE","allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59"};
-                $('#calendar').fullCalendar('renderEvent', newTurno, true)
+                this.actualizarVisual(turnos[i]);
             }
 
             this.turnosObserver.next(this.dataStore.turnos);
@@ -165,8 +176,8 @@ export class TurnoSocketService {
     private getIndex(id: string): number {
         // let foundIndex = -1;
         //
-        // for (let i = 0; i < this.dataStore.clientes.length; i++) {
-        //     if (this.dataStore.clientes[i]._id === id) {
+        // for (let i = 0; i < this.dataStore.turnos.length; i++) {
+        //     if (this.dataStore.turnos[i]._id === id) {
         //         foundIndex = i;
         //     }
         // }
@@ -178,34 +189,59 @@ export class TurnoSocketService {
     /*
     Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onCreated'
     */
-    private onCreated(turno: Turno) {
+    private onCreated(turno: any) { //REMPLAZR EL ANY CON TURNO!
         console.log('On created de Angular con Socket de Feathers');
         console.log(turno);
 
         this.dataStore.turnos.push(turno);
-
+        //lo pusheo al calendar
+        this.actualizarVisual(turno);
         this.turnosObserver.next(this.dataStore.turnos);
     }
 
     /*
     Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onUpdated'
     */
-    private onUpdated(cliente: Turno) {
-        // const index = this.getIndex(cliente._id);
+    private onUpdated(turno: Turno) {
+        // const index = this.getIndex(turno._id);
         //
-        // this.dataStore.clientes[index] = cliente;
+        // this.dataStore.turnos[index] = turno;
         //
-        // this.clientesObserver.next(this.dataStore.clientes);
+        // this.turnosObserver.next(this.dataStore.turnos);
     }
 
     /*
     Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onRemoved'
     */
-    private onRemoved(cliente) {
-        // const index = this.getIndex(cliente._id);
+    private onRemoved(turno) {
+        // const index = this.getIndex(turno._id);
         //
-        // this.dataStore.clientes.splice(index, 1);
+        // this.dataStore.turnos.splice(index, 1);
         //
-        // this.clientesObserver.next(this.dataStore.clientes);
+        // this.turnosObserver.next(this.dataStore.turnos);
+    }
+
+    private onPatched(turno){
+
+      let id = turno._id;
+
+      $('#calendar').fullCalendar('removeEvents',turno._id); // Esto elimina el evento (grafico) con el id = turno._id
+      this.actualizarVisual(turno); //
+    }
+
+    /*
+      Este metodo se encarga de graficar nuevamente el turno que llega por parametro.
+      Utilizar este metodo cuando se necesite graficar un nuevo turno.
+    */
+
+    private actualizarVisual(turno){
+
+
+      let horaInicial = turno.horaInicial.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
+      let horaFin = turno.horaFin.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
+
+      //Le agregue el ID al final del nuevo turno para asi poder saber a que objeto corresponde cada evento grafico
+      let newTurno = {"title":"SIN NOMBRE","allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59","_id":turno._id};
+      $('#calendar').fullCalendar('renderEvent', newTurno, true)
     }
 }
