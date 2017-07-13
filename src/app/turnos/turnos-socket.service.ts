@@ -82,8 +82,8 @@ export class TurnoSocketService {
         var newTurno = {"title":"Matias Perez","allDay":false,"start":"2017-07-12T12:00:00","end":"2017-07-12T12:30:00","color":"#f8ac59"};
 
         //DSPS HAY QUE PASAR ESTO al metodo create del servicio
-
         this.turnosSocketService.create({
+
             horaInicial: newTurno.start,
             horaFin: newTurno.end,
             matricula:'75233'
@@ -134,9 +134,9 @@ export class TurnoSocketService {
             }
         }).then((turnos) => {
 
-            console.log('####');
-            console.log(turnos);
-            console.log('####');
+            // console.log('####');
+            // console.log(turnos);
+            // console.log('####');
 
             // console.log('Entre al find de socket de feathers en Angular!!');
             //
@@ -145,9 +145,19 @@ export class TurnoSocketService {
             // //console.log(clientes.data);
             //
 
-            console.log(this.turnosObserver);
+            // console.log(this.turnosObserver);
 
             this.dataStore.turnos = turnos;
+
+            //Aca vamos a renderizar el calendario de nuevo despues de obtener todos los turnos de ese medico.
+            for (let i = 0; i < turnos.length; i++) {
+
+                let horaInicial = turnos[i].horaInicial.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
+                let horaFin = turnos[i].horaFin.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
+                let newTurno = {"title":"SIN NOMBRE","allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59"};
+                $('#calendar').fullCalendar('renderEvent', newTurno, true)
+            }
+
             this.turnosObserver.next(this.dataStore.turnos);
         }).catch(err => console.error(err));
     }
