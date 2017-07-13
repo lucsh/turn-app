@@ -57,7 +57,7 @@ export class TurnoSocketService {
         this.dataStore = { turnos: [] };
 
 
-
+        console.log("ANTES DE LLAMAR AL FINDDDDDDDDDDDDDDD");
         //BORRRRRAR
         this.find();
         //BORRRRRAR
@@ -113,6 +113,7 @@ export class TurnoSocketService {
 
     public cambiarMedico(matricula){
         this.cleanService();
+        console.log("CAMBIO DE MEDICO");
         this.iniciar(matricula);
     }
 
@@ -142,13 +143,14 @@ export class TurnoSocketService {
     }
 
     public find() {
+        console.log("ENTRE AL FIND PORONGA");
         let m = this.matricula;
         this.turnosSocketService.find({
             query: {
               matricula: m
             }
         }).then((turnos) => {
-
+            console.log("Entre al then del find!!!!!!!!!!!!!-.-23142189479rsdfygsd");
             // console.log('####');
             // console.log(turnos);
             // console.log('####');

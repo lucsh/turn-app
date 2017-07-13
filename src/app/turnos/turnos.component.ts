@@ -59,6 +59,7 @@ export class TurnosComponent implements OnInit {
 
 				let matriucla = event.url.split('/',4)[3];
 				//console.log(matriucla);
+        yo.metodoLimpieza(matriucla);
 				yo.loadCalendar(matriucla);
 
 		    }
@@ -77,17 +78,6 @@ export class TurnosComponent implements OnInit {
 		//console.log(matricula);
 
 		var yo = this;
-
-		let calendario = $('#calendar');
-
-		//Limpiamos el calendario
-		// calendario.fullCalendar( 'destroy' );
-		calendario.fullCalendar( 'removeEvents' );
-
-
-		//Limpiamos el service
-
-		this.turnosSocketService.cambiarMedico(matricula);
 
 		$('#calendar')
 		.fullCalendar({
@@ -169,6 +159,16 @@ export class TurnosComponent implements OnInit {
 
 	}
 
+  metodoLimpieza(matricula){
+    //Limpiamos el calendario
+		// calendario.fullCalendar( 'destroy' );
+    let calendario = $('#calendar');
+		calendario.fullCalendar( 'removeEvents' );
+
+
+		//Limpiamos el service
+		this.turnosSocketService.cambiarMedico(matricula);
+  }
 
 	verificarUrl(){
 
