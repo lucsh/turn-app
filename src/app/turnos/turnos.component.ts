@@ -78,7 +78,6 @@ export class TurnosComponent implements OnInit {
 		//console.log(matricula);
 
 		var yo = this;
-
 		$('#calendar')
 		.fullCalendar({
 			header: {
@@ -88,12 +87,12 @@ export class TurnosComponent implements OnInit {
 				right: 'month,agendaWeek,agendaDay,listWeek'
 			},
 			defaultView:'agendaWeek',
-			weekends: false,
+			//weekends: false, //COMENTADO SOLAMENTE COMO PRUEBA. PONER DE NUEVO PARA DEPLOY!
 			allDaySlot:false,
 			slotDuration:'00:15:00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
 			minTime:'09:00:00',
 			maxTime:'18:00:00',
-			defaultDate: new Date(),
+			//defaultDate: new Date(), // Esto esta de mas. Si no especificamos la fecha, por defecto es la acutal.
 			navLinks: true, // can click day/week names to navigate views
 			editable: true, //falso para la vista de clientes
 			eventLimit: true, // allow "more" link when too many events
@@ -106,7 +105,7 @@ export class TurnosComponent implements OnInit {
 				//El color depende del medico al que le estoy cargando el turno
 				var color = '#f8ac59';
 
-				yo.turnosSocketService.GILADA();
+				yo.turnosSocketService.GILADA(date.format());
 
 				//creo el obj
 				//el "end" deberia ser dinamico, dependiendo del medico? (doctor.turno)
@@ -127,10 +126,10 @@ export class TurnosComponent implements OnInit {
 					//ToDO SweetAlert
 					revertFunc();
 				}else{
-          console.log(event);
-          console.log("#########");
-  				console.log(event.start.format()); // Es la nueva hora de inicio del evento
-  				console.log(event.end.format()); // Es la nueva hora de fin del evento
+          // console.log(event);
+          // console.log("#########");
+  				// console.log(event.start.format()); // Es la nueva hora de inicio del evento
+  				// console.log(event.end.format()); // Es la nueva hora de fin del evento
 
           yo.turnosSocketService.temporalActualizar(event);
         }
@@ -148,7 +147,27 @@ export class TurnosComponent implements OnInit {
 
 				//actualizar el turno en la db (tenemos el event.id)
 				//???
-			}
+			},
+      eventClick: function(calEvent,delta,view){
+        //ESTO CAMBIARLO! Porque no esta bueno que cuando haga click muera el evento!
+        //La idea seria que cuando haga click le tire un popup o algo asi, para ver los detalles
+        // del turno y poder eliminarlo, editarlo, etc.
+
+        if (confirm("¿Estas seguro que queres eliminar el turno?")) {
+					//ToDO SweetAlert
+          $('#calendar').fullCalendar('removeEvents', function (event) {
+            return event == calEvent; //Esto remueve solamente el evento "clickeado" que entra por parametro del evento del calendario 'calEvent'
+          });
+
+          yo.turnosSocketService.temporalEliminar(calEvent);
+
+				}
+
+      }
+
+
+
+
 		});
 
 

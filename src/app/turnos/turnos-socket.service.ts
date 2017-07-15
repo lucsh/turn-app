@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import * as io from 'socket.io-client';
+import * as moment from 'moment';
 //import * as feathers from 'feathers-client';
 
 declare var feathers:any;
@@ -57,7 +58,6 @@ export class TurnoSocketService {
         this.dataStore = { turnos: [] };
 
 
-        console.log("ANTES DE LLAMAR AL FINDDDDDDDDDDDDDDD");
         //BORRRRRAR
         this.find();
         //BORRRRRAR
@@ -68,7 +68,7 @@ export class TurnoSocketService {
     //     console.log(algo);
     // }
 
-    public GILADA(){
+    public GILADA(fecha: Date){
 
         console.log('Entre en gilada');
         //tengo que pedir el nombre del paciente y verificar que exista
@@ -80,7 +80,14 @@ export class TurnoSocketService {
         //el "end" deberia ser dinamico, dependiendo del medico? (doctor.turno)
         //var newTurno = {"title":paciente,"allDay":false,"start":new Date(),"end":new Date(),"color":color};
 
-        var newTurno = {"title":"Matias Perez","allDay":false,"start":"2017-07-12T12:00:00","end":"2017-07-12T12:30:00","color":"#f8ac59"};
+        //LEER LEER LEER LEER LEER
+        var temp = moment(fecha).add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+        //LEER LEER LEER
+
+        let nuevaFecha = temp.format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
+
+
+        var newTurno = {"title":"Matias Perez","allDay":false,"start":fecha,"end":nuevaFecha,"color":"#f8ac59"};
 
         //DSPS HAY QUE PASAR ESTO al metodo create del servicio
         this.turnosSocketService.create({
@@ -111,6 +118,14 @@ export class TurnoSocketService {
       });
     }
 
+    public temporalEliminar(turno){
+
+      let id = turno._id;
+      this.turnosSocketService.remove(id).then((turnoEliminado)=>{
+        console.log("Turno eliminado!!");
+      })
+    }
+
     public cambiarMedico(matricula){
         this.cleanService();
         console.log("CAMBIO DE MEDICO");
@@ -120,8 +135,6 @@ export class TurnoSocketService {
     public cleanService(){
         //this.turnosSocketService = null;
         //Obtenemos el service que queremos
-        console.log("ENTRE AL CLIEAN");
-        console.log(this.socket);
         this.socket.disconnect();
         this.turnosSocketService = null;
 
@@ -143,14 +156,13 @@ export class TurnoSocketService {
     }
 
     public find() {
-        console.log("ENTRE AL FIND PORONGA");
         let m = this.matricula;
         this.turnosSocketService.find({
             query: {
               matricula: m
             }
         }).then((turnos) => {
-            console.log("Entre al then del find!!!!!!!!!!!!!-.-23142189479rsdfygsd");
+            //console.log("Entre al then del find!!!!!!!!!!!!!-.-23142189479rsdfygsd");
             // console.log('####');
             // console.log(turnos);
             // console.log('####');
