@@ -98,6 +98,19 @@ export class TurnosComponent implements OnInit {
 			eventLimit: true, // allow "more" link when too many events
 			events: this.turnos,
 			dayClick: function(date, jsEvent, view) {
+
+        //PRUEBA DE CAMBIO DE VISUAL:
+        if (view.name == "month") {
+            // Si la vista acutal es la del mes...
+            $('#calendar').fullCalendar('changeView', 'agendaDay'/* aca podemos cambiar a lo que queramos! ej:  'basicDay' */);
+            $('#calendar').fullCalendar('gotoDate',date);
+        }
+
+        //FIN DE LA PRUEBA.
+
+
+
+
 				console.log('Clicked on: ' + date.format());
 
 				//tengo que pedir el nombre del paciente y verificar que exista
