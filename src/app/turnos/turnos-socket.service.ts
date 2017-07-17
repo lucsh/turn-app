@@ -145,8 +145,11 @@ export class TurnoSocketService {
     public cleanService(){
         //this.turnosSocketService = null;
         //Obtenemos el service que queremos
+        console.log("ENTRE AL CLEAN SERVICE");
         this.socket.disconnect();
         this.turnosSocketService = null;
+
+
 
         this.turnos$ = null;
 
@@ -271,5 +274,13 @@ export class TurnoSocketService {
 
 
       $('#calendar').fullCalendar('renderEvent', newTurno, true)
+    }
+
+    ngOnDestroy(){
+
+      this.socket.close();
+      this.socket.disconnect();
+      this.turnosObserver = null;
+      console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
     }
 }

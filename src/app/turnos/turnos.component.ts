@@ -31,7 +31,7 @@ declare var $: any;
 	styleUrls: ['./turnos.component.css']
 })
 
-export class TurnosComponent implements OnInit {
+export class TurnosComponent implements OnInit, OnDestroy {
 
 	url: string;
 	matricula: string;
@@ -51,18 +51,37 @@ export class TurnosComponent implements OnInit {
 		let yo = this;
 
 		this.turnosSocketService.iniciar(this.matricula);
+    console.log("ENTRE X VECES: ");
+    //yo.metodoLimpieza(this.matricula);
+    //yo.loadCalendar(this.matricula);
+
 
 		router.events.forEach((event) => {
+
+
 		    if(event instanceof NavigationStart) {
 				//console.log('Entre en el IF');
 				//console.log(event.url);
 
-				let matriucla = event.url.split('/',4)[3];
-				//console.log(matriucla);
-        yo.metodoLimpieza(matriucla);
-				yo.loadCalendar(matriucla);
+				// let matricula = event.url.split('/',4)[3];
+				// //console.log(matricula);
+        // yo.metodoLimpieza(matricula);
+				// yo.loadCalendar(matricula);
 
+          let tempUrl = event.url.split('/',4)[1];
+          if (tempUrl == 'turnos'){
+            let matricula = event.url.split('/',4)[3];
+    				//console.log(matricula);
+            console.log("CANTIDAD DE ENTRADAS: ")
+              yo.metodoLimpieza(matricula);
+    				  yo.loadCalendar(matricula);
+          }
+          else{
+            console.log("HOLAAAAAAAAAAAAA");
+            console.log(event);
+          }
 		    }
+
 		    // NavigationEnd
 		    // NavigationCancel
 		    // NavigationError
@@ -197,7 +216,10 @@ export class TurnosComponent implements OnInit {
 
 
 		//Limpiamos el service
-		this.turnosSocketService.cambiarMedico(matricula);
+    if(this.turnosSocketService){
+
+      this.turnosSocketService.cambiarMedico(matricula);
+    }
   }
 
 	verificarUrl(){
@@ -240,6 +262,14 @@ export class TurnosComponent implements OnInit {
 
 		this.getAllDoctores();
 		//alert(this.url);
+
+	}
+
+  ngOnDestroy() {
+    console.log("ME DESTRUIIIIIII ####@#|@##~#@");
+    console.log(this.router);
+    this.router.dispose();
+    this.turnosSocketService = null;
 	}
 
 }
