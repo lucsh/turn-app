@@ -39,7 +39,7 @@
         <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('turnos')}">
           <!-- *ngFor="let doctor of doctores" -->
 
-          <li *ngFor='let doc of doctores'><a [routerLink]="['/turnos/' + doc.nombre +'/'+doc.matricula]">{{doc.nombre}} {{doc.apellido}}</a></li>
+          <li *ngFor='let medico of medicos'><a [routerLink]="['/turnos/' + medico.nombre +'/'+medico.matricula]">{{medico.nombre}} {{medico.apellido}}</a></li>
 
 
           <!-- <li [ngClass]="{active: activeRoute('FRomero')}"><a [routerLink]="['/turnos/FRomero']">F. Romero</a></li>
