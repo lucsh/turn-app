@@ -81,12 +81,14 @@ export class TurnoSocketService {
         //var newTurno = {"title":paciente,"allDay":false,"start":new Date(),"end":new Date(),"color":color};
 
         //LEER LEER LEER LEER LEER
-        var temp = moment(fecha).add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+        var temp = moment(fecha).utc().add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
         //LEER LEER LEER
 
 
         //let nuevaFecha = temp.utc().format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
         let nuevaFecha = temp.format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
+        console.log("#####-*------#####");
+        console.log(nuevaFecha);
 
         var newTurno = {"title":"Matias Perez","allDay":false,"start":fecha,"end":nuevaFecha,"color":"#f8ac59"};
 
@@ -110,6 +112,11 @@ export class TurnoSocketService {
     }
 
     public temporalActualizar(turno){
+
+      console.log("################");
+      console.log(turno.start);
+      console.log("---------------------");
+      console.log(turno.end);
 
       let newHoraInicial = turno.start.format();
       let newHoraFin = turno.end.format();
