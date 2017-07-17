@@ -11,12 +11,12 @@ import { Router, NavigationStart, NavigationEnd, NavigationError, NavigationCanc
 
 
 import { TurnosService } from './turnos.service';
-import { DoctoresService } from './doctores.service';
+import { MedicosService } from '../medico/medicos.service';
 
 import * as moment from 'moment';
 
 
-import { Doctor } from './doctor.tipo';
+import { Medico } from '../medico/medico.tipo';
 import { Turno } from './turno.tipo';
 import { TurnoSocketService } from './turnos-socket.service';
 
@@ -36,12 +36,12 @@ export class TurnosComponent implements OnInit {
 	url: string;
 	matricula: string;
 
-	doctores: Doctor[];
+	doctores: Medico[];
 	turnos: Turno[];
 
 	 private subscription: Subscription;
 
-	constructor(route: ActivatedRoute,private turnosService: TurnosService,private doctoresService: DoctoresService,
+	constructor(route: ActivatedRoute,private turnosService: TurnosService,private doctoresService: MedicosService,
 		private turnosSocketService : TurnoSocketService,
 		private router: Router,
 	   private ref: ChangeDetectorRef

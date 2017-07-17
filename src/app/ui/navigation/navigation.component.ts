@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavigationService } from './navigation.service';
 
-import { DoctoresService } from '../../turnos/doctores.service';
-import { Doctor } from '../../turnos/doctor.tipo';
+import { MedicosService } from '../../medico/medicos.service';
+import { Medico } from '../../medico/medico.tipo';
 
 import 'jquery-slimscroll';
 
@@ -19,12 +19,12 @@ export class NavigationComponent {
 
   profile: string[];
 
-  private doctores: Doctor[];
+  private medicos: Medico[];
 
   constructor(
       private router: Router,
       private navigationService: NavigationService,
-      private doctoresService: DoctoresService
+      private medicosService: MedicosService
   ) {}
 
   ngAfterViewInit() {
@@ -55,8 +55,8 @@ export class NavigationComponent {
     this.getUsuario();
 
     const yo = this;
-    this.doctoresService.getDoctores().then((docs)=>{
-        yo.doctores = docs;
+    this.medicosService.getDoctores().then((docs)=>{
+        yo.medicos = docs;
     });
   }
 
