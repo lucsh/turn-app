@@ -84,10 +84,12 @@ export class TurnoSocketService {
         var temp = moment(fecha).add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
         //LEER LEER LEER
 
+
+        //let nuevaFecha = temp.utc().format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
         let nuevaFecha = temp.format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
 
-
         var newTurno = {"title":"Matias Perez","allDay":false,"start":fecha,"end":nuevaFecha,"color":"#f8ac59"};
+
 
         //DSPS HAY QUE PASAR ESTO al metodo create del servicio
         this.turnosSocketService.create({
@@ -255,7 +257,15 @@ export class TurnoSocketService {
       let horaFin = turno.horaFin.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
 
       //Le agregue el ID al final del nuevo turno para asi poder saber a que objeto corresponde cada evento grafico
+
+      console.log("turno en actualizarVisual");
+      console.log(turno);
+
       let newTurno = {"title":"SIN NOMBRE","allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59","_id":turno._id};
+
+      console.log("newTurno en actualizarVisual");
+      console.log(newTurno);
+
       $('#calendar').fullCalendar('renderEvent', newTurno, true)
     }
 }

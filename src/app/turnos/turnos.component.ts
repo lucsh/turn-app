@@ -86,6 +86,7 @@ export class TurnosComponent implements OnInit {
 				center: 'title',
 				right: 'month,agendaWeek,agendaDay,listWeek'
 			},
+            timezone:'UTC',
 			defaultView:'agendaWeek',
 			//weekends: false, //COMENTADO SOLAMENTE COMO PRUEBA. PONER DE NUEVO PARA DEPLOY!
 			allDaySlot:false,
@@ -182,9 +183,6 @@ export class TurnosComponent implements OnInit {
 
 
 		});
-
-
-
 
 
 
