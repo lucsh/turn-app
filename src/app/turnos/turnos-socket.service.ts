@@ -81,9 +81,10 @@ export class TurnoSocketService {
         //var newTurno = {"title":paciente,"allDay":false,"start":new Date(),"end":new Date(),"color":color};
 
         //LEER LEER LEER LEER LEER
-        var temp = moment(fecha).utc().add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+        var temp = moment(fecha,'YYYY-MM-DDTHH:mm:ss Z').add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
         //LEER LEER LEER
-
+        console.log("#####-*-TEMP--#####");
+        console.log(temp);
 
         //let nuevaFecha = temp.utc().format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
         let nuevaFecha = temp.format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
@@ -257,12 +258,13 @@ export class TurnoSocketService {
       Utilizar este metodo cuando se necesite graficar un nuevo turno.
     */
 
-    private actualizarVisual(turno){
+    private actualizarVisual(turno:Turno){
 
 
-      let horaInicial = turno.horaInicial.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
-      let horaFin = turno.horaFin.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
-
+      //let horaInicial = turno.horaInicial.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
+      let horaInicial = turno.horaInicial
+      //let horaFin = turno.horaFin.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
+      let horaFin = turno.horaFin;
       //Le agregue el ID al final del nuevo turno para asi poder saber a que objeto corresponde cada evento grafico
 
       console.log("turno en actualizarVisual");
