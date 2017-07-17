@@ -80,16 +80,19 @@ export class TurnoSocketService {
         //el "end" deberia ser dinamico, dependiendo del medico? (doctor.turno)
         //var newTurno = {"title":paciente,"allDay":false,"start":new Date(),"end":new Date(),"color":color};
 
+
+        //WINDWOS
         //LEER LEER LEER LEER LEER
-        var temp = moment(fecha,'YYYY-MM-DDTHH:mm:ss Z').add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+        var temp = moment(fecha).utc().add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+
+        //LINUX
+        //var temp = moment(fecha,'YYYY-MM-DDTHH:mm:ss Z').add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+
         //LEER LEER LEER
-        console.log("#####-*-TEMP--#####");
-        console.log(temp);
+
 
         //let nuevaFecha = temp.utc().format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
         let nuevaFecha = temp.format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
-        console.log("#####-*------#####");
-        console.log(nuevaFecha);
 
         var newTurno = {"title":"Matias Perez","allDay":false,"start":fecha,"end":nuevaFecha,"color":"#f8ac59"};
 
@@ -114,10 +117,7 @@ export class TurnoSocketService {
 
     public temporalActualizar(turno){
 
-      console.log("################");
-      console.log(turno.start);
-      console.log("---------------------");
-      console.log(turno.end);
+
 
       let newHoraInicial = turno.start.format();
       let newHoraFin = turno.end.format();
@@ -198,16 +198,16 @@ export class TurnoSocketService {
     }
 
     private getIndex(id: string): number {
-        // let foundIndex = -1;
-        //
-        // for (let i = 0; i < this.dataStore.turnos.length; i++) {
-        //     if (this.dataStore.turnos[i]._id === id) {
-        //         foundIndex = i;
-        //     }
-        // }
+        let foundIndex = -1;
 
-        // return foundIndex;
-        return 0;
+        for (let i = 0; i < this.dataStore.turnos.length; i++) {
+            if (this.dataStore.turnos[i]._id === id) {
+                foundIndex = i;
+            }
+        }
+
+        return foundIndex;
+        // return 0;
     }
 
     /*
@@ -237,12 +237,12 @@ export class TurnoSocketService {
     /*
     Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onRemoved'
     */
-    private onRemoved(turno) {
-        // const index = this.getIndex(turno._id);
-        //
-        // this.dataStore.turnos.splice(index, 1);
-        //
-        // this.turnosObserver.next(this.dataStore.turnos);
+    private onRemoved(turno: Turno) {
+        const index = this.getIndex(turno._id);
+
+        this.dataStore.turnos.splice(index, 1);
+
+        this.turnosObserver.next(this.dataStore.turnos);
     }
 
     private onPatched(turno){
@@ -267,13 +267,8 @@ export class TurnoSocketService {
       let horaFin = turno.horaFin;
       //Le agregue el ID al final del nuevo turno para asi poder saber a que objeto corresponde cada evento grafico
 
-      console.log("turno en actualizarVisual");
-      console.log(turno);
-
       let newTurno = {"title":"SIN NOMBRE","allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59","_id":turno._id};
 
-      console.log("newTurno en actualizarVisual");
-      console.log(newTurno);
 
       $('#calendar').fullCalendar('renderEvent', newTurno, true)
     }
