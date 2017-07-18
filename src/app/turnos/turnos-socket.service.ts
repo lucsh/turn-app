@@ -10,8 +10,6 @@ declare var feathers:any;
 
 import { Turno } from './turno.tipo';
 
-
-
 declare var $: any;
 
 
@@ -36,6 +34,8 @@ export class TurnoSocketService {
 
     public iniciar(matricula : string){
 
+        console.log('Entre en Iniciar del TURNO SOCKET SERVICE');
+
         this.matricula = matricula;
 
         this.socket = io(this.urlServidor);
@@ -52,7 +52,7 @@ export class TurnoSocketService {
 
 
         this.turnos$ = new Observable((observer) => {
-                this.turnosObserver = observer;
+            this.turnosObserver = observer;
         });
 
         this.dataStore = { turnos: [] };
@@ -61,34 +61,34 @@ export class TurnoSocketService {
         //BORRRRRAR
         this.find();
         //BORRRRRAR
+
+        return true;
     }
 
-    // public setComponent(algo){
-    //     console.log('@@@@@@@@@@@@@@@@@@@@@');
-    //     console.log(algo);
-    // }
 
-    public GILADA(fecha: Date){
 
-        console.log('Entre en gilada');
+    public crearTurno(fecha: Date){
+
         //tengo que pedir el nombre del paciente y verificar que exista
         var paciente = 'Nuevo Paciente';
         //El color depende del medico al que le estoy cargando el turno
         var color = '#f8ac59';
 
-        //creo el obj
-        //el "end" deberia ser dinamico, dependiendo del medico? (doctor.turno)
-        //var newTurno = {"title":paciente,"allDay":false,"start":new Date(),"end":new Date(),"color":color};
 
+        //*************************************************
 
-        //WINDWOS
-        //LEER LEER LEER LEER LEER
-        var temp = moment(fecha).utc().add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+        /**
+        IMPORTANTE: Momentaneamente, al usar en windows, comentar la linea de Linux y descomentar la de Windows.
+        Para usar en Linux, hacer la vicebersa.
+        */
 
-        //LINUX
-        //var temp = moment(fecha,'YYYY-MM-DDTHH:mm:ss Z').add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+        //Windows: descomentar la linea de abajo
+        //var temp = moment(fecha).utc().add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
 
-        //LEER LEER LEER
+        //LINUX: descomentar la linea de abajo
+        var temp = moment(fecha,'YYYY-MM-DDTHH:mm:ss Z').add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+
+        //*************************************************
 
 
         //let nuevaFecha = temp.utc().format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
@@ -104,36 +104,29 @@ export class TurnoSocketService {
             horaFin: newTurno.end,
             matricula:this.matricula
 
-            }).then((clienteNuevo)=>{
-                console.log('Desde el cliente Angular se creo un nuevo cliente');
-                // IMPORTANTE:
-                //      Todavia NO ACTUALIZAMOS, pues eso se va a hacer en el EVENTO 'onCreated'.
+        }).then((clienteNuevo)=>{
+            console.log('Desde el cliente Angular se creo un nuevo cliente');
+            // IMPORTANTE:
+            //      Todavia NO ACTUALIZAMOS, pues eso se va a hacer en el EVENTO 'onCreated'.
 
-            });
-
-        //lo pusheo al calendar
-        //$('#calendar').fullCalendar('renderEvent', newTurno, true)
+        });
     }
 
-    public temporalActualizar(turno){
+    public actualizarTurno(turno){
 
-
-
-      let newHoraInicial = turno.start.format();
-      let newHoraFin = turno.end.format();
-      let id = turno._id;
-      this.turnosSocketService.patch(id, {"horaInicial":newHoraInicial,"horaFin":newHoraFin}).then((turnoActualizado)=>{
-        // console.log("Se actualizo correctamente el turno");
-        // console.log(turnoActualizado);
-      });
+        let newHoraInicial = turno.start.format();
+        let newHoraFin = turno.end.format();
+        let id = turno._id;
+        this.turnosSocketService.patch(id, {"horaInicial":newHoraInicial,"horaFin":newHoraFin}).then((turnoActualizado)=>{
+        });
     }
 
-    public temporalEliminar(turno){
+    public eliminarTurno(turno){
 
-      let id = turno._id;
-      this.turnosSocketService.remove(id).then((turnoEliminado)=>{
-        console.log("Turno eliminado!!");
-      })
+        let id = turno._id;
+        this.turnosSocketService.remove(id).then((turnoEliminado)=>{
+            console.log("Turno eliminado!!");
+        })
     }
 
     public cambiarMedico(matricula){
@@ -160,34 +153,32 @@ export class TurnoSocketService {
 
         this.turnosSocketService.create({
 
-            }).then((clienteNuevo)=>{
-                console.log('Desde el cliente Angular se creo un nuevo cliente');
-                // IMPORTANTE:
-                //      Todavia NO ACTUALIZAMOS, pues eso se va a hacer en el EVENTO 'onCreated'.
+        }).then((clienteNuevo)=>{
+            console.log('Desde el cliente Angular se creo un nuevo cliente');
+            //******************************************************************
+            /**
+            IMPORTANTE:
+            Todavia NO ACTUALIZAMOS, pues eso se va a hacer en el EVENTO 'onCreated'.
+            */
+            //******************************************************************
 
-            });
+        });
     }
 
     public find() {
         let m = this.matricula;
         this.turnosSocketService.find({
             query: {
-              matricula: m
+                matricula: m
             }
         }).then((turnos) => {
-            //console.log("Entre al then del find!!!!!!!!!!!!!-.-23142189479rsdfygsd");
-            // console.log('####');
-            // console.log(turnos);
-            // console.log('####');
 
-            // console.log('Entre al find de socket de feathers en Angular!!');
-            //
-            // //IMPORTANTE:
-            // // A veces es necesario hacer el .data. Es cuando, por ej, usas pagination
-            // //console.log(clientes.data);
-            //
-
-            // console.log(this.turnosObserver);
+            //******************************************************************
+            /**
+            IMPORTANTE:
+            A veces es necesario hacer el .data. Es cuando, por ej, usas pagination
+            */
+            //******************************************************************
 
             this.dataStore.turnos = turnos;
 
@@ -214,7 +205,7 @@ export class TurnoSocketService {
     }
 
     /*
-    Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onCreated'
+        Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onCreated'
     */
     private onCreated(turno: any) { //REMPLAZR EL ANY CON TURNO!
         console.log('On created de Angular con Socket de Feathers');
@@ -227,7 +218,7 @@ export class TurnoSocketService {
     }
 
     /*
-    Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onUpdated'
+        Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onUpdated'
     */
     private onUpdated(turno: Turno) {
         // const index = this.getIndex(turno._id);
@@ -238,7 +229,7 @@ export class TurnoSocketService {
     }
 
     /*
-    Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onRemoved'
+        Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onRemoved'
     */
     private onRemoved(turno: Turno) {
         const index = this.getIndex(turno._id);
@@ -248,39 +239,46 @@ export class TurnoSocketService {
         this.turnosObserver.next(this.dataStore.turnos);
     }
 
+    /*
+        Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onUpdated'
+    */
+
     private onPatched(turno){
 
-      let id = turno._id;
+        let id = turno._id;
 
-      $('#calendar').fullCalendar('removeEvents',turno._id); // Esto elimina el evento (grafico) con el id = turno._id
-      this.actualizarVisual(turno); //
+        $('#calendar').fullCalendar('removeEvents',turno._id); // Esto elimina el evento (grafico) con el id = turno._id
+        this.actualizarVisual(turno); //
     }
 
     /*
-      Este metodo se encarga de graficar nuevamente el turno que llega por parametro.
-      Utilizar este metodo cuando se necesite graficar un nuevo turno.
+        Grafica el turno que llega por parametro.
     */
 
     private actualizarVisual(turno:Turno){
 
 
-      //let horaInicial = turno.horaInicial.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
-      let horaInicial = turno.horaInicial
-      //let horaFin = turno.horaFin.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
-      let horaFin = turno.horaFin;
-      //Le agregue el ID al final del nuevo turno para asi poder saber a que objeto corresponde cada evento grafico
+        //let horaInicial = turno.horaInicial.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
+        let horaInicial = turno.horaInicial
+        //let horaFin = turno.horaFin.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
+        let horaFin = turno.horaFin;
+        //Le agregue el ID al final del nuevo turno para asi poder saber a que objeto corresponde cada evento grafico
 
-      let newTurno = {"title":"SIN NOMBRE","allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59","_id":turno._id};
+        let newTurno = {"title":"SIN NOMBRE","allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59","_id":turno._id};
 
 
-      $('#calendar').fullCalendar('renderEvent', newTurno, true)
+        $('#calendar').fullCalendar('renderEvent', newTurno, true)
     }
 
+
+    /*
+        Al destruirse el servicio, se debe cerrar el socket y borrar el observable del mismo.
+    */
     ngOnDestroy(){
 
-      this.socket.close();
-      this.socket.disconnect();
-      this.turnosObserver = null;
-      console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
+        //this.socket.close();
+        this.socket.disconnect();
+        //this.turnosObserver = null;
+        console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
     }
 }
