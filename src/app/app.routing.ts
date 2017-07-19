@@ -3,6 +3,7 @@ import {Routes, RouterModule} from '@angular/router';
 
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {TurnosComponent} from './turnos/turnos.component';
+import {PacientesComponent} from './pacientes/pacientes.component';
 
 
 const appRoutes: Routes =  [
@@ -17,6 +18,10 @@ const appRoutes: Routes =  [
 {
 	path:'turnos/:doctor/:matricula',
 	component: TurnosComponent
+},
+{
+	path:'pacientes',
+	component: PacientesComponent
 }
 ];
 
