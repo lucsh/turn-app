@@ -61,7 +61,7 @@
     {
       "id": 4,
       "turno": "2017-06-01 09:30:00",
-      "status": "Pendiente",
+      "status": "Otro Estado",
       "paciente": "Franco",
       "doctor": "Dra. Manzazno"
     },
@@ -185,56 +185,162 @@
   "profile": {
     "id": 1,
     "nombre": "Lucas",
-    "cargo":"Secretario"
+    "cargo": "Secretario"
   },
-  "doctores":[
+  "doctores": [
     {
       "id": 1,
       "nombre": "Fabian",
       "Apellido": "Romero",
       "Matricula": "84349",
-      "turno":"30",
-      "url":"FRomero"
+      "turno": "30",
+      "url": "FRomero"
     },
     {
       "id": 2,
       "nombre": "Susana",
       "Apellido": "Manzano",
       "Matricula": "55673",
-      "turno":"15",
-      "url":"SManzano"
+      "turno": "15",
+      "url": "SManzano"
     },
     {
       "id": 3,
       "nombre": "Roberto",
       "Apellido": "Saieg",
       "Matricula": "75729",
-      "turno":"15",
-      "url":"RSaieg"
+      "turno": "15",
+      "url": "RSaieg"
     },
     {
       "id": 4,
       "nombre": "Doctor",
       "Apellido": "Cuatro",
       "Matricula": "11111",
-      "turno":"30",
-      "url":"DCuatro"
+      "turno": "30",
+      "url": "DCuatro"
     }
   ],
-  "turnos":[
-    {"id":1,"title":"Matias Perez","allDay":false,"start":"2017-06-06T12:00:00","end":"2017-06-06T12:30:00","color":"#f8ac59"},
-    {"id":2,"title":"Oscar Gonzalez","allDay":false,"start":"2017-06-06T09:00:00","end":"2017-06-06T09:30:00","color":"#f8ac59"},
-    {"id":3,"title":"Roberto Masse","allDay":false,"start":"2017-06-06T08:00:00","end":"2017-06-06T08:30:00","color":"#f8ac59"},
-    {"id":4,"title":"Marta Bonadio","allDay":false,"start":"2017-06-06T09:30:00","end":"2017-06-06T10:00:00","color":"#f8ac59"},
-    {"id":5,"title":"Susana Estrada","allDay":false,"start":"2017-06-06T08:30:00","end":"2017-06-06T09:00:00","color":"#f8ac59"},
-    {"id":6,"title":"Mariana Dedon","allDay":false,"start":"2017-06-06T14:00:00","end":"2017-06-06T14:30:00","color":"#f8ac59"},
-    {"id":7,"title":"Barbara Garcia","allDay":false,"start":"2017-06-06T15:00:00","end":"2017-06-06T15:30:00","color":"#f8ac59"},
-    {"id":8,"title":"Norberto Fernandez","allDay":false,"start":"2017-06-06T16:00:00","end":"2017-06-06T16:30:00","color":"#f8ac59"},
-  {"id":9,"title":"Pedro Olenchikov","allDay":false,"start":"2017-06-07T09:00:00","end":"2017-06-07T09:30:00","color":"#f8ac59"},
-  {"id":10,"title":"Bernardo Peralta","allDay":false,"start":"2017-06-07T08:30:00","end":"2017-06-07T09:00:00","color":"#f8ac59"},
-  {"id":11,"title":"Jorge Gaiera","allDay":false,"start":"2017-06-07T10:30:00","end":"2017-06-07T11:00:00","color":"#f8ac59"},
-  {"id":12,"title":"Pablo Stranieri","allDay":false,"start":"2017-07-06T11:30:00","end":"2017-06-07T12:00:00","color":"#f8ac59"},
-  {"id":13,"title":"Veronica Dedon","allDay":false,"start":"2017-07-06T14:00:00","end":"2017-06-07T14:30:00","color":"#f8ac59"},
-  {"id":14,"title":"Paola Leiva","allDay":false,"start":"2017-06-07T15:00:00","end":"2017-06-07T15:30:00","color":"#f8ac59"},
-  {"id":15,"title":"Mirta Pardo","allDay":false,"start":"2017-06-07T16:30:00","end":"2017-06-07T17:00:00","color":"#f8ac59"}]
+  "turnos": [
+    {
+      "id": 1,
+      "title": "Matias Perez",
+      "allDay": false,
+      "start": "2017-06-06T12:00:00",
+      "end": "2017-06-06T12:30:00",
+      "color": "#f8ac59"
+    },
+    {
+      "id": 2,
+      "title": "Oscar Gonzalez",
+      "allDay": false,
+      "start": "2017-06-06T09:00:00",
+      "end": "2017-06-06T09:30:00",
+      "color": "#f8ac59"
+    },
+    {
+      "id": 3,
+      "title": "Roberto Masse",
+      "allDay": false,
+      "start": "2017-06-06T08:00:00",
+      "end": "2017-06-06T08:30:00",
+      "color": "#f8ac59"
+    },
+    {
+      "id": 4,
+      "title": "Marta Bonadio",
+      "allDay": false,
+      "start": "2017-06-06T09:30:00",
+      "end": "2017-06-06T10:00:00",
+      "color": "#f8ac59"
+    },
+    {
+      "id": 5,
+      "title": "Susana Estrada",
+      "allDay": false,
+      "start": "2017-06-06T08:30:00",
+      "end": "2017-06-06T09:00:00",
+      "color": "#f8ac59"
+    },
+    {
+      "id": 6,
+      "title": "Mariana Dedon",
+      "allDay": false,
+      "start": "2017-06-06T14:00:00",
+      "end": "2017-06-06T14:30:00",
+      "color": "#f8ac59"
+    },
+    {
+      "id": 7,
+      "title": "Barbara Garcia",
+      "allDay": false,
+      "start": "2017-06-06T15:00:00",
+      "end": "2017-06-06T15:30:00",
+      "color": "#f8ac59"
+    },
+    {
+      "id": 8,
+      "title": "Norberto Fernandez",
+      "allDay": false,
+      "start": "2017-06-06T16:00:00",
+      "end": "2017-06-06T16:30:00",
+      "color": "#f8ac59"
+    },
+    {
+      "id": 9,
+      "title": "Pedro Olenchikov",
+      "allDay": false,
+      "start": "2017-06-07T09:00:00",
+      "end": "2017-06-07T09:30:00",
+      "color": "#f8ac59"
+    },
+    {
+      "id": 10,
+      "title": "Bernardo Peralta",
+      "allDay": false,
+      "start": "2017-06-07T08:30:00",
+      "end": "2017-06-07T09:00:00",
+      "color": "#f8ac59"
+    },
+    {
+      "id": 11,
+      "title": "Jorge Gaiera",
+      "allDay": false,
+      "start": "2017-06-07T10:30:00",
+      "end": "2017-06-07T11:00:00",
+      "color": "#f8ac59"
+    },
+    {
+      "id": 12,
+      "title": "Pablo Stranieri",
+      "allDay": false,
+      "start": "2017-07-06T11:30:00",
+      "end": "2017-06-07T12:00:00",
+      "color": "#f8ac59"
+    },
+    {
+      "id": 13,
+      "title": "Veronica Dedon",
+      "allDay": false,
+      "start": "2017-07-06T14:00:00",
+      "end": "2017-06-07T14:30:00",
+      "color": "#f8ac59"
+    },
+    {
+      "id": 14,
+      "title": "Paola Leiva",
+      "allDay": false,
+      "start": "2017-06-07T15:00:00",
+      "end": "2017-06-07T15:30:00",
+      "color": "#f8ac59"
+    },
+    {
+      "id": 15,
+      "title": "Mirta Pardo",
+      "allDay": false,
+      "start": "2017-06-07T16:30:00",
+      "end": "2017-06-07T17:00:00",
+      "color": "#f8ac59"
+    }
+  ]
 }

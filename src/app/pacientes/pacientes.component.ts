@@ -42,10 +42,10 @@ export class PacientesComponent implements OnInit {
     .getPacientes()
     .then(pacientes => {
         this.pacientes = pacientes;
+        this.data = pacientes;
         console.log(pacientes);
     });
   }
-
   public sortByWordLength = (a: any) => {
       return a.city.length;
   }

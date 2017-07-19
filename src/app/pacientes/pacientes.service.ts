@@ -20,7 +20,7 @@ export class PacientesService {
         return this.http.get(this.pacientesURL)
         .toPromise()
         .then(response => {
-			console.log(response.json());
+			//console.log(response.json());
 			return response.json() as Paciente[];
 		})
         .catch(this.handleError);
