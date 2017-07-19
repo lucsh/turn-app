@@ -18,7 +18,7 @@ import 'moment/locale/es';
 
 import { DashboardService } from './dashboard/dashboard.service';
 import { TurnosService } from './turnos/turnos.service';
-import { DoctoresService } from './turnos/doctores.service';
+import { MedicosService } from './medico/medicos.service';
 import { NavigationService } from './ui/navigation/navigation.service';
 
 import { routing } from './app.routing';
@@ -51,7 +51,7 @@ import { TurnoSocketService } from './turnos/turnos-socket.service';
   providers: [
     DashboardService,
     TurnosService,
-    DoctoresService,
+    MedicosService,
     NavigationService,
     TurnoSocketService
   ],
