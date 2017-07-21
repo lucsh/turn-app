@@ -19,7 +19,9 @@ import * as moment from 'moment';
 
 import { Medico } from '../medico/medico.tipo';
 import { Turno } from './turno.tipo';
+// import {Paciente} from '../pacientes/paciente.tipo';
 import { TurnoSocketService } from './turnos-socket.service';
+// import { PacientesService } from '../pacientes/pacientes.service';
 
 import { Subscription } from 'rxjs/Subscription';
 
@@ -43,9 +45,13 @@ export class TurnosComponent implements OnInit, OnDestroy {
     private iniciado: boolean = false;
     private cambio: boolean = false;
 
+    private eventoModal;
+    // private pacientesDelTurno: Paciente[];
+
     private subscription: Subscription;
 
     constructor(route: ActivatedRoute,private turnosService: TurnosService,private doctoresService: MedicosService,
+        //private pacientesService: PacientesService,
         private turnosSocketService : TurnoSocketService,
         private router: Router,
         private ref: ChangeDetectorRef
@@ -123,9 +129,9 @@ export class TurnosComponent implements OnInit, OnDestroy {
         .fullCalendar({
             header: {
                 locale: 'es',
-                left: 'prev,next today',
+                left: '',
                 center: 'title',
-                right: 'month,agendaWeek,agendaDay,listWeek'
+                right: ''
             },
             timezone:'UTC',
             defaultView:'agendaWeek',
@@ -208,15 +214,17 @@ export class TurnosComponent implements OnInit, OnDestroy {
                 //La idea seria que cuando haga click le tire un popup o algo asi, para ver los detalles
                 // del turno y poder eliminarlo, editarlo, etc.
 
-                if (confirm("¿Estas seguro que queres eliminar el turno?")) {
-                    //ToDO SweetAlert
-                    $('#calendar').fullCalendar('removeEvents', function (event) {
-                        return event == calEvent; //Esto remueve solamente el evento "clickeado" que entra por parametro del evento del calendario 'calEvent'
-                    });
-
-                    yo.turnosSocketService.eliminarTurno(calEvent);
-
-                }
+                // if (confirm("¿Estas seguro que queres eliminar el turno?")) {
+                //     //ToDO SweetAlert
+                //     $('#calendar').fullCalendar('removeEvents', function (event) {
+                //         return event == calEvent; //Esto remueve solamente el evento "clickeado" que entra por parametro del evento del calendario 'calEvent'
+                //     });
+                //
+                //     yo.turnosSocketService.eliminarTurno(calEvent);
+                //
+                // }
+                yo.eventoModal = calEvent;
+                yo.activarModal(calEvent);
 
             }
 
@@ -273,6 +281,37 @@ export class TurnosComponent implements OnInit, OnDestroy {
             this.turnos = docs;
             this.loadCalendar(matricula)
         });
+    }
+
+
+    activarModal(evento: any){
+      console.log("ENTRE AL ACTIVAR MODAL:");
+      console.log(evento);
+
+      let temp = evento.start._i.split("T");
+      let fecha = temp[0];
+      let temp2 = temp[1].split(":");
+      let horaInicio = temp2[0] + ":" + temp2[1];
+      temp = evento.end._i.split("T");
+      temp2 =temp[1].split(":");
+      let horaFin = temp2[0] + ":" + temp2[1];
+
+
+      (<HTMLInputElement>document.getElementById('tituloModal')).innerHTML = fecha + "  " + horaInicio + " - " + horaFin;
+      (<HTMLInputElement>document.getElementById('myModal')).style.display = "block";
+    }
+
+    cerrarModal(){
+      (<HTMLInputElement>document.getElementById('myModal')).style.display = "none";
+    }
+
+    eliminarTurno(){
+      this.turnosSocketService.eliminarTurno(this.eventoModal);
+      let yo = this;
+      $('#calendar').fullCalendar('removeEvents', function (event) {
+        return event == yo.eventoModal; //Esto remueve solamente el evento "clickeado" que entra por parametro del evento del calendario 'calEvent'
+      });
+      this.cerrarModal();
     }
 
 

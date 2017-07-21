@@ -1,6 +1,54 @@
 
-  <small>{{url}}</small>
+
+
+
+
+<!-- PROBANDO PROBANDO -->
+<!-- Trigger/Open The Modal -->
+<button id="myBtn" (click)="activarModal();">Open Modal</button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close" (click)="cerrarModal();">&times;</span>
+      <h2 id="tituloModal">Modal Header</h2>
+    </div>
+    <div class="modal-body">
+      <p>Paciente de este turno:
+
+          <select id="opcionesPacientes" name="select">
+
+          </select>
+
+      </p>
+      <p>Some other text...</p>
+    </div>
+    <div class="modal-footer">
+      <!-- <h3>Modal Footer</h3> -->
+      <button type="button" class="btn btn-success">Guardar</button>
+      <button type="button" class="btn btn-info" (click)="cerrarModal();" >Cancelar</button>
+      <button type="button" class="btn btn-danger" (click)="eliminarTurno();">Eliminar Turno</button>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+// HAY QUE PASAR LO SIGUIENTE A ANGULAR PARA QUE ANDEEEE
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
+<!-- TERMINA LA PRUEBA -->
+
 
 <div id="calendar"></div>
-
-
