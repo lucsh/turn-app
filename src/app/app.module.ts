@@ -30,6 +30,13 @@ import { TurnosComponent } from './turnos/turnos.component';
 
 import { TurnoSocketService } from './turnos/turnos-socket.service';
 
+
+
+
+import { RestService, SocketService, FeathersService } from './authentication/feathers.service';
+import { AuthService } from './authentication/auth.service';
+import { LoginComponent } from './authentication/login.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +45,8 @@ import { TurnoSocketService } from './turnos/turnos-socket.service';
     NavigationComponent,
     TopnavbarComponent,
     TimeAgoPipe,
-    TurnosComponent
+    TurnosComponent,
+        LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +61,11 @@ import { TurnoSocketService } from './turnos/turnos-socket.service';
     TurnosService,
     MedicosService,
     NavigationService,
-    TurnoSocketService
+    TurnoSocketService,
+        RestService,
+    AuthService,
+    SocketService,
+    FeathersService
   ],
   bootstrap: [AppComponent]
 })

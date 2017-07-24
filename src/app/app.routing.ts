@@ -5,6 +5,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {TurnosComponent} from './turnos/turnos.component';
 
 
+import { LoginComponent }     from './authentication/login.component';
 const appRoutes: Routes =  [
 {
 	path:'',
@@ -17,7 +18,8 @@ const appRoutes: Routes =  [
 {
 	path:'turnos/:doctor/:matricula',
 	component: TurnosComponent
-}
+},
+  { path: 'login', component: LoginComponent }
 ];
 
 
