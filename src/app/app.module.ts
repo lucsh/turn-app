@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { DataTableModule } from "angular2-datatable";
+
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -20,6 +22,7 @@ import { DashboardService } from './dashboard/dashboard.service';
 import { TurnosService } from './turnos/turnos.service';
 import { MedicosService } from './medico/medicos.service';
 import { NavigationService } from './ui/navigation/navigation.service';
+import { PacientesService } from './pacientes/pacientes.service';
 
 import { routing } from './app.routing';
 import { FooterComponent } from './ui/footer.component';
@@ -29,6 +32,8 @@ import { TimeAgoPipe } from './time-ago.pipe';
 import { TurnosComponent } from './turnos/turnos.component';
 
 import { TurnoSocketService } from './turnos/turnos-socket.service';
+import { PacientesComponent } from './pacientes/pacientes.component';
+import { DataFilterPipe }   from './pacientes/pacientes-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -38,7 +43,9 @@ import { TurnoSocketService } from './turnos/turnos-socket.service';
     NavigationComponent,
     TopnavbarComponent,
     TimeAgoPipe,
-    TurnosComponent
+    TurnosComponent,
+    PacientesComponent,
+    DataFilterPipe
   ],
   imports: [
     BrowserModule,
@@ -46,7 +53,8 @@ import { TurnoSocketService } from './turnos/turnos-socket.service';
     HttpModule,
     BsDropdownModule.forRoot(),
     MomentModule,
-    routing
+    routing,
+    DataTableModule
   ],
   providers: [
     DashboardService,

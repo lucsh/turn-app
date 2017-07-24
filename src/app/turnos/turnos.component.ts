@@ -123,9 +123,9 @@ export class TurnosComponent implements OnInit, OnDestroy {
         .fullCalendar({
             header: {
                 locale: 'es',
-                left: 'prev,next today',
+                left: '',
                 center: 'title',
-                right: 'month,agendaWeek,agendaDay,listWeek'
+                right: ''
             },
             timezone:'UTC',
             defaultView:'agendaWeek',
