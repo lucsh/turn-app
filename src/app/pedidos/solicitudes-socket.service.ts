@@ -89,7 +89,7 @@ export class SolicitudesSocketService {
 
 
   aprobarSolicitud(pacienteEnSolicitud){
-    console.log('Entre a aprobar solicutd');
+    console.log('Entre a aprobar solicutd en el Service');
 
     console.log(pacienteEnSolicitud);
 
@@ -107,13 +107,32 @@ export class SolicitudesSocketService {
 
   }
 
-  rechazarSolicitud(){
+  rechazarSolicitud(pacienteEnSolicitud){
+    console.log('Entre a rechazar solicutd en el Service');
 
+      console.log(pacienteEnSolicitud);
+
+      let indexPaciente = this.buscarSolicitud(pacienteEnSolicitud);
+
+      if(indexPaciente > -1){
+        let id = pacienteEnSolicitud._id;
+        this.solicitudesSocketService.remove(id).then(
+          pacienteRechazado => {
+            console.log('Se elimino la solicitud del paciente!!');
+            //console.log(pacienteRechazado);
+          }
+        )
+      }
   }
 
 
   //Recepcion de eventos
 
+
+  /*
+      Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onCreated'.
+      Al crear un paciente en el server (rest o socket), se invoca este evento.
+  */
   private onCreated(pacienteAprobado){
     console.log('On created de Paciente (solicitud aprobada) de Angular con Socket de Feathers');
     console.log(pacienteAprobado);
@@ -126,39 +145,54 @@ export class SolicitudesSocketService {
     this.solicitudesObserver.next(this.dataStore.solicitudes);
   }
 
-  private onRemoved(paciente){
+
+  /*
+      Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onRemoved'.
+      Al eliminar un paciente en el server (rest o socket), se invoca este evento.
+  */
+  private onRemoved(pacienteRechazado){
+    console.log('On removed de Paciente (solicitud rechazada) de Angular con Socket de Feathers');
+    console.log(pacienteRechazado);
+
+    //Actualizamos las variables
+
+    //Nos aseguramos que el paciente haya sido rechazado correctamente
+    if(!pacienteRechazado.aprobado){
+      this.quitarSolicitud(pacienteRechazado);
+    }
 
   }
 
+  /*
+      Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onPatched'.
+      Al hacer un patch sobre un paciente existente en el server (rest o socket), se invoca este evento.
+  */
   private onPatched(pacienteAprobado){
     console.log('On patched de Paciente (solicitud aprobada) de Angular con Socket de Feathers');
     console.log(pacienteAprobado);
 
+    //Nos aseguramos que el paciente haya sido aprobado correctamente
     if(pacienteAprobado.aprobado){
-      let solicitudes = this.dataStore.solicitudes;
-      console.log(solicitudes);
-
-      let indexAprob = this.buscarSolicitud(pacienteAprobado);
-      console.log("encontre el index del paciente aprobado: " + indexAprob);
-
-
-      if(indexAprob > -1){
-        solicitudes.splice(indexAprob, 1);
-
-        console.log(solicitudes);
-      }
+      this.quitarSolicitud(pacienteAprobado);
     }
-    else{
-      console.log("El paciente NO fue aprobado");
-    }
+    // else{
+    //   console.log("El paciente NO fue aprobado");
+    // }
 
   }
+
+  /*
+      Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onUpdated'.
+      Al hacer un update sobre un paciente existente en el server (rest o socket), se invoca este evento.
+  */
   private onUpdated(paciente){
 
   }
 
 
+  //----------------------------------------------------------------------------
   //Metodos auxiliares
+
   private buscarSolicitud(pacienteEnSolicitud): number{
     let indexSolicitud = -1;
 
@@ -173,6 +207,25 @@ export class SolicitudesSocketService {
     });
 
     return indexSolicitud;
+  }
+
+  private quitarSolicitud(pacienteQuitar): boolean{
+    let borrado = false;
+
+    let solicitudes = this.dataStore.solicitudes;
+    console.log(solicitudes);
+
+    let indexQuitar = this.buscarSolicitud(pacienteQuitar);
+
+    if(indexQuitar > -1){
+      solicitudes.splice(indexQuitar, 1);
+
+      console.log(solicitudes);
+
+      borrado = true;
+    }
+
+    return borrado;
   }
 
 

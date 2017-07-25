@@ -26,7 +26,7 @@ export class SolicitudesComponent implements OnInit {
     private solicitudAbierta: any;
 
     //@ViewChild('closeBtn') closeBtn: ElementRef;
-    @ViewChild('closeBtnContrato') closeBtn: ElementRef;
+    @ViewChild('closeFormSolicitud') closeFormSolicitud: ElementRef;
     //@ViewChild('formularioSolicitud') formularioSolicitud: ElementRef;
 
     constructor(
@@ -57,13 +57,19 @@ export class SolicitudesComponent implements OnInit {
 
         this.solicitudesService.aprobarSolicitud(pacienteEnSolicitud);
         this.solicitudAbierta = null;
+
+        //Cerramos el modal
+        this.closeFormSolicitud.nativeElement.click();
     }
     rechazarSolicitud(pacienteEnSolicitud){
         console.log('Rechazar solicitud');
         console.log(pacienteEnSolicitud);
 
-        //this.solicitudesService.aprobarSolicitud(pacienteEnSolicitud);
+        this.solicitudesService.rechazarSolicitud(pacienteEnSolicitud);
         this.solicitudAbierta = null;
+
+        //Cerramos el modal
+        this.closeFormSolicitud.nativeElement.click();
     }
 
     aDate(turno){
