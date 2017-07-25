@@ -34,7 +34,8 @@ import { TurnosComponent } from './turnos/turnos.component';
 import { TurnoSocketService } from './turnos/turnos-socket.service';
 import { PacientesComponent } from './pacientes/pacientes.component';
 import { DataFilterPipe }   from './pacientes/pacientes-filter.pipe';
-import { PacientesDelDiaComponent } from './pacientes-del-dia/pacientes-del-dia.component';
+import { SolicitudesComponent } from './pedidos/solicitudes.component';
+import { SolicitudesSocketService } from './pedidos/solicitudes-socket.service';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,6 @@ import { PacientesDelDiaComponent } from './pacientes-del-dia/pacientes-del-dia.
     TurnosComponent,
     PacientesComponent,
     DataFilterPipe,
-    PacientesDelDiaComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +63,8 @@ import { PacientesDelDiaComponent } from './pacientes-del-dia/pacientes-del-dia.
     TurnosService,
     MedicosService,
     NavigationService,
-    TurnoSocketService
+    TurnoSocketService,
+    SolicitudesSocketService
   ],
   bootstrap: [AppComponent]
 })

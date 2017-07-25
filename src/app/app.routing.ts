@@ -5,7 +5,6 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {TurnosComponent} from './turnos/turnos.component';
 import {PacientesComponent} from './pacientes/pacientes.component';
 
-
 const appRoutes: Routes =  [
 {
 	path:'',
