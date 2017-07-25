@@ -16,7 +16,7 @@ const appRoutes: Routes =  [
 	component: TurnosComponent
 },
 {
-	path:'turnos/:doctor/:matricula',
+	path:'turnos/:doctor/:idDoctor',
 	component: TurnosComponent
 },
 {

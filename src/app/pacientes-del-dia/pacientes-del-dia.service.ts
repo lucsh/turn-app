@@ -36,6 +36,7 @@ export class PacientesDelDiaService {
       //Obtenemos el service que queremos
       this.pacientesDelDiaService = feathersApp.service('turnos');
 
+
       //Registramos eventos
       this.pacientesDelDiaService.on('created', (turno) => this.onCreated(turno));
       this.pacientesDelDiaService.on('updated', (turno) => this.onUpdated(turno));
@@ -56,22 +57,36 @@ export class PacientesDelDiaService {
         //let m = this.matricula;
         let fechaHoy = new Date();
         let temp = moment(fechaHoy).format('YYYY-MM-DD');
-        var temp2 = moment(temp, "DD-MM-YYYY").add(1, 'days');
+        // console.log("########################### FECHAS ####################");
+        // console.log(temp);
+        let temp2 = moment(temp, "YYYY-MM-DD").add(1, 'days');
+        let temp3 = (moment(temp2).format('YYYY-MM-DD'));
         this.pacientesDelDiaService.find({
             query: {
                 horaInicial: {
                   $gt: temp,
-                  $lt: temp2
+                  $lt: temp3
                 }
-                //, $populate: 'paciente medico'
+                , $populate: 'paciente medico' //'paciente medico'
             }
         }).then((turnos) => {
 
-          console.log("ENTRE AL BUSCAR TURNOS DEL PACIENTES DEL DIA");
-          console.log(turnos);
-            this.dataStore.turnos = turnos;
-            this.turnosObserver.next(this.dataStore.turnos);
+          // console.log("ENTRE AL BUSCAR TURNOS DEL PACIENTES DEL DIA");
+          // console.log(turnos);
+
+
+
+          this.dataStore.turnos = turnos;
+          this.turnosObserver.next(this.dataStore.turnos);
         }).catch(err => console.error(err));
+    }
+
+
+
+    public updateTurno(turno, nuevoEstado){
+      this.pacientesDelDiaService.patch(turno._id,{"estado": nuevoEstado}).then((turnoActualizado) => {
+        console.log("Turno actualizado correctamente");
+      }).catch(err => console.error(err));
     }
 
     private getIndex(id: string): number {
@@ -96,7 +111,6 @@ export class PacientesDelDiaService {
 
         this.dataStore.turnos.push(turno);
         //lo pusheo al calendar
-        this.actualizarVisual(turno);
         this.turnosObserver.next(this.dataStore.turnos);
     }
 
@@ -110,6 +124,8 @@ export class PacientesDelDiaService {
         //
         // this.turnosObserver.next(this.dataStore.turnos);
     }
+
+
 
     /*
         Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onRemoved'
@@ -128,30 +144,14 @@ export class PacientesDelDiaService {
 
     private onPatched(turno){
 
-        let id = turno._id;
+      let indexTurno = this.buscarIndexTurno(turno);
 
-        $('#calendar').fullCalendar('removeEvents',turno._id); // Esto elimina el evento (grafico) con el id = turno._id
-        this.actualizarVisual(turno); //
+      this.dataStore.turnos[indexTurno] = turno;
+
+
     }
 
-    /*
-        Grafica el turno que llega por parametro.
-    */
 
-    private actualizarVisual(turno:Turno){
-
-
-        //let horaInicial = turno.horaInicial.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
-        let horaInicial = turno.horaInicial
-        //let horaFin = turno.horaFin.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
-        let horaFin = turno.horaFin;
-        //Le agregue el ID al final del nuevo turno para asi poder saber a que objeto corresponde cada evento grafico
-
-        let newTurno = {"title":"SIN NOMBRE","allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59","_id":turno._id};
-
-
-        $('#calendar').fullCalendar('renderEvent', newTurno, true)
-    }
 
 
     /*
@@ -162,6 +162,27 @@ export class PacientesDelDiaService {
         //this.socket.close();
         this.socket.disconnect();
         //this.turnosObserver = null;
-        console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
+        // console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
     }
+
+
+
+
+
+    //Metodos auxiliares
+  private buscarIndexTurno(turno): number{
+    let indexTurno = -1;
+
+    let turnos = this.dataStore.turnos;
+    // console.log(turnos);
+
+    turnos.forEach(function(elem,index){
+      if(elem._id.toString() == turno._id.toString()){
+
+        indexTurno = index;
+      }
+    });
+
+    return indexTurno;
+  }
 }

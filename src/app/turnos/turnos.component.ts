@@ -35,7 +35,7 @@ declare var $: any;
 export class TurnosComponent implements OnInit, OnDestroy {
 
     url: string;
-    matricula: string;
+    idDoctor: string;
 
     doctores: Medico[];
     turnos: Turno[];
@@ -51,7 +51,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
         private ref: ChangeDetectorRef
     ) {
         this.url = route.snapshot.params['doctor'];
-        this.matricula = route.snapshot.params['matricula'];
+        this.idDoctor = route.snapshot.params['idDoctor'];
         let yo = this;
 
         this.iniciarServicio();
@@ -73,22 +73,22 @@ export class TurnosComponent implements OnInit, OnDestroy {
                 setTimeout(function(){}, 5000);
             }
 
-            console.log("En router events");
+            // console.log("En router events");
             //console.log(event);
 
             if(event instanceof NavigationEnd){
                 let tempUrl = event.url.split('/',4)[1];
                 if (tempUrl == 'turnos'){
-                    let matricula = event.url.split('/',4)[3];
+                    let idDoctor = event.url.split('/',4)[3];
                     //console.log(matricula);
 
                     if(yo.turnosSocketService ){
                         if(yo.cambio ){
-                            yo.metodoLimpieza(matricula);
-                            yo.loadCalendar(matricula);
+                            yo.metodoLimpieza(idDoctor);
+                            yo.loadCalendar(idDoctor);
                         }
                         else{
-                            yo.loadCalendar(matricula);
+                            yo.loadCalendar(idDoctor);
                         }
 
                     }
@@ -110,10 +110,10 @@ export class TurnosComponent implements OnInit, OnDestroy {
     iniciarServicio(){
         console.log('*******************************************');
         console.log('Entre a INICIAR SERVICIO de TURNO COMPONENT');
-        this.iniciado = this.turnosSocketService.iniciar(this.matricula);
+        this.iniciado = this.turnosSocketService.iniciar(this.idDoctor);
     }
 
-    loadCalendar(matricula: string){
+    loadCalendar(idDoctor: string){
 
         //console.log('LLEGUE A LOAD CALENDAR');
         //console.log(matricula);
@@ -230,10 +230,10 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
     }
 
-    metodoLimpieza(matricula){
+    metodoLimpieza(idDoctor){
 
-        console.log('*****///****');
-        console.log('Entre a metodo limpieza');
+        // console.log('*****///****');
+        // console.log('Entre a metodo limpieza');
         //Limpiamos el calendario
         // calendario.fullCalendar( 'destroy' );
         let calendario = $('#calendar');
@@ -243,7 +243,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
         //Limpiamos el service
         if(this.turnosSocketService){
 
-            this.turnosSocketService.cambiarMedico(matricula);
+            this.turnosSocketService.cambiarMedico(idDoctor);
         }
     }
 
@@ -262,16 +262,16 @@ export class TurnosComponent implements OnInit, OnDestroy {
         .then(docs => {
             this.doctores = docs;
             this.verificarUrl();
-            this.getAllTurnos(this.url, this.matricula)
+            this.getAllTurnos(this.url, this.idDoctor)
         });
     }
-    getAllTurnos(url, matricula): void {
+    getAllTurnos(url, idDoctor): void {
         console.log(url)//parametro para la consulta
         this.turnosService
         .getTurnos()
         .then(docs => {
             this.turnos = docs;
-            this.loadCalendar(matricula)
+            this.loadCalendar(idDoctor)
         });
     }
 
@@ -291,9 +291,9 @@ export class TurnosComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        console.log("ME DESTRUIIIIIII ####@#|@##~#@");
-        //this.subscription.unsubscribe();
-        console.log('####*****////########//////###');
+        // console.log("ME DESTRUIIIIIII ####@#|@##~#@");
+        // //this.subscription.unsubscribe();
+        // console.log('####*****////########//////###');
         console.log('OBSERVERS');
         var observers = (<any>(this.router.events)).observers;
         //console.log(observers);

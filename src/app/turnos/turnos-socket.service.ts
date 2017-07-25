@@ -27,16 +27,16 @@ export class TurnoSocketService {
         turnos: Turno[]
     };
 
-    private matricula: string;
+    private idDoctor: string;
     private socket;
     constructor() {
     }
 
-    public iniciar(matricula : string){
+    public iniciar(id : string){
 
-        console.log('Entre en Iniciar del TURNO SOCKET SERVICE');
+        //console.log('Entre en Iniciar del TURNO SOCKET SERVICE');
 
-        this.matricula = matricula;
+        this.idDoctor = id;
 
         this.socket = io(this.urlServidor);
         const feathersApp = feathers().configure(feathers.socketio(this.socket));
@@ -102,10 +102,11 @@ export class TurnoSocketService {
 
             horaInicial: newTurno.start,
             horaFin: newTurno.end,
-            matricula:this.matricula
-
+            medico:this.idDoctor,
+            estado:'pendiente'
+            //paciente: paciente
         }).then((clienteNuevo)=>{
-            console.log('Desde el cliente Angular se creo un nuevo cliente');
+            //console.log('Desde el cliente Angular se creo un nuevo cliente');
             // IMPORTANTE:
             //      Todavia NO ACTUALIZAMOS, pues eso se va a hacer en el EVENTO 'onCreated'.
 
@@ -129,16 +130,16 @@ export class TurnoSocketService {
         })
     }
 
-    public cambiarMedico(matricula){
+    public cambiarMedico(id){
         this.cleanService();
-        console.log("CAMBIO DE MEDICO");
-        this.iniciar(matricula);
+        // console.log("CAMBIO DE MEDICO");
+        this.iniciar(id);
     }
 
     public cleanService(){
         //this.turnosSocketService = null;
         //Obtenemos el service que queremos
-        console.log("ENTRE AL CLEAN SERVICE");
+        //console.log("ENTRE AL CLEAN SERVICE");
         this.socket.disconnect();
         this.turnosSocketService = null;
 
@@ -166,10 +167,13 @@ export class TurnoSocketService {
     }
 
     public find() {
-        let m = this.matricula;
+
+        let idMedico = this.idDoctor.toString();
+        // console.log(idMedico);
         this.turnosSocketService.find({
             query: {
-                matricula: m
+                //matricula: m
+                medico: idMedico
             }
         }).then((turnos) => {
 
@@ -179,7 +183,8 @@ export class TurnoSocketService {
             A veces es necesario hacer el .data. Es cuando, por ej, usas pagination
             */
             //******************************************************************
-
+            // console.log("#### FIND ###");
+            // console.log(turnos);
             this.dataStore.turnos = turnos;
 
             //Aca vamos a renderizar el calendario de nuevo despues de obtener todos los turnos de ese medico.
@@ -208,8 +213,8 @@ export class TurnoSocketService {
         Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onCreated'
     */
     private onCreated(turno: any) { //REMPLAZR EL ANY CON TURNO!
-        console.log('On created de Angular con Socket de Feathers');
-        console.log(turno);
+        // console.log('On created de Angular con Socket de Feathers');
+        // console.log(turno);
 
         this.dataStore.turnos.push(turno);
         //lo pusheo al calendar
@@ -279,6 +284,6 @@ export class TurnoSocketService {
         //this.socket.close();
         this.socket.disconnect();
         //this.turnosObserver = null;
-        console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
+        //console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
     }
 }

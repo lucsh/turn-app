@@ -20,7 +20,7 @@ export class MedicosService {
         return this.http.get(this.medicosURL)
         .toPromise()
         .then(response => {
-			console.log(response.json());
+			// console.log(response.json());
 			return response.json() as Medico[];
 		})
         .catch(this.handleError);

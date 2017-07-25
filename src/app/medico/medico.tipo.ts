@@ -1,5 +1,5 @@
 export class Medico{
-	id: string;
+	_id: string;
 	nombre: string;
 	apellido: string;
 	matricula: string;
