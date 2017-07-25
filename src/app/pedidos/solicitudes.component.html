@@ -10,17 +10,10 @@
     </div>
     <div class="ibox-content">
       <div class="feed-activity-list">
-      <!--
-      {
-        "id": 5,
-        "nombre": "Ray Bradbury",
-        "dni": "8432749",
-        "createdAt": "2017-05-31 10:04:00"
-      }
-      -->
       <div *ngIf='solicitudes.length > 0'>
         <div  class="feed-element" *ngFor="let solicitud of solicitudes">
-          <div (click)="aprobarSolicitud(solicitud)">
+          <div (click)="abrirSolicitud(solicitud)">
+          <!-- <div data-dismiss="modal" data-toggle="modal" data-target="#formularioSolicitud"> -->
             <small class="pull-right text-navy">hace {{aDate(solicitud?.createdAt) | amTimeAgo:true }}</small>
             <strong>{{solicitud.nombre}}</strong>
             <div>DNI: {{solicitud.dni}}</div>
@@ -33,3 +26,111 @@
     </div>
   </div>
 </div>
+
+<!-- Modal Formulario Solicitud - Preliminar -->
+        <div class="modal fade" id="formularioSolicitud" #formularioSolicitud tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeBtn >&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Solicitud Nuevo Paciente</h4>
+                    </div>
+
+                    <div class="modal-body" *ngIf = 'solicitudAbierta != null'>
+
+                        <div class="form-group">
+                            <label >Nombre:</label>
+                            <label >{{solicitudAbierta.nombre}}</label>
+                            <!-- <input type="text" class="form-control" name="contratoNombre" [(ngModel)]="model.contratoNombre" #contratoNombre="ngModel" required /> -->
+                        </div>
+
+                        <div class="form-group">
+                            <label >Apelldo:</label>
+                            <label >{{solicitudAbierta.apellido}}</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label >Dni:</label>
+                            <label >{{solicitudAbierta.dni}}</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label >Email:</label>
+                            <label >{{solicitudAbierta.email}}</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label >Fecha de Nacimiento:</label>
+                            <label >{{solicitudAbierta.fechaNacimiento | date:'dd/MM/yy'}}</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label >Telefono:</label>
+                            <label >{{solicitudAbierta.telefono}}</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label >Obra Social:</label>
+                            <label >{{solicitudAbierta.obra.nombre}}</label>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button class="btn btn-danger" (click)='rechazarSolicitud(solicitudAbierta)'>
+                            Rechazar Solicitud
+                        </button>
+
+                        <button class="btn btn-success" (click)='aprobarSolicitud(solicitudAbierta)'>
+                            Aceptar Solicitud
+                        </button>
+
+                    </div>
+
+                    <!-- <form name="form" (ngSubmit)="f.form.valid && tipoContrato != null &&
+
+                    add(contratoNombre.value); contratoNombre.value = ''" #f="ngForm" novalidate>
+
+                        <div class="modal-body">
+
+                            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !contratoNombre.valid }">
+                                <label for="contratoNombre">Nombre Contrato:</label>
+                                <input type="text" class="form-control" name="contratoNombre" [(ngModel)]="model.contratoNombre" #contratoNombre="ngModel" required />
+                                <div *ngIf="f.submitted && !contratoNombre.valid" class="help-block">Este campo es obligatorio</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Fecha Realizacion: </label>
+                                <input  type="text" *ngIf="fechaRealizacionGuardada == null" placeholder="{{ getDateRealizacion2() | date:'dd/MM/yy' }}" data-toggle="modal" data-target="#modalPickerRealizacion2" class="form-control" id="inputSuccess">
+                                <div class="  has-success">
+                                    <input  type="text" *ngIf="fechaRealizacionGuardada != null" value="{{fechaRealizacionGuardada}}" data-toggle="modal" data-target="#modalPickerRealizacion2" class="form-control" id="inputSuccess2">
+                                </div>
+                            </div>
+
+                            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && tipoContrato  == null }">
+                                <label>Tipo de Acuerdo:</label>
+                                <select class="form-control" required [(ngModel)] = "tipoContrato" name="tipoContrato"  >
+                                    <option *ngFor="let tipo of tipos" [ngValue]="tipo" >{{tipo.nombre}}</option>
+                                </select>
+                                <div *ngIf="f.submitted && tipoContrato == null" class="help-block">Debe elegir un tipo de acuerdo</div>
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button class="btn btn-success">
+                                Agregar Nuevo
+                            </button>
+                        </div>
+
+                    </form> -->
+
+
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+
+        </div>
+        <!-- /.modal -->

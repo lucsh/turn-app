@@ -65,7 +65,8 @@ export class SolicitudesSocketService {
       el paciente con estado aprobado que tenia asociado esa solicitud, es eliminado.
       */
       query: {
-        aprobado: false
+        aprobado: false,
+        $populate: 'obra'
       }
     }).then((pacientesEnSolicitud) => {
 
