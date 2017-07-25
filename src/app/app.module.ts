@@ -34,6 +34,8 @@ import { TurnosComponent } from './turnos/turnos.component';
 import { TurnoSocketService } from './turnos/turnos-socket.service';
 import { PacientesComponent } from './pacientes/pacientes.component';
 import { DataFilterPipe }   from './pacientes/pacientes-filter.pipe';
+import { SolicitudesComponent } from './pedidos/solicitudes.component';
+import { SolicitudesSocketService } from './pedidos/solicitudes-socket.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,8 @@ import { DataFilterPipe }   from './pacientes/pacientes-filter.pipe';
     TimeAgoPipe,
     TurnosComponent,
     PacientesComponent,
-    DataFilterPipe
+    DataFilterPipe,
+    SolicitudesComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +64,8 @@ import { DataFilterPipe }   from './pacientes/pacientes-filter.pipe';
     TurnosService,
     MedicosService,
     NavigationService,
-    TurnoSocketService
+    TurnoSocketService,
+    SolicitudesSocketService
   ],
   bootstrap: [AppComponent]
 })
