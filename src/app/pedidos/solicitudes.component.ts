@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {
-    ChangeDetectorRef,
-    ChangeDetectionStrategy,
-    OnDestroy,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  OnDestroy,
 } from '@angular/core';
 
 import * as moment from 'moment';
@@ -27,13 +27,21 @@ export class SolicitudesComponent implements OnInit {
 
   ngOnInit() {
     this.subscription = this.solicitudesService.solicitudes$.subscribe((pacientesEnSolicitud: any[]) => {
-        this.solicitudes = pacientesEnSolicitud;
-        this.ref.markForCheck();
+      this.solicitudes = pacientesEnSolicitud;
+      this.ref.markForCheck();
     }, (err) => {
-        console.error(err);
+      console.error(err);
     });
 
 
+  }
+
+  abrirSolicitud(){
+    console.log('Abriendo la solicitud');
+  }
+
+  aprobarSolicitud(pacienteEnSolicitud){
+    this.solicitudesService.aprobarSolicitud(pacienteEnSolicitud);
   }
 
   aDate(turno){

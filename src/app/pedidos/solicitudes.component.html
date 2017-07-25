@@ -20,7 +20,7 @@
       -->
       <div *ngIf='solicitudes.length > 0'>
         <div  class="feed-element" *ngFor="let solicitud of solicitudes">
-          <div>
+          <div (click)="aprobarSolicitud(solicitud)">
             <small class="pull-right text-navy">hace {{aDate(solicitud?.createdAt) | amTimeAgo:true }}</small>
             <strong>{{solicitud.nombre}}</strong>
             <div>DNI: {{solicitud.dni}}</div>
