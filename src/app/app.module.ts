@@ -34,6 +34,7 @@ import { TurnosComponent } from './turnos/turnos.component';
 import { TurnoSocketService } from './turnos/turnos-socket.service';
 import { PacientesComponent } from './pacientes/pacientes.component';
 import { DataFilterPipe }   from './pacientes/pacientes-filter.pipe';
+import { PacientesDelDiaComponent } from './pacientes-del-dia/pacientes-del-dia.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { DataFilterPipe }   from './pacientes/pacientes-filter.pipe';
     TimeAgoPipe,
     TurnosComponent,
     PacientesComponent,
-    DataFilterPipe
+    DataFilterPipe,
+    PacientesDelDiaComponent
   ],
   imports: [
     BrowserModule,
