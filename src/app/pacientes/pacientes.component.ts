@@ -4,6 +4,10 @@ import {DataFilterPipe} from './pacientes-filter.pipe';
 import {PacientesService} from './pacientes.service';
 import {Paciente} from './paciente.tipo';
 
+import {default as swal} from 'sweetalert2';
+//declare var swal: any;
+
+
 @Component({
   selector: 'app-pacientes',
   providers:[PacientesService],
@@ -66,63 +70,100 @@ export class PacientesComponent implements OnInit {
     console.log("Entre al buscar paciente");
     this.pacientesService.buscarPaciente(id).then(paciente => {
       //console.log("el nuevo paciente quedo..");
-      console.log(paciente);
+      // console.log(paciente);
     });
   }
 
 
   editar(paciente){
-    if (confirm("¿Estas seguro que queres editar al paciente?")) {
-      this.pacientesService.actualizarPaciente(paciente._id,paciente).then(pac => {
-        console.log("el nuevo paciente quedo..");
-        console.log(pac);
-        paciente = pac;
-      });
-    }
-    //let nuevosDatos = "nombre=ramon";
-    //console.log("ENTRE A EDITAR");
-    //console.log(paciente);
-    //paciente.nombre="RAMON";
-    //console.log(paciente);
 
 
+    let yo = this;
+    swal({
+      title: '¿Estas seguro que queres editar al paciente?',
+      text: "No seras capaz de revertir esta accion!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Editar!',
+      cancelButtonText: 'Cancelar',
+    }).then(function () {
+      yo.pacientesService.actualizarPaciente(paciente._id,paciente).then(pac => {
+          // console.log("el nuevo paciente quedo..");
+          // console.log(pac);
+          paciente = pac;
+        }).catch(err => console.error(err))
+    }).catch(swal.noop);
 
   }
 
   sancionar(paciente){
-    if (confirm("¿Estas seguro que queres sancionar al paciente?")) {
-      this.pacientesService.sancionarPaciente(paciente._id).then(pac => {
-        console.log("Paciente sancionado");
-        console.log(pac);
+
+    let yo = this;
+    swal({
+      title: '¿Estas seguro que queres sancionar al paciente?',
+      //text: "No seras capaz de revertir esta accion!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Sancionar!',
+      cancelButtonText: 'Cancelar',
+    }).then(function () {
+      yo.pacientesService.sancionarPaciente(paciente._id).then(pac => {
+        // console.log("Paciente sancionado");
+        // console.log(pac);
         paciente.sancion = true;
-      });
-    }
+      }).catch(err => console.error(err))
+    }).catch(swal.noop);
   }
 
   habilitar(paciente){
-    if (confirm("¿Estas seguro que queres habilitar al paciente?")) {
-      this.pacientesService.habilitarPaciente(paciente._id).then(pac => {
-        console.log("Paciente habilitado");
-        console.log(pac);
+    let yo = this;
+    swal({
+      title: '¿Estas seguro que queres habilitar al paciente?',
+      //text: "No seras capaz de revertir esta accion!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Habilitar!',
+      cancelButtonText: 'Cancelar',
+    }).then(function () {
+      yo.pacientesService.habilitarPaciente(paciente._id).then(pac => {
+        // console.log("Paciente habilitado");
+        // console.log(pac);
         paciente.sancion = false;
-      });
-    }
+      }).catch(err => console.error(err))
+    }).catch(swal.noop);
+
+
 
   }
 
   eliminar(paciente){
-    if (confirm("¿Estas seguro que queres eliminar el paciente?")) {
-      let yo = this;
-      this.pacientesService.eliminarPaciente(paciente._id).then(pac => {
-        console.log("Paciente eliminado");
-        console.log(pac);
+    let yo = this;
+    swal({
+      title: '¿Estas seguro que queres habilitar al paciente?',
+      //text: "No seras capaz de revertir esta accion!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Eliminar!',
+      cancelButtonText: 'Cancelar',
+    }).then(function () {
+      yo.pacientesService.eliminarPaciente(paciente._id).then(pac => {
+        // console.log("Paciente eliminado");
+        // console.log(pac);
         var index = yo.data.indexOf(paciente);
         if (index > -1) {
           yo.data.splice(index, 1);
         }
         paciente.eliminado = true;
-      });
-    }
+      }).catch(err => console.error(err))
+    }).catch(swal.noop);
   }
 
 

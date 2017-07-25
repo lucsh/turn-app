@@ -22,7 +22,7 @@ import { Turno } from './turno.tipo';
 import { TurnoSocketService } from './turnos-socket.service';
 
 import { Subscription } from 'rxjs/Subscription';
-
+import {default as swal} from 'sweetalert2';
 declare var $: any;
 
 @Component({
@@ -177,28 +177,50 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
             },
             eventDrop: function(event, delta, revertFunc) {
-                if (!confirm("¿Estas seguro que queres cambiar el turno?")) {
-                    //ToDO SweetAlert
-                    revertFunc();
-                }else{
-                    // console.log(event);
-                    // console.log("#########");
-                    // console.log(event.start.format()); // Es la nueva hora de inicio del evento
-                    // console.log(event.end.format()); // Es la nueva hora de fin del evento
 
-                    yo.turnosSocketService.actualizarTurno(event);
-                }
+
+                swal({
+                  title: '¿Estas seguro que queres cambiar el turno?',
+                  //text: 'You will not be able to recover this imaginary file!',
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Si, modificar!',
+                  cancelButtonText: 'Cancelar'
+                }).then(function() {
+                  yo.turnosSocketService.actualizarTurno(event);
+                }, function(dismiss) {
+                  // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+                  if (dismiss === 'cancel') {
+                    revertFunc();
+                  }
+                });
+
+
+
+
             },
             eventResize: function(event, delta, revertFunc) {
-                //revertFunc();
-                console.log(event);
-                if (!confirm("¿Estas seguro que queres cambiar el turno?")) {
-                    //ToDO SweetAlert
+                swal({
+                  title: '¿Estas seguro que queres agrandar el turno?',
+                  //text: 'You will not be able to recover this imaginary file!',
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Si, agrandar!',
+                  cancelButtonText: 'Cancelar'
+                }).then(function() {
+                  yo.turnosSocketService.actualizarTurno(event);
+                }, function(dismiss) {
+                  // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+                  if (dismiss === 'cancel') {
                     revertFunc();
-                }else{
+                  }
+                });
 
-                    yo.turnosSocketService.actualizarTurno(event);
-                }
+
 
                 //actualizar el turno en la db (tenemos el event.id)
                 //???
@@ -208,15 +230,24 @@ export class TurnosComponent implements OnInit, OnDestroy {
                 //La idea seria que cuando haga click le tire un popup o algo asi, para ver los detalles
                 // del turno y poder eliminarlo, editarlo, etc.
 
-                if (confirm("¿Estas seguro que queres eliminar el turno?")) {
-                    //ToDO SweetAlert
-                    $('#calendar').fullCalendar('removeEvents', function (event) {
-                        return event == calEvent; //Esto remueve solamente el evento "clickeado" que entra por parametro del evento del calendario 'calEvent'
-                    });
+                swal({
+                  title: '¿Estas seguro que queres eliminar el turno?',
+                  //text: 'You will not be able to recover this imaginary file!',
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Si, eliminar!',
+                  cancelButtonText: 'Cancelar'
+                }).then(function() {
+                  $('#calendar').fullCalendar('removeEvents', function (event) {
+                      return event == calEvent; //Esto remueve solamente el evento "clickeado" que entra por parametro del evento del calendario 'calEvent'
+                  });
 
-                    yo.turnosSocketService.eliminarTurno(calEvent);
+                  yo.turnosSocketService.eliminarTurno(calEvent);
+                }).catch(swal.noop);
 
-                }
+                
 
             }
 
