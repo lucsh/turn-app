@@ -36,6 +36,8 @@ import { PacientesComponent } from './pacientes/pacientes.component';
 import { DataFilterPipe }   from './pacientes/pacientes-filter.pipe';
 import { SolicitudesComponent } from './pedidos/solicitudes.component';
 import { SolicitudesSocketService } from './pedidos/solicitudes-socket.service';
+import { PacientesDelDiaComponent } from './pacientes-del-dia/pacientes-del-dia.component';
+
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import { SolicitudesSocketService } from './pedidos/solicitudes-socket.service';
     TurnosComponent,
     PacientesComponent,
     DataFilterPipe,
+    SolicitudesComponent,
+    PacientesDelDiaComponent
   ],
   imports: [
     BrowserModule,
