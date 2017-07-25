@@ -1,39 +1,7 @@
 <div class="wrapper wrapper-content">
 
   <div class="row">
-    <div class="col-lg-4">
-      <div class="ibox float-e-margins">
-        <div class="ibox-title">
-          <h5>Mensajes</h5>
-          <!--<iboxtools></iboxtools>-->
-        </div>
-        <div class="ibox-content ibox-heading">
-          <h3><i class="fa fa-envelope-o"></i> Pedido de usuario</h3>
-          <small><i class="fa fa-tim"></i> Tenes {{mensajes?.lenght}} solicitudes de usuario nuevas.</small>
-        </div>
-        <div class="ibox-content">
-          <div class="feed-activity-list">
-          <!--
-          {
-            "id": 5,
-            "nombre": "Ray Bradbury",
-            "dni": "8432749",
-            "fecha_hora": "2017-05-31 10:04:00"
-          }
-          -->
-            <div class="feed-element" *ngFor="let mensaje of mensajes">
-              <div>
-                <small class="pull-right text-navy">hace {{aDate(mensaje?.fecha_hora) | amTimeAgo:true }}</small>
-                <strong>{{mensaje.nombre}}</strong>
-                <div>DNI: {{mensaje.dni}}</div>
-                <small class="text-muted">{{mensaje.fecha_hora | amDateFormat:'DD-mm HH:mm'}}</small>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
+    <app-solicitudes></app-solicitudes>
 
     <div class="col-lg-8">
 
@@ -105,7 +73,7 @@
                  <a (click)=deleteTodo(todo.id)> <i class="fa fa-times-circle text-danger pull-right" aria-hidden="true"></i></a>
                 </li>
               </ul>
-              <!-- 
+              <!--
               Input para agregar tareas
               -->
                 <hr>

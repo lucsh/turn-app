@@ -15,10 +15,11 @@ declare var $: any;
 
 @Component({
     selector: 'app-solicitudes',
+    providers: [SolicitudesSocketService],
     templateUrl: './solicitudes.component.html',
     styleUrls: ['./solicitudes.component.css']
 })
-export class SolicitudesComponent implements OnInit {
+export class SolicitudesComponent implements OnInit, OnDestroy  {
 
     public solicitudes: any[] = [];
     private subscription: Subscription;
@@ -41,8 +42,13 @@ export class SolicitudesComponent implements OnInit {
         }, (err) => {
             console.error(err);
         });
+    }
 
+    ngOnDestroy() {
+        //this.subscription.unsubscribe();
+        console.log('####*****////########//////###');
 
+        this.solicitudesService = null;
     }
 
     abrirSolicitud(pacienteEnSolicitud){

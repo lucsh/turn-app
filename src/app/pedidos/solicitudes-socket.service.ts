@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import * as io from 'socket.io-client';
@@ -10,7 +10,7 @@ import {Paciente} from '../pacientes/paciente.tipo';
 declare var feathers:any;
 
 @Injectable()
-export class SolicitudesSocketService {
+export class SolicitudesSocketService implements OnDestroy  {
   private urlServidor = 'http://localhost:3030';
 
   public solicitudes$: Observable<Paciente[]>;
@@ -50,12 +50,24 @@ export class SolicitudesSocketService {
 
   }
 
-  // public find() {
-  //     let m = this.matricula;
-  //     this.solicitudesSocketService.find({
-  //     }).then((turnos) => {
-  //     }).catch(err => console.error(err));
-  // }
+  ngOnDestroy(){
+
+      //this.socket.close();
+      // this.solicitudesSocketService = null;
+      //
+      //
+      //
+      // this.solicitudes$ = null;
+      //
+      // this.dataStore = { solicitudes: [] };
+
+      this.socket.disconnect();
+      //this.turnosObserver = null;
+      console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
+  }
+
+  //---------------------------------------------------------------------------
+  // Metodos del servicio
 
   public findSolicitudes() {
     this.solicitudesSocketService.find({

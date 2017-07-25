@@ -5,9 +5,6 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {TurnosComponent} from './turnos/turnos.component';
 import {PacientesComponent} from './pacientes/pacientes.component';
 
-import {SolicitudesComponent} from './pedidos/solicitudes.component';
-
-
 const appRoutes: Routes =  [
 {
 	path:'',
@@ -24,10 +21,6 @@ const appRoutes: Routes =  [
 {
 	path:'pacientes',
 	component: PacientesComponent
-},
-{
-	path:'algo',
-	component: SolicitudesComponent
 }
 ];
 
