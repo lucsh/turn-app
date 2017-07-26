@@ -9,6 +9,8 @@ import {Paciente} from '../pacientes/paciente.tipo';
 
 declare var feathers:any;
 
+import {default as swal} from 'sweetalert2';
+
 @Injectable()
 export class SolicitudesSocketService implements OnDestroy  {
   private urlServidor = 'http://localhost:3030';
@@ -70,15 +72,14 @@ export class SolicitudesSocketService implements OnDestroy  {
   // Metodos del servicio
 
   public findSolicitudes() {
-    this.solicitudesSocketService.find({
+    /**
+    Se tiene en cuenta que cuando el administrativo RECHAZA una solicitud,
+    el paciente con estado aprobado que tenia asociado esa solicitud, es eliminado.
+    */
 
-      /**
-      Se tiene en cuenta que cuando el administrativo RECHAZA una solicitud,
-      el paciente con estado aprobado que tenia asociado esa solicitud, es eliminado.
-      */
+    this.solicitudesSocketService.find({
       query: {
         aprobado: false
-        //,$populate: 'obra'
       }
     }).then((pacientesEnSolicitud) => {
 
@@ -112,6 +113,28 @@ export class SolicitudesSocketService implements OnDestroy  {
       this.solicitudesSocketService.patch(id,{"aprobado":true}).then(
         pacienteAprobado => {
           console.log('Se aprobo el paciente que estaba en solicitud!!');
+          if(pacienteAprobado.aprobado){
+
+            /*
+              ACA PODREMOS MOSTRAR el numero de paciente generado, etc.
+            */
+
+            swal({
+              title: 'Solicitud Aprobada!',
+              text: 'Nuevo paciente registrado!',
+              type: 'success',
+              timer: 2000
+            }).then(
+              function () {},
+              // handling the promise rejection
+              function (dismiss) {
+                if (dismiss === 'timer') {
+                  //console.log('I was closed by the timer')
+                }
+              }
+            )
+
+          }
         }
       )
     }
@@ -131,7 +154,20 @@ export class SolicitudesSocketService implements OnDestroy  {
         this.solicitudesSocketService.remove(id).then(
           pacienteRechazado => {
             console.log('Se elimino la solicitud del paciente!!');
-            //console.log(pacienteRechazado);
+            swal({
+              title: 'Solicitud Rechazada!',
+              text: 'Se ha eliminado la solicitud correctamente!',
+              type: 'success',
+              timer: 2000
+            }).then(
+              function () {},
+              // handling the promise rejection
+              function (dismiss) {
+                if (dismiss === 'timer') {
+                  //console.log('I was closed by the timer')
+                }
+              }
+            )
           }
         )
       }
