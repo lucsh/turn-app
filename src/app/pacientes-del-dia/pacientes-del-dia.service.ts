@@ -74,7 +74,8 @@ export class PacientesDelDiaService {
           // console.log("ENTRE AL BUSCAR TURNOS DEL PACIENTES DEL DIA");
           // console.log(turnos);
 
-
+          console.log('ENTRE ACA');
+          console.log(turnos);
 
           this.dataStore.turnos = turnos;
           this.turnosObserver.next(this.dataStore.turnos);

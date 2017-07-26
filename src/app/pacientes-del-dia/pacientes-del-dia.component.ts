@@ -62,7 +62,13 @@ export class PacientesDelDiaComponent implements OnInit {
   }
 
   aDate(turno){
-    var momentDate = moment(turno);
+    //console.log(turno);
+
+    //En Windows:
+    //var momentDate = moment(turno);
+
+    //En Linux: UTC
+    var momentDate = moment(turno,'YYYY-MM-DDTHH:mm:ss');
     var fecha = momentDate.toDate();
     return fecha
   }
