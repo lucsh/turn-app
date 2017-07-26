@@ -33,7 +33,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeFormSolicitud >&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">Solicitud Nuevo Paciente</h4>
+                        <h3 class="modal-title" id="myModalLabel">Solicitud Nuevo Paciente</h3>
                     </div>
 
                     <div class="modal-body" *ngIf = 'solicitudAbierta != null'>
@@ -82,51 +82,11 @@
                             Rechazar Solicitud
                         </button>
 
-                        <button class="btn btn-success" (click)='aprobarSolicitud(solicitudAbierta)'>
+                        <button class="btn btn-primary" (click)='aprobarSolicitud(solicitudAbierta)'>
                             Aceptar Solicitud
                         </button>
 
                     </div>
-
-                    <!-- <form name="form" (ngSubmit)="f.form.valid && tipoContrato != null &&
-
-                    add(contratoNombre.value); contratoNombre.value = ''" #f="ngForm" novalidate>
-
-                        <div class="modal-body">
-
-                            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !contratoNombre.valid }">
-                                <label for="contratoNombre">Nombre Contrato:</label>
-                                <input type="text" class="form-control" name="contratoNombre" [(ngModel)]="model.contratoNombre" #contratoNombre="ngModel" required />
-                                <div *ngIf="f.submitted && !contratoNombre.valid" class="help-block">Este campo es obligatorio</div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Fecha Realizacion: </label>
-                                <input  type="text" *ngIf="fechaRealizacionGuardada == null" placeholder="{{ getDateRealizacion2() | date:'dd/MM/yy' }}" data-toggle="modal" data-target="#modalPickerRealizacion2" class="form-control" id="inputSuccess">
-                                <div class="  has-success">
-                                    <input  type="text" *ngIf="fechaRealizacionGuardada != null" value="{{fechaRealizacionGuardada}}" data-toggle="modal" data-target="#modalPickerRealizacion2" class="form-control" id="inputSuccess2">
-                                </div>
-                            </div>
-
-                            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && tipoContrato  == null }">
-                                <label>Tipo de Acuerdo:</label>
-                                <select class="form-control" required [(ngModel)] = "tipoContrato" name="tipoContrato"  >
-                                    <option *ngFor="let tipo of tipos" [ngValue]="tipo" >{{tipo.nombre}}</option>
-                                </select>
-                                <div *ngIf="f.submitted && tipoContrato == null" class="help-block">Debe elegir un tipo de acuerdo</div>
-                            </div>
-
-                        </div>
-
-                        <div class="modal-footer">
-                            <button class="btn btn-success">
-                                Agregar Nuevo
-                            </button>
-                        </div>
-
-                    </form> -->
-
-
                 </div>
                 <!-- /.modal-content -->
             </div>
