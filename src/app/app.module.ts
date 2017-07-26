@@ -39,6 +39,9 @@ import { SolicitudesSocketService } from './pedidos/solicitudes-socket.service';
 import { PacientesDelDiaComponent } from './pacientes-del-dia/pacientes-del-dia.component';
 
 
+import {AsignarPacienteComponent} from './turnos/asignarPaciente/asignarPacienteTurno';
+import {SelectModule} from 'ng2-select';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +54,8 @@ import { PacientesDelDiaComponent } from './pacientes-del-dia/pacientes-del-dia.
     PacientesComponent,
     DataFilterPipe,
     SolicitudesComponent,
-    PacientesDelDiaComponent
+    PacientesDelDiaComponent,
+    AsignarPacienteComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +64,8 @@ import { PacientesDelDiaComponent } from './pacientes-del-dia/pacientes-del-dia.
     BsDropdownModule.forRoot(),
     MomentModule,
     routing,
-    DataTableModule
+    DataTableModule,
+    SelectModule
   ],
   providers: [
     DashboardService,

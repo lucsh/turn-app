@@ -43,6 +43,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
   turnos: Turno[];
 
   pacientes: any[] = [];
+
   fechaNuevoTurno: any = null;
 
   private iniciado: boolean = false;
@@ -265,18 +266,28 @@ export class TurnosComponent implements OnInit, OnDestroy {
   }
 
   asignarPaciente(date){
-    this.fechaNuevoTurno = date.format('HH:mm');
+    this.fechaNuevoTurno = date;
 
     $('#formCrearTurno').modal('show');
   }
 
-  crearTurno(date){
-    //tengo que pedir el nombre del paciente y verificar que exista
-    var paciente = 'Nuevo Paciente';
-    //El color depende del medico al que le estoy cargando el turno
-    var color = '#f8ac59';
+  onAsignacionPaciente(asignacion){
+    // console.log('On Asignacion de Paciente');
+    // console.log(asignacion);
 
-    this.turnosSocketService.crearTurno(date.format());
+    if(asignacion != null){
+      this.crearTurno(this.fechaNuevoTurno, asignacion);
+    }
+  }
+
+  crearTurno(date, pacienteAsignado){
+
+    let paciente = pacienteAsignado;
+
+    this.turnosSocketService.crearTurno(date.format(), paciente);
+
+    //Restablecemos las variables
+    this.fechaNuevoTurno = null;
   }
 
   metodoLimpieza(idDoctor){

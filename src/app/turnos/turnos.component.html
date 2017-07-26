@@ -1,58 +1,6 @@
 <div id="calendar"></div>
-<!-- Modal Formulario Crear Turno -->
-<div class="modal fade" id="formCrearTurno" #formCrearTurno tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeFormCrearTurno >&times;</button>
-        <h3 class="modal-title" id="myModalLabel">Asignar nuevo turno</h3>
-      </div>
-
-      <div class="modal-body" *ngIf = 'fechaNuevoTurno != null' >
-
-        <div class="form-group">
-          <label >Horario nuevo Turno:</label>
-          <label >{{fechaNuevoTurno}}</label>
-        </div>
-        <!-- <div class="form-group">
-          <label >Paciente</label>
-          <label >{{fechaNuevoTurno}}</label>
-           <input type="text" class="form-control" name="contratoNombre" [(ngModel)]="model.contratoNombre" #contratoNombre="ngModel" required />
-        </div> -->
-
-<!--
-        <div class="form-group">
-          <label >Fecha de Nacimiento:</label>
-          <label >{{solicitudAbierta.fechaNacimiento | date:'dd/MM/yy'}}</label>
-        </div>
-
-        <div class="form-group">
-          <label >Telefono:</label>
-          <label >{{solicitudAbierta.telefono}}</label>
-        </div>
-
-        <div class="form-group">
-          <label >Obra Social:</label>
-          <label >{{solicitudAbierta.obra.nombre}}</label>
-        </div> -->
-
-      </div>
-
-      <div class="modal-footer">
-
-        <!-- <button class="btn btn-danger" (click)='rechazarSolicitud(solicitudAbierta)'>
-          Rechazar Solicitud
-        </button>
-
-        <button class="btn btn-primary" (click)='aprobarSolicitud(solicitudAbierta)'>
-          Aceptar Solicitud
-        </button> -->
-
-      </div>
-    </div>
-    <!-- /.modal-content -->
-  </div>
-  <!-- /.modal-dialog -->
-
-</div>
-<!-- /.modal -->
+<asignacion-paciente
+[fechaNuevoTurno]='fechaNuevoTurno'
+[pacientes]='pacientes'
+(nuevaAsignacion)='onAsignacionPaciente($event)'
+ ></asignacion-paciente>

@@ -34,6 +34,9 @@ export class TurnoSocketService {
     constructor() {
     }
 
+    //-------------------------------------------------------------------------
+    // Metodos particulares
+
     public iniciar(id : string){
 
         //console.log('Entre en Iniciar del TURNO SOCKET SERVICE');
@@ -67,12 +70,53 @@ export class TurnoSocketService {
         return true;
     }
 
+    public cambiarMedico(id){
+        this.cleanService();
+        // console.log("CAMBIO DE MEDICO");
+        this.iniciar(id);
+    }
+
+    public cleanService(){
+        //this.turnosSocketService = null;
+        //Obtenemos el service que queremos
+        //console.log("ENTRE AL CLEAN SERVICE");
+        this.socket.disconnect();
+        this.turnosSocketService = null;
 
 
-    public crearTurno(fecha: Date){
 
-        //tengo que pedir el nombre del paciente y verificar que exista
-        var paciente = 'Nuevo Paciente';
+        this.turnos$ = null;
+
+        this.dataStore = { turnos: [] };
+    }
+
+    /*
+        Grafica el turno que llega por parametro.
+    */
+
+    private actualizarVisual(turno:Turno){
+
+
+        //let horaInicial = turno.horaInicial.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
+        let horaInicial = turno.horaInicial
+        //let horaFin = turno.horaFin.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
+        let horaFin = turno.horaFin;
+        //Le agregue el ID al final del nuevo turno para asi poder saber a que objeto corresponde cada evento grafico
+
+        let newTurno = {"title":turno.paciente.nombre+' '+turno.paciente.apellido,"allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59","_id":turno._id};
+
+
+        $('#calendar').fullCalendar('renderEvent', newTurno, true)
+    }
+
+
+    //-------------------------------------------------------------------------
+    // Metodos principales
+
+    public crearTurno(fecha: Date, pacienteAsignado){
+
+        let paciente = pacienteAsignado;
+
         //El color depende del medico al que le estoy cargando el turno
         var color = '#f8ac59';
 
@@ -97,22 +141,25 @@ export class TurnoSocketService {
         //let nuevaFecha = temp.utc().format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
         let nuevaFecha = temp.format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
 
-        var newTurno = {"title":"Matias Perez","allDay":false,"start":fecha,"end":nuevaFecha,"color":"#f8ac59"};
 
 
-        //DSPS HAY QUE PASAR ESTO al metodo create del servicio
-        this.turnosSocketService.create({
+        let nuevoTurno = {
+          horaInicial: fecha,
+          horaFin: nuevaFecha,
+          medico:this.idDoctor,
+          estado:'pendiente',
+          paciente: paciente._id
+        }
 
-            horaInicial: newTurno.start,
-            horaFin: newTurno.end,
-            medico:this.idDoctor,
-            estado:'pendiente'
-            //paciente: paciente
-        }).then((clienteNuevo)=>{
-            //console.log('Desde el cliente Angular se creo un nuevo cliente');
-            // IMPORTANTE:
-            //      Todavia NO ACTUALIZAMOS, pues eso se va a hacer en el EVENTO 'onCreated'.
-
+        this.turnosSocketService.create(nuevoTurno).then((turnoNuevo)=>{
+          console.log('turnoNuevo');
+          console.log(turnoNuevo);
+          //******************************************************************
+          /**
+          IMPORTANTE:
+          Todavia NO ACTUALIZAMOS, pues eso se va a hacer en el EVENTO 'onCreated'.
+          */
+          //******************************************************************
         });
     }
 
@@ -133,41 +180,6 @@ export class TurnoSocketService {
         })
     }
 
-    public cambiarMedico(id){
-        this.cleanService();
-        // console.log("CAMBIO DE MEDICO");
-        this.iniciar(id);
-    }
-
-    public cleanService(){
-        //this.turnosSocketService = null;
-        //Obtenemos el service que queremos
-        //console.log("ENTRE AL CLEAN SERVICE");
-        this.socket.disconnect();
-        this.turnosSocketService = null;
-
-
-
-        this.turnos$ = null;
-
-        this.dataStore = { turnos: [] };
-    }
-
-    public createTurno(): any{
-
-        this.turnosSocketService.create({
-
-        }).then((clienteNuevo)=>{
-            console.log('Desde el cliente Angular se creo un nuevo cliente');
-            //******************************************************************
-            /**
-            IMPORTANTE:
-            Todavia NO ACTUALIZAMOS, pues eso se va a hacer en el EVENTO 'onCreated'.
-            */
-            //******************************************************************
-
-        });
-    }
 
     public find() {
 
@@ -211,6 +223,9 @@ export class TurnoSocketService {
         return foundIndex;
         // return 0;
     }
+
+    //-------------------------------------------------------------------------
+    // Metodos de recepcion de eventos de sockets
 
     /*
         Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onCreated'
@@ -257,25 +272,6 @@ export class TurnoSocketService {
 
         $('#calendar').fullCalendar('removeEvents',turno._id); // Esto elimina el evento (grafico) con el id = turno._id
         this.actualizarVisual(turno); //
-    }
-
-    /*
-        Grafica el turno que llega por parametro.
-    */
-
-    private actualizarVisual(turno:Turno){
-
-
-        //let horaInicial = turno.horaInicial.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
-        let horaInicial = turno.horaInicial
-        //let horaFin = turno.horaFin.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
-        let horaFin = turno.horaFin;
-        //Le agregue el ID al final del nuevo turno para asi poder saber a que objeto corresponde cada evento grafico
-
-        let newTurno = {"title":"SIN NOMBRE","allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59","_id":turno._id};
-
-
-        $('#calendar').fullCalendar('renderEvent', newTurno, true)
     }
 
 
