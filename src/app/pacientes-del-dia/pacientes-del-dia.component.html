@@ -11,7 +11,7 @@
           <tr>
             <th>Estado</th>
             <th>Horario</th>
-            <!-- <th>Paciente</th> -->
+            <th>Paciente</th>
             <th>Tiempo de espera</th>
             <th>Doctor<th>
           </tr>
@@ -41,7 +41,7 @@
 
             </td>
             <td><i class="fa fa-calendar-o"></i> {{turno.horaInicial | amUtc | amDateFormat:'HH:mm'}}</td>
-            <!-- <td>{{turno.paciente.nombre}} {{turno.paciente.apellido}}</td> -->
+            <td>{{turno.paciente.nombre}} {{turno.paciente.apellido}}</td>
             <td><span *ngIf="turno.estado == 'en espera'" class="text-warning"><i class="fa fa-clock-o"></i> Hace {{ aDate(turno.horaInicial)  | timeAgo }}</span></td>
             <td>{{turno.medico.apellido}}</td>
           </tr>
