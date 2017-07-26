@@ -10,6 +10,8 @@ declare var feathers:any;
 
 import { Turno } from './turno.tipo';
 
+import { PacientesService } from '../pacientes/pacientes.service';
+
 declare var $: any;
 
 
@@ -81,6 +83,7 @@ export class TurnoSocketService {
         IMPORTANTE: Momentaneamente, al usar en windows, comentar la linea de Linux y descomentar la de Windows.
         Para usar en Linux, hacer la vicebersa.
         */
+        //*************************************************
 
         //Windows: descomentar la linea de abajo
         //var temp = moment(fecha).utc().add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
