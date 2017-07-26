@@ -77,8 +77,8 @@ export class SolicitudesSocketService implements OnDestroy  {
       el paciente con estado aprobado que tenia asociado esa solicitud, es eliminado.
       */
       query: {
-        aprobado: false,
-        $populate: 'obra'
+        aprobado: false
+        //,$populate: 'obra'
       }
     }).then((pacientesEnSolicitud) => {
 
