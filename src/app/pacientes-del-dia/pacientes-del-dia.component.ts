@@ -26,17 +26,17 @@ export class PacientesDelDiaComponent implements OnInit {
     },
     {
       "id": 2,
-      "nombre": "cancelado",
-      "clase": "danger"
-    },
-    {
-      "id": 3,
       "nombre": "pendiente",
       "clase": "default"
     },
     {
-      "id": 4,
+      "id": 3,
       "nombre": "finalizado",
+      "clase": "danger"
+    },
+    {
+      "id": 4,
+      "nombre": "activo",
       "clase": "success"
     },
     {
