@@ -1,0 +1,87 @@
+<!-- Modal Formulario Crear Turno -->
+<div class="modal fade" id="formAgregarPaciente" #formAgregarPaciente tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeFormAgregarPaciente >&times;</button>
+        <h3 class="modal-title" id="myModalLabel">Agregar nuevo paciente</h3>
+      </div>
+
+      <div class="modal-body" >
+        <!-- <div class="modal-body" *ngIf = 'horaNuevoTurno != null && diaNuevoTurno != null && pacientes != null' > -->
+
+        <div class="form-group">
+          <label>Nombre</label>
+          <div class="input-group"><input  #nombrePaciente placeholder="Ej: Jorge" type="text" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Apellido</label>
+          <div class="input-group"><input  #apellidoPaciente placeholder="Ej: Perez" type="text" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Dni</label>
+          <div class="input-group"><input  #dniPaciente placeholder="Ej: 38332764" type="text" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <div class="input-group"><input  #emailPaciente placeholder="Ej: ejemplo@gmail.com" type="text" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Fecha de Nacimiento</label>
+          <div class="input-group"><input  #nacimientoPaciente placeholder="Ej: 1994-07-21" type="text" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Telefono</label>
+          <div class="input-group"><input  #telefonoPaciente placeholder="Ej: 2994771333" type="text" class="form-control">
+          </div>
+        </div>
+
+        <!-- Podrian ser varias obras => Habria que ver el modelo -->
+        <div class="form-group">
+          <label>Obra Social</label>
+
+          <select class="form-control" required [(ngModel)] = "obraSelected" name="obraSelected"  >
+            <option *ngFor="let obra of obras" [ngValue]="obra" >{{obra.nombre}}</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button class="btn btn-danger" (click)='cancelar()'>
+          Cancelar
+        </button>
+
+        <button class="btn btn-primary"
+        (click)='agregarPaciente(nombrePaciente.value,apellidoPaciente.value,
+        dniPaciente.value, emailPaciente.value, nacimientoPaciente.value,telefonoPaciente.value);
+        nombrePaciente.value = null;
+        apellidoPaciente.value = null;
+        dniPaciente.value = null;
+        emailPaciente.value = null;
+        nacimientoPaciente.value = null;
+        telefonoPaciente.value = null;
+
+        '>
+        Agregar
+      </button>
+
+    </div>
+  </div>
+  <!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+
+</div>
+<!-- /.modal -->

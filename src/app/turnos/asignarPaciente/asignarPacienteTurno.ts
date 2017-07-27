@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, Output,EventEmitter,OnChanges, ElementRef, ViewChild } from '@angular/core';
+//Declaramos esta variable para hacer uso de Jquery con los modals de Boostrap
+declare var $: any;
 
 @Component({
   selector: 'asignacion-paciente',
@@ -100,7 +102,22 @@ export class AsignarPacienteComponent implements OnChanges{
 
   */
   public agregarPaciente(){
+    $('#formAgregarPaciente').modal('show');
+  }
 
+  public onPacienteAgregado(pacienteNuevo){
+    console.log('Entre en onPacienteAgregado de Asignar Paciente Turno');
+    console.log(pacienteNuevo);
+
+    if(pacienteNuevo != null && pacienteNuevo.aprobado){
+      this.pacientes.push(pacienteNuevo); //No se si es necesario hacerlo con pacientes
+
+      //Acualizamos el selector
+      let aux = pacienteNuevo;
+      aux.id = pacienteNuevo.nombre +' ' + pacienteNuevo.apellido + ' - ' + pacienteNuevo.dni;
+      aux.text = pacienteNuevo.nombre +' ' + pacienteNuevo.apellido + ' - ' + pacienteNuevo.dni;
+      this.pacientesSelector.push(aux);
+    }
   }
 
   //---------------------------------------------------------------------------

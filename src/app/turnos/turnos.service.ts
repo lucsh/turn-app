@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
 import { Turno } from './turno.tipo'
 
-import 'rxjs/add/operator/map'; 
+import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class TurnosService {
 	private headers = new Headers({'Content-Type': 'application/json'});
     private turnosURL = 'http://localhost:3000/turnos';  // URL to web api
 
-	constructor(private http: Http) { 
+	constructor(private http: Http) {
 
 	}
 
@@ -30,16 +30,16 @@ export class TurnosService {
         .then(response => response.json() as Turno[])
         .catch(this.handleError);
     }
-    
+
 	createTodo(newTodo : string) : Observable<any>{
-		return this.http.post("http://localhost:3000/todos", 
+		return this.http.post("http://localhost:3000/todos",
 		{
-			todo: newTodo, 
+			todo: newTodo,
 			completa: false
 		});
 	}
 	updateTodo(todoId:string,todo:string,newStatus:boolean) : Observable<any>{
-		return this.http.put("http://localhost:3000/todos/" + todoId, 
+		return this.http.put("http://localhost:3000/todos/" + todoId,
 		{
 			todo: todo,
 			completa: newStatus

@@ -40,7 +40,10 @@ import { PacientesDelDiaComponent } from './pacientes-del-dia/pacientes-del-dia.
 
 
 import {AsignarPacienteComponent} from './turnos/asignarPaciente/asignarPacienteTurno';
+import {AgregarPacienteComponent} from './pacientes/agregarPaciente/agregarPaciente';
 import {SelectModule} from 'ng2-select';
+import { ObrasComponent } from './obras/obras.component';
+import { ObrasService } from './obras/obras.service';
 
 @NgModule({
   declarations: [
@@ -55,7 +58,9 @@ import {SelectModule} from 'ng2-select';
     DataFilterPipe,
     SolicitudesComponent,
     PacientesDelDiaComponent,
-    AsignarPacienteComponent
+    AsignarPacienteComponent,
+    AgregarPacienteComponent,
+    ObrasComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +78,8 @@ import {SelectModule} from 'ng2-select';
     MedicosService,
     NavigationService,
     TurnoSocketService,
-    SolicitudesSocketService
+    SolicitudesSocketService,
+    ObrasService
   ],
   bootstrap: [AppComponent]
 })
