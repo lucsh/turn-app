@@ -1,0 +1,60 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Pacientes del día</h5>
+         <!--<iboxtools></iboxtools>  {{whatTime | async | amDateFormat:'hh:mm'}}  -->
+      </div>
+      <div class="ibox-content">
+        <table class="table table-hover no-margins">
+          <thead>
+          <tr>
+            <th>Estado</th>
+            <th>Horario</th>
+            <th>Paciente</th>
+            <th>Tiempo de espera</th>
+            <!-- <th>Doctor<th> -->
+            <th>Acciones</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let turno of turnos">
+          <!--
+          {
+            "id": 12,
+            "dia": "01-06-2017",
+            "hora": "12:30",
+            "status": "Pendiente",
+            "paciente": "Raul",
+            "doctor": "Dra. Manzazno"
+          }
+          -->
+            <td>
+            <div class="dropdown">
+              <button [ngClass]="claseEstadoTurno(turno.estado)" class="btn btn-xs dropdown-toggle" type="button" id="estadoturno" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                {{turno.estado}}
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="estadoturno">
+                <li *ngFor="let estado of estadosTurnos"><a (click)="updateTurno(turno, estado.nombre)">{{estado.nombre}}</a></li>
+              </ul>
+            </div>
+
+            </td>
+            <td><i class="fa fa-calendar-o"></i> {{turno.horaInicial | amUtc | amDateFormat:'HH:mm'}}</td>
+            <td>{{turno.paciente.nombre}} {{turno.paciente.apellido}}</td>
+            <td><span *ngIf="turno.estado == 'en espera'" class="text-warning"><i class="fa fa-clock-o"></i> Hace {{ aDate(turno.horaInicial)  | timeAgo }}</span></td>
+            <!-- <td>{{turno.medico.apellido}}</td> -->
+            <td>
+              <!-- <button (click)="editar(turno)" class="btn btn-info"></button> -->
+              <button [disabled]="turno.estado != 'en espera'" (click)="llamarPaciente(turno)" class="btn btn-success">Llamar Paciente</button>
+              <button [disabled]="turno.estado != 'activo'" (click)="finalizarTurno(turno)" class="btn btn-primary">Finalizar Turno</button>
+              <button [disabled]="turno.estado != 'activo'" (click)="ponerEnEspera(turno)" class="btn btn-warning">Poner en espera</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

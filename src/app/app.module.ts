@@ -44,6 +44,7 @@ import {AgregarPacienteComponent} from './pacientes/agregarPaciente/agregarPacie
 import {SelectModule} from 'ng2-select';
 import { ObrasComponent } from './obras/obras.component';
 import { ObrasService } from './obras/obras.service';
+import { TurnosDelMedicoComponent } from './turnos-del-medico/turnos-del-medico.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { ObrasService } from './obras/obras.service';
     PacientesDelDiaComponent,
     AsignarPacienteComponent,
     AgregarPacienteComponent,
-    ObrasComponent
+    ObrasComponent,
+    TurnosDelMedicoComponent
   ],
   imports: [
     BrowserModule,
