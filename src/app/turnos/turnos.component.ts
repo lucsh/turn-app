@@ -139,11 +139,22 @@ export class TurnosComponent implements OnInit, OnDestroy {
       },
       timezone:'UTC',
       defaultView:'agendaWeek',
+      height: 'auto',
       //weekends: false, //COMENTADO SOLAMENTE COMO PRUEBA. PONER DE NUEVO PARA DEPLOY!
       allDaySlot:false,
+      eventOverlap: false, //Previene que se sobrepongan 2 eventos!!!
       slotDuration:'00:15:00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
       minTime:'09:00:00',
       maxTime:'18:00:00',
+      businessHours: [{
+         dow: [0, 1, 2, 3, 4, 5, 6], // Maybe not 0,6? Sunday,Saturday
+         start: '08:00',
+         end: '12:00'
+       }, {
+         dow: [0, 1, 2, 3, 4, 5, 6], // Maybe not 0,6? Sunday,Saturday
+         start: '13:00',
+         end: '18:00'
+       }],
       //defaultDate: new Date(), // Esto esta de mas. Si no especificamos la fecha, por defecto es la acutal.
       navLinks: true, // can click day/week names to navigate views
       editable: true, //falso para la vista de clientes
@@ -158,9 +169,18 @@ export class TurnosComponent implements OnInit, OnDestroy {
           $('#calendar').fullCalendar('gotoDate',date);
         }
 
+        let arregloDeHoras = $('#calendar').fullCalendar('option', 'businessHours');
         //FIN DE LA PRUEBA.
+        let horaClick = date.hour() + ':' + date.minutes();
 
-        yo.asignarPaciente(date);
+
+        //comprobamos la validez de la hora ingresada!
+        if(yo.comprobarValidezHora(arregloDeHoras,horaClick,horaClick)){
+
+            console.log("ENTRE CORRECTAMENTE AL RANGO HORARIO!");
+            yo.asignarPaciente(date);
+          }
+
 
 
 
@@ -183,49 +203,71 @@ export class TurnosComponent implements OnInit, OnDestroy {
       eventDrop: function(event, delta, revertFunc) {
 
 
-        swal({
-          title: '¿Estas seguro que queres cambiar el turno?',
-          //text: 'You will not be able to recover this imaginary file!',
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Si, modificar!',
-          cancelButtonText: 'Cancelar'
-        }).then(function() {
-          yo.turnosSocketService.actualizarTurno(event);
-        }, function(dismiss) {
-          // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
-          if (dismiss === 'cancel') {
-            revertFunc();
-          }
-        });
+        let arregloDeHoras = $('#calendar').fullCalendar('option', 'businessHours');
+        let horaInicial = event.start.hour() + ':' + event.start.minutes();
+        let horaFinal = event.end.hour() + ':' + event.end.minutes();
+
+        // console.log("Horas...");
+        // console.log(horaInicial);
+        // console.log(horaFinal);
+
+        if(yo.comprobarValidezHora(arregloDeHoras,horaInicial,horaFinal)){
+
+          swal({
+            title: '¿Estas seguro que queres cambiar el turno?',
+            //text: 'You will not be able to recover this imaginary file!',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, modificar!',
+            cancelButtonText: 'Cancelar'
+          }).then(function() {
+            yo.turnosSocketService.actualizarTurno(event);
+          }, function(dismiss) {
+            // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+            if (dismiss === 'cancel') {
+              revertFunc();
+            }
+          });
+        }
+        else{
+          revertFunc();
+        }
 
 
 
 
       },
       eventResize: function(event, delta, revertFunc) {
-        swal({
-          title: '¿Estas seguro que queres agrandar el turno?',
-          //text: 'You will not be able to recover this imaginary file!',
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Si, agrandar!',
-          cancelButtonText: 'Cancelar'
-        }).then(function() {
-          yo.turnosSocketService.actualizarTurno(event);
-        }, function(dismiss) {
-          // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
-          if (dismiss === 'cancel') {
-            revertFunc();
-          }
-        });
 
+        let arregloDeHoras = $('#calendar').fullCalendar('option', 'businessHours');
+        let horaInicial = event.start.hour() + ':' + event.start.minutes();
+        let horaFinal = event.end.hour() + ':' + event.end.minutes();
 
-
+        if(yo.comprobarValidezHora(arregloDeHoras,horaInicial,horaFinal)){
+          swal({
+            title: '¿Estas seguro que queres agrandar el turno?',
+            //text: 'You will not be able to recover this imaginary file!',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, agrandar!',
+            cancelButtonText: 'Cancelar'
+          }).then(function() {
+            yo.turnosSocketService.actualizarTurno(event);
+          }, function(dismiss) {
+            // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+            if (dismiss === 'cancel') {
+              revertFunc();
+            }
+          });
+        }
+        else{
+          revertFunc();
+        }
+        
         //actualizar el turno en la db (tenemos el event.id)
         //???
       },
@@ -250,19 +292,22 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
           yo.turnosSocketService.eliminarTurno(calEvent);
         }).catch(swal.noop);
-
-
-
       }
-
-
-
-
     });
+  }
 
 
-
-
+  //TESTEAR ESTO! VERIFICAR SI ESTA BIEN LA LOGICA!
+  comprobarValidezHora(arregloHorasValidas,horaInicialEvento, horaFinalEvento): Boolean{
+    let validez = false;
+    for (let i = 0; i < arregloHorasValidas.length; i++) {
+        arregloHorasValidas[i];
+        if((horaInicialEvento >= arregloHorasValidas[i].start) && (horaFinalEvento <= arregloHorasValidas[i].end)){
+          //Esto nos indica que el evento se encuentra en al menos 1 intervalo valido de horario!..
+          validez = true;
+        }
+    }
+    return validez;
   }
 
   asignarPaciente(date){
@@ -318,10 +363,10 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
   verificarUrl(){
 
-    console.log(this.url);
-    console.log (this.doctores.find(doctor => doctor.url == "this.url"));
-    //^^ no lo encuentra
-    console.log(this.doctores);
+    // console.log(this.url);
+    // console.log (this.doctores.find(doctor => doctor.url == "this.url"));
+    // //^^ no lo encuentra
+    // console.log(this.doctores);
 
   }
 
@@ -360,8 +405,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
       yo.pacientes = pacientes;
 
-      console.log('pacientes');
-      console.log(pacientes);
+      // console.log('pacientes');
+      // console.log(pacientes);
       yo.getAllDoctores();
 
 
