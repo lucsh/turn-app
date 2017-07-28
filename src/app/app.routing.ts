@@ -5,6 +5,8 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {TurnosComponent} from './turnos/turnos.component';
 import {PacientesComponent} from './pacientes/pacientes.component';
 import {TurnosDelMedicoComponent} from './turnos-del-medico/turnos-del-medico.component'
+import { ConfiguracionMedicoComponent } from './configuracion-medico/configuracion-medico.component';
+
 
 const appRoutes: Routes =  [
 {
@@ -26,6 +28,10 @@ const appRoutes: Routes =  [
 {
 	path:'medico',
 	component: TurnosDelMedicoComponent
+},
+{
+	path:'configuracion',
+	component: ConfiguracionMedicoComponent
 }
 ];
 

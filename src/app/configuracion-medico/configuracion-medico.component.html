@@ -1,0 +1,96 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Medicos</h5>
+         <!--<iboxtools></iboxtools>  {{whatTime | async | amDateFormat:'hh:mm'}}  -->
+      </div>
+      <div class="ibox-content">
+        <table class="table table-hover no-margins">
+          <thead>
+          <tr>
+            <th>Matricula</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Duracion Turnos</th>
+            <!-- <th>Doctor<th> -->
+            <th>Acciones</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let medico of medicos">
+          <!--
+          {
+            "id": 12,
+            "dia": "01-06-2017",
+            "hora": "12:30",
+            "status": "Pendiente",
+            "paciente": "Raul",
+            "doctor": "Dra. Manzazno"
+          }
+          -->
+            <td>{{medico.matricula}}</td>
+            <td>{{medico.nombre}}</td>
+            <td>{{medico.apellido}}</td>
+            <td>{{medico.duracion}}</td>
+
+            <td>
+              <!-- <button (click)="editar(turno)" class="btn btn-info"></button> -->
+              <button (click)="abrirModal(medico)" class="btn btn-success">Actualizar Datos Basicos</button>
+              <button (click)="configurarSemana(medico)" class="btn btn-primary">Configurar Semana</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- Modal Formulario Crear Turno -->
+<div class="modal fade" id="formDatosBasicos" #formDatosBasicos tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeFormDatosBasicos >&times;</button>
+        <h3 class="modal-title" id="myModalLabel">Datos Basicos del Medico</h3>
+      </div>
+
+      <!-- <div class="modal-body" > -->
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Nombre</label>
+          <div class="input-group"><input  #nombreMedico placeholder="Ej: Martin" type="text" class="form-control">
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label>Apellido</label>
+          <div class="input-group"><input  #apellidoMedico placeholder="Ej: Martin" type="text" class="form-control">
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+
+        <button class="btn btn-danger" (click)='cancelar()'>
+          Cancelar
+        </button>
+
+        <button class="btn btn-primary" (click)='actualizarDatos(nombreMedico.value,apellidoMedico.value)'>
+          Editar
+        </button>
+
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+
+</div>
+<!-- /.modal -->
