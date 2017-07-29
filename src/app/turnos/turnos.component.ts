@@ -144,15 +144,22 @@ export class TurnosComponent implements OnInit, OnDestroy {
       allDaySlot:false,
       eventOverlap: false, //Previene que se sobrepongan 2 eventos!!!
       slotDuration:'00:15:00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
-      minTime:'09:00:00',
+      minTime:'08:00:00',
       maxTime:'18:00:00',
-      businessHours: [{
+      businessHours: [
+
+        {
          dow: [0, 1, 2, 3, 4, 5, 6], // Maybe not 0,6? Sunday,Saturday
          start: '08:00',
-         end: '12:00'
-       }, {
+         end: '11:00'
+       },
+       {
+          dow: [1, 2], // Maybe not 0,6? Sunday,Saturday
+          start: '11:30',
+          end: '12:00'
+        }, {
          dow: [0, 1, 2, 3, 4, 5, 6], // Maybe not 0,6? Sunday,Saturday
-         start: '13:00',
+         start: '15:00',
          end: '18:00'
        }],
       //defaultDate: new Date(), // Esto esta de mas. Si no especificamos la fecha, por defecto es la acutal.
@@ -172,10 +179,33 @@ export class TurnosComponent implements OnInit, OnDestroy {
         let arregloDeHoras = $('#calendar').fullCalendar('option', 'businessHours');
         //FIN DE LA PRUEBA.
         let horaClick = date.hour() + ':' + date.minutes();
+        console.log(date);
+        console.log(date.day());
+
+        // CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+        let duracionTurno = parseInt($('#calendar').fullCalendar('option','slotDuration').split(':')[1]); //CAMBIARRRRRRRR
+        console.log($('#calendar').fullCalendar('option','slotDuration').split(':')[2]);
+        console.log("duracion");
+        console.log(duracionTurno);
+        // CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 
 
+        //*************************************************
+
+        //Windows: descomentar la linea de abajo
+        var temp = moment(date).utc(); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+        //LINUX: descomentar la linea de abajo
+        //var temp = moment(fecha,'YYYY-MM-DDTHH:mm:ss Z').add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+
+        //*************************************************
+
+        let temp2 = temp.add(duracionTurno, 'm');
+
+        let horaClickFinal = temp2.hour() + ':' + temp2.minutes();
+        console.log("HORA FINALLLLLLLLLLLLL");
+        console.log(horaClickFinal);
         //comprobamos la validez de la hora ingresada!
-        if(yo.comprobarValidezHora(arregloDeHoras,horaClick,horaClick)){
+        if(yo.comprobarValidezHora(arregloDeHoras,horaClick,horaClickFinal,date.day())){
 
             console.log("ENTRE CORRECTAMENTE AL RANGO HORARIO!");
             yo.asignarPaciente(date);
@@ -207,11 +237,12 @@ export class TurnosComponent implements OnInit, OnDestroy {
         let horaInicial = event.start.hour() + ':' + event.start.minutes();
         let horaFinal = event.end.hour() + ':' + event.end.minutes();
 
-        // console.log("Horas...");
-        // console.log(horaInicial);
-        // console.log(horaFinal);
 
-        if(yo.comprobarValidezHora(arregloDeHoras,horaInicial,horaFinal)){
+        console.log("Horas...");
+        console.log(horaInicial);
+        console.log(horaFinal);
+
+        if(yo.comprobarValidezHora(arregloDeHoras,horaInicial,horaFinal,event.start.day())){
 
           swal({
             title: '¿Estas seguro que queres cambiar el turno?',
@@ -245,7 +276,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
         let horaInicial = event.start.hour() + ':' + event.start.minutes();
         let horaFinal = event.end.hour() + ':' + event.end.minutes();
 
-        if(yo.comprobarValidezHora(arregloDeHoras,horaInicial,horaFinal)){
+        if(yo.comprobarValidezHora(arregloDeHoras,horaInicial,horaFinal,event.start.day())){
           swal({
             title: '¿Estas seguro que queres agrandar el turno?',
             //text: 'You will not be able to recover this imaginary file!',
@@ -267,7 +298,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
         else{
           revertFunc();
         }
-        
+
         //actualizar el turno en la db (tenemos el event.id)
         //???
       },
@@ -298,14 +329,79 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
 
   //TESTEAR ESTO! VERIFICAR SI ESTA BIEN LA LOGICA!
-  comprobarValidezHora(arregloHorasValidas,horaInicialEvento, horaFinalEvento): Boolean{
+  comprobarValidezHora(arregloHorasValidas,horaInicialEvento, horaFinalEvento, numDia): Boolean{
+    console.log("comprobando validez");
+    console.log(arregloHorasValidas);
+
+
     let validez = false;
+    let horaInicialE = parseInt(horaInicialEvento.split(':')[0]);
+    let minInicialE = parseInt(horaInicialEvento.split(':')[1]);
+    let horaFinalE = parseInt(horaFinalEvento.split(':')[0]);
+    let minFinalE = parseInt(horaFinalEvento.split(':')[1]);
+
+
     for (let i = 0; i < arregloHorasValidas.length; i++) {
-        arregloHorasValidas[i];
-        if((horaInicialEvento >= arregloHorasValidas[i].start) && (horaFinalEvento <= arregloHorasValidas[i].end)){
-          //Esto nos indica que el evento se encuentra en al menos 1 intervalo valido de horario!..
-          validez = true;
-        }
+
+      let temp = arregloHorasValidas[i].start;
+      if (arregloHorasValidas[i].start[0]==='0'){
+        temp = arregloHorasValidas[i].start.substring(1,arregloHorasValidas[i].start.length);
+        // console.log(temp);
+        // console.log(horaInicialEvento>=temp);
+      }
+      let temp2 = arregloHorasValidas[i].end;
+      if (arregloHorasValidas[i].end[0]==='0'){
+        temp2 = arregloHorasValidas[i].end.substring(1,arregloHorasValidas[i].end.length);
+        //console.log(horaFinalEvento <= temp2);
+      }
+      for (let j = 0; j < arregloHorasValidas[i].dow.length; j++) {
+        // console.log("----------");
+        // console.log(arregloHorasValidas[i].dow[j]);
+          if(arregloHorasValidas[i].dow[j] == numDia){
+            // console.log("ENTRE Nº1");
+            // console.log(temp);
+            // console.log(horaInicialEvento);
+            // console.log(temp <= horaInicialEvento);
+            // console.log(temp2);
+            // console.log(horaFinalEvento);
+            // console.log("----------");
+
+            let horaValidaInicio = parseInt(temp.split(':')[0]);
+            let horaValidaFin = parseInt(temp2.split(':')[0]);
+            let minValidaInicio = parseInt(temp.split(':')[1]);
+            let minValidaFin = parseInt(temp2.split(':')[1]);
+
+
+            if((horaInicialE > horaValidaInicio) && ((horaFinalE < horaValidaFin) || (horaFinalE == horaValidaFin && minFinalE <= minValidaFin))){
+              validez = true;
+
+              console.log("IF");
+              console.log(minFinalE);
+              console.log(minValidaFin);
+              console.log(minFinalE <= minValidaFin);
+            }
+            else{
+
+
+              console.log("ELSE");
+              console.log(horaInicialE == horaValidaInicio);
+              console.log("-");
+              console.log(minInicialE >= minValidaInicio);
+              console.log("-");
+              console.log(horaFinalE < horaValidaFin);
+              console.log("-");
+              console.log(horaFinalE == horaValidaFin);
+              console.log("-");
+              console.log(minFinalE <= minValidaFin);
+              console.log("-");
+              if((horaInicialE == horaValidaInicio) && (minInicialE >= minValidaInicio)){
+                if((horaFinalE < horaValidaFin) || (horaFinalE == horaValidaFin && minFinalE <= minValidaFin)){
+                  validez = true;
+                }
+              }
+            }
+          }
+      }
     }
     return validez;
   }
