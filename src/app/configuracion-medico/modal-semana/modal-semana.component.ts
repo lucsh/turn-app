@@ -19,7 +19,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
   @Output() pacienteAgregado = new EventEmitter();
   @Input() medico: any;
-  @Input() obrasDelMedico: any[];
+  @Input() obrasDelMedico: any[];0
 
   @ViewChild('closeFormConfigSemana') closeFormConfigSemana: ElementRef;
 
@@ -100,24 +100,6 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     }
   }
 
-  public asignarTurno(){
-
-    let obraElegida = null;
-    let yo = this;
-
-    this.obrasSelector.forEach(function(elem,index){
-      if(elem.id == yo.value.id){
-        console.log('encontre!');
-        obraElegida = Object.assign({}, elem); //clonamos el elemento
-      }
-    });
-
-
-    //Quitamos los atributos agregados para el selector del clone
-    delete obraElegida['id'];
-    delete obraElegida['text'];
-    console.log(obraElegida);
-  }
 
   public agregarPaciente(){
       console.log('Entre a agregar Paciente');

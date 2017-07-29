@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
+
+
 import { Medico } from '../medico/medico.tipo';
 
 import 'rxjs/add/operator/map';
@@ -13,6 +15,8 @@ export class ConfiguracionMedicoService {
 	private headers = new Headers({'Content-Type': 'application/json'});
 	private medicosURL = 'http://localhost:3030/medicos';  // URL to web api
 
+
+
 	constructor(private http: Http) {
 
 	}//Al ser promise (y no Observable), no le quita reactividad?
@@ -20,7 +24,7 @@ export class ConfiguracionMedicoService {
 		return this.http.get(this.medicosURL)
 		.toPromise()
 		.then(response => {
-			//console.log(response.json());
+			console.log(response.json());
 			return response.json() as any[];
 		})
 		.catch(this.handleError);
@@ -37,14 +41,14 @@ export class ConfiguracionMedicoService {
 		return this.http.get(this.medicosURL+'/'+id)
 		.toPromise()
 		.then(response => {
-			//console.log(response.json());
+			console.log(response.json());
 			return response.json() as any[];
 		})
 		.catch(this.handleError);
 	}
 
-	actualizarMedico(id,nombre,apellido): Promise<any[]>{
-		return this.http.patch(this.medicosURL+'/'+id,{nombre: nombre, apellido: apellido})
+	actualizarMedico(id,nombre,apellido,duracion,obras): Promise<any[]>{
+		return this.http.patch(this.medicosURL+'/'+id,{nombre: nombre, apellido: apellido, duracion:duracion,obras:obras})
 		.toPromise()
 		.then(response => {
 			// console.log("RESPUESTA DESDE EL PUT");
@@ -89,5 +93,7 @@ export class ConfiguracionMedicoService {
 		})
 		.catch(this.handleError);
   }
+
+
 
 }
