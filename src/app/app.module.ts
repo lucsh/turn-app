@@ -46,6 +46,7 @@ import { ObrasComponent } from './obras/obras.component';
 import { ObrasService } from './obras/obras.service';
 import { TurnosDelMedicoComponent } from './turnos-del-medico/turnos-del-medico.component';
 import { ConfiguracionMedicoComponent } from './configuracion-medico/configuracion-medico.component';
+import { ModalSemanaComponent } from './configuracion-medico/modal-semana/modal-semana.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { ConfiguracionMedicoComponent } from './configuracion-medico/configuraci
     AgregarPacienteComponent,
     ObrasComponent,
     TurnosDelMedicoComponent,
-    ConfiguracionMedicoComponent
+    ConfiguracionMedicoComponent,
+    ModalSemanaComponent
   ],
   imports: [
     BrowserModule,

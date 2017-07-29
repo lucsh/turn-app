@@ -3,8 +3,9 @@ import {Http} from "@angular/http";
 import {ConfiguracionMedicoService} from './configuracion-medico.service';
 import { Medico } from '../medico/medico.tipo';
 
-import {default as swal} from 'sweetalert2';
 
+
+import {default as swal} from 'sweetalert2';
 declare var $: any;
 
 @Component({
@@ -31,7 +32,7 @@ export class ConfiguracionMedicoComponent implements OnInit {
   getAllMedicos(): void{
     this.configuracionMedicoService.getMedicos().then(medics => {
         this.medicos = medics;
-        console.log(medics);
+        //console.log(medics);
     });
   }
 
@@ -56,13 +57,16 @@ export class ConfiguracionMedicoComponent implements OnInit {
 
 
   configurarSemana(medico){
+    this.medicoSeleccionado = medico;
+    let semanaGuardada;
     this.configuracionMedicoService.getSemanaModelo(medico).then(semana =>{
       //Abrimos el modal...
+      semanaGuardada = semana;
 
+      $('#formConfigSemana').modal('show');
       console.log("LA SEMANA Q LE LLEGA AL COMPONENT ES....");
       console.log(semana);
-
-    })
+    });
   }
 
   public abrirModal(medico){

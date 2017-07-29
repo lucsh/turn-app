@@ -11,9 +11,9 @@
       "completa": false
     },
     {
-      "id": 3,
       "todo": "Pagar factura de internet",
-      "completa": false
+      "completa": false,
+      "id": 3
     },
     {
       "id": 4,

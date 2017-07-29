@@ -375,25 +375,23 @@ export class TurnosComponent implements OnInit, OnDestroy {
             if((horaInicialE > horaValidaInicio) && ((horaFinalE < horaValidaFin) || (horaFinalE == horaValidaFin && minFinalE <= minValidaFin))){
               validez = true;
 
-              console.log("IF");
-              console.log(minFinalE);
-              console.log(minValidaFin);
-              console.log(minFinalE <= minValidaFin);
+              // console.log("IF");
+              // console.log(minFinalE);
+              // console.log(minValidaFin);
+              // console.log(minFinalE <= minValidaFin);
             }
             else{
-
-
-              console.log("ELSE");
-              console.log(horaInicialE == horaValidaInicio);
-              console.log("-");
-              console.log(minInicialE >= minValidaInicio);
-              console.log("-");
-              console.log(horaFinalE < horaValidaFin);
-              console.log("-");
-              console.log(horaFinalE == horaValidaFin);
-              console.log("-");
-              console.log(minFinalE <= minValidaFin);
-              console.log("-");
+              // console.log("ELSE");
+              // console.log(horaInicialE == horaValidaInicio);
+              // console.log("-");
+              // console.log(minInicialE >= minValidaInicio);
+              // console.log("-");
+              // console.log(horaFinalE < horaValidaFin);
+              // console.log("-");
+              // console.log(horaFinalE == horaValidaFin);
+              // console.log("-");
+              // console.log(minFinalE <= minValidaFin);
+              // console.log("-");
               if((horaInicialE == horaValidaInicio) && (minInicialE >= minValidaInicio)){
                 if((horaFinalE < horaValidaFin) || (horaFinalE == horaValidaFin && minFinalE <= minValidaFin)){
                   validez = true;
