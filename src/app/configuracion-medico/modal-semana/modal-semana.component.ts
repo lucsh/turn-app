@@ -19,9 +19,10 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
   @Output() pacienteAgregado = new EventEmitter();
   @Input() medico: any;
-  @Input() obrasDelMedico: any[];0
+  //@Input() obrasDelMedico: any[];
 
   @ViewChild('closeFormConfigSemana') closeFormConfigSemana: ElementRef;
+  @ViewChild('selector') selector: ElementRef;
 
   private intervalos: any[] = [];
   private obras: Obra[];
@@ -38,47 +39,29 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
   constructor(private obraService: ObrasService, private medicosService: MedicosService) { }
 
   ngOnInit() {
-    let yo = this;
-    this.obraService.getObras().then(obras => {
-      this.obras = obras;
-      yo.actualizarSelector();
+    if(this.medico != null){
+      this.obras = this.medico.obras;
+      this.actualizarSelector();
       this.agregarIntervalo();
       this.agregarObra();
-
-
-    }).catch(error => {console.log(error)})
+    }
   }
 
   ngOnChanges(changes) {
     // changes.prop contains the old and the new value...
-
-    if(this.obras!=null){
-      console.log('Entre a Ng on Changes del modal configurar semana');
-
-
-      let yo = this;
-      this.obras.forEach(function(elem,index){
-        /*
-          Dado que estamos usando el componente ng2-select,
-          debemos tener un arreglo en el que cada objeto TENGA:
-            un atributo 'id'
-            un atributo 'text'
-        */
-        yo.obrasSelector[index] = elem;
-        yo.obrasSelector[index].id = elem.nombre;
-        yo.obrasSelector[index].text = elem.nombre;
-      });
-      if(yo.obrasSelector.length > 0){
-        console.log('TRUE');
-        this.actualizado = true;
-      }
+    console.log("CAMBIE DE MEDICOOOOOOOOOOOOOOOOOOO");
+    if(this.medico != null){
+      this.obras = this.medico.obras;
+      console.log("medicos obras");
+      console.log(this.medico.obras);
+      this.actualizarSelector();
     }
-
   }
 
   public actualizarSelector(){
     if(this.obras!=null){
-      console.log('Entre a Ng on Changes del modal configurar semana');
+      console.log("Entre al actualizar selector");
+
 
 
       let yo = this;
@@ -96,6 +79,16 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
       if(yo.obrasSelector.length > 0){
         console.log('TRUE');
         this.actualizado = true;
+        console.log(this.selector);
+
+
+        if(this.selector != undefined){
+          console.log("###########################################");
+          console.log((<any>(this.selector)).element);
+          console.log((<any>(this.selector)).element.itemObjects);
+          (<any>(this.selector)).element.itemObjects = yo.obrasSelector
+        }
+
       }
     }
   }
@@ -163,6 +156,8 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
    }
 
   public guardarIntervalos(){
+
+    console.log(this.selector);
     console.log(this.medico);
     let obras = this.parsearObras();
 

@@ -130,7 +130,7 @@
                   }
                 </style>
                 <div id="divSelector" class="">
-                  <ng-select  *ngIf = 'actualizado == true'
+                  <ng-select #selector  *ngIf = 'actualizado == true'
                   [allowClear]="true"
                               [items]="obrasSelector"
                               [disabled]="disabled"
