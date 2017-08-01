@@ -1,49 +1,48 @@
 import { Injectable } from '@angular/core';
-const superagent = require('superagent');
-const feathers = require('feathers/client');
-const socketio = require('feathers-socketio/client');
-const io = require('socket.io-client');
-const localstorage = require('feathers-localstorage');
-const hooks = require('feathers-hooks');
-const rest = require('feathers-rest/client');
-// const authentication = require('feathers-authentication/client');
-const authentication = require('feathers-authentication-client');
 
+import * as feathers from 'feathers/client';
+import * as feathersRx from 'feathers-reactive';
+import * as io from 'socket.io-client';
+import * as hooks from 'feathers-hooks';
+import * as socketio from 'feathers-socketio/client';
+import * as authentication from 'feathers-authentication-client';
 
-// Your base server URL here
-//const HOST = 'https://feathersjs-aurerua.c9users.io'
-const HOST = 'localhost:3030'
+// TS Lint will complain here. Unfortunately feathers-reactive needs the entire Rx object passed on creation.
+import * as Rx from 'rxjs';
 
+/**
+ * Simple wrapper for feathers
+ */
 @Injectable()
-export class RestService {
-  public app: any;
-  debugString="Rest is ok for now!";
-  
-  constructor() {
-    this.app = feathers() // Initialize feathers
-      .configure(rest(HOST).superagent(superagent)) // Fire up rest
-      .configure(hooks()) // Configure feathers-hooks
-      .configure(authentication({path:'/auth/local'}));
-  }
-}
-
-@Injectable()
-export class SocketService {
-  public socket: any;
-  public app: any;
-  debugString="Socket is ok for now!";
+export class Feathers {
+  // There are no proper typings available for feathers, due to its plugin-heavy nature
+  private _feathers: any;
+  private _socket: any;
 
   constructor() {
-    this.socket = io(HOST);
-    this.app = feathers()
-      .configure(socketio(this.socket))
-      .configure(hooks())
-      .configure(authentication({path:'/auth/local'}));
+    this._socket = io('http://localhost:3030');       // init socket.io
+
+    this._feathers = feathers();                      // init Feathers
+    this._feathers.configure(hooks());                // add hooks plugin
+    this._feathers.configure(feathersRx(Rx));         // add feathers-reactive plugin
+    this._feathers.configure(socketio(this._socket)); // add socket.io plugin
+    this._feathers.configure(authentication({         // add authentication plugin
+      storage: window.localStorage
+    }));
+  }
+
+  // expose services
+  public service(name: string) {
+    return this._feathers.service(name);
+  }
+
+  // expose authentication
+  public authenticate(credentials?): Promise<any> {
+    return this._feathers.authenticate(credentials);
+  }
+
+  // expose logout
+  public logout() {
+    return this._feathers.logout();
   }
 }
-
-// This service is used to abstract the choice between Rest and SocketIO
-// throughout the app. RestService and SocketService can be used whenever
-// it is necessary to specialise.
-@Injectable()
-export class FeathersService extends SocketService {}

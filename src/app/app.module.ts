@@ -32,10 +32,12 @@ import { TurnoSocketService } from './turnos/turnos-socket.service';
 
 
 
-
-import { RestService, SocketService, FeathersService } from './authentication/feathers.service';
 import { AuthService } from './authentication/auth.service';
+import { AuthGuard } from './authentication/auth.guard';
+import { Feathers } from './authentication/feathers.service';
 import { LoginComponent } from './authentication/login.component';
+
+
 
 @NgModule({
   declarations: [
@@ -62,10 +64,10 @@ import { LoginComponent } from './authentication/login.component';
     MedicosService,
     NavigationService,
     TurnoSocketService,
-        RestService,
+    Feathers,
     AuthService,
-    SocketService,
-    FeathersService
+    AuthGuard,
+    AppComponent
   ],
   bootstrap: [AppComponent]
 })

@@ -1,38 +1,24 @@
 import { Injectable } from '@angular/core';
-import { RestService, SocketService, FeathersService } from './feathers.service';
+import { Feathers } from './feathers.service';
+import { Router } from '@angular/router';
 
+
+/**
+ * Abstraction layer for auth. Nice to have when things get more complicated.
+ */
 @Injectable()
 export class AuthService {
-  private app;
-  
-  constructor(private rest:RestService, private socket:SocketService, private feathers:FeathersService) {
-    this.app = feathers.app;
-    // this.feathers.app.authenticate().then( () => {
-    // }, () => {
-    // })
+
+  constructor(private feathers: Feathers, private router: Router) {}
+
+  public logIn(credentials?): Promise<any> {
+    return this.feathers.authenticate(credentials);
   }
 
-  login(email, password) {
-    this.app.authenticate({
-      strategy: 'jwt', 
-      endpoint: '/auth/local',
-      'email': email,
-      'password': password
-    }).then(function(result){
-      console.log('Authenticated!', result);
-    }).catch(function(error){
-      console.error('Error authenticating!', error);
-    });
-  }
-  
-  logout() {
-    this.app.logout()
-  }
+  public logOut() {
+    this.feathers.logout();
+    this.router.navigate(['login']);
+    console.log('logOut');
+  };
 
-  isLoggedIn() {
-    // const token = this.app.passport.getJWT();
-    // this.app.passport.verifyJWT(token)
-    // const user = this.app.get('user'); 
-    // console.log("user:", user);
-  }
 }

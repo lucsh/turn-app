@@ -1,44 +1,45 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from './auth.service';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Feathers } from './feathers.service';
 
 @Component({
   selector: 'app-login',
-  template: `
-  <main class="login container">
-      <div class="row">
-        <div class="col-12 col-6-tablet push-3-tablet text-center">
-          <h1 class="font-100">Welcome Back</h1>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 col-6-tablet push-3-tablet col-4-desktop push-4-desktop">
-          <form class="form" method="post" action="/auth/local">
-            <fieldset>
-              <input #email class="block" type="email" name="email" placeholder="email">
-            </fieldset>
-
-            <fieldset>
-              <input #password class="block" type="password" name="password" placeholder="password">
-            </fieldset>
-
-            <button (click)="login(email.value,password.value)" class="button button-primary block login">
-              Login
-            </button>
-          </form>
-        </div>
-      </div>
-    </main>
-  `
+  templateUrl: './login.component.html'
+  //styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
-  
-  login(email:string, password:string){
-    this.authService.login(email,password);
-    // this.user.isLoggedIn();
+export class LoginComponent {
+  messages: string = "";
+
+  constructor(private feathers: Feathers, private router: Router) {}
+
+  login(email: string, password: string) {
+    if (!email || !password) {
+      this.messages='Falta usuario o contraseña!';
+      return;
+    }
+
+    // try to authenticate with feathers
+    this.feathers.authenticate({
+      strategy: 'local',
+      email,
+      password
+    })
+      // navigate to base URL on success
+      .then(() => {
+        this.router.navigate(['/']);
+      })
+      .catch(err => {
+        this.messages = 'Error en el usuario o contraseña!';
+      });
   }
 
-  constructor(private authService: AuthService) { }
-
-  ngOnInit() {}
-
+  signup(email: string, password: string) {
+    this.feathers.service('users')
+      .create({email, password})
+      .take(1)
+      .toPromise()
+      .then(() => this.messages='User created.')
+      .catch(err => this.messages='Could not create user!')
+    ;
+  }
 }
