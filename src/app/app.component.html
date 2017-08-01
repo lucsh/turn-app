@@ -1,5 +1,6 @@
 <!-- Wrapper-->
-<div id="wrapper">
+<body *ngIf="logueadoCache" >
+<div  id="wrapper">
 
   <!-- Left navigation bar -->
   <navigation></navigation>
@@ -21,3 +22,9 @@
 
 </div>
 <!-- End wrapper-->
+</body>
+
+
+<body *ngIf="!logueadoCache" class="gray-bg">
+   <router-outlet></router-outlet>
+</body>

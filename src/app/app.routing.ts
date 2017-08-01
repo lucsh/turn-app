@@ -6,27 +6,38 @@ import {TurnosComponent} from './turnos/turnos.component';
 import {PacientesComponent} from './pacientes/pacientes.component';
 import {TurnosDelMedicoComponent} from './turnos-del-medico/turnos-del-medico.component'
 
+import { AuthGuard } from './authentication/auth.guard';
+
+
+import { LoginComponent }     from './authentication/login.component';
+
 const appRoutes: Routes =  [
 {
 	path:'',
-	component: DashboardComponent
+	component: DashboardComponent,
+    canActivate: [AuthGuard]
 },
 {
 	path:'turnos',
-	component: TurnosComponent
+	component: TurnosComponent,
+    canActivate: [AuthGuard]
 },
 {
 	path:'turnos/:doctor/:idDoctor',
-	component: TurnosComponent
+	component: TurnosComponent,
+    canActivate: [AuthGuard]
 },
 {
 	path:'pacientes',
-	component: PacientesComponent
+	component: PacientesComponent,
+    canActivate: [AuthGuard]
 },
 {
 	path:'medico',
-	component: TurnosDelMedicoComponent
-}
+	component: TurnosDelMedicoComponent,
+    canActivate: [AuthGuard]
+},
+  { path: 'login', component: LoginComponent }
 ];
 
 

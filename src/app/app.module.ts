@@ -32,6 +32,7 @@ import { TimeAgoPipe } from './time-ago.pipe';
 import { TurnosComponent } from './turnos/turnos.component';
 
 import { TurnoSocketService } from './turnos/turnos-socket.service';
+
 import { PacientesComponent } from './pacientes/pacientes.component';
 import { DataFilterPipe }   from './pacientes/pacientes-filter.pipe';
 import { SolicitudesComponent } from './pedidos/solicitudes.component';
@@ -45,6 +46,12 @@ import {SelectModule} from 'ng2-select';
 import { ObrasComponent } from './obras/obras.component';
 import { ObrasService } from './obras/obras.service';
 import { TurnosDelMedicoComponent } from './turnos-del-medico/turnos-del-medico.component';
+
+import { AuthService } from './authentication/auth.service';
+import { AuthGuard } from './authentication/auth.guard';
+import { Feathers } from './authentication/feathers.service';
+import { LoginComponent } from './authentication/login.component';
+
 
 @NgModule({
   declarations: [
@@ -62,7 +69,8 @@ import { TurnosDelMedicoComponent } from './turnos-del-medico/turnos-del-medico.
     AsignarPacienteComponent,
     AgregarPacienteComponent,
     ObrasComponent,
-    TurnosDelMedicoComponent
+    TurnosDelMedicoComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +89,11 @@ import { TurnosDelMedicoComponent } from './turnos-del-medico/turnos-del-medico.
     NavigationService,
     TurnoSocketService,
     SolicitudesSocketService,
-    ObrasService
+    ObrasService,
+    Feathers,
+    AuthService,
+    AuthGuard,
+    AppComponent
   ],
   bootstrap: [AppComponent]
 })
