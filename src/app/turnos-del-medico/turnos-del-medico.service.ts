@@ -21,7 +21,7 @@ export class TurnosDelMedicoService {
     public turnos$: Observable<Turno[]>;
     private turnosObserver: Observer<Turno[]>;
 
-    private pacientesDelDiaService: any;
+    private turnosService: any;
 
     private dataStore: {
         turnos: Turno[]
@@ -36,14 +36,14 @@ export class TurnosDelMedicoService {
       const feathersApp = feathers().configure(feathers.socketio(this.socket));
 
       //Obtenemos el service que queremos
-      this.pacientesDelDiaService = feathersApp.service('turnos');
+      this.turnosService = feathersApp.service('turnos');
 
 
       //Registramos eventos
-      this.pacientesDelDiaService.on('created', (turno) => this.onCreated(turno));
-      this.pacientesDelDiaService.on('updated', (turno) => this.onUpdated(turno));
-      this.pacientesDelDiaService.on('removed', (turno) => this.onRemoved(turno));
-      this.pacientesDelDiaService.on('patched', (turno) => this.onPatched(turno));
+      this.turnosService.on('created', (turno) => this.onCreated(turno));
+      this.turnosService.on('updated', (turno) => this.onUpdated(turno));
+      this.turnosService.on('removed', (turno) => this.onRemoved(turno));
+      this.turnosService.on('patched', (turno) => this.onPatched(turno));
 
 
       this.turnos$ = new Observable((observer) => {
@@ -62,7 +62,7 @@ export class TurnosDelMedicoService {
         let temp = moment(fechaHoy).format('YYYY-MM-DD');
         let temp2 = moment(temp, "YYYY-MM-DD").add(1, 'days');
         let temp3 = (moment(temp2).format('YYYY-MM-DD'));
-        this.pacientesDelDiaService.find({
+        this.turnosService.find({
             query: {
                 horaInicial: {
                   $gt: temp,
@@ -86,7 +86,7 @@ export class TurnosDelMedicoService {
 
 
     public updateTurno(turno, nuevoEstado){
-      this.pacientesDelDiaService.patch(turno._id,{"estado": nuevoEstado}).then((turnoActualizado) => {
+      this.turnosService.patch(turno._id,{"estado": nuevoEstado}).then((turnoActualizado) => {
         console.log("Turno actualizado correctamente");
       }).catch(err => console.error(err));
     }

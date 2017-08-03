@@ -36,6 +36,10 @@ export class Feathers {
     return this._feathers.service(name);
   }
 
+  public devolverFeathers(){
+    return this._feathers;
+  }
+
   // expose authentication
   public authenticate(credentials?): Promise<any> {
     return this._feathers.authenticate(credentials);

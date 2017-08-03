@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   template:`
 	    <section class="footer" style="z-index:999;">
             <div class="pull-right">
-                10GB of <strong>250GB</strong> Free.
+                Clínica de la Visión - <strong>Neuquén</strong>.
             </div>
             <div>
                 <strong>Copyright</strong> Codetry &copy; 2017

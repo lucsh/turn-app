@@ -25,10 +25,32 @@ export class LoginComponent {
       password
     })
       // navigate to base URL on success
-      .then(() => {
-        this.router.navigate(['/']);
-      })
-      .catch(err => {
+      .then((token) => {
+        console.log("####################");
+        console.log(token);
+
+        var gilada = this.feathers.devolverFeathers().passport.verifyJWT(token.accessToken);
+        gilada.then((payload)=>{
+          console.log("QUE MIERDA ES PAYLOAD");
+          console.log(payload);
+          var gilada2 = this.feathers.service("users").get(payload.userId);
+
+          gilada2.then((user)=>{
+            console.log("USUARIO:");
+            console.log(user);
+            // localStorage.setItem('user',user);
+            localStorage.setItem('user',JSON.stringify(user));
+
+            if(user.clase === 'medico'){
+              this.router.navigate(['/medico']);
+            }
+            else{
+              this.router.navigate(['/']);
+            }
+          })
+        })
+
+      }).catch(err => {
         this.messages = 'Error en el usuario o contraseña!';
       });
   }

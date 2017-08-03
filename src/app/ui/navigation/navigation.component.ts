@@ -57,11 +57,29 @@ export class NavigationComponent {
     });
   }
 
+  public esMedico(){
+
+    var usuario: any = JSON.parse(localStorage.getItem('user'));
+    // console.log(usuario);
+    if(usuario!=undefined && usuario != null){
+      var clase = usuario.clase;
+      // console.log("CLASEEEEEEEEEEE");
+      // console.log(usuario.toString());
+      return clase === "medico";
+
+    }
+
+
+    return true ;
+  }
+
   public ngOnInit():any {
 
     this.getUsuario();
 
     this.actualizarListaMedicos();
+
+
   }
 
 }

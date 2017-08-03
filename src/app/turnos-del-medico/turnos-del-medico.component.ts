@@ -107,15 +107,19 @@ export class TurnosDelMedicoComponent implements OnInit {
     //Aca debemos buscar la matricula del medico que queremos. En el caso de prueba, se pone MANUAL.
     //CAMBIAR!
 
-    this.miMatricula = "67101";
-    this.subscription = this.turnosDelMedicoService.turnos$.subscribe((turnos: Turno[]) => {
-        this.turnos = turnos;
-        this.ref.markForCheck();
-    }, (err) => {
-        console.error(err);
-    });
 
-    this.turnosDelMedicoService.buscarTurnos(this.miMatricula);
+    var medico: any = JSON.parse(localStorage.getItem('user'));
+    if (medico.clase === "medico"){
+      this.miMatricula = medico.matricula;
+      this.subscription = this.turnosDelMedicoService.turnos$.subscribe((turnos: Turno[]) => {
+          this.turnos = turnos;
+          this.ref.markForCheck();
+      }, (err) => {
+          console.error(err);
+      });
+
+      this.turnosDelMedicoService.buscarTurnos(this.miMatricula);
+    }
   }
 
 }
