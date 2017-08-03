@@ -33,6 +33,10 @@ export class LoginComponent {
       });
   }
 
+  public irRegistro(){
+    this.router.navigate(['/registro']);
+  }
+
   signup(email: string, password: string) {
     this.feathers.service('users')
       .create({email, password})

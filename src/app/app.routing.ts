@@ -10,6 +10,7 @@ import { AuthGuard } from './authentication/auth.guard';
 
 
 import { LoginComponent }     from './authentication/login.component';
+import { RegisterComponent } from './authentication/register.component';
 
 const appRoutes: Routes =  [
 {
@@ -37,7 +38,8 @@ const appRoutes: Routes =  [
 	component: TurnosDelMedicoComponent,
     canActivate: [AuthGuard]
 },
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+	{ path: 'registro', component: RegisterComponent }
 ];
 
 

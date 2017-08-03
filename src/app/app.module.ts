@@ -51,6 +51,7 @@ import { AuthService } from './authentication/auth.service';
 import { AuthGuard } from './authentication/auth.guard';
 import { Feathers } from './authentication/feathers.service';
 import { LoginComponent } from './authentication/login.component';
+import { RegisterComponent } from './authentication/register.component';
 
 
 @NgModule({
@@ -70,7 +71,8 @@ import { LoginComponent } from './authentication/login.component';
     AgregarPacienteComponent,
     ObrasComponent,
     TurnosDelMedicoComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
