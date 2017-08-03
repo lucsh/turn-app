@@ -1,3 +1,4 @@
+
 import {ModuleWithProviders} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 
@@ -11,6 +12,8 @@ import { AuthGuard } from './authentication/auth.guard';
 
 import { LoginComponent }     from './authentication/login.component';
 import { RegisterComponent } from './authentication/register.component';
+
+import { ConfiguracionMedicoComponent } from './configuracion-medico/configuracion-medico.component';
 
 const appRoutes: Routes =  [
 {
@@ -37,6 +40,11 @@ const appRoutes: Routes =  [
 	path:'medico',
 	component: TurnosDelMedicoComponent,
     canActivate: [AuthGuard]
+},
+{
+	path:'configuracion',
+	component: ConfiguracionMedicoComponent,
+	canActivate: [AuthGuard]
 },
   { path: 'login', component: LoginComponent },
 	{ path: 'registro', component: RegisterComponent }

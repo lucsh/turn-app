@@ -59,6 +59,11 @@
         <a [routerLink]="['/medico']"><i class="fa fa-th-large"></i> <span class="nav-label">Mis Turnos</span></a>
       </li>
 
+
+      <li [ngClass]="{active: activeRoute('configuracion')}">
+        <a [routerLink]="['/configuracion']"><i class="fa fa-th-large"></i> <span class="nav-label">Configuracion</span></a>
+      </li>
+
     </ul>
 
   </div>

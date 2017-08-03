@@ -90,21 +90,21 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
 
 
 
-      }
+  }
 
 
       /*
 
       */
-      public cancelar(){
-        //Limpiamos variables
-        //this.value = {};
+  public cancelar(){
+    //Limpiamos variables
+    //this.value = {};
 
-        //Cerramos el modal
-        this.obraSelected = null;
-        this.closeFormAgregarPaciente.nativeElement.click();
-      }
+    //Cerramos el modal
+    this.obraSelected = null;
+    this.closeFormAgregarPaciente.nativeElement.click();
+  }
 
 
 
-    }
+}

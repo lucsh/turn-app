@@ -50,14 +50,18 @@ export class NavigationComponent {
     );
   }
 
-  public ngOnInit():any {
-
-    this.getUsuario();
-
+  public actualizarListaMedicos(){
     const yo = this;
     this.medicosService.getDoctores().then((docs)=>{
         yo.medicos = docs;
     });
+  }
+
+  public ngOnInit():any {
+
+    this.getUsuario();
+
+    this.actualizarListaMedicos();
   }
 
 }

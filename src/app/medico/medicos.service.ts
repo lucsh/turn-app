@@ -26,6 +26,14 @@ export class MedicosService {
         .catch(this.handleError);
     }
 
+	public actualizarSemana(id,semana): Promise<any[]>{
+		return this.http.patch(this.medicosURL+'/'+id,{semanaEsquema:semana}).toPromise().then(respuesta => {
+			console.log("Semana actualizada");
+			console.log(respuesta);
+			return respuesta.json();
+		})
+	}
+
 	private handleError(error: any): Promise<any> {
         console.error('Ocurrio un error en servicio de Medicos: ', error);
         alert(error.json().error);

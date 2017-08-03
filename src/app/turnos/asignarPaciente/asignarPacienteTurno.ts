@@ -52,7 +52,7 @@ export class AsignarPacienteComponent implements OnChanges{
         yo.pacientesSelector[index].id = elem.nombre +' ' + elem.apellido + ' - ' + elem.dni;
         yo.pacientesSelector[index].text = elem.nombre +' ' + elem.apellido + ' - ' + elem.dni;
       });
-      if(yo.pacientesSelector.length > 1){
+      if(yo.pacientesSelector.length > 0){
         console.log('TRUE');
         this.actualizado = true;
       }
