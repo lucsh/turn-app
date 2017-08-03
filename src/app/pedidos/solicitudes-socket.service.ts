@@ -27,7 +27,7 @@ export class SolicitudesSocketService implements OnDestroy  {
   private matricula: string;
   private socket;
   constructor() {
-    console.log('Entre en Iniciar del Solicitudes SOCKET SERVICE');
+    //console.log('Entre en Iniciar del Solicitudes SOCKET SERVICE');
 
     this.socket = io(this.urlServidor);
     const feathersApp = feathers().configure(feathers.socketio(this.socket));
@@ -65,7 +65,7 @@ export class SolicitudesSocketService implements OnDestroy  {
 
       this.socket.disconnect();
       //this.turnosObserver = null;
-      console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
+      //console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
   }
 
   //---------------------------------------------------------------------------
@@ -93,8 +93,8 @@ export class SolicitudesSocketService implements OnDestroy  {
       this.dataStore.solicitudes = pacientesEnSolicitud;
 
 
-      console.log('****************************************');
-      console.log(pacientesEnSolicitud);
+      //console.log('****************************************');
+      //console.log(pacientesEnSolicitud);
 
       this.solicitudesObserver.next(this.dataStore.solicitudes);
     }).catch(err => console.error(err));
@@ -102,9 +102,9 @@ export class SolicitudesSocketService implements OnDestroy  {
 
 
   aprobarSolicitud(pacienteEnSolicitud){
-    console.log('Entre a aprobar solicutd en el Service');
+    //console.log('Entre a aprobar solicutd en el Service');
 
-    console.log(pacienteEnSolicitud);
+    //console.log(pacienteEnSolicitud);
 
     let indexPaciente = this.buscarSolicitud(pacienteEnSolicitud);
 
@@ -112,7 +112,7 @@ export class SolicitudesSocketService implements OnDestroy  {
       let id = pacienteEnSolicitud._id;
       this.solicitudesSocketService.patch(id,{"aprobado":true}).then(
         pacienteAprobado => {
-          console.log('Se aprobo el paciente que estaba en solicitud!!');
+          //console.log('Se aprobo el paciente que estaba en solicitud!!');
           if(pacienteAprobado.aprobado){
 
             /*
@@ -143,9 +143,9 @@ export class SolicitudesSocketService implements OnDestroy  {
   }
 
   rechazarSolicitud(pacienteEnSolicitud){
-    console.log('Entre a rechazar solicutd en el Service');
+    //console.log('Entre a rechazar solicutd en el Service');
 
-      console.log(pacienteEnSolicitud);
+      //console.log(pacienteEnSolicitud);
 
       let indexPaciente = this.buscarSolicitud(pacienteEnSolicitud);
 
@@ -153,7 +153,7 @@ export class SolicitudesSocketService implements OnDestroy  {
         let id = pacienteEnSolicitud._id;
         this.solicitudesSocketService.remove(id).then(
           pacienteRechazado => {
-            console.log('Se elimino la solicitud del paciente!!');
+            //console.log('Se elimino la solicitud del paciente!!');
             swal({
               title: 'Solicitud Rechazada!',
               text: 'Se ha eliminado la solicitud correctamente!',
@@ -182,8 +182,8 @@ export class SolicitudesSocketService implements OnDestroy  {
       Al crear un paciente en el server (rest o socket), se invoca este evento.
   */
   private onCreated(pacienteAprobado){
-    console.log('On created de Paciente (solicitud aprobada) de Angular con Socket de Feathers');
-    console.log(pacienteAprobado);
+    //console.log('On created de Paciente (solicitud aprobada) de Angular con Socket de Feathers');
+    //console.log(pacienteAprobado);
 
     //Si el nuevo paciente NO esta aprobado => entro una nueva solicitud
     if(!pacienteAprobado.aprobado){
@@ -199,8 +199,8 @@ export class SolicitudesSocketService implements OnDestroy  {
       Al eliminar un paciente en el server (rest o socket), se invoca este evento.
   */
   private onRemoved(pacienteRechazado){
-    console.log('On removed de Paciente (solicitud rechazada) de Angular con Socket de Feathers');
-    console.log(pacienteRechazado);
+    //console.log('On removed de Paciente (solicitud rechazada) de Angular con Socket de Feathers');
+    //console.log(pacienteRechazado);
 
     //Actualizamos las variables
 
@@ -216,8 +216,8 @@ export class SolicitudesSocketService implements OnDestroy  {
       Al hacer un patch sobre un paciente existente en el server (rest o socket), se invoca este evento.
   */
   private onPatched(pacienteAprobado){
-    console.log('On patched de Paciente (solicitud aprobada) de Angular con Socket de Feathers');
-    console.log(pacienteAprobado);
+    //console.log('On patched de Paciente (solicitud aprobada) de Angular con Socket de Feathers');
+    //console.log(pacienteAprobado);
 
     //Nos aseguramos que el paciente haya sido aprobado correctamente
     if(pacienteAprobado.aprobado){
@@ -245,7 +245,7 @@ export class SolicitudesSocketService implements OnDestroy  {
     let indexSolicitud = -1;
 
     let solicitudes = this.dataStore.solicitudes;
-    console.log(solicitudes);
+    //console.log(solicitudes);
 
     solicitudes.forEach(function(elem,index){
       if(elem._id.toString() == pacienteEnSolicitud._id.toString()){
@@ -261,14 +261,14 @@ export class SolicitudesSocketService implements OnDestroy  {
     let borrado = false;
 
     let solicitudes = this.dataStore.solicitudes;
-    console.log(solicitudes);
+    //console.log(solicitudes);
 
     let indexQuitar = this.buscarSolicitud(pacienteQuitar);
 
     if(indexQuitar > -1){
       solicitudes.splice(indexQuitar, 1);
 
-      console.log(solicitudes);
+      //console.log(solicitudes);
 
       borrado = true;
     }

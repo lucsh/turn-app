@@ -27,7 +27,7 @@ export class PacientesService {
 	}
 	// GET /messages?status=read&user=10
 	getPacientesActivos(): Promise<Paciente[]>{
-		return this.http.get(this.pacientesURL+"?eliminado=false")
+		return this.http.get(this.pacientesURL+"?eliminado=false&aprobado=true")
 		.toPromise()
 		.then(response => {
 			//console.log(response.json());
