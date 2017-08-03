@@ -19,7 +19,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
   @Output() pacienteAgregado = new EventEmitter();
   @Input() medico: any;
-  //@Input() obrasDelMedico: any[];
+  @Input() obrasDispTotales: any[];
 
   @ViewChild('closeFormConfigSemana') closeFormConfigSemana: ElementRef;
   @ViewChild('selector') selector: ElementRef;
@@ -40,7 +40,8 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
   ngOnInit() {
     if(this.medico != null){
-      this.obras = this.medico.obras;
+      //this.obras = this.medico.obras;
+      this.obras = this.obrasDispTotales;
       this.actualizarSelector();
       this.agregarIntervalo();
       this.agregarObra();
@@ -51,7 +52,8 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     // changes.prop contains the old and the new value...
     console.log("CAMBIE DE MEDICOOOOOOOOOOOOOOOOOOO");
     if(this.medico != null){
-      this.obras = this.medico.obras;
+      //this.obras = this.medico.obras;
+      this.obras = this.obrasDispTotales;
       console.log("medicos obras");
       console.log(this.medico.obras);
       this.actualizarSelector();
