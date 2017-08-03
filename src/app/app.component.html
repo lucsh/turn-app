@@ -1,13 +1,17 @@
 <!-- Wrapper-->
 <!-- <body *ngIf="estaLogueado()" > -->
 <!-- <div *ngIf="estaLogueado()" id="wrapper"> -->
+<style>.barraDelCostado{
+    margin: 0 0 0 0px !important;
+    /*background-color: black;*/
+}</style>
 <div id="wrapper">
 
   <!-- Left navigation bar -->
   <navigation *ngIf="estaLogueado()"></navigation>
 
   <!-- Main page wrapper -->
-  <div id="page-wrapper" class="gray-bg">
+  <div id="page-wrapper" class="gray-bg" [ngClass]="{'barraDelCostado': !estaLogueado()}">
 
     <!-- Top navigation -->
     <topnavbar *ngIf="estaLogueado()"></topnavbar>

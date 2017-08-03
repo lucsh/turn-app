@@ -31,6 +31,7 @@ export class AppComponent {
 		//console.log(localStorage);
 		let token = localStorage.getItem('feathers-jwt');
 		return token;
+		// return this.logueadoCache;
 	}
 
 	public logueado(){
