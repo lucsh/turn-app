@@ -27,19 +27,25 @@ export class AppComponent {
 		detectBody();
 	}
 
+	estaLogueado(){
+		//console.log(localStorage);
+		let token = localStorage.getItem('feathers-jwt');
+		return token;
+	}
+
 	public logueado(){
 		console.log("logueado method");
 
 		this.auth
-			.logIn()
-			.then(() => {
-				console.log('TODO OK');
-				this.logueadoCache = true;
-			})
-			.catch(() => {
-				console.log('No logueado');
+		.logIn()
+		.then(() => {
+			console.log('TODO OK');
+			this.logueadoCache = true;
+		})
+		.catch(() => {
+			console.log('No logueado');
 
-				this.logueadoCache = false;
+			this.logueadoCache = false;
 		});
-  }
+	}
 }
