@@ -20,7 +20,7 @@ export class PacientesService {
 		return this.http.get(this.pacientesURL)
 		.toPromise()
 		.then(response => {
-			//console.log(response.json());
+			////console.log(response.json());
 			return response.json() as Paciente[];
 		})
 		.catch(this.handleError);
@@ -30,7 +30,7 @@ export class PacientesService {
 		return this.http.get(this.pacientesURL+"?eliminado=false")
 		.toPromise()
 		.then(response => {
-			//console.log(response.json());
+			////console.log(response.json());
 			return response.json() as Paciente[];
 		})
 		.catch(this.handleError);
@@ -60,7 +60,7 @@ export class PacientesService {
 		return this.http.get(this.pacientesURL+'/'+id)
 		.toPromise()
 		.then(response => {
-			//console.log(response.json());
+			////console.log(response.json());
 			return response.json() as Paciente[];
 		})
 		.catch(this.handleError);
@@ -70,8 +70,8 @@ export class PacientesService {
 		return this.http.put(this.pacientesURL+'/'+id,datos)
 		.toPromise()
 		.then(response => {
-			// console.log("RESPUESTA DESDE EL PUT");
-			// console.log(response.json());
+			// ////console.log("RESPUESTA DESDE EL PUT");
+			// ////console.log(response.json());
 			return response.json() as Paciente[];
 		})
 		.catch(this.handleError);
@@ -81,8 +81,8 @@ export class PacientesService {
 		return this.http.patch(this.pacientesURL+'/'+id,{sancion:true})
 		.toPromise()
 		.then(response => {
-			// console.log("RESPUESTA DESDE EL PATCH");
-			// console.log(response.json());
+			// ////console.log("RESPUESTA DESDE EL PATCH");
+			// ////console.log(response.json());
 			return response.json() as Paciente[];
 		})
 		.catch(this.handleError);
@@ -92,8 +92,8 @@ export class PacientesService {
 		return this.http.patch(this.pacientesURL+'/'+id,{eliminado:true})
 		.toPromise()
 		.then(response => {
-			console.log("RESPUESTA DESDE EL PATCH");
-			console.log(response.json());
+			//console.log("RESPUESTA DESDE EL PATCH");
+			//console.log(response.json());
 			return response.json() as Paciente[];
 		})
 		.catch(this.handleError);
@@ -103,8 +103,8 @@ export class PacientesService {
 		return this.http.patch(this.pacientesURL+'/'+id,{sancion:false})
 		.toPromise()
 		.then(response => {
-			// console.log("RESPUESTA DESDE EL PATCH");
-			// console.log(response.json());
+			// ////console.log("RESPUESTA DESDE EL PATCH");
+			// ////console.log(response.json());
 			return response.json() as Paciente[];
 		})
 		.catch(this.handleError);

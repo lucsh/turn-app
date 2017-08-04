@@ -50,7 +50,7 @@ export class ConfiguracionMedicoComponent implements OnInit {
 
   public actualizarSelector(){
     if(this.obras!=null){
-      console.log('Entre a Ng on Changes del modal configurar semana');
+      ////console.log('Entre a Ng on Changes del modal configurar semana');
 
 
       let yo = this;
@@ -66,7 +66,7 @@ export class ConfiguracionMedicoComponent implements OnInit {
         yo.obrasSelector[index].text = elem.nombre;
       });
       if(yo.obrasSelector.length > 0){
-        console.log('TRUE');
+        ////console.log('TRUE');
         this.actualizado = true;
       }
     }
@@ -77,7 +77,7 @@ export class ConfiguracionMedicoComponent implements OnInit {
   getAllMedicos(): void{
     this.configuracionMedicoService.getMedicos().then(medics => {
         this.medicos = medics;
-        //console.log(medics);
+        ////console.log(medics);
     });
   }
 
@@ -87,10 +87,10 @@ export class ConfiguracionMedicoComponent implements OnInit {
 
     let obrasAsignadas = this.asignarObras();
 
-    console.log(obrasAsignadas);
+    ////console.log(obrasAsignadas);
     this.configuracionMedicoService.actualizarMedico(id,nombre,apellido,duracionTurno,obrasAsignadas).then(medicoNuevo =>{
-      console.log("El medico nuevo es....");
-      console.log(medicoNuevo);
+      ////console.log("El medico nuevo es....");
+      ////console.log(medicoNuevo);
       // let id = medicoNuevo._id;
       // let index = this.getIndex();
 
@@ -113,7 +113,7 @@ export class ConfiguracionMedicoComponent implements OnInit {
     this.obrasSelector.forEach(function(elem,index){
       for (let i = 0; i < yo.value.length; i++) {
           if(elem.id == yo.value[i].id){
-            console.log('encontre!');
+            ////console.log('encontre!');
             obrasAsignadas.push(elem._id); //clonamos el elemento
           }
       }
@@ -123,7 +123,7 @@ export class ConfiguracionMedicoComponent implements OnInit {
     //Quitamos los atributos agregados para el selector del clone
     // delete pacienteAsignado['id'];
     // delete pacienteAsignado['text'];
-    // console.log(pacienteAsignado);
+    // ////console.log(pacienteAsignado);
 
     return obrasAsignadas;
   }
@@ -137,8 +137,8 @@ export class ConfiguracionMedicoComponent implements OnInit {
       semanaGuardada = semana;
 
       $('#formConfigSemana').modal('show');
-      console.log("LA SEMANA Q LE LLEGA AL COMPONENT ES....");
-      console.log(semana);
+      ////console.log("LA SEMANA Q LE LLEGA AL COMPONENT ES....");
+      ////console.log(semana);
     });
   }
 
@@ -166,15 +166,15 @@ export class ConfiguracionMedicoComponent implements OnInit {
     this.disabled = this._disabledV === '1';
   }
   public selected(value:any):void {
-    //console.log('Selected value is: ', value);
+    ////console.log('Selected value is: ', value);
   }
 
   public removed(value:any):void {
-    //console.log('Removed value is: ', value);
+    ////console.log('Removed value is: ', value);
   }
 
   public typed(value:any):void {
-    //console.log('New search input: ', value);
+    ////console.log('New search input: ', value);
   }
 
   public refreshValue(value:any):void {

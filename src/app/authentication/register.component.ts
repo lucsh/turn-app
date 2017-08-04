@@ -18,10 +18,10 @@ export class RegisterComponent {
     ) {}
 
     public registrar(nombre, apellido, email, password){
-      console.log('Entre a registrar!');
+      ////console.log('Entre a registrar!');
       this.authService.signup(nombre, apellido, email, password).then(nuevo =>{
-        // console.log('Me llego el nuevo usuario!');
-        // console.log(nuevo);
+        // ////console.log('Me llego el nuevo usuario!');
+        // ////console.log(nuevo);
 
         this.irLogin();
 

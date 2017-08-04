@@ -50,19 +50,19 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
   ngOnChanges(changes) {
     // changes.prop contains the old and the new value...
-    console.log("CAMBIE DE MEDICOOOOOOOOOOOOOOOOOOO");
+    ////console.log("CAMBIE DE MEDICOOOOOOOOOOOOOOOOOOO");
     if(this.medico != null){
       //this.obras = this.medico.obras;
       this.obras = this.obrasDispTotales;
-      console.log("medicos obras");
-      console.log(this.medico.obras);
+      ////console.log("medicos obras");
+      ////console.log(this.medico.obras);
       this.actualizarSelector();
     }
   }
 
   public actualizarSelector(){
     if(this.obras!=null){
-      console.log("Entre al actualizar selector");
+      ////console.log("Entre al actualizar selector");
 
 
 
@@ -79,15 +79,15 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
         yo.obrasSelector[index].text = elem.nombre;
       });
       if(yo.obrasSelector.length > 0){
-        console.log('TRUE');
+        ////console.log('TRUE');
         this.actualizado = true;
-        console.log(this.selector);
+        ////console.log(this.selector);
 
 
         if(this.selector != undefined){
-          console.log("###########################################");
-          console.log((<any>(this.selector)).element);
-          console.log((<any>(this.selector)).element.itemObjects);
+          ////console.log("###########################################");
+          ////console.log((<any>(this.selector)).element);
+          ////console.log((<any>(this.selector)).element.itemObjects);
           (<any>(this.selector)).element.itemObjects = yo.obrasSelector
         }
 
@@ -97,7 +97,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
 
   public agregarPaciente(){
-      console.log('Entre a agregar Paciente');
+      ////console.log('Entre a agregar Paciente');
       let obraId = this.obraSelected._id;
   }
 
@@ -138,7 +138,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
       intervalo.dias.splice(index,1);
     }
     intervalo.dias.sort(function(a, b){return a - b});
-    console.log(intervalo);
+    ////console.log(intervalo);
   }
 
 
@@ -153,14 +153,14 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
          result[i] = {obraSocial: this.turnosPorObra[i].obraSocial._id, cantDisponible:this.turnosPorObra[i].cantDisponible}
      }
 
-     console.log(result);
+     ////console.log(result);
      return result;
    }
 
   public guardarIntervalos(){
 
-    console.log(this.selector);
-    console.log(this.medico);
+    ////console.log(this.selector);
+    ////console.log(this.medico);
     let obras = this.parsearObras();
 
     let semana = {
@@ -169,8 +169,8 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     }
 
     this.medicosService.actualizarSemana(this.medico._id,semana).then(resultado => {
-      console.log("EL RESULTADO DE ACTUALIZAR SEMANA ES....");
-      console.log(resultado);
+      ////console.log("EL RESULTADO DE ACTUALIZAR SEMANA ES....");
+      ////console.log(resultado);
     }).catch(error => {console.log(error)});
 
 
@@ -210,15 +210,15 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     this.disabled = this._disabledV === '1';
   }
   public selected(value:any):void {
-    //console.log('Selected value is: ', value);
+    ////console.log('Selected value is: ', value);
   }
 
   public removed(value:any):void {
-    //console.log('Removed value is: ', value);
+    ////console.log('Removed value is: ', value);
   }
 
   public typed(value:any):void {
-    //console.log('New search input: ', value);
+    ////console.log('New search input: ', value);
   }
 
   public refreshValue(value:any):void {

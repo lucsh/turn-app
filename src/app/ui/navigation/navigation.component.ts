@@ -7,6 +7,8 @@ import { Medico } from '../../medico/medico.tipo';
 
 import 'jquery-slimscroll';
 
+import { AuthService } from '../../authentication/auth.service'
+
 
 declare var jQuery:any;
 
@@ -17,14 +19,15 @@ declare var jQuery:any;
 
 export class NavigationComponent {
 
-  profile: string[];
+  profile: any;
 
   private medicos: Medico[];
 
   constructor(
       private router: Router,
       private navigationService: NavigationService,
-      private medicosService: MedicosService
+      private medicosService: MedicosService,
+      private authService: AuthService
   ) {}
 
   ngAfterViewInit() {
@@ -41,13 +44,29 @@ export class NavigationComponent {
     return this.router.url.indexOf(routename) > -1;
   }
 
+  logOut(){
+    this.authService.logOut();
+  }
+
 
   getUsuario(){
-    this.navigationService.getUsuario()
-    .subscribe(
-      data => this.profile = data,
-      error => console.log('Server Error')
-    );
+
+    var usuario: any = JSON.parse(localStorage.getItem('user'));
+
+    ////console.log('ENTRE A GET USUARIO');
+    // ////console.log(usuario);
+    if(usuario!=undefined && usuario != null){
+
+      this.profile = {};
+      this.profile.nombre = usuario.nombre;
+      this.profile.cargo = usuario.clase;
+    }
+
+    // this.navigationService.getUsuario()
+    // .subscribe(
+    //   data => this.profile = data,
+    //   error => ////console.log('Server Error')
+    // );
   }
 
   public actualizarListaMedicos(){
@@ -60,11 +79,13 @@ export class NavigationComponent {
   public esMedico(){
 
     var usuario: any = JSON.parse(localStorage.getItem('user'));
-    // console.log(usuario);
+    // ////console.log(usuario);
     if(usuario!=undefined && usuario != null){
+
+      //this.getUsuario();
       var clase = usuario.clase;
-      // console.log("CLASEEEEEEEEEEE");
-      // console.log(usuario.toString());
+      // ////console.log("CLASEEEEEEEEEEE");
+      // ////console.log(usuario.toString());
       return clase === "medico";
 
     }

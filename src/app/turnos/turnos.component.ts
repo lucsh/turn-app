@@ -65,7 +65,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
     let yo = this;
 
     this.iniciarServicio();
-    console.log("ENTRE X VECES: ");
+    ////console.log("ENTRE X VECES: ");
 
     // Eventos que se pueden capturar:
     // NavigationStart
@@ -79,18 +79,18 @@ export class TurnosComponent implements OnInit, OnDestroy {
     .forEach((event) => {
 
       while(!yo.iniciado){
-        console.log('Adentro');
+        ////console.log('Adentro');
         setTimeout(function(){}, 5000);
       }
 
-      // console.log("En router events");
-      //console.log(event);
+      // ////console.log("En router events");
+      ////console.log(event);
 
       if(event instanceof NavigationEnd){
         let tempUrl = event.url.split('/',4)[1];
         if (tempUrl == 'turnos'){
           let idDoctor = event.url.split('/',4)[3];
-          //console.log(matricula);
+          ////console.log(matricula);
 
           if(yo.turnosSocketService ){
             if(yo.cambio ){
@@ -118,15 +118,15 @@ export class TurnosComponent implements OnInit, OnDestroy {
   }
 
   iniciarServicio(){
-    console.log('*******************************************');
-    console.log('Entre a INICIAR SERVICIO de TURNO COMPONENT');
+    ////console.log('*******************************************');
+    ////console.log('Entre a INICIAR SERVICIO de TURNO COMPONENT');
     this.iniciado = this.turnosSocketService.iniciar(this.idDoctor);
   }
 
   loadCalendar(idDoctor: string){
 
-    //console.log('LLEGUE A LOAD CALENDAR');
-    //console.log(matricula);
+    ////console.log('LLEGUE A LOAD CALENDAR');
+    ////console.log(matricula);
 
     var yo = this;
     $('#calendar')
@@ -168,7 +168,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
       eventLimit: true, // allow "more" link when too many events
       events: this.turnos,
       dayClick: function(date, jsEvent, view) { //date es un moment
-        console.log('Clicked on: ' + date.format());
+        ////console.log('Clicked on: ' + date.format());
         //PRUEBA DE CAMBIO DE VISUAL:
         if (view.name == "month") {
           // Si la vista acutal es la del mes...
@@ -179,14 +179,14 @@ export class TurnosComponent implements OnInit, OnDestroy {
         let arregloDeHoras = $('#calendar').fullCalendar('option', 'businessHours');
         //FIN DE LA PRUEBA.
         let horaClick = date.hour() + ':' + date.minutes();
-        console.log(date);
-        console.log(date.day());
+        ////console.log(date);
+        ////console.log(date.day());
 
         // CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
         let duracionTurno = parseInt($('#calendar').fullCalendar('option','slotDuration').split(':')[1]); //CAMBIARRRRRRRR
-        console.log($('#calendar').fullCalendar('option','slotDuration').split(':')[2]);
-        console.log("duracion");
-        console.log(duracionTurno);
+        ////console.log($('#calendar').fullCalendar('option','slotDuration').split(':')[2]);
+        ////console.log("duracion");
+        ////console.log(duracionTurno);
         // CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 
 
@@ -202,12 +202,12 @@ export class TurnosComponent implements OnInit, OnDestroy {
         let temp2 = temp.add(duracionTurno, 'm');
 
         let horaClickFinal = temp2.hour() + ':' + temp2.minutes();
-        console.log("HORA FINALLLLLLLLLLLLL");
-        console.log(horaClickFinal);
+        ////console.log("HORA FINALLLLLLLLLLLLL");
+        ////console.log(horaClickFinal);
         //comprobamos la validez de la hora ingresada!
         if(yo.comprobarValidezHora(arregloDeHoras,horaClick,horaClickFinal,date.day())){
 
-            console.log("ENTRE CORRECTAMENTE AL RANGO HORARIO!");
+            ////console.log("ENTRE CORRECTAMENTE AL RANGO HORARIO!");
             yo.asignarPaciente(date);
           }
 
@@ -238,9 +238,9 @@ export class TurnosComponent implements OnInit, OnDestroy {
         let horaFinal = event.end.hour() + ':' + event.end.minutes();
 
 
-        console.log("Horas...");
-        console.log(horaInicial);
-        console.log(horaFinal);
+        ////console.log("Horas...");
+        ////console.log(horaInicial);
+        ////console.log(horaFinal);
 
         if(yo.comprobarValidezHora(arregloDeHoras,horaInicial,horaFinal,event.start.day())){
 
@@ -330,8 +330,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
   //TESTEAR ESTO! VERIFICAR SI ESTA BIEN LA LOGICA!
   comprobarValidezHora(arregloHorasValidas,horaInicialEvento, horaFinalEvento, numDia): Boolean{
-    console.log("comprobando validez");
-    console.log(arregloHorasValidas);
+    ////console.log("comprobando validez");
+    ////console.log(arregloHorasValidas);
 
 
     let validez = false;
@@ -346,25 +346,25 @@ export class TurnosComponent implements OnInit, OnDestroy {
       let temp = arregloHorasValidas[i].start;
       if (arregloHorasValidas[i].start[0]==='0'){
         temp = arregloHorasValidas[i].start.substring(1,arregloHorasValidas[i].start.length);
-        // console.log(temp);
-        // console.log(horaInicialEvento>=temp);
+        // ////console.log(temp);
+        // ////console.log(horaInicialEvento>=temp);
       }
       let temp2 = arregloHorasValidas[i].end;
       if (arregloHorasValidas[i].end[0]==='0'){
         temp2 = arregloHorasValidas[i].end.substring(1,arregloHorasValidas[i].end.length);
-        //console.log(horaFinalEvento <= temp2);
+        ////console.log(horaFinalEvento <= temp2);
       }
       for (let j = 0; j < arregloHorasValidas[i].dow.length; j++) {
-        // console.log("----------");
-        // console.log(arregloHorasValidas[i].dow[j]);
+        // ////console.log("----------");
+        // ////console.log(arregloHorasValidas[i].dow[j]);
           if(arregloHorasValidas[i].dow[j] == numDia){
-            // console.log("ENTRE Nº1");
-            // console.log(temp);
-            // console.log(horaInicialEvento);
-            // console.log(temp <= horaInicialEvento);
-            // console.log(temp2);
-            // console.log(horaFinalEvento);
-            // console.log("----------");
+            // ////console.log("ENTRE Nº1");
+            // ////console.log(temp);
+            // ////console.log(horaInicialEvento);
+            // ////console.log(temp <= horaInicialEvento);
+            // ////console.log(temp2);
+            // ////console.log(horaFinalEvento);
+            // ////console.log("----------");
 
             let horaValidaInicio = parseInt(temp.split(':')[0]);
             let horaValidaFin = parseInt(temp2.split(':')[0]);
@@ -375,23 +375,23 @@ export class TurnosComponent implements OnInit, OnDestroy {
             if((horaInicialE > horaValidaInicio) && ((horaFinalE < horaValidaFin) || (horaFinalE == horaValidaFin && minFinalE <= minValidaFin))){
               validez = true;
 
-              // console.log("IF");
-              // console.log(minFinalE);
-              // console.log(minValidaFin);
-              // console.log(minFinalE <= minValidaFin);
+              // ////console.log("IF");
+              // ////console.log(minFinalE);
+              // ////console.log(minValidaFin);
+              // ////console.log(minFinalE <= minValidaFin);
             }
             else{
-              // console.log("ELSE");
-              // console.log(horaInicialE == horaValidaInicio);
-              // console.log("-");
-              // console.log(minInicialE >= minValidaInicio);
-              // console.log("-");
-              // console.log(horaFinalE < horaValidaFin);
-              // console.log("-");
-              // console.log(horaFinalE == horaValidaFin);
-              // console.log("-");
-              // console.log(minFinalE <= minValidaFin);
-              // console.log("-");
+              // ////console.log("ELSE");
+              // ////console.log(horaInicialE == horaValidaInicio);
+              // ////console.log("-");
+              // ////console.log(minInicialE >= minValidaInicio);
+              // ////console.log("-");
+              // ////console.log(horaFinalE < horaValidaFin);
+              // ////console.log("-");
+              // ////console.log(horaFinalE == horaValidaFin);
+              // ////console.log("-");
+              // ////console.log(minFinalE <= minValidaFin);
+              // ////console.log("-");
               if((horaInicialE == horaValidaInicio) && (minInicialE >= minValidaInicio)){
                 if((horaFinalE < horaValidaFin) || (horaFinalE == horaValidaFin && minFinalE <= minValidaFin)){
                   validez = true;
@@ -411,8 +411,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
   }
 
   onAsignacionPaciente(asignacion){
-    // console.log('On Asignacion de Paciente');
-    // console.log(asignacion);
+    // ////console.log('On Asignacion de Paciente');
+    // ////console.log(asignacion);
 
     if(asignacion != null){
       this.crearTurno(this.fechaNuevoTurno, asignacion);
@@ -431,8 +431,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
   metodoLimpieza(idDoctor){
 
-    // console.log('*****///****');
-     console.log('Entre a metodo limpieza');
+    // ////console.log('*****///****');
+     ////console.log('Entre a metodo limpieza');
     //Limpiamos el calendario
     // calendario.fullCalendar( 'destroy' );
     let yo = this;
@@ -457,10 +457,10 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
   verificarUrl(){
 
-    // console.log(this.url);
+    // ////console.log(this.url);
     // console.log (this.doctores.find(doctor => doctor.url == "this.url"));
     // //^^ no lo encuentra
-    // console.log(this.doctores);
+    // ////console.log(this.doctores);
 
   }
 
@@ -474,13 +474,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
     });
   }
   getAllTurnos(url, idDoctor): void {
-    console.log(url)//parametro para la consulta
-    this.turnosService
-    .getTurnos()
-    .then(docs => {
-      this.turnos = docs;
-      this.loadCalendar(idDoctor)
-    });
+    ////console.log(url)//parametro para la consulta
+    this.loadCalendar(idDoctor)
   }
 
 
@@ -499,29 +494,29 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
       yo.pacientes = pacientes;
 
-      // console.log('pacientes');
-      // console.log(pacientes);
+      // ////console.log('pacientes');
+      // ////console.log(pacientes);
       yo.getAllDoctores();
 
 
-    }).catch(err => console.log(err))
+    }).catch(err =>  console.log(err))
     //alert(this.url);
 
   }
 
   ngOnDestroy() {
-    // console.log("ME DESTRUIIIIIII ####@#|@##~#@");
+    // ////console.log("ME DESTRUIIIIIII ####@#|@##~#@");
     // //this.subscription.unsubscribe();
-    // console.log('####*****////########//////###');
-    console.log('OBSERVERS');
+    // ////console.log('####*****////########//////###');
+    ////console.log('OBSERVERS');
     var observers = (<any>(this.router.events)).observers;
-    //console.log(observers);
-    console.log(observers[observers.length-1].unsubscribe());
-    //console.log(observers);
-    console.log('####*****////########//////###');
-    console.log();
+    ////console.log(observers);
+    ////console.log(observers[observers.length-1].unsubscribe());
+    ////console.log(observers);
+    ////console.log('####*****////########//////###');
+    ////console.log();
 
-    console.log(this.router);
+    ////console.log(this.router);
     this.router.dispose();
     this.turnosSocketService = null;
     this.pacientesService = null;

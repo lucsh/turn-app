@@ -65,7 +65,7 @@ export class TurnosDelMedicoComponent implements OnInit {
 
   /* Metodo para armar un objeto fechas. tiene las alternativas de ambos SO trabajados en el desarrollo */
   aDate(turno){
-    //console.log(turno);
+    ////console.log(turno);
 
     //En Windows:
     var momentDate = moment(turno);
@@ -78,8 +78,8 @@ export class TurnosDelMedicoComponent implements OnInit {
 
 
   updateTurno(turno,estado){
-    // console.log(turno);
-    // console.log(estado);
+    // ////console.log(turno);
+    // ////console.log(estado);
     turno.estado=estado;
 
     this.turnosDelMedicoService.updateTurno(turno,estado);

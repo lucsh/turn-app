@@ -14,7 +14,7 @@ declare var jQuery:any;
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnDestroy, OnInit {
-	
+
   public nav:any;
   todos: string[];
   citas: string[];
@@ -43,44 +43,40 @@ export class DashboardComponent implements OnDestroy, OnInit {
     return clase
   }
 
-  getAllMensajes(){
-    this.dashboardService.getMensajes()
-    .subscribe(
-      data => this.mensajes = data,
-      error => console.log('Server Error')
-    );
-  }
-  getAllEstadosCitas(){
-    this.dashboardService.getEstadosCitas()
-    .subscribe(
-      data => this.estadosCitas = data,
-      error => console.log('Server Error')
-    );
-  }
-  getAllCitas(){
-    this.dashboardService.getCitas()
-    .subscribe(
-      data => this.citas = data,
-      error => console.log('Server Error')
-    );
-  }
-  updateCita(cita,estado){
-    console.log(cita);
-    console.log(estado);
-    cita.status=estado;
-    this.dashboardService.updateCita(cita).subscribe(
-      data => {
-        this.getAllTodos();
-      });
-  
-  }
+  // getAllMensajes(){
+  //   this.dashboardService.getMensajes()
+  //   .subscribe(
+  //     data => this.mensajes = data,
+  //     error => ////console.log('Server Error')
+  //   );
+  // }
+  // getAllEstadosCitas(){
+  //   this.dashboardService.getEstadosCitas()
+  //   .subscribe(
+  //     data => this.estadosCitas = data,
+  //     error => ////console.log('Server Error')
+  //   );
+  // }
+  // getAllCitas(){
+  //   this.dashboardService.getCitas()
+  //   .subscribe(
+  //     data => this.citas = data,
+  //     error => ////console.log('Server Error')
+  //   );
+  // }
+  // updateCita(cita,estado){
+  //   ////console.log(cita);
+  //   ////console.log(estado);
+  //   cita.status=estado;
+  //   this.dashboardService.updateCita(cita).subscribe(
+  //     data => {
+  //       this.getAllTodos();
+  //     });
+  //
+  // }
 
   getAllTodos(){
-    this.dashboardService.getTodos()
-    .subscribe(
-      data => this.todos = data,
-      error => console.log('Server Error')
-    );
+    this.todos = this.dashboardService.getTodos();
   }
   createTodo(newTodo : string){
     this.dashboardService.createTodo(newTodo).subscribe(
@@ -103,9 +99,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
   public ngOnInit():any {
     this.getAllTodos();
-    this.getAllCitas();
-    this.getAllMensajes();
-    this.getAllEstadosCitas();
+  //  this.getAllCitas();
+    //this.getAllMensajes();
+    //this.getAllEstadosCitas();
     this.nav.className += " white-bg";
   }
 

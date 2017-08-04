@@ -9,9 +9,9 @@
             <span class="text-muted text-xs block">{{profile?.cargo}}<b class="caret"></b> </span>
           </a>
           <ul class="animated fadeInRight dropdown-menu" *dropdownMenu>
-            <li><a href="#">Perfil</a></li>
+            <li><a>Perfil</a></li>
             <li class="divider"></li>
-            <li><a href="#">Cerrar Sesión</a></li>
+            <li><a (click)='logOut()'>Cerrar Sesión</a></li>
           </ul>
         </div>
         <div class="logo-element">

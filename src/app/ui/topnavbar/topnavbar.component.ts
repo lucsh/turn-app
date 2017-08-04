@@ -19,7 +19,7 @@ export class TopnavbarComponent {
 
   logout(){
     this.authService.logOut();
-    console.log('logout');
+    ////console.log('logout');
      //.authService.isLoggedIn();
   }
 

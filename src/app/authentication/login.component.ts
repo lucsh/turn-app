@@ -26,18 +26,18 @@ export class LoginComponent {
     })
       // navigate to base URL on success
       .then((token) => {
-        console.log("####################");
-        console.log(token);
+        ////console.log("####################");
+        ////console.log(token);
 
         var gilada = this.feathers.devolverFeathers().passport.verifyJWT(token.accessToken);
         gilada.then((payload)=>{
-          console.log("QUE MIERDA ES PAYLOAD");
-          console.log(payload);
+          ////console.log("QUE MIERDA ES PAYLOAD");
+          ////console.log(payload);
           var gilada2 = this.feathers.service("users").get(payload.userId);
 
           gilada2.then((user)=>{
-            console.log("USUARIO:");
-            console.log(user);
+            ////console.log("USUARIO:");
+            ////console.log(user);
             // localStorage.setItem('user',user);
             localStorage.setItem('user',JSON.stringify(user));
 

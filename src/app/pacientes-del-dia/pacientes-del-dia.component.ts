@@ -49,8 +49,8 @@ export class PacientesDelDiaComponent implements OnInit {
   constructor(private pacienteDelDiaService : PacientesDelDiaService,private ref: ChangeDetectorRef) { }
 
   claseEstadoTurno(status){
-    // console.log("### ESTADO TURNO ###")
-    // console.log(status);
+    // ////console.log("### ESTADO TURNO ###")
+    // ////console.log(status);
     var clase = "btn-default";
     for (var i in this.estadosTurnos) {
       if (status == this.estadosTurnos[i].nombre){
@@ -62,7 +62,7 @@ export class PacientesDelDiaComponent implements OnInit {
   }
 
   aDate(turno){
-    //console.log(turno);
+    ////console.log(turno);
 
     //En Windows:
     //var momentDate = moment(turno);
@@ -74,8 +74,8 @@ export class PacientesDelDiaComponent implements OnInit {
   }
 
   updateTurno(turno,estado){
-    // console.log(turno);
-    // console.log(estado);
+    // ////console.log(turno);
+    // ////console.log(estado);
     turno.estado=estado;
 
     this.pacienteDelDiaService.updateTurno(turno,estado);

@@ -22,7 +22,7 @@ export class AuthService {
   public logOut() {
     this.feathers.logout();
     this.router.navigate(['login']);
-    console.log('logOut');
+    ////console.log('logOut');
   };
 
   public signup(nombre, apellido, email: string, password: string): Promise<any> {
@@ -31,11 +31,11 @@ export class AuthService {
       .take(1)
       .toPromise()
       .then(res => {
-        // console.log('Lo cree!!');
-        // console.log(res);
+        // ////console.log('Lo cree!!');
+        // ////console.log(res);
         return res as Promise<any>;
       })
-      .catch(err => console.log(err))
+      .catch(err =>  console.log(err))
     ;
   }
 

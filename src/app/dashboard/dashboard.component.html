@@ -25,7 +25,7 @@
               Input para agregar tareas
               -->
                 <hr>
-                  <div class="input-group"><input  #newTodo placeholder="Nueva tarea" type="text" class="form-control"> <span class="input-group-btn"> <button (click)="createTodo(newTodo.value);newTodo.value=''" type="button" class="btn btn-primary">Agregar
+                  <div class="input-group"><input  #newTodo placeholder="Nueva tarea" type="text" class="form-control"> <span class="input-group-btn"> <button (click)="createTodo(newTodo.value);newTodo.value=''" type="button" class="btn btn-primary" [disabled]='true '>Agregar
                   </button> </span></div>
 
             </div>

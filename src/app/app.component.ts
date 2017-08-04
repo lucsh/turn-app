@@ -28,23 +28,23 @@ export class AppComponent {
 	}
 
 	estaLogueado(){
-		//console.log(localStorage);
+		////console.log(localStorage);
 		let token = localStorage.getItem('feathers-jwt');
 		return token;
 		// return this.logueadoCache;
 	}
 
 	public logueado(){
-		console.log("logueado method");
+		//console.log("logueado method");
 
 		this.auth
 		.logIn()
 		.then(() => {
-			console.log('TODO OK');
+			//console.log('TODO OK');
 			this.logueadoCache = true;
 		})
 		.catch(() => {
-			console.log('No logueado');
+			//console.log('No logueado');
 
 			this.logueadoCache = false;
 		});

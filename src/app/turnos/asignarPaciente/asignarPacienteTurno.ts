@@ -34,7 +34,7 @@ export class AsignarPacienteComponent implements OnChanges{
     // changes.prop contains the old and the new value...
 
     if(this.pacientes!=null && this.fechaNuevoTurno != null){
-      console.log('Entre a Ng on Changes de Asignar PacientesServiceiente a un Turno');
+      ////console.log('Entre a Ng on Changes de Asignar PacientesServiceiente a un Turno');
 
       //Asignamos las fechas para el modal
       this.horaNuevoTurno = this.fechaNuevoTurno.format('HH:mm');
@@ -53,7 +53,7 @@ export class AsignarPacienteComponent implements OnChanges{
         yo.pacientesSelector[index].text = elem.nombre +' ' + elem.apellido + ' - ' + elem.dni;
       });
       if(yo.pacientesSelector.length > 0){
-        console.log('TRUE');
+        ////console.log('TRUE');
         this.actualizado = true;
       }
     }
@@ -70,7 +70,7 @@ export class AsignarPacienteComponent implements OnChanges{
 
     this.pacientesSelector.forEach(function(elem,index){
       if(elem.id == yo.value.id){
-        console.log('encontre!');
+        ////console.log('encontre!');
         pacienteAsignado = Object.assign({}, elem); //clonamos el elemento
       }
     });
@@ -78,7 +78,7 @@ export class AsignarPacienteComponent implements OnChanges{
     //Quitamos los atributos agregados para el selector del clone
     // delete pacienteAsignado['id'];
     // delete pacienteAsignado['text'];
-    // console.log(pacienteAsignado);
+    // ////console.log(pacienteAsignado);
 
     //Cerramos el modal
     this.closeFormCrearTurno.nativeElement.click();
@@ -106,8 +106,8 @@ export class AsignarPacienteComponent implements OnChanges{
   }
 
   public onPacienteAgregado(pacienteNuevo){
-    console.log('Entre en onPacienteAgregado de Asignar Paciente Turno');
-    console.log(pacienteNuevo);
+    ////console.log('Entre en onPacienteAgregado de Asignar Paciente Turno');
+    ////console.log(pacienteNuevo);
 
     if(pacienteNuevo != null && pacienteNuevo.aprobado){
       this.pacientes.push(pacienteNuevo); //No se si es necesario hacerlo con pacientes
@@ -132,15 +132,15 @@ export class AsignarPacienteComponent implements OnChanges{
     this.disabled = this._disabledV === '1';
   }
   public selected(value:any):void {
-    //console.log('Selected value is: ', value);
+    ////console.log('Selected value is: ', value);
   }
 
   public removed(value:any):void {
-    //console.log('Removed value is: ', value);
+    ////console.log('Removed value is: ', value);
   }
 
   public typed(value:any):void {
-    //console.log('New search input: ', value);
+    ////console.log('New search input: ', value);
   }
 
   public refreshValue(value:any):void {

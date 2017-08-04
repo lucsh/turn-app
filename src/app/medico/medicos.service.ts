@@ -20,7 +20,7 @@ export class MedicosService {
         return this.http.get(this.medicosURL)
         .toPromise()
         .then(response => {
-			// console.log(response.json());
+			// ////console.log(response.json());
 			return response.json() as Medico[];
 		})
         .catch(this.handleError);
@@ -28,8 +28,8 @@ export class MedicosService {
 
 	public actualizarSemana(id,semana): Promise<any[]>{
 		return this.http.patch(this.medicosURL+'/'+id,{semanaEsquema:semana}).toPromise().then(respuesta => {
-			console.log("Semana actualizada");
-			console.log(respuesta);
+			//console.log("Semana actualizada");
+			//console.log(respuesta);
 			return respuesta.json();
 		})
 	}

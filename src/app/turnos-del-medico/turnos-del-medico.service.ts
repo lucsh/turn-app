@@ -73,11 +73,11 @@ export class TurnosDelMedicoService {
             }
         }).then((turnos) => {
 
-          // console.log("ENTRE AL BUSCAR TURNOS DEL PACIENTES DEL DIA");
-          // console.log(turnos);
+          // ////console.log("ENTRE AL BUSCAR TURNOS DEL PACIENTES DEL DIA");
+          // ////console.log(turnos);
 
-          console.log('ENTRE A PEDIR TURNOS');
-          console.log(turnos);
+          ////console.log('ENTRE A PEDIR TURNOS');
+          ////console.log(turnos);
 
           this.dataStore.turnos = turnos;
           this.turnosObserver.next(this.dataStore.turnos);
@@ -87,7 +87,7 @@ export class TurnosDelMedicoService {
 
     public updateTurno(turno, nuevoEstado){
       this.turnosService.patch(turno._id,{"estado": nuevoEstado}).then((turnoActualizado) => {
-        console.log("Turno actualizado correctamente");
+        ////console.log("Turno actualizado correctamente");
       }).catch(err => console.error(err));
     }
 
@@ -108,8 +108,8 @@ export class TurnosDelMedicoService {
         Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onCreated'
     */
     private onCreated(turno: any) { //REMPLAZR EL ANY CON TURNO!
-        console.log('On created de Angular con Socket de Feathers');
-        console.log(turno);
+        ////console.log('On created de Angular con Socket de Feathers');
+        ////console.log(turno);
 
         if(this.miMatricula === turno.medico.matricula){
           this.dataStore.turnos.push(turno);
@@ -175,7 +175,7 @@ export class TurnosDelMedicoService {
         //this.socket.close();
         this.socket.disconnect();
         //this.turnosObserver = null;
-        // console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
+        // ////console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
     }
 
     //Metodos auxiliares
@@ -183,7 +183,7 @@ export class TurnosDelMedicoService {
     let indexTurno = -1;
 
     let turnos = this.dataStore.turnos;
-    // console.log(turnos);
+    // ////console.log(turnos);
 
     turnos.forEach(function(elem,index){
       if(elem._id.toString() == turno._id.toString()){

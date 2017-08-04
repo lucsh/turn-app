@@ -48,7 +48,7 @@ export class PacientesComponent implements OnInit {
     .then(pacientes => {
         this.pacientes = pacientes;
         this.data = pacientes;
-        console.log(pacientes);
+        ////console.log(pacientes);
     });
   }
 
@@ -58,8 +58,8 @@ export class PacientesComponent implements OnInit {
     .then(pacientes => {
         this.pacientes = pacientes;
         this.data = pacientes;
-        console.log("PACIENTES ACTIVOS: ");
-        console.log(pacientes);
+        ////console.log("PACIENTES ACTIVOS: ");
+        ////console.log(pacientes);
     });
   }
   public sortByWordLength = (a: any) => {
@@ -67,10 +67,10 @@ export class PacientesComponent implements OnInit {
   }
 
   buscarPaciente(id:string){
-    console.log("Entre al buscar paciente");
+    ////console.log("Entre al buscar paciente");
     this.pacientesService.buscarPaciente(id).then(paciente => {
-      //console.log("el nuevo paciente quedo..");
-      // console.log(paciente);
+      ////console.log("el nuevo paciente quedo..");
+      // ////console.log(paciente);
     });
   }
 
@@ -90,8 +90,8 @@ export class PacientesComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then(function () {
       yo.pacientesService.actualizarPaciente(paciente._id,paciente).then(pac => {
-          // console.log("el nuevo paciente quedo..");
-          // console.log(pac);
+          // ////console.log("el nuevo paciente quedo..");
+          // ////console.log(pac);
           paciente = pac;
         }).catch(err => console.error(err))
     }).catch(swal.noop);
@@ -112,8 +112,8 @@ export class PacientesComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then(function () {
       yo.pacientesService.sancionarPaciente(paciente._id).then(pac => {
-        // console.log("Paciente sancionado");
-        // console.log(pac);
+        // ////console.log("Paciente sancionado");
+        // ////console.log(pac);
         paciente.sancion = true;
       }).catch(err => console.error(err))
     }).catch(swal.noop);
@@ -132,8 +132,8 @@ export class PacientesComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then(function () {
       yo.pacientesService.habilitarPaciente(paciente._id).then(pac => {
-        // console.log("Paciente habilitado");
-        // console.log(pac);
+        // ////console.log("Paciente habilitado");
+        // ////console.log(pac);
         paciente.sancion = false;
       }).catch(err => console.error(err))
     }).catch(swal.noop);
@@ -155,8 +155,8 @@ export class PacientesComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then(function () {
       yo.pacientesService.eliminarPaciente(paciente._id).then(pac => {
-        // console.log("Paciente eliminado");
-        // console.log(pac);
+        // ////console.log("Paciente eliminado");
+        // ////console.log(pac);
         var index = yo.data.indexOf(paciente);
         if (index > -1) {
           yo.data.splice(index, 1);

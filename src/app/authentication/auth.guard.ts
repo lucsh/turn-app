@@ -18,12 +18,12 @@ export class AuthGuard implements CanActivate {
     return this.auth
       .logIn()
       .then(() => {
-        console.log('TODO OK');
+        ////console.log('TODO OK');
         this.app.logueado();
         return true;
       })
       .catch(() => {
-        console.log('ERROR GO TO LOGIN');
+        ////console.log('ERROR GO TO LOGIN');
         this.router.navigate(['login']);
         return false;
       });

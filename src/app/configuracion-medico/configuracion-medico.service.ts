@@ -24,7 +24,7 @@ export class ConfiguracionMedicoService {
 		return this.http.get(this.medicosURL)
 		.toPromise()
 		.then(response => {
-			console.log(response.json());
+			//console.log(response.json());
 			return response.json() as any[];
 		})
 		.catch(this.handleError);
@@ -41,7 +41,7 @@ export class ConfiguracionMedicoService {
 		return this.http.get(this.medicosURL+'/'+id)
 		.toPromise()
 		.then(response => {
-			console.log(response.json());
+			//console.log(response.json());
 			return response.json() as any[];
 		})
 		.catch(this.handleError);
@@ -51,8 +51,8 @@ export class ConfiguracionMedicoService {
 		return this.http.patch(this.medicosURL+'/'+id,{nombre: nombre, apellido: apellido, duracion:duracion,obras:obras})
 		.toPromise()
 		.then(response => {
-			// console.log("RESPUESTA DESDE EL PUT");
-			// console.log(response.json());
+			// ////console.log("RESPUESTA DESDE EL PUT");
+			// ////console.log(response.json());
 			return response.json() as any[];
 		})
 		.catch(this.handleError);
@@ -62,8 +62,8 @@ export class ConfiguracionMedicoService {
 		return this.http.patch(this.medicosURL+'/'+id,{eliminado:true})
 		.toPromise()
 		.then(response => {
-			console.log("RESPUESTA DESDE EL PATCH");
-			console.log(response.json());
+			//console.log("RESPUESTA DESDE EL PATCH");
+			//console.log(response.json());
 			return response.json() as any[];
 		})
 		.catch(this.handleError);
@@ -85,7 +85,7 @@ export class ConfiguracionMedicoService {
        for (var i = 0; i < arr.length; i++) {
          if(arr[i].medico._id === id){
            result.push(arr[i]);
-           //console.log("LALALA");
+           ////console.log("LALALA");
          }
        }
 

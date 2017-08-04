@@ -39,7 +39,7 @@ export class TurnoSocketService {
 
     public iniciar(id : string){
 
-        //console.log('Entre en Iniciar del TURNO SOCKET SERVICE');
+        ////console.log('Entre en Iniciar del TURNO SOCKET SERVICE');
 
         this.idDoctor = id;
 
@@ -72,14 +72,14 @@ export class TurnoSocketService {
 
     public cambiarMedico(id){
         this.cleanService();
-        // console.log("CAMBIO DE MEDICO");
+        // ////console.log("CAMBIO DE MEDICO");
         this.iniciar(id);
     }
 
     public cleanService(){
         //this.turnosSocketService = null;
         //Obtenemos el service que queremos
-        //console.log("ENTRE AL CLEAN SERVICE");
+        ////console.log("ENTRE AL CLEAN SERVICE");
         this.socket.disconnect();
         this.turnosSocketService = null;
 
@@ -152,8 +152,8 @@ export class TurnoSocketService {
         }
 
         this.turnosSocketService.create(nuevoTurno).then((turnoNuevo)=>{
-          console.log('turnoNuevo');
-          console.log(turnoNuevo);
+          ////console.log('turnoNuevo');
+          ////console.log(turnoNuevo);
           //******************************************************************
           /**
           IMPORTANTE:
@@ -176,7 +176,7 @@ export class TurnoSocketService {
 
         let id = turno._id;
         this.turnosSocketService.remove(id).then((turnoEliminado)=>{
-            console.log("Turno eliminado!!");
+            ////console.log("Turno eliminado!!");
         })
     }
 
@@ -184,7 +184,7 @@ export class TurnoSocketService {
     public find() {
 
         let idMedico = this.idDoctor.toString();
-        // console.log(idMedico);
+        // ////console.log(idMedico);
         this.turnosSocketService.find({
             query: {
                 //matricula: m
@@ -198,8 +198,8 @@ export class TurnoSocketService {
             A veces es necesario hacer el .data. Es cuando, por ej, usas pagination
             */
             //******************************************************************
-            // console.log("#### FIND ###");
-            // console.log(turnos);
+            // ////console.log("#### FIND ###");
+            // ////console.log(turnos);
             this.dataStore.turnos = turnos;
 
             //Aca vamos a renderizar el calendario de nuevo despues de obtener todos los turnos de ese medico.
@@ -231,8 +231,8 @@ export class TurnoSocketService {
         Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onCreated'
     */
     private onCreated(turno: any) { //REMPLAZR EL ANY CON TURNO!
-        // console.log('On created de Angular con Socket de Feathers');
-        // console.log(turno);
+        // ////console.log('On created de Angular con Socket de Feathers');
+        // ////console.log(turno);
 
         this.dataStore.turnos.push(turno);
         //lo pusheo al calendar
@@ -283,6 +283,6 @@ export class TurnoSocketService {
         //this.socket.close();
         this.socket.disconnect();
         //this.turnosObserver = null;
-        //console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
+        ////console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
     }
 }

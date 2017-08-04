@@ -57,8 +57,8 @@ export class PacientesDelDiaService {
         //let m = this.matricula;
         let fechaHoy = new Date();
         let temp = moment(fechaHoy).format('YYYY-MM-DD');
-        // console.log("########################### FECHAS ####################");
-        // console.log(temp);
+        // ////console.log("########################### FECHAS ####################");
+        // ////console.log(temp);
         let temp2 = moment(temp, "YYYY-MM-DD").add(1, 'days');
         let temp3 = (moment(temp2).format('YYYY-MM-DD'));
         this.pacientesDelDiaService.find({
@@ -71,11 +71,11 @@ export class PacientesDelDiaService {
             }
         }).then((turnos) => {
 
-          // console.log("ENTRE AL BUSCAR TURNOS DEL PACIENTES DEL DIA");
-          // console.log(turnos);
+          // ////console.log("ENTRE AL BUSCAR TURNOS DEL PACIENTES DEL DIA");
+          // ////console.log(turnos);
 
-          console.log('ENTRE ACA');
-          console.log(turnos);
+          ////console.log('ENTRE ACA');
+          ////console.log(turnos);
 
           this.dataStore.turnos = turnos;
           this.turnosObserver.next(this.dataStore.turnos);
@@ -86,7 +86,7 @@ export class PacientesDelDiaService {
 
     public updateTurno(turno, nuevoEstado){
       this.pacientesDelDiaService.patch(turno._id,{"estado": nuevoEstado}).then((turnoActualizado) => {
-        console.log("Turno actualizado correctamente");
+        ////console.log("Turno actualizado correctamente");
       }).catch(err => console.error(err));
     }
 
@@ -107,8 +107,8 @@ export class PacientesDelDiaService {
         Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onCreated'
     */
     private onCreated(turno: any) { //REMPLAZR EL ANY CON TURNO!
-        console.log('On created de Angular con Socket de Feathers');
-        console.log(turno);
+        ////console.log('On created de Angular con Socket de Feathers');
+        ////console.log(turno);
 
         this.dataStore.turnos.push(turno);
         //lo pusheo al calendar
@@ -163,7 +163,7 @@ export class PacientesDelDiaService {
         //this.socket.close();
         this.socket.disconnect();
         //this.turnosObserver = null;
-        // console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
+        // ////console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
     }
 
 
@@ -175,7 +175,7 @@ export class PacientesDelDiaService {
     let indexTurno = -1;
 
     let turnos = this.dataStore.turnos;
-    // console.log(turnos);
+    // ////console.log(turnos);
 
     turnos.forEach(function(elem,index){
       if(elem._id.toString() == turno._id.toString()){
