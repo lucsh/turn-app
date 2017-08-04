@@ -46,20 +46,20 @@ export class SolicitudesComponent implements OnInit, OnDestroy  {
 
     ngOnDestroy() {
         //this.subscription.unsubscribe();
-        ////console.log('####*****////########//////###');
+        //console.log('####*****////########//////###');
 
         this.solicitudesService = null;
     }
 
     abrirSolicitud(pacienteEnSolicitud){
-        ////console.log('Abriendo la solicitud');
+        //console.log('Abriendo la solicitud');
         this.solicitudAbierta = pacienteEnSolicitud;
         $('#formularioSolicitud').modal('show');
     }
 
     aprobarSolicitud(pacienteEnSolicitud){
-        ////console.log('Rechazar solicitud');
-        ////console.log(pacienteEnSolicitud);
+        //console.log('Rechazar solicitud');
+        //console.log(pacienteEnSolicitud);
 
         this.solicitudesService.aprobarSolicitud(pacienteEnSolicitud);
         this.solicitudAbierta = null;
@@ -68,8 +68,8 @@ export class SolicitudesComponent implements OnInit, OnDestroy  {
         this.closeFormSolicitud.nativeElement.click();
     }
     rechazarSolicitud(pacienteEnSolicitud){
-        ////console.log('Rechazar solicitud');
-        ////console.log(pacienteEnSolicitud);
+        //console.log('Rechazar solicitud');
+        //console.log(pacienteEnSolicitud);
 
         this.solicitudesService.rechazarSolicitud(pacienteEnSolicitud);
         this.solicitudAbierta = null;
