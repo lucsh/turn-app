@@ -21,6 +21,7 @@ export class AuthService {
 
   public logOut() {
     this.feathers.logout();
+    localStorage.removeItem('user');
     this.router.navigate(['login']);
     ////console.log('logOut');
   };
