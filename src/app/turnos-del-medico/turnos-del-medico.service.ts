@@ -86,8 +86,18 @@ export class TurnosDelMedicoService {
 
 
     public updateTurno(turno, nuevoEstado){
-      this.turnosService.patch(turno._id,{"estado": nuevoEstado}).then((turnoActualizado) => {
-        ////console.log("Turno actualizado correctamente");
+      var now = new Date();
+      console.log("################");
+      console.log(now);
+
+      var nueva = moment(now).utc();
+      console.log(nueva);
+      // var momentDate = moment(now).utc();
+      // console.log("HORA...");
+      // console.log(momentDate);
+      this.turnosService.patch(turno._id,{"estado": nuevoEstado, "horaUltimoCambio": nueva }).then((turnoActualizado) => {
+        console.log("Turno actualizado correctamente");
+        console.log(turnoActualizado);
       }).catch(err => console.error(err));
     }
 

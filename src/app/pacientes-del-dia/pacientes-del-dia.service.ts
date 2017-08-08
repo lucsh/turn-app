@@ -85,7 +85,9 @@ export class PacientesDelDiaService {
 
 
     public updateTurno(turno, nuevoEstado){
-      this.pacientesDelDiaService.patch(turno._id,{"estado": nuevoEstado}).then((turnoActualizado) => {
+      var now = new Date();
+      var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+      this.pacientesDelDiaService.patch(turno._id,{"estado": nuevoEstado, "horaUltimoCambio": now_utc }).then((turnoActualizado) => {
         ////console.log("Turno actualizado correctamente");
       }).catch(err => console.error(err));
     }

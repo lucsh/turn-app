@@ -44,6 +44,11 @@ export class TurnosDelMedicoComponent implements OnInit {
       "id": 5,
       "nombre": "otro",
       "clase": "info"
+    },
+    {
+        "id": 6,
+        "nombre": "en estudio",
+        "clase": "info"
     }
   ];
   turnos: Turno[];
@@ -68,10 +73,10 @@ export class TurnosDelMedicoComponent implements OnInit {
     ////console.log(turno);
 
     //En Windows:
-    var momentDate = moment(turno);
+    //var momentDate = moment(turno);
 
     //En Linux: UTC
-    // var momentDate = moment(turno,'YYYY-MM-DDTHH:mm:ss');
+    var momentDate = moment(turno,'YYYY-MM-DDTHH:mm:ss');
     var fecha = momentDate.toDate();
     return fecha
   }
@@ -99,8 +104,16 @@ export class TurnosDelMedicoComponent implements OnInit {
     this.turnosDelMedicoService.updateTurno(turno,"finalizado");
   }
 
-  public ponerEnEspera(turno){
-    this.turnosDelMedicoService.updateTurno(turno,"en espera");
+  public ponerEnEstudio(turno){
+    this.turnosDelMedicoService.updateTurno(turno,"en estudio");
+  }
+
+  public comprobarEstado(turno): Boolean{
+    let bandera = false;
+    if(turno.estado === 'en espera' || turno.estado === 'en estudio'){
+      bandera = true;
+    }
+    return bandera;
   }
 
   ngOnInit() {

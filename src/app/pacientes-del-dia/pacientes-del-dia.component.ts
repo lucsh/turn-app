@@ -43,6 +43,11 @@ export class PacientesDelDiaComponent implements OnInit {
       "id": 5,
       "nombre": "otro",
       "clase": "info"
+    },
+    {
+        "id": 6,
+        "nombre": "en estudio",
+        "clase": "info"
     }
   ];
   turnos: Turno[];
