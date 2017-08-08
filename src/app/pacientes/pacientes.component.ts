@@ -7,6 +7,7 @@ import {Paciente} from './paciente.tipo';
 import {default as swal} from 'sweetalert2';
 //declare var swal: any;
 
+declare var $: any;
 
 @Component({
   selector: 'app-pacientes',
@@ -21,6 +22,8 @@ export class PacientesComponent implements OnInit {
   public rowsOnPage = 10;
   public sortBy = "email";
   public sortOrder = "asc";
+
+  public pacienteSelected = null;
 
   pacientes: Paciente[];
 
@@ -74,27 +77,39 @@ export class PacientesComponent implements OnInit {
     });
   }
 
+  // onSelect(paciente){
+  //   this.pacienteSelected = paciente;
+  // }
 
   editar(paciente){
 
+    this.pacienteSelected = paciente;
+    /*
+      FIX TEMPORAL: El timeout es para obligar a que el ngIf que proteje el modal,
+      alcance a hacerse true. 
+    */
+    setTimeout(()=> {
+      $('#formEditarPaciente').modal('show');
+    },
+    500);
 
-    let yo = this;
-    swal({
-      title: '¿Estas seguro que queres editar al paciente?',
-      text: "No seras capaz de revertir esta accion!",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, Editar!',
-      cancelButtonText: 'Cancelar',
-    }).then(function () {
-      yo.pacientesService.actualizarPaciente(paciente._id,paciente).then(pac => {
-          // ////console.log("el nuevo paciente quedo..");
-          // ////console.log(pac);
-          paciente = pac;
-        }).catch(err => console.error(err))
-    }).catch(swal.noop);
+    // let yo = this;
+    // swal({
+    //   title: '¿Estas seguro que queres editar al paciente?',
+    //   text: "No seras capaz de revertir esta accion!",
+    //   type: 'warning',
+    //   showCancelButton: true,
+    //   confirmButtonColor: '#3085d6',
+    //   cancelButtonColor: '#d33',
+    //   confirmButtonText: 'Si, Editar!',
+    //   cancelButtonText: 'Cancelar',
+    // }).then(function () {
+    //   yo.pacientesService.actualizarPaciente(paciente._id,paciente).then(pac => {
+    //       // ////console.log("el nuevo paciente quedo..");
+    //       // ////console.log(pac);
+    //       paciente = pac;
+    //     }).catch(err => console.error(err))
+    // }).catch(swal.noop);
 
   }
 

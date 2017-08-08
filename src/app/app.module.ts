@@ -49,6 +49,7 @@ import { ObrasService } from './obras/obras.service';
 import { TurnosDelMedicoComponent } from './turnos-del-medico/turnos-del-medico.component';
 import { ConfiguracionMedicoComponent } from './configuracion-medico/configuracion-medico.component';
 import { ModalSemanaComponent } from './configuracion-medico/modal-semana/modal-semana.component';
+import { EditarPacienteComponent } from './pacientes/editarPaciente/editarPaciente';
 
 
 import { AuthService } from './authentication/auth.service';
@@ -75,6 +76,7 @@ import { RegisterComponent } from './authentication/register.component';
     AgregarPacienteComponent,
     ObrasComponent,
     TurnosDelMedicoComponent,
+    EditarPacienteComponent,
 
     LoginComponent,
     RegisterComponent,
