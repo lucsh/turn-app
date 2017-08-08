@@ -83,7 +83,8 @@ export class ConfiguracionMedicoService {
        var arr = response.json();
        var result = [];
        for (var i = 0; i < arr.length; i++) {
-         if(arr[i].medico._id === id){
+				 console.log(arr[i]);
+         if(arr[i]._id === id){
            result.push(arr[i]);
            ////console.log("LALALA");
          }
