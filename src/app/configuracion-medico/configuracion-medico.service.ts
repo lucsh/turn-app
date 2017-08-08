@@ -72,27 +72,43 @@ export class ConfiguracionMedicoService {
   getSemanaModelo(medico): Promise<any[]> {
     let id = medico._id;
 
-    let urlSemanas = 'http://localhost:3030/semanas';
+    let medicoService = 'http://localhost:3030/medicos';
 
-
-    return this.http.get(urlSemanas)
+		return this.http.get(medicoService+'?_id='+id)
 		.toPromise()
-		.then(response => {
+		.then(res => {
+			let medico = res.json();
 
-      //Filtramos....
-       var arr = response.json();
-       var result = [];
-       for (var i = 0; i < arr.length; i++) {
-				 console.log(arr[i]);
-         if(arr[i]._id === id){
-           result.push(arr[i]);
-           ////console.log("LALALA");
-         }
-       }
-
-			return result as any[];
+			return medico.semanaEsquema;
 		})
 		.catch(this.handleError);
+
+
+    // return this.http.get(urlSemanas+'?medico='+id)
+		// .toPromise()
+		// .then(response => {
+		// 	console.log('ENTRE ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+    //   //Filtramos....
+    //    var arr = response.json();
+		//
+		// 	 //console.log(arr);
+		//
+    //    var result = [];
+    //    for (var i = 0; i < arr.length; i++) {
+		// 		 //console.log(arr[i]);
+    //      if(arr[i].medico._id === id){
+    //        result.push(arr[i]);
+    //        ////console.log("LALALA");
+    //      }
+    //    }
+		//
+		// 	return result as any[];
+		// })
+		// .catch(this.handleError);
+
+
+
+
   }
 
 
