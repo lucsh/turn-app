@@ -22,6 +22,7 @@ export class NavigationComponent {
   profile: any;
 
   private medicos: Medico[];
+  private medico: Medico;
 
   constructor(
       private router: Router,
@@ -60,6 +61,8 @@ export class NavigationComponent {
       this.profile = {};
       this.profile.nombre = usuario.nombre;
       this.profile.cargo = usuario.clase;
+      this.medico = usuario;
+      console.log(this.medico);
     }
 
     // this.navigationService.getUsuario()
