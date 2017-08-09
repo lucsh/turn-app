@@ -6,12 +6,13 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import { Obra } from './obra.tipo';
+import {VariablesGlobales} from '../variablesGlobales';
 
 @Injectable()
 export class ObrasService {
 
   private headers = new Headers({'Content-Type': 'application/json'});
-  private obrasURL = 'http://localhost:3030/obras';  // URL to web api
+  private obrasURL = VariablesGlobales.BASE_API_URL +'/obras';  // URL to web api
 
 
   constructor(private http: Http) { }

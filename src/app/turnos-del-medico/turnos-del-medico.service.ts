@@ -9,6 +9,7 @@ declare var feathers:any;
 
 
 import { Turno } from '../turnos/turno.tipo';
+import {VariablesGlobales} from '../variablesGlobales';
 
 declare var $: any;
 
@@ -16,7 +17,7 @@ declare var $: any;
 @Injectable()
 export class TurnosDelMedicoService {
 
-    private urlServidor = 'http://localhost:3030'
+    private urlServidor = VariablesGlobales.BASE_API_URL;
 
     public turnos$: Observable<Turno[]>;
     private turnosObserver: Observer<Turno[]>;

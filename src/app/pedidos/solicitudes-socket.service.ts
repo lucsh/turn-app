@@ -6,6 +6,7 @@ import * as moment from 'moment';
 //import * as feathers from 'feathers-client';
 
 import {Paciente} from '../pacientes/paciente.tipo';
+import {VariablesGlobales} from '../variablesGlobales';
 
 declare var feathers:any;
 
@@ -13,7 +14,7 @@ import {default as swal} from 'sweetalert2';
 
 @Injectable()
 export class SolicitudesSocketService implements OnDestroy  {
-  private urlServidor = 'http://localhost:3030';
+  private urlServidor = VariablesGlobales.BASE_API_URL;
 
   public solicitudes$: Observable<Paciente[]>;
   private solicitudesObserver: Observer<Paciente[]>;

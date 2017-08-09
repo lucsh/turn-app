@@ -6,12 +6,13 @@ import { Paciente } from './paciente.tipo';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import {VariablesGlobales} from '../variablesGlobales';
 
 @Injectable()
 export class PacientesService {
 
 	private headers = new Headers({'Content-Type': 'application/json'});
-	private pacientesURL = 'http://localhost:3030/pacientes';  // URL to web api
+	private pacientesURL = VariablesGlobales.BASE_API_URL+'/pacientes';  // URL to web api
 
 	constructor(private http: Http) {
 

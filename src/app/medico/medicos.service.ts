@@ -7,11 +7,12 @@ import { Medico } from './medico.tipo';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+import {VariablesGlobales} from '../variablesGlobales';
 @Injectable()
 export class MedicosService {
 
 	private headers = new Headers({'Content-Type': 'application/json'});
-    private medicosURL = 'http://localhost:3030/medicos';  // URL to web api
+    private medicosURL = VariablesGlobales.BASE_API_URL +'/medicos';  // URL to web api
 
 	constructor(private http: Http) {
 

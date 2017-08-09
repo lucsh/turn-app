@@ -11,6 +11,7 @@ declare var feathers:any;
 import { Turno } from './turno.tipo';
 
 import { PacientesService } from '../pacientes/pacientes.service';
+import {VariablesGlobales} from '../variablesGlobales';
 
 declare var $: any;
 
@@ -18,7 +19,7 @@ declare var $: any;
 @Injectable()
 export class TurnoSocketService {
 
-    private urlServidor = 'http://localhost:3030'
+    private urlServidor = VariablesGlobales.BASE_API_URL;
 
     public turnos$: Observable<Turno[]>;
     private turnosObserver: Observer<Turno[]>;
@@ -130,10 +131,10 @@ export class TurnoSocketService {
         //*************************************************
 
         //Windows: descomentar la linea de abajo
-        //var temp = moment(fecha).utc().add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+        var temp = moment(fecha).utc().add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
 
         //LINUX: descomentar la linea de abajo
-        var temp = moment(fecha,'YYYY-MM-DDTHH:mm:ss Z').add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+        //var temp = moment(fecha,'YYYY-MM-DDTHH:mm:ss Z').add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
 
         //*************************************************
 

@@ -9,11 +9,14 @@ import { Medico } from '../medico/medico.tipo';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+
+import {VariablesGlobales} from '../variablesGlobales';
+
 @Injectable()
 export class ConfiguracionMedicoService {
 
 	private headers = new Headers({'Content-Type': 'application/json'});
-	private medicosURL = 'http://localhost:3030/medicos';  // URL to web api
+	private medicosURL = VariablesGlobales.BASE_API_URL +'/medicos';  // URL to web api
 
 
 
@@ -72,7 +75,7 @@ export class ConfiguracionMedicoService {
   getSemanaModelo(medico): Promise<any[]> {
     let id = medico._id;
 
-    let medicoService = 'http://localhost:3030/medicos';
+    let medicoService = VariablesGlobales.BASE_API_URL + '/medicos';
 
 		return this.http.get(medicoService+'?_id='+id)
 		.toPromise()

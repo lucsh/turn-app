@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import * as io from 'socket.io-client';
 import * as moment from 'moment';
+import {VariablesGlobales} from '../variablesGlobales';
 //import * as feathers from 'feathers-client';
 
 declare var feathers:any;
@@ -16,7 +17,7 @@ declare var $: any;
 @Injectable()
 export class PacientesDelDiaService {
 
-    private urlServidor = 'http://localhost:3030'
+    private urlServidor = VariablesGlobales.BASE_API_URL;
 
     public turnos$: Observable<Turno[]>;
     private turnosObserver: Observer<Turno[]>;
