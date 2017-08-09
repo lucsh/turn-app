@@ -53,6 +53,7 @@ export class TurnosDelMedicoComponent implements OnInit {
   ];
   turnos: Turno[];
   private miMatricula: String;
+  private medicoId: String;
   constructor(private turnosDelMedicoService : TurnosDelMedicoService,private ref: ChangeDetectorRef) { }
 
 
@@ -124,14 +125,17 @@ export class TurnosDelMedicoComponent implements OnInit {
     var medico: any = JSON.parse(localStorage.getItem('user'));
     if (medico.clase === "medico"){
       this.miMatricula = medico.matricula;
+      this.medicoId = medico._idMedico;
       this.subscription = this.turnosDelMedicoService.turnos$.subscribe((turnos: Turno[]) => {
           this.turnos = turnos;
+          console.log('ACAACACA CACA ');
+          console.log(this.turnos);
           this.ref.markForCheck();
       }, (err) => {
           console.error(err);
       });
 
-      this.turnosDelMedicoService.buscarTurnos(this.miMatricula);
+      this.turnosDelMedicoService.buscarTurnos(this.miMatricula, this.medicoId);
     }
   }
 

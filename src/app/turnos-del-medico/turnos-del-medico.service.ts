@@ -55,20 +55,29 @@ export class TurnosDelMedicoService {
 
 
 
-    public buscarTurnos(miMatricula: String) {
+    public buscarTurnos(miMatricula: String, idMedico) {
         //let m = this.matricula;
+        console.log('ENTRE EN BUSCAR TURNOS');
         this.miMatricula = miMatricula;
+
+        console.log(idMedico);
         let fechaHoy = new Date();
+        // let temp = moment(fechaHoy).subtract(1,'days').format('YYYY-MM-DD');
         let temp = moment(fechaHoy).format('YYYY-MM-DD');
         let temp2 = moment(temp, "YYYY-MM-DD").add(1, 'days');
         let temp3 = (moment(temp2).format('YYYY-MM-DD'));
+
+        // console.log(temp);
+        // console.log(temp2);
+        // console.log(temp3);
+
         this.turnosService.find({
             query: {
                 horaInicial: {
                   $gt: temp,
                   $lt: temp3
                 },
-                matriculaMedico: miMatricula,
+                medico: idMedico,
                 $populate: 'paciente medico' //'paciente medico'
             }
         }).then((turnos) => {
