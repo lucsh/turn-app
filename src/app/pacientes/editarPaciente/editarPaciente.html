@@ -3,7 +3,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeFormAgregarPaciente >&times;</button>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeFormEditarPaciente >&times;</button>
         <h3 class="modal-title" id="myModalLabel">Editar paciente</h3>
       </div>
 
@@ -12,37 +12,50 @@
 
         <div class="form-group">
           <label>Nombre</label>
-          <div class="input-group"><input  [(ngModel)]='modeloPaciente.nombre'  #nombrePaciente placeholder="Ej: Jorge" type="text" class="form-control">
+          <div class="input-group"><input  [(ngModel)]='modeloPaciente.nombre'  #nombrePaciente type="text" class="form-control">
           </div>
         </div>
 
         <div class="form-group">
           <label>Apellido</label>
-          <div class="input-group"><input [(ngModel)]='modeloPaciente.apellido'  #apellidoPaciente placeholder="Ej: Perez" type="text" class="form-control">
+          <div class="input-group"><input [(ngModel)]='modeloPaciente.apellido'  #apellidoPaciente type="text" class="form-control">
           </div>
         </div>
 
         <div class="form-group">
           <label>Dni</label>
-          <div class="input-group"><input  [(ngModel)]='modeloPaciente.dni' #dniPaciente placeholder="Ej: 38332764" type="text" class="form-control">
+          <div class="input-group"><input  [(ngModel)]='modeloPaciente.dni' #dniPaciente type="text" class="form-control">
           </div>
         </div>
 
         <div class="form-group">
           <label>Email</label>
-          <div class="input-group"><input  [(ngModel)]='modeloPaciente.email' #emailPaciente placeholder="Ej: ejemplo@gmail.com" type="text" class="form-control">
+          <div class="input-group"><input  [(ngModel)]='modeloPaciente.email' #emailPaciente type="text" class="form-control">
           </div>
         </div>
 
         <div class="form-group">
           <label>Fecha de Nacimiento</label>
-          <div class="input-group"><input  [(ngModel)]='modeloPaciente.fechaNacimiento'  #nacimientoPaciente placeholder="Ej: 1994-07-21" type="text" class="form-control">
+          <div class="input-group"><input  [(ngModel)]='modeloPaciente.fechaNacimiento'  #nacimientoPaciente type="text" class="form-control">
           </div>
         </div>
 
         <div class="form-group">
           <label>Telefono</label>
-          <div class="input-group"><input  [(ngModel)]='modeloPaciente.telefono' #telefonoPaciente placeholder="Ej: 2994771333" type="text" class="form-control">
+          <div class="input-group"><input  [(ngModel)]='modeloPaciente.telefono' #telefonoPaciente  type="text" class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Ocupación</label>
+          <div class="input-group"><input  [(ngModel)]='modeloPaciente.ocupacion' #ocupacionPaciente type="text" class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Observaciones</label>
+          <div class="input-group">
+            <!-- <input  [(ngModel)]='modeloPaciente.observaciones' #observacionesPaciente type="text" class="form-control"> -->
+            <textarea class="form-control" [(ngModel)]='modeloPaciente.observaciones' #observacionesPaciente rows="5" cols="80"></textarea>
+
           </div>
         </div>
 
@@ -64,17 +77,10 @@
         </button>
 
         <button class="btn btn-primary"
-        (click)='editarPaciente(nombrePaciente.value,apellidoPaciente.value,
-        dniPaciente.value, emailPaciente.value, nacimientoPaciente.value,telefonoPaciente.value);
-        nombrePaciente.value = null;
-        apellidoPaciente.value = null;
-        dniPaciente.value = null;
-        emailPaciente.value = null;
-        nacimientoPaciente.value = null;
-        telefonoPaciente.value = null;
+        (click)='editarPaciente();
 
         '>
-        Agregar
+        Guardar
       </button>
 
     </div>

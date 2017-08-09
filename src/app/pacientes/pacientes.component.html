@@ -89,4 +89,5 @@
 </div>
 <editar-paciente *ngIf = 'pacienteSelected != null'
   [paciente]='pacienteSelected'
+  (pacienteEditado)='onPacienteEditado($event)'
 ></editar-paciente>

@@ -12,4 +12,7 @@ export class Paciente{
 	sancion: boolean;
 	eliminado: boolean;
 	aprobado: boolean;
+	ocupacion: string;
+	observaciones: string;
+	primeraVez: boolean;
 }

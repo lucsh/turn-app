@@ -86,12 +86,12 @@ export class PacientesComponent implements OnInit {
     this.pacienteSelected = paciente;
     /*
       FIX TEMPORAL: El timeout es para obligar a que el ngIf que proteje el modal,
-      alcance a hacerse true. 
+      alcance a hacerse true.
     */
     setTimeout(()=> {
       $('#formEditarPaciente').modal('show');
     },
-    500);
+    200);
 
     // let yo = this;
     // swal({
@@ -112,6 +112,25 @@ export class PacientesComponent implements OnInit {
     // }).catch(swal.noop);
 
   }
+
+  onPacienteEditado(pacienteEditado){
+    console.log('on Paciente Editado');
+    console.log(pacienteEditado);
+
+    let encontrado = -1;
+    this.pacientes.forEach(function(elem, index){
+      //console.log(elem);
+      if(elem._id == pacienteEditado._id){
+        encontrado = index;
+      }
+    });
+
+    if(encontrado > 0){
+      this.pacientes[encontrado] = Object.assign({}, pacienteEditado);
+    }
+
+  }
+
 
   sancionar(paciente){
 

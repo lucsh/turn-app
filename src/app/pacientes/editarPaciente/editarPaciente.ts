@@ -18,12 +18,12 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
   @Input() paciente: any;
   @Output() pacienteEditado = new EventEmitter();
 
-  @ViewChild('closeFormAgregarPaciente') closeFormAgregarPaciente: ElementRef;
+  @ViewChild('closeFormEditarPaciente') closeFormEditarPaciente: ElementRef;
 
   private obras: Obra[];
   private obraSelected: Obra = null;
 
-  public modeloPaciente = {};
+  public modeloPaciente = null;
 
   constructor(
     private pacientesService: PacientesService,
@@ -50,65 +50,49 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
   */
   ngOnChanges(changes) {
     // changes.prop contains the old and the new value...
-
+    this.modeloPaciente = Object.assign({}, this.paciente); //clonamos el paciente
   }
 
   /*
 
   */
-  public editarPaciente(nombrePaciente,apellidoPaciente, dniPaciente,
-    emailPaciente, nacimientoPaciente, telefonoPaciente){
-      ////console.log('Entre a agregar Paciente');
-      let obraId = this.obraSelected._id;
-      this.pacientesService.createPaciente(nombrePaciente,apellidoPaciente, dniPaciente,
-        emailPaciente, nacimientoPaciente, telefonoPaciente, obraId)
-        .then(pacienteEdit => {
+  public editarPaciente(){
+    ////console.log('Entre a agregar Paciente');
+    //  let obraId = this.obraSelected._id;
 
-          ////console.log('Se creo el paciente con exito');
-          ////console.log(paciente);
+    console.log('this.modeloPaciente');
+    console.log(this.modeloPaciente);
 
-          //Enviamos la eleccion al componente padre
-          this.pacienteEditado.next(pacienteEdit);
+    this.pacientesService.actualizarPaciente(this.modeloPaciente._id, this.modeloPaciente)
+    .then(pacienteEdit => {
+      this.pacienteEditado.next(pacienteEdit);
 
-          //Cerramos el modal
-          this.obraSelected = null;
-          this.closeFormAgregarPaciente.nativeElement.click();
 
-          /*
-            EL SWAL aparace debajo del modal anterior!! Solucionarlo!!!
-          */
+      //Cerramos el modal y limpiamos variables
+      //this.modeloPaciente = null;
+      this.obraSelected = null;
+      this.closeFormEditarPaciente.nativeElement.click();
 
-          // swal({
-          //   title: 'Éxito!',
-          //   text: 'Nuevo paciente registrado!',
-          //   type: 'success',
-          //   timer: 2000
-          // }).then(
-          //   function () {},
-          //   // handling the promise rejection
-          //   function (dismiss) {
-          //     if (dismiss === 'timer') {
-          //
-          //     }
-          //   }
-          // )
-        });
+    }).catch(err => {console.log(err);})
+
+
+
 
 
 
   }
 
 
-      /*
+  /*
 
-      */
+  */
   public cancelar(){
     //Limpiamos variables
     //this.value = {};
 
     //Cerramos el modal
     this.obraSelected = null;
-    this.closeFormAgregarPaciente.nativeElement.click();
+    this.closeFormEditarPaciente.nativeElement.click();
   }
 
 
