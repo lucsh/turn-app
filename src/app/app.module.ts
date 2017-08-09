@@ -57,6 +57,7 @@ import { AuthGuard } from './authentication/auth.guard';
 import { Feathers } from './authentication/feathers.service';
 import { LoginComponent } from './authentication/login.component';
 import { RegisterComponent } from './authentication/register.component';
+import { TareasComponent } from './tareas/tareas.component';
 
 
 @NgModule({
@@ -82,7 +83,8 @@ import { RegisterComponent } from './authentication/register.component';
     RegisterComponent,
 
     ConfiguracionMedicoComponent,
-    ModalSemanaComponent
+    ModalSemanaComponent,
+    TareasComponent
 
   ],
   imports: [
