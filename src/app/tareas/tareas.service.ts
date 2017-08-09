@@ -4,35 +4,54 @@ import { Observable } from 'rxjs/Rx';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import {VariablesGlobales} from '../variablesGlobales';
+import {Tarea} from './tarea.tipo';
 
 @Injectable()
 export class TareasService {
+
+
+  private headers = new Headers({'Content-Type': 'application/json'});
+	private tareasURL = VariablesGlobales.BASE_API_URL+'/tareas';  // URL to web api
 
   constructor(private http: Http) {
 
   }
 
 
-  getTodos(): any[]{
+  getTodos(): Promise<Tarea[]>{
+    return this.http.get(this.tareasURL)
+		.toPromise()
+		.then(response => {
+			console.log(response.json());
+			return response.json() as Tarea[];
+		})
+		.catch(this.handleError);
 
   }
 
-	createTodo(newTodo : string) : Observable<any>{
-		return this.http.post("http://localhost:3000/todos",
+	createTodo(descripcion : string) : Observable<any>{
+		return this.http.post(this.tareasURL,
 			{
-			  todo: newTodo,
-			  completa: false
+			  descripcion: descripcion,
+			  estado: false
 			});
 	}
-	updateTodo(todoId:string,todo:string,newStatus:boolean) : Observable<any>{
-		return this.http.put("http://localhost:3000/todos/" + todoId,
+	updateTodo(tareaId:string,descripcion:string,nuevoEstado:boolean) : Observable<any>{
+		return this.http.put(this.tareasURL+"/"+ tareaId,
 			{
-			  todo: todo,
-			  completa: newStatus
+			  descripcion: descripcion,
+			  estado: nuevoEstado
 			});
 	}
-	deleteTodo(todoId:string) : Observable<any>{
-		return this.http.delete("http://localhost:3000/todos/" + todoId);
+	deleteTodo(tareaId:string) : Observable<any>{
+		return this.http.delete(this.tareasURL+"/"+ tareaId);
 	}
 
+
+  private handleError(error: any): Promise<any> {
+		console.error('Ocurrio un error en servicio de Tareas: ', error);
+		alert(error.json().error);
+		return Promise.reject(error.message || error);
+	}
 }

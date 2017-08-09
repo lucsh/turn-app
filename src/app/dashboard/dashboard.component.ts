@@ -75,35 +75,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
   //
   // }
 
-  getAllTodos(){
-    this.todos = this.dashboardService.getTodos();
-  }
-  createTodo(newTodo : string){
-    /*
-      No hace nada
-    */
-    // this.dashboardService.createTodo(newTodo).subscribe(
-    //   data => {
-    //     this.getAllTodos();
-    //   });
-  }
-  updateTodo(todoId:string, todo:string, newStatus:boolean){
-    this.dashboardService.updateTodo(todoId,todo,newStatus).subscribe(
-      data => {
-        this.getAllTodos();
-      });
-  }
-  deleteTodo(todoId : string){
-    /*
-    */
-    // this.dashboardService.deleteTodo(todoId).subscribe(
-    //  data => {
-    //     this.getAllTodos();
-    //   });
-  }
+
 
   public ngOnInit():any {
-    this.getAllTodos();
+    
   //  this.getAllCitas();
     //this.getAllMensajes();
     //this.getAllEstadosCitas();

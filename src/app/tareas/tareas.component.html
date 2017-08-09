@@ -8,16 +8,16 @@
       <div class="ibox-content">
         <ul class="todo-list m-t small-list">
           <li *ngFor="let todo of todos; let i=index">
-            <a (click)="updateTodo(todo.id,todo.todo,!todo.completa);todo.completa = !todo.completa" class="check-link"><i class="fa" [ngClass]="{'fa-check-square': todo.completa,'fa-square-o': !todo.completa}"></i> </a>
-            <span class="m-l-xs" [ngClass]="{'todo-completed': todo.completa}">{{ todo.todo }}</span>
-           <a (click)=deleteTodo(todo.id)> <i class="fa fa-times-circle text-danger pull-right" aria-hidden="true"></i></a>
+            <a (click)="updateTodo(todo._id,todo.descripcion,!todo.estado);todo.estado = !todo.estado" class="check-link"><i class="fa" [ngClass]="{'fa-check-square': todo.estado,'fa-square-o': !todo.estado}"></i> </a>
+            <span class="m-l-xs" [ngClass]="{'todo-completed': todo.estado}">{{ todo.descripcion }}</span>
+           <a (click)=deleteTodo(todo._id)> <i class="fa fa-times-circle text-danger pull-right" aria-hidden="true"></i></a>
           </li>
         </ul>
         <!--
         Input para agregar tareas
         -->
           <hr>
-            <div class="input-group"><input  #newTodo placeholder="Nueva tarea" type="text" class="form-control"> <span class="input-group-btn"> <button (click)="createTodo(newTodo.value);newTodo.value=''" type="button" class="btn btn-primary" [disabled]='true '>Agregar
+            <div class="input-group"><input  #newTodo placeholder="Nueva tarea" type="text" class="form-control"> <span class="input-group-btn"> <button (click)="createTodo(newTodo.value);newTodo.value=''" type="button" class="btn btn-primary">Agregar
             </button> </span></div>
 
       </div>
