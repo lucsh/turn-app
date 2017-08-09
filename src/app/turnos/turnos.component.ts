@@ -137,7 +137,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
         center: 'title',
         right: 'month,agendaWeek,agendaDay,listWeek'
       },
-      timezone:'UTC',
+      // timezone:'UTC',
       defaultView:'agendaWeek',
       height: 'auto',
       //weekends: false, //COMENTADO SOLAMENTE COMO PRUEBA. PONER DE NUEVO PARA DEPLOY!
@@ -194,9 +194,6 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
         //Windows: descomentar la linea de abajo
         var temp = moment(date).utc(); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
-        //LINUX: descomentar la linea de abajo
-        //var temp = moment(fecha,'YYYY-MM-DDTHH:mm:ss Z').add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
-
         //*************************************************
 
         let temp2 = temp.add(duracionTurno, 'm');
@@ -208,7 +205,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
         if(yo.comprobarValidezHora(arregloDeHoras,horaClick,horaClickFinal,date.day())){
 
             ////console.log("ENTRE CORRECTAMENTE AL RANGO HORARIO!");
-            yo.asignarPaciente(date);
+            yo.asignarPaciente(temp);
           }
 
 
