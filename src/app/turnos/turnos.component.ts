@@ -176,11 +176,6 @@ export class TurnosComponent implements OnInit, OnDestroy {
           $('#calendar').fullCalendar('gotoDate',date);
         }
 
-        let arregloDeHoras = $('#calendar').fullCalendar('option', 'businessHours');
-        //FIN DE LA PRUEBA.
-        let horaClick = date.hour() + ':' + date.minutes();
-        ////console.log(date);
-        ////console.log(date.day());
 
         // CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
         let duracionTurno = parseInt($('#calendar').fullCalendar('option','slotDuration').split(':')[1]); //CAMBIARRRRRRRR
@@ -196,8 +191,14 @@ export class TurnosComponent implements OnInit, OnDestroy {
         var temp = moment(date).utc(); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
         //*************************************************
 
+        /*
         let temp2 = temp.add(duracionTurno, 'm');
 
+        let arregloDeHoras = $('#calendar').fullCalendar('option', 'businessHours');
+        //FIN DE LA PRUEBA.
+        let horaClick = date.hour() + ':' + date.minutes();
+        ////console.log(date);
+        ////console.log(date.day());
         let horaClickFinal = temp2.hour() + ':' + temp2.minutes();
         ////console.log("HORA FINALLLLLLLLLLLLL");
         ////console.log(horaClickFinal);
@@ -206,9 +207,10 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
             ////console.log("ENTRE CORRECTAMENTE AL RANGO HORARIO!");
             yo.asignarPaciente(temp);
-          }
+        }
+        */
 
-
+        yo.asignarPaciente(temp);
 
 
 

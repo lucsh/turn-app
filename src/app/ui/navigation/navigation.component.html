@@ -48,7 +48,7 @@
 
 
         <li [ngClass]="{active: activeRoute('pacientes')}" *ngIf="esMedico()">
-          <a [routerLink]="['/turnos/' + medico.nombre +'/'+medico._idMedico]"><i class="fa fa-th-large"></i> <span class="nav-label">Mis turnos</span></a>
+          <a [routerLink]="['/turnos/' + medico.nombre +'/'+medico._idMedico]"><i class="fa fa-th-large"></i> <span class="nav-label">Calendario</span></a>
         </li>
 
 
@@ -63,7 +63,7 @@
 
 
       <li [ngClass]="{active: activeRoute('medico')}" *ngIf="esMedico()">
-        <a [routerLink]="['/medico']"><i class="fa fa-th-large"></i> <span class="nav-label">Mis Turnos</span></a>
+        <a [routerLink]="['/medico']"><i class="fa fa-th-large"></i> <span class="nav-label">Turnos del Dia</span></a>
       </li>
 
     </ul>
