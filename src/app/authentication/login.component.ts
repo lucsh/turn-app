@@ -39,10 +39,7 @@ export class LoginComponent {
             ////console.log("USUARIO:");
             ////console.log(user);
             // localStorage.setItem('user',user);
-            console.log("##########################");
-            console.log(JSON.stringify(user));
             localStorage.setItem('user',JSON.stringify(user));
-
             if(user.clase === 'medico'){
               this.router.navigate(['/medico']);
             }

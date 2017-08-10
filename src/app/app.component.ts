@@ -29,7 +29,7 @@ export class AppComponent {
 
 	estaLogueado(){
 		////console.log(localStorage);
-		let token = localStorage.getItem('feathers-jwt');
+		let token = localStorage.getItem('user');
 		return token;
 		// return this.logueadoCache;
 	}

@@ -21,14 +21,14 @@ export class NavigationComponent {
 
   profile: any;
 
-  private medicos: Medico[];
+  private medicos: Medico[] = [];
   private medico: Medico;
 
   constructor(
-      private router: Router,
-      private navigationService: NavigationService,
-      private medicosService: MedicosService,
-      private authService: AuthService
+    private router: Router,
+    private navigationService: NavigationService,
+    private medicosService: MedicosService,
+    private authService: AuthService
   ) {}
 
   ngAfterViewInit() {
@@ -52,8 +52,12 @@ export class NavigationComponent {
 
   getUsuario(){
 
+    // console.log(localStorage);
+    // var p = localStorage.getItem('user');
+    // console.log(p);
     var usuario: any = JSON.parse(localStorage.getItem('user'));
-
+    console.log('usuario');
+    console.log(usuario);
     ////console.log('ENTRE A GET USUARIO');
     // ////console.log(usuario);
     if(usuario!=undefined && usuario != null){
@@ -61,8 +65,9 @@ export class NavigationComponent {
       this.profile = {};
       this.profile.nombre = usuario.nombre;
       this.profile.cargo = usuario.clase;
+      this.actualizarListaMedicos();
+      //Aca debeiramos preguntar el cargo para ver si es medico
       this.medico = usuario;
-      console.log(this.medico);
     }
 
     // this.navigationService.getUsuario()
@@ -75,8 +80,19 @@ export class NavigationComponent {
   public actualizarListaMedicos(){
     const yo = this;
     this.medicosService.getDoctores().then((docs)=>{
-        yo.medicos = docs;
+      console.log('ENTRE ACA!!!');
+      console.log(docs);
+      yo.medicos = docs;
     });
+  }
+
+  mostrarTurnosMedicos(){
+    //  return this.medicosCargados() && !this.esMedico();
+    return  !this.esMedico();
+  }
+  medicosCargados(){
+
+    return this.medicos.length > 0;
   }
 
   public esMedico(){
@@ -89,19 +105,22 @@ export class NavigationComponent {
       var clase = usuario.clase;
       // ////console.log("CLASEEEEEEEEEEE");
       // ////console.log(usuario.toString());
+
       return clase === "medico";
 
     }
-
-
-    return true ;
+    return false;
   }
 
   public ngOnInit():any {
 
+
     this.getUsuario();
 
-    this.actualizarListaMedicos();
+    // setTimeout(()=>{
+    //   console.log('Se cumplio el timeout')
+    //   this.getUsuario();
+    // },1000)
 
 
   }
