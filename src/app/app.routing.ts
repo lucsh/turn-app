@@ -46,6 +46,11 @@ const appRoutes: Routes =  [
 	component: ConfiguracionMedicoComponent,
 	canActivate: [AuthGuard]
 },
+{
+	path:'configuracion/:idDoctor',
+	component: ConfiguracionMedicoComponent,
+	canActivate: [AuthGuard]
+},
   { path: 'login', component: LoginComponent },
 	{ path: 'registro', component: RegisterComponent }
 ];
