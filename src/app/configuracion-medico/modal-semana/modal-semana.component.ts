@@ -24,6 +24,13 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
   @ViewChild('closeFormConfigSemana') closeFormConfigSemana: ElementRef;
   @ViewChild('selector') selector: ElementRef;
 
+  @ViewChild('diaLunes') diaLunes: ElementRef;
+  @ViewChild('diaMartes') diaMartes: ElementRef;
+  @ViewChild('diaMiercoles') diaMiercoles: ElementRef;
+  @ViewChild('diaJueves') diaJueves: ElementRef;
+  @ViewChild('diaViernes') diaViernes: ElementRef;
+  @ViewChild('diaSabado') diaSabado: ElementRef;
+
   private intervalos: any[] = [];
   private obras: Obra[];
   private obraSelected: Obra = null;
@@ -41,9 +48,17 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
   ngOnInit() {
     if(this.medico != null){
       //this.obras = this.medico.obras;
+      console.log("EL MEDICO DEL MODAL ES:");
+      console.log(this.medico);
+      console.log(this.medico.semanaEsquema);
+      // this.intervalos = this.medico.semanaEsquema.intervalos;
+      // if(this.intervalos == undefined || this.intervalos == null){
+      //   this.agregarIntervalo();
+      // }
+
+      this.iniciarIntervalos();
       this.obras = this.obrasDispTotales;
       this.actualizarSelector();
-      this.agregarIntervalo();
       this.agregarObra();
     }
   }
@@ -54,9 +69,58 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     if(this.medico != null){
       //this.obras = this.medico.obras;
       this.obras = this.obrasDispTotales;
+      this.iniciarIntervalos();
       ////console.log("medicos obras");
       ////console.log(this.medico.obras);
       this.actualizarSelector();
+    }
+  }
+
+  ngAfterViewInit() {
+    console.log("AFTER VIEW");
+    console.log(this.diaLunes.nativeElement);
+
+    if(this.intervalos != null && this.intervalos != undefined){
+      for (let i = 0; i < this.intervalos.length; i++) {
+        for (let j = 0; j < this.intervalos[i].dias.length; j++) {
+            if(this.intervalos[i].dias[j] == 1){
+              this.diaLunes.nativeElement.checked = true;
+            }
+            if(this.intervalos[i].dias[j] == 2){
+              this.diaMartes.nativeElement.checked = true;
+            }
+            if(this.intervalos[i].dias[j] == 3){
+              this.diaMiercoles.nativeElement.checked = true;
+            }
+            if(this.intervalos[i].dias[j] == 4){
+              this.diaJueves.nativeElement.checked = true;
+            }
+            if(this.intervalos[i].dias[j] == 5){
+              this.diaViernes.nativeElement.checked = true;
+            }
+            if(this.intervalos[i].dias[j] == 6){
+              this.diaSabado.nativeElement.checked = true;
+            }
+        }
+      }
+    }
+  }
+
+  public iniciarIntervalos(){
+    this.intervalos = this.medico.semanaEsquema.intervalos;
+    console.log("INTERVALOS");
+    console.log(this.intervalos);
+    if(this.intervalos == undefined || this.intervalos == null){
+      let inter = {
+        dias : [],
+        horaInicial: "",
+        horaFin: ""
+      };
+      this.intervalos.push(inter);
+    }
+    else{
+      // console.log("dias");
+      // console.log(this.diaLunes.nativeElement.value);
     }
   }
 
@@ -103,6 +167,8 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
 
   public agregarIntervalo(){
+
+
     let inter = {
       dias : [],
       horaInicial: "",
@@ -138,7 +204,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
       intervalo.dias.splice(index,1);
     }
     intervalo.dias.sort(function(a, b){return a - b});
-    ////console.log(intervalo);
+    console.log(intervalo);
   }
 
 
@@ -197,6 +263,10 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     this.agregarIntervalo();
     this.agregarObra();
   }
+
+
+
+
 
   //---------------------------------------------------------------------------
   //Metodos originales del componente
