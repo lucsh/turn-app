@@ -10,7 +10,7 @@
 
         </p> -->
         <p>Por favor, ingrese al sistema.</p>
-        <form class="m-t" role="form" action="index.html">
+        <form class="m-t" role="form" action="index.html" (ngSubmit)='login(email.value, password.value)'>
             <div class="form-group">
                 <input #email class="form-control" type="email" name="email" placeholder="email">
             </div>
@@ -18,7 +18,7 @@
                 <input #password class="form-control" type="password" name="password" placeholder="password">
             </div>
 
-            <button type="button" id="login" class="btn btn-primary block full-width m-b" (click)="login(email.value, password.value)">
+            <button type="submit" id="login" class="btn btn-primary block full-width m-b" >
                 Log in
               </button>
 
