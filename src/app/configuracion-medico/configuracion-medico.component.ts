@@ -177,6 +177,23 @@ export class ConfiguracionMedicoComponent implements OnInit {
       this.medicoSeleccionado = null;
     }
 
+    onIntervalosGuardados(algo){
+      console.log('on intervalos guardados');
+      console.log(algo);
+
+      //**********************************************
+      // actualziar el medicos
+
+      //ACA ACA ACA
+
+      //**********************************************
+
+
+
+
+
+    }
+
     //---------------------------------------------------------------------------
     //Metodos originales del componente
 

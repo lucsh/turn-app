@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output,EventEmitter,OnChanges, ElementRef, ViewChild } from '@angular/core';
 
+import { ViewChildren, QueryList } from '@angular/core';
+
 import { Obra } from '../../obras/obra.tipo';
 import { ObrasService } from '../../obras/obras.service';
 
@@ -17,19 +19,19 @@ declare var $: any;
 })
 export class ModalSemanaComponent implements OnInit,OnChanges {
 
-  @Output() pacienteAgregado = new EventEmitter();
+  @Output() semenaCambiada = new EventEmitter();
   @Input() medico: any;
   @Input() obrasDispTotales: any[];
 
   @ViewChild('closeFormConfigSemana') closeFormConfigSemana: ElementRef;
   @ViewChild('selector') selector: ElementRef;
 
-  @ViewChild('diaLunes') diaLunes: ElementRef;
-  @ViewChild('diaMartes') diaMartes: ElementRef;
-  @ViewChild('diaMiercoles') diaMiercoles: ElementRef;
-  @ViewChild('diaJueves') diaJueves: ElementRef;
-  @ViewChild('diaViernes') diaViernes: ElementRef;
-  @ViewChild('diaSabado') diaSabado: ElementRef;
+  @ViewChildren('diaLunes') diasLunes: QueryList<ElementRef>;
+  @ViewChildren('diaMartes') diasMartes: QueryList<ElementRef>;
+  @ViewChildren('diaMiercoles') diasMiercoles: QueryList<ElementRef>;
+  @ViewChildren('diaJueves') diasJueves: QueryList<ElementRef>;
+  @ViewChildren('diaViernes') diasViernes: QueryList<ElementRef>;
+  @ViewChildren('diaSabado') diasSabado: QueryList<ElementRef>;
 
   private intervalos: any[] = [];
   private obras: Obra[];
@@ -43,6 +45,9 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
   private value:any = {};
   private _disabledV:string = '0';
   private disabled:boolean = false;
+
+  private primeraVez: boolean = true;
+
   constructor(private obraService: ObrasService, private medicosService: MedicosService) { }
 
   ngOnInit() {
@@ -66,6 +71,10 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
   ngOnChanges(changes) {
     // changes.prop contains the old and the new value...
     ////console.log("CAMBIE DE MEDICOOOOOOOOOOOOOOOOOOO");
+
+    console.log('changes');
+    console.log(changes);
+
     if(this.medico != null){
       //this.obras = this.medico.obras;
       this.obras = this.obrasDispTotales;
@@ -73,43 +82,108 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
       ////console.log("medicos obras");
       ////console.log(this.medico.obras);
       this.actualizarSelector();
+
     }
   }
 
   ngAfterViewInit() {
-    console.log("AFTER VIEW");
-    console.log(this.diaLunes.nativeElement);
+     console.log("AFTER VIEW");
+    // this.actualizarCheckBoxs();
+  }
+  ngAfterViewChecked(){
+    // console.log('HOLA');
+    this.actualizarCheckBoxs();
+    // if(!this.primeraVez){
+    //    this.actualizarCheckBoxs();
+    // }
+  }
 
+  public actualizarCheckBoxs(){
+
+    let diaAux = -1;
+    let diasArray = [];
     if(this.intervalos != null && this.intervalos != undefined){
       for (let i = 0; i < this.intervalos.length; i++) {
         for (let j = 0; j < this.intervalos[i].dias.length; j++) {
-            if(this.intervalos[i].dias[j] == 1){
-              this.diaLunes.nativeElement.checked = true;
-            }
-            if(this.intervalos[i].dias[j] == 2){
-              this.diaMartes.nativeElement.checked = true;
-            }
-            if(this.intervalos[i].dias[j] == 3){
-              this.diaMiercoles.nativeElement.checked = true;
-            }
-            if(this.intervalos[i].dias[j] == 4){
-              this.diaJueves.nativeElement.checked = true;
-            }
-            if(this.intervalos[i].dias[j] == 5){
-              this.diaViernes.nativeElement.checked = true;
-            }
-            if(this.intervalos[i].dias[j] == 6){
-              this.diaSabado.nativeElement.checked = true;
-            }
+
+          let diaAux = this.intervalos[i].dias[j];
+
+          if(diaAux == 1){
+            diasArray = this.diasLunes.toArray();
+            diasArray[i].nativeElement.checked = true;
+          }
+          if(diaAux == 2){
+            // console.log(this.diasMartes[i]);
+            diasArray = this.diasMartes.toArray();
+            diasArray[i].nativeElement.checked = true;
+            // this.diaMartes.nativeElement.checked = true;
+          }
+          if(diaAux == 3){
+            // console.log(this.diasMiercoles[i]);
+            diasArray = this.diasMiercoles.toArray();
+            diasArray[i].nativeElement.checked = true;
+            // this.diaMiercoles.nativeElement.checked = true;
+          }
+          if(diaAux == 4){
+            // console.log(this.diasJueves[i]);
+            diasArray = this.diasJueves.toArray();
+            diasArray[i].nativeElement.checked = true;
+            // this.diaJueves.nativeElement.checked = true;
+          }
+          if(diaAux == 5){
+            // console.log(this.diasViernes[i]);
+            diasArray = this.diasViernes.toArray();
+            diasArray[i].nativeElement.checked = true;
+            // this.diaViernes.nativeElement.checked = true;
+          }
+          if(diaAux == 6){
+            // console.log(this.diasSabado[i]);
+            diasArray = this.diasSabado.toArray();
+            diasArray[i].nativeElement.checked = true;
+            // this.diaSabado.nativeElement.checked = true;
+          }
         }
       }
     }
+    this.primeraVez = false;
+  }
+
+  public resetearCheckBoxs(){
+
+
+      let diasArray = this.diasLunes.toArray();
+      diasArray.forEach(function(elem,index){
+          elem.nativeElement.checked=false;
+      });
+      diasArray = this.diasMartes.toArray();
+      diasArray.forEach(function(elem,index){
+          elem.nativeElement.checked=false;
+      });
+       diasArray = this.diasMiercoles.toArray();
+      diasArray.forEach(function(elem,index){
+          elem.nativeElement.checked=false;
+      });
+       diasArray = this.diasJueves.toArray();
+      diasArray.forEach(function(elem,index){
+          elem.nativeElement.checked=false;
+      });
+       diasArray = this.diasViernes.toArray();
+      diasArray.forEach(function(elem,index){
+          elem.nativeElement.checked=false;
+      });
+       diasArray = this.diasSabado.toArray();
+      diasArray.forEach(function(elem,index){
+          elem.nativeElement.checked=false;
+      });
   }
 
   public iniciarIntervalos(){
-    this.intervalos = this.medico.semanaEsquema.intervalos;
-    console.log("INTERVALOS");
-    console.log(this.intervalos);
+    if(this.medico.semanaEsquema){
+
+      this.intervalos = this.medico.semanaEsquema.intervalos;
+    }
+    // console.log("INTERVALOS");
+    // console.log(this.intervalos);
     if(this.intervalos == undefined || this.intervalos == null){
       let inter = {
         dias : [],
@@ -122,6 +196,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
       // console.log("dias");
       // console.log(this.diaLunes.nativeElement.value);
     }
+    // this.actualizarCheckBoxs();
   }
 
   public actualizarSelector(){
@@ -133,10 +208,10 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
       let yo = this;
       this.obras.forEach(function(elem,index){
         /*
-          Dado que estamos usando el componente ng2-select,
-          debemos tener un arreglo en el que cada objeto TENGA:
-            un atributo 'id'
-            un atributo 'text'
+        Dado que estamos usando el componente ng2-select,
+        debemos tener un arreglo en el que cada objeto TENGA:
+        un atributo 'id'
+        un atributo 'text'
         */
         yo.obrasSelector[index] = elem;
         yo.obrasSelector[index].id = elem.nombre;
@@ -161,8 +236,8 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
 
   public agregarPaciente(){
-      ////console.log('Entre a agregar Paciente');
-      let obraId = this.obraSelected._id;
+    ////console.log('Entre a agregar Paciente');
+    let obraId = this.obraSelected._id;
   }
 
 
@@ -192,10 +267,10 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     let bandera = false;
     let index = -1;
     for (let i = 0; i < intervalo.dias.length; i++) {
-        if(intervalo.dias[i] == dia){
-          index = i;
-          bandera = true;
-        }
+      if(intervalo.dias[i] == dia){
+        index = i;
+        bandera = true;
+      }
     }
     if(!bandera){
       intervalo.dias.push(dia);
@@ -209,19 +284,19 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
 
   public trackByIndex(index: number, item) {
-     return index;
-   }
+    return index;
+  }
 
-   private parsearObras(){
-     let result = [];
-     for (let i = 0; i < this.turnosPorObra.length; i++) {
-         this.turnosPorObra[i];
-         result[i] = {obraSocial: this.turnosPorObra[i].obraSocial._id, cantDisponible:this.turnosPorObra[i].cantDisponible}
-     }
+  private parsearObras(){
+    let result = [];
+    for (let i = 0; i < this.turnosPorObra.length; i++) {
+      this.turnosPorObra[i];
+      result[i] = {obraSocial: this.turnosPorObra[i].obraSocial._id, cantDisponible:this.turnosPorObra[i].cantDisponible}
+    }
 
-     ////console.log(result);
-     return result;
-   }
+    ////console.log(result);
+    return result;
+  }
 
   public guardarIntervalos(){
 
@@ -237,6 +312,10 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     this.medicosService.actualizarSemana(this.medico._id,semana).then(resultado => {
       ////console.log("EL RESULTADO DE ACTUALIZAR SEMANA ES....");
       ////console.log(resultado);
+
+      this.resetearCheckBoxs();
+      this.semenaCambiada.next(resultado);
+
     }).catch(error => {console.log(error)});
 
 
@@ -257,7 +336,9 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
     //Cerramos el modal
     this.obraSelected = null;
+    this.resetearCheckBoxs();
     this.closeFormConfigSemana.nativeElement.click();
+
     //$('#formConfigSemana').modal('hide');
 
     this.agregarIntervalo();

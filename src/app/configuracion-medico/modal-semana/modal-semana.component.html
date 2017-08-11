@@ -1,9 +1,10 @@
 <!-- Modal Formulario Configuracion Semana -->
-<div class="modal fade" id="formConfigSemana" #formConfigSemana tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+<!-- tabindex="-1" seria para que cierre con escape  -->
+<div class="modal fade" id="formConfigSemana" #formConfigSemana  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeFormConfigSemana >&times;</button>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeFormConfigSemana (click)='cancelar()' >&times;</button>
         <h3 class="modal-title" id="myModalLabel">Configuración Semana</h3>
 
       </div>
