@@ -7,6 +7,8 @@ import * as moment from 'moment';
 
 import {Paciente} from '../pacientes/paciente.tipo';
 import {VariablesGlobales} from '../variablesGlobales';
+import { AuthService } from "../authentication/auth.service";
+
 
 declare var feathers:any;
 
@@ -27,7 +29,7 @@ export class SolicitudesSocketService implements OnDestroy  {
 
   private matricula: string;
   private socket;
-  constructor() {
+  constructor(private authService: AuthService) {
     ////console.log('Entre en Iniciar del Solicitudes SOCKET SERVICE');
 
     this.socket = io(this.urlServidor);
@@ -48,8 +50,18 @@ export class SolicitudesSocketService implements OnDestroy  {
     });
 
     this.dataStore = { solicitudes: [] };
+    //let token = localStorage.getItem('feathers-jwt');
 
-    this.findSolicitudes();
+    //BORRRRRAR
+    this.authService.autenticarSocket().then((param)=>{
+      console.log("PARAMS");
+      console.log(param);
+      this.findSolicitudes();
+    });
+    console.log("Pase el auth de solicitudes");
+    //BORRARRRRR
+
+    // this.findSolicitudes();
 
   }
 

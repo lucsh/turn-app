@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Feathers } from './feathers.service';
 import { Router } from '@angular/router';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 
 /**
@@ -39,5 +40,29 @@ export class AuthService {
       .catch(err =>  console.log(err))
     ;
   }
+
+
+  public jwt(): RequestOptions {
+
+    let currentUsuario = JSON.parse(localStorage.getItem('user'));
+    let token = localStorage.getItem('feathers-jwt');
+
+    if (currentUsuario && token) {
+      let headers2 = new Headers({ 'Authorization': token });
+      return new RequestOptions({ headers: headers2 });
+    }
+  }
+
+  public jwtContentType(){
+		let jwt = this.jwt();
+		jwt.headers.append('Content-Type', 'application/json');
+    return jwt;
+	}
+
+  public autenticarSocket(): Promise<any>{
+    return this.feathers.autenticarSocket();
+  }
+
+
 
 }

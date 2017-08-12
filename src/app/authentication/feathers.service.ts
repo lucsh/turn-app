@@ -50,4 +50,28 @@ export class Feathers {
   public logout() {
     return this._feathers.logout();
   }
+  public autenticarSocket(): Promise<any>{
+
+    console.log("ENTRE AL AUTHENTICAR");
+
+
+    let token = localStorage.getItem('feathers-jwt');
+    console.log(token);
+    // this._feathers.authenticate({
+    //   strategy: "jwt",
+    //   accessToken: token
+    // }).then(respuesta => {
+    //   console.log("LA RESPUESTA DESDE EL SERVER AUTH ES");
+    //   console.log(respuesta);
+    // }).catch(function(error){
+    //   console.error('Error authenticating!', error);
+    // });
+
+
+    return this._feathers.authenticate({
+      strategy: "jwt",
+      accessToken: token
+    });
+  }
+
 }

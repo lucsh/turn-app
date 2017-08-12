@@ -8,6 +8,8 @@ import 'rxjs/add/operator/catch';
 import { Obra } from './obra.tipo';
 import {VariablesGlobales} from '../variablesGlobales';
 
+import { AuthService } from '../authentication/auth.service';
+
 @Injectable()
 export class ObrasService {
 
@@ -15,10 +17,10 @@ export class ObrasService {
   private obrasURL = VariablesGlobales.BASE_API_URL +'/obras';  // URL to web api
 
 
-  constructor(private http: Http) { }
+  constructor(private http: Http,private authService: AuthService) { }
 
   getObras(): Promise<Obra[]>{
-    return this.http.get(this.obrasURL)
+    return this.http.get(this.obrasURL,this.authService.jwt())
     .toPromise()
     .then(response => {
       ////console.log(response.json());

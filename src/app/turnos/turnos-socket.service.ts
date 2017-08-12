@@ -5,13 +5,19 @@ import * as io from 'socket.io-client';
 import * as moment from 'moment';
 //import * as feathers from 'feathers-client';
 
+
 declare var feathers:any;
+declare var feathersClient:any;
+
 
 
 import { Turno } from './turno.tipo';
 
 import { PacientesService } from '../pacientes/pacientes.service';
 import {VariablesGlobales} from '../variablesGlobales';
+
+
+import { AuthService } from "../authentication/auth.service";
 
 declare var $: any;
 
@@ -32,7 +38,9 @@ export class TurnoSocketService {
 
     private idDoctor: string;
     private socket;
-    constructor() {
+
+    private feathersApp;
+    constructor(private authService: AuthService) {
     }
 
     //-------------------------------------------------------------------------
@@ -45,10 +53,11 @@ export class TurnoSocketService {
         this.idDoctor = id;
 
         this.socket = io(this.urlServidor);
-        const feathersApp = feathers().configure(feathers.socketio(this.socket));
+
+        this.feathersApp = feathers().configure(feathers.socketio(this.socket));
 
         //Obtenemos el service que queremos
-        this.turnosSocketService = feathersApp.service('turnos');
+        this.turnosSocketService = this.feathersApp.service('turnos');
 
         //Registramos eventos
         this.turnosSocketService.on('created', (turno) => this.onCreated(turno));
@@ -63,8 +72,10 @@ export class TurnoSocketService {
 
         this.dataStore = { turnos: [] };
 
+        let token = localStorage.getItem('feathers-jwt');
 
         //BORRRRRAR
+        this.authService.autenticarSocket();
         this.find();
         //BORRRRRAR
 
