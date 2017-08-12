@@ -6,11 +6,13 @@ import { Observable } from 'rxjs/Rx';
 
 import { Medico } from '../medico/medico.tipo';
 
+
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 
 import {VariablesGlobales} from '../variablesGlobales';
+import { AuthService } from '../authentication/auth.service';
 
 @Injectable()
 export class ConfiguracionMedicoService {
@@ -20,11 +22,11 @@ export class ConfiguracionMedicoService {
 
 
 
-	constructor(private http: Http) {
+	constructor(private http: Http,private authService: AuthService) {
 
 	}//Al ser promise (y no Observable), no le quita reactividad?
 	getMedicos(): Promise<any[]>{
-		return this.http.get(this.medicosURL)
+		return this.http.get(this.medicosURL,this.authService.jwt())
 		.toPromise()
 		.then(response => {
 			//console.log(response.json());
@@ -41,7 +43,7 @@ export class ConfiguracionMedicoService {
 	}
 
 	buscarMedico(id): Promise<any[]>{
-		return this.http.get(this.medicosURL+'/'+id)
+		return this.http.get(this.medicosURL+'/'+id,this.authService.jwt())
 		.toPromise()
 		.then(response => {
 			//console.log(response.json());
@@ -51,7 +53,7 @@ export class ConfiguracionMedicoService {
 	}
 
 	actualizarMedico(id,nombre,apellido,duracion,obras): Promise<any[]>{
-		return this.http.patch(this.medicosURL+'/'+id,{nombre: nombre, apellido: apellido, duracion:duracion,obras:obras})
+		return this.http.patch(this.medicosURL+'/'+id,{nombre: nombre, apellido: apellido, duracion:duracion,obras:obras},this.authService.jwt())
 		.toPromise()
 		.then(response => {
 			// ////console.log("RESPUESTA DESDE EL PUT");
@@ -62,7 +64,7 @@ export class ConfiguracionMedicoService {
 	}
 
 	eliminarMedico(id): Promise<any[]>{
-		return this.http.patch(this.medicosURL+'/'+id,{eliminado:true})
+		return this.http.patch(this.medicosURL+'/'+id,{eliminado:true},this.authService.jwt())
 		.toPromise()
 		.then(response => {
 			//console.log("RESPUESTA DESDE EL PATCH");
@@ -77,7 +79,7 @@ export class ConfiguracionMedicoService {
 
     let medicoService = VariablesGlobales.BASE_API_URL + '/medicos';
 
-		return this.http.get(medicoService+'?_id='+id)
+		return this.http.get(medicoService+'?_id='+id,this.authService.jwt())
 		.toPromise()
 		.then(res => {
 			let medico = res.json();

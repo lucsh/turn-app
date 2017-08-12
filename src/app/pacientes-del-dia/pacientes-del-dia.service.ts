@@ -4,6 +4,7 @@ import { Observer } from 'rxjs/Observer';
 import * as io from 'socket.io-client';
 import * as moment from 'moment';
 import {VariablesGlobales} from '../variablesGlobales';
+import { Feathers } from '../authentication/feathers.service'
 //import * as feathers from 'feathers-client';
 
 declare var feathers:any;
@@ -29,13 +30,16 @@ export class PacientesDelDiaService {
     };
 
     //private matricula: string;
+    private feathersService;
     private socket;
-    constructor() {
-      this.socket = io(this.urlServidor);
-      const feathersApp = feathers().configure(feathers.socketio(this.socket));
-
+    constructor(private FeathersCambiarNombre: Feathers) {
+      // this.socket = io(this.urlServidor);
+      // const feathersApp = feathers().configure(feathers.socketio(this.socket));
+      
+      //Estamos usando el Service de Feathers, pues el que tiene la autenticacion del login
+      this.feathersService = FeathersCambiarNombre.devolverFeathers();
       //Obtenemos el service que queremos
-      this.pacientesDelDiaService = feathersApp.service('turnos');
+      this.pacientesDelDiaService =   this.feathersService.service('turnos');
 
 
       //Registramos eventos
@@ -164,7 +168,7 @@ export class PacientesDelDiaService {
     ngOnDestroy(){
 
         //this.socket.close();
-        this.socket.disconnect();
+        // this.socket.disconnect();
         //this.turnosObserver = null;
         // ////console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
     }
