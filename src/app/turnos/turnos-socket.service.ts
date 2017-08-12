@@ -21,6 +21,13 @@ import { AuthService } from "../authentication/auth.service";
 
 declare var $: any;
 
+import * as feathersRx from 'feathers-reactive';
+
+import * as hooks from 'feathers-hooks';
+import * as Rx from 'rxjs';
+import * as authentication from 'feathers-authentication-client';
+import { Feathers } from '../authentication/feathers.service'
+
 
 @Injectable()
 export class TurnoSocketService {
@@ -41,6 +48,7 @@ export class TurnoSocketService {
 
     private feathersApp;
     constructor(private authService: AuthService) {
+
     }
 
     //-------------------------------------------------------------------------
@@ -55,6 +63,12 @@ export class TurnoSocketService {
         this.socket = io(this.urlServidor);
 
         this.feathersApp = feathers().configure(feathers.socketio(this.socket));
+        this.feathersApp.configure(hooks());
+        this.feathersApp.configure(feathersRx(Rx));
+
+        this.feathersApp.configure(authentication({         // add authentication plugin
+          storage: window.localStorage
+        }));
 
         //Obtenemos el service que queremos
         this.turnosSocketService = this.feathersApp.service('turnos');
@@ -72,15 +86,33 @@ export class TurnoSocketService {
 
         this.dataStore = { turnos: [] };
 
+        this.autenticar().then((param)=>{
+          console.log("PARAMS");
+          console.log(param);
+          this.find();
+
+
+        });
+
+        //Quizas este no iria aca
+        return true;
+
+    }
+
+
+    /*
+      Metodo para autenticar ESTE socket
+    */
+    private autenticar(): Promise<any>{
+
+        console.log("ENTRE AL AUTHENTICAR");
         let token = localStorage.getItem('feathers-jwt');
 
-        //BORRRRRAR
-        this.authService.autenticarSocket();
-        this.find();
-        //BORRRRRAR
-
-        return true;
-    }
+        return this.feathersApp.authenticate({
+          strategy: "jwt",
+          accessToken: token
+        });
+      }
 
     public cambiarMedico(id){
         this.cleanService();

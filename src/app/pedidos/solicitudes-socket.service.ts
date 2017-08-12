@@ -7,7 +7,7 @@ import * as moment from 'moment';
 
 import {Paciente} from '../pacientes/paciente.tipo';
 import {VariablesGlobales} from '../variablesGlobales';
-import { AuthService } from "../authentication/auth.service";
+import { Feathers } from '../authentication/feathers.service'
 
 
 declare var feathers:any;
@@ -28,15 +28,15 @@ export class SolicitudesSocketService implements OnDestroy  {
   };
 
   private matricula: string;
-  private socket;
-  constructor(private authService: AuthService) {
-    ////console.log('Entre en Iniciar del Solicitudes SOCKET SERVICE');
+  // private socket;
+  private feathersService;
 
-    this.socket = io(this.urlServidor);
-    const feathersApp = feathers().configure(feathers.socketio(this.socket));
-
+  constructor(private FeathersCambiarNombre: Feathers) {
+    
+    //Estamos usando el Service de Feathers, pues el que tiene la autenticacion del login
+    this.feathersService = FeathersCambiarNombre.devolverFeathers();
     //Obtenemos el service que queremos
-    this.solicitudesSocketService = feathersApp.service('pacientes');
+    this.solicitudesSocketService = this.feathersService.service('pacientes');
 
     //Registramos eventos
     this.solicitudesSocketService.on('created', (paciente) => this.onCreated(paciente));
@@ -52,12 +52,13 @@ export class SolicitudesSocketService implements OnDestroy  {
     this.dataStore = { solicitudes: [] };
     //let token = localStorage.getItem('feathers-jwt');
 
+    this.findSolicitudes();
     //BORRRRRAR
-    this.authService.autenticarSocket().then((param)=>{
-      console.log("PARAMS");
-      console.log(param);
-      this.findSolicitudes();
-    });
+    // this.autenticar().then((param)=>{
+    //   console.log("PARAMS");
+    //   console.log(param);
+    //   this.findSolicitudes();
+    // });
     console.log("Pase el auth de solicitudes");
     //BORRARRRRR
 
@@ -67,18 +68,19 @@ export class SolicitudesSocketService implements OnDestroy  {
 
   ngOnDestroy(){
 
-      //this.socket.close();
-      // this.solicitudesSocketService = null;
-      //
-      //
-      //
-      // this.solicitudes$ = null;
-      //
-      // this.dataStore = { solicitudes: [] };
+    //this.socket.close();
+    // this.solicitudesSocketService = null;
+    //
+    //
+    //
+    // this.solicitudes$ = null;
+    //
+    // this.dataStore = { solicitudes: [] };
 
-      this.socket.disconnect();
-      //this.turnosObserver = null;
-      ////console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
+    // this.socket.disconnect();
+
+    //this.turnosObserver = null;
+    ////console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
   }
 
   //---------------------------------------------------------------------------
@@ -129,7 +131,7 @@ export class SolicitudesSocketService implements OnDestroy  {
           if(pacienteAprobado.aprobado){
 
             /*
-              ACA PODREMOS MOSTRAR el numero de paciente generado, etc.
+            ACA PODREMOS MOSTRAR el numero de paciente generado, etc.
             */
 
             swal({
@@ -158,32 +160,32 @@ export class SolicitudesSocketService implements OnDestroy  {
   rechazarSolicitud(pacienteEnSolicitud){
     //console.log('Entre a rechazar solicutd en el Service');
 
-      //console.log(pacienteEnSolicitud);
+    //console.log(pacienteEnSolicitud);
 
-      let indexPaciente = this.buscarSolicitud(pacienteEnSolicitud);
+    let indexPaciente = this.buscarSolicitud(pacienteEnSolicitud);
 
-      if(indexPaciente > -1){
-        let id = pacienteEnSolicitud._id;
-        this.solicitudesSocketService.remove(id).then(
-          pacienteRechazado => {
-            //console.log('Se elimino la solicitud del paciente!!');
-            swal({
-              title: 'Solicitud Rechazada!',
-              text: 'Se ha eliminado la solicitud correctamente!',
-              type: 'success',
-              timer: 2000
-            }).then(
-              function () {},
-              // handling the promise rejection
-              function (dismiss) {
-                if (dismiss === 'timer') {
-                  ////console.log('I was closed by the timer')
-                }
+    if(indexPaciente > -1){
+      let id = pacienteEnSolicitud._id;
+      this.solicitudesSocketService.remove(id).then(
+        pacienteRechazado => {
+          //console.log('Se elimino la solicitud del paciente!!');
+          swal({
+            title: 'Solicitud Rechazada!',
+            text: 'Se ha eliminado la solicitud correctamente!',
+            type: 'success',
+            timer: 2000
+          }).then(
+            function () {},
+            // handling the promise rejection
+            function (dismiss) {
+              if (dismiss === 'timer') {
+                ////console.log('I was closed by the timer')
               }
-            )
-          }
-        )
-      }
+            }
+          )
+        }
+      )
+    }
   }
 
 
@@ -191,8 +193,8 @@ export class SolicitudesSocketService implements OnDestroy  {
 
 
   /*
-      Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onCreated'.
-      Al crear un paciente en el server (rest o socket), se invoca este evento.
+  Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onCreated'.
+  Al crear un paciente en el server (rest o socket), se invoca este evento.
   */
   private onCreated(pacienteAprobado){
     //console.log('On created de Paciente (solicitud aprobada) de Angular con Socket de Feathers');
@@ -208,8 +210,8 @@ export class SolicitudesSocketService implements OnDestroy  {
 
 
   /*
-      Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onRemoved'.
-      Al eliminar un paciente en el server (rest o socket), se invoca este evento.
+  Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onRemoved'.
+  Al eliminar un paciente en el server (rest o socket), se invoca este evento.
   */
   private onRemoved(pacienteRechazado){
     //console.log('On removed de Paciente (solicitud rechazada) de Angular con Socket de Feathers');
@@ -225,8 +227,8 @@ export class SolicitudesSocketService implements OnDestroy  {
   }
 
   /*
-      Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onPatched'.
-      Al hacer un patch sobre un paciente existente en el server (rest o socket), se invoca este evento.
+  Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onPatched'.
+  Al hacer un patch sobre un paciente existente en el server (rest o socket), se invoca este evento.
   */
   private onPatched(pacienteAprobado){
     //console.log('On patched de Paciente (solicitud aprobada) de Angular con Socket de Feathers');
@@ -243,8 +245,8 @@ export class SolicitudesSocketService implements OnDestroy  {
   }
 
   /*
-      Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onUpdated'.
-      Al hacer un update sobre un paciente existente en el server (rest o socket), se invoca este evento.
+  Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onUpdated'.
+  Al hacer un update sobre un paciente existente en el server (rest o socket), se invoca este evento.
   */
   private onUpdated(paciente){
 
