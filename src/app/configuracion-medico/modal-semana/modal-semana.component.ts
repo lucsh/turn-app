@@ -72,13 +72,17 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     // changes.prop contains the old and the new value...
     ////console.log("CAMBIE DE MEDICOOOOOOOOOOOOOOOOOOO");
 
-    console.log('changes');
-    console.log(changes);
+    // console.log('changes');
+    // console.log(changes);
+
+    if(!this.primeraVez){
+      this.resetearCheckBoxs();
+    }
 
     if(this.medico != null){
       //this.obras = this.medico.obras;
-      this.obras = this.obrasDispTotales;
       this.iniciarIntervalos();
+      this.obras = this.obrasDispTotales;
       ////console.log("medicos obras");
       ////console.log(this.medico.obras);
       this.actualizarSelector();
@@ -88,6 +92,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
   ngAfterViewInit() {
      console.log("AFTER VIEW");
+     this.primeraVez = false;
     // this.actualizarCheckBoxs();
   }
   ngAfterViewChecked(){
@@ -185,6 +190,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     // console.log("INTERVALOS");
     // console.log(this.intervalos);
     if(this.intervalos == undefined || this.intervalos == null){
+
       let inter = {
         dias : [],
         horaInicial: "",
@@ -243,7 +249,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
   public agregarIntervalo(){
 
-
+    console.log('ENTRE ACA');
     let inter = {
       dias : [],
       horaInicial: "",
@@ -313,7 +319,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
       ////console.log("EL RESULTADO DE ACTUALIZAR SEMANA ES....");
       ////console.log(resultado);
 
-      this.resetearCheckBoxs();
+      //this.resetearCheckBoxs();
       this.semenaCambiada.next(resultado);
 
     }).catch(error => {console.log(error)});
@@ -329,20 +335,17 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
   public cancelar(){
     //Limpiamos variables
     //this.value = {};
-    this.intervalos = [];
-    this.turnosPorObra = [];
+    // this.intervalos = [];
+    // this.turnosPorObra = [];
 
 
 
     //Cerramos el modal
-    this.obraSelected = null;
-    this.resetearCheckBoxs();
+    // this.obraSelected = null;
     this.closeFormConfigSemana.nativeElement.click();
 
-    //$('#formConfigSemana').modal('hide');
-
-    this.agregarIntervalo();
-    this.agregarObra();
+    // this.agregarIntervalo();
+    // this.agregarObra();
   }
 
 
