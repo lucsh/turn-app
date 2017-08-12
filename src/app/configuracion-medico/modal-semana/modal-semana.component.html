@@ -139,13 +139,13 @@
                 <div id="divSelector" class="">
                   <ng-select #selector  *ngIf = 'actualizado == true'
                   [allowClear]="true"
-                              [items]="obrasSelector"
-                              [disabled]="disabled"
-                              (data)="refreshValue($event)"
-                              (selected)="selected($event)"
-                              (removed)="removed($event)"
-                              (typed)="typed($event)"
-                              placeholder="buscar">
+                  [items]="obrasSelector"
+                  [disabled]="disabled"
+                  (data)="refreshValue($event)"
+                  (selected)="selected($event,parObraIndex)"
+                  (removed)="removed($event)"
+                  (typed)="typed($event)"
+                  placeholder="buscar">
                   </ng-select>
                 </div>
                 <!-- input de cantidad -->
