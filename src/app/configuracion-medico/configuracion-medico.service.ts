@@ -51,13 +51,11 @@ export class ConfiguracionMedicoService {
 		.catch(this.handleError);
 	}
 
-	actualizarMedico(id,nombre,apellido,duracion,obras, idUsuario): Promise<any[]>{
+	actualizarMedico(id,nombre,apellido,duracion,obras, idUsuario): Promise<any>{
 		return this.http.patch(this.medicosURL+'/'+id,{nombre: nombre, apellido: apellido, duracion:duracion,obras:obras, _idUsuario:idUsuario},this.authService.jwt())
 		.toPromise()
 		.then(response => {
-			// ////console.log("RESPUESTA DESDE EL PUT");
-			// ////console.log(response.json());
-			return response.json() as any[];
+			return response.json() as any;
 		})
 		.catch(this.handleError);
 	}

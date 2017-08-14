@@ -54,18 +54,15 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     if(this.medico != null){
       //this.obras = this.medico.obras;
       this.reiniciarConfiguracion();
-      console.log("EL MEDICO DEL MODAL ES:");
-      console.log(this.medico);
-      console.log(this.medico.semanaEsquema);
+
       // this.intervalos = this.medico.semanaEsquema.intervalos;
       // if(this.intervalos == undefined || this.intervalos == null){
       //   this.agregarIntervalo();
       // }
-
+      this.iniciarTurnosPorObras();
       this.iniciarIntervalos();
       this.obras = this.obrasDispTotales;
       this.actualizarSelector();
-      this.agregarObra();
     }
   }
 
@@ -73,13 +70,15 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     // changes.prop contains the old and the new value...
     ////console.log("CAMBIE DE MEDICOOOOOOOOOOOOOOOOOOO");
     this.reiniciarConfiguracion();
-    // console.log('changes');
-    // console.log(changes);
-    console.log("EL MEDICO DEL MODAL ES:");
-    console.log(this.medico);
+
+    // console.log("EL MEDICO DEL MODAL ES:");
+    // console.log(this.medico);
 
     if(!this.primeraVez){
+      this.obrasSelector = [];
+      this.turnosPorObra = [];
       this.resetearCheckBoxs();
+
     }
 
     if(this.medico != null){
@@ -95,7 +94,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
   }
 
   ngAfterViewInit() {
-     console.log("AFTER VIEW");
+    //  console.log("AFTER VIEW");
      this.primeraVez = false;
     // this.actualizarCheckBoxs();
   }
@@ -118,8 +117,8 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
   public iniciarTurnosPorObras(){
     if(this.medico.semanaEsquema){
 
-      console.log("Turnos por obra");
-      console.log(this.medico.semanaEsquema.obrasDisponibles);
+      // console.log("Turnos por obra");
+      // console.log(this.medico.semanaEsquema.obrasDisponibles);
       this.turnosPorObra = this.medico.semanaEsquema.obrasDisponibles;
     }
     // console.log("INTERVALOS");
@@ -128,8 +127,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
       this.agregarObra();
     }
     else{
-      // console.log("dias");
-      // console.log(this.diaLunes.nativeElement.value);
+
     }
     // this.actualizarCheckBoxs();
   }
@@ -243,8 +241,6 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
 
       let yo = this;
-      // console.log("Antes de entrar a obras");
-      // console.log(this.obras);
       this.obras.forEach(function(elem,index){
         /*
         Dado que estamos usando el componente ng2-select,
@@ -263,11 +259,17 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
         ////console.log(this.selector);
 
 
+
         if(this.selector != undefined){
-          ////console.log("###########################################");
-          ////console.log((<any>(this.selector)).element);
-          ////console.log((<any>(this.selector)).element.itemObjects);
-          (<any>(this.selector)).element.itemObjects = yo.obrasSelector
+
+          /*
+            IMPORTANTE: Workaround para que se actualice segun obrasSelector
+            Sacado de:
+            https://github.com/valor-software/ng2-select/issues/635#issuecomment-281094377
+          */
+          
+          //this.turnosPorObra[0].obraSocial = this.obrasSelector[0].id;
+          (<any>this.selector).open();
         }
 
       }
@@ -400,10 +402,10 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     this.disabled = this._disabledV === '1';
   }
   public selected(value:any,pos:number):void {
-    console.log('Selected value is: ', value);
-    console.log("Seleccionado",pos);
+    // console.log('Selected value is: ', value);
+    // console.log("Seleccionado",pos);
     this.turnosPorObra[pos].obraSocial = value.id;
-    console.log(this.turnosPorObra[pos]);
+    // console.log(this.turnosPorObra[pos]);
 
   }
 

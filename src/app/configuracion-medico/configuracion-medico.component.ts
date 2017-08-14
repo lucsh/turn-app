@@ -138,16 +138,19 @@ export class ConfiguracionMedicoComponent implements OnInit {
 
       let obrasAsignadas = this.asignarObras();
 
-      console.log('#############342423423');
-      console.log(obrasAsignadas);
+      // console.log('#############342423423');
+      // console.log(obrasAsignadas);
       this.configuracionMedicoService.actualizarMedico(id,nombre,apellido,duracionTurno,obrasAsignadas, idUsuario).then(medicoNuevo =>{
-        console.log("El medico nuevo es....");
-        console.log(medicoNuevo);
+        // console.log("El medico nuevo es....");
+        // console.log(medicoNuevo);
         // let id = medicoNuevo._id;
         // let index = this.getIndex();
 
         yo.medicoSeleccionado.nombre = nombre;
         yo.medicoSeleccionado.apellido = apellido;
+        yo.medicoSeleccionado.duracion = medicoNuevo.duracion;
+        // console.log(medicoNuevo.obras);
+        yo.medicoSeleccionado.obras = medicoNuevo.obras;
 
 
       });
@@ -223,18 +226,32 @@ export class ConfiguracionMedicoComponent implements OnInit {
       this.medicoSeleccionado = null;
     }
 
-    onIntervalosGuardados(algo){
-      console.log('on intervalos guardados');
-      console.log(algo);
+    onIntervalosGuardados(medicoCambiado){
+      // console.log('on intervalos guardados');
+      //
+      //
+      // console.log(medicoCambiado);
 
-      //**********************************************
-      // actualziar el medicos
+      /*
+        OBS: el medico viene SIN los datos de usuario.
+        Es decir, no tenemos el nombre, apellido, etc.
+        Solo debemos actualizar los datos de la semanaEsquema del medico
+      */
 
-      //ACA ACA ACA
 
-      //**********************************************
+      //Actualizamos el medico modificado
+      let i = -1;
+      this.medicos.forEach(function(med,index){
+        if(med._id.toString() == medicoCambiado._id){
+          i = index;
+        }
+      });
+      if(i > -1){
+        this.medicos[i].semanaEsquema = medicoCambiado.semanaEsquema;
+      }
 
-
+      //Sacamos la seleccion del medico, para que dsps no haya inconsistencias
+      this.medicoSeleccionado = {};
 
 
 
