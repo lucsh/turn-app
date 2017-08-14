@@ -191,6 +191,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
         var temp = moment(date).utc(); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
         //*************************************************
 
+        // console.log('temp');
+        // console.log(temp);
         /*
         let temp2 = temp.add(duracionTurno, 'm');
 
@@ -233,14 +235,19 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
 
         let arregloDeHoras = $('#calendar').fullCalendar('option', 'businessHours');
-        let horaInicial = event.start.hour() + ':' + event.start.minutes();
-        let horaFinal = event.end.hour() + ':' + event.end.minutes();
 
+
+        var startUtc = moment(event.start).utc();
+        var endUtc = moment(event.end).utc();
+
+        let horaInicial = startUtc.hour() + ':' + startUtc.minutes();
+        let horaFinal = endUtc.hour() + ':' + endUtc.minutes();
 
         ////console.log("Horas...");
         ////console.log(horaInicial);
         ////console.log(horaFinal);
 
+        // if(yo.comprobarValidezHora(arregloDeHoras,horaInicial,horaFinal,event.start.day())){
         if(yo.comprobarValidezHora(arregloDeHoras,horaInicial,horaFinal,event.start.day())){
 
           swal({
@@ -253,7 +260,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
             confirmButtonText: 'Si, modificar!',
             cancelButtonText: 'Cancelar'
           }).then(function() {
-            yo.turnosSocketService.actualizarTurno(event);
+            // yo.turnosSocketService.actualizarTurno(event);
+            yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
           }, function(dismiss) {
             // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
             if (dismiss === 'cancel') {
@@ -272,8 +280,11 @@ export class TurnosComponent implements OnInit, OnDestroy {
       eventResize: function(event, delta, revertFunc) {
 
         let arregloDeHoras = $('#calendar').fullCalendar('option', 'businessHours');
-        let horaInicial = event.start.hour() + ':' + event.start.minutes();
-        let horaFinal = event.end.hour() + ':' + event.end.minutes();
+        var startUtc = moment(event.start).utc();
+        var endUtc = moment(event.end).utc();
+
+        let horaInicial = startUtc.hour() + ':' + startUtc.minutes();
+        let horaFinal = endUtc.hour() + ':' + endUtc.minutes();
 
         if(yo.comprobarValidezHora(arregloDeHoras,horaInicial,horaFinal,event.start.day())){
           swal({
@@ -286,7 +297,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
             confirmButtonText: 'Si, agrandar!',
             cancelButtonText: 'Cancelar'
           }).then(function() {
-            yo.turnosSocketService.actualizarTurno(event);
+            // yo.turnosSocketService.actualizarTurno(event);
+              yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
           }, function(dismiss) {
             // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
             if (dismiss === 'cancel') {

@@ -216,6 +216,14 @@ export class TurnoSocketService {
         this.turnosSocketService.patch(id, {"horaInicial":newHoraInicial,"horaFin":newHoraFin}).then((turnoActualizado)=>{
         });
     }
+    public actualizarTurno2(start, end, idTurno){
+
+        let newHoraInicial = start.format();
+        let newHoraFin = end.format();
+        let id = idTurno;
+        this.turnosSocketService.patch(id, {"horaInicial":newHoraInicial,"horaFin":newHoraFin}).then((turnoActualizado)=>{
+        });
+    }
 
     public eliminarTurno(turno){
 
