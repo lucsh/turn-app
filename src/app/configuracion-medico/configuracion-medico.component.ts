@@ -32,7 +32,7 @@ export class ConfiguracionMedicoComponent implements OnInit {
 
   public obrasSelector2: Array<any> = [];
   public actualizado: boolean = false;
-//  private value:any = {};
+  //  private value:any = {};
   private _disabledV:string = '0';
   private disabled:boolean = false;
 
@@ -43,7 +43,7 @@ export class ConfiguracionMedicoComponent implements OnInit {
   // public obrasSelector: Array<Select2OptionData>;
   public obrasSelector: Array<any> = [];
   public options: Select2Options;
-  public value: any[];
+  public value: any[] = [];
   public current: string;
 
   constructor(
@@ -96,22 +96,28 @@ export class ConfiguracionMedicoComponent implements OnInit {
           un atributo 'text'
           */
           yo.obrasSelector[index] = elem;
-          yo.obrasSelector[index].id = elem.nombre;
+          yo.obrasSelector[index].id = elem._id;
           yo.obrasSelector[index].text = elem.nombre;
         });
-
-        this.options = {
-          multiple: true
-        }
-
-
-        this.value= [yo.obrasSelector[2].id,yo.obrasSelector[1].id];
+        this.iniciarSelectorObras();
 
         if(yo.obrasSelector.length > 0){
           ////console.log('TRUE');
           this.actualizado = true;
         }
       }
+    }
+
+    private iniciarSelectorObras(){
+
+
+
+
+      this.options = {
+        multiple: true
+      }
+
+      this.current = this.value.join(' | ');
     }
 
 
@@ -125,14 +131,18 @@ export class ConfiguracionMedicoComponent implements OnInit {
 
     actualizarDatos(nombre,apellido,duracionTurno){
       let id = this.medicoSeleccionado._id;
+      let idUsuario = this.medicoSeleccionado._idUsuario;
+
+
       let yo = this;
 
       let obrasAsignadas = this.asignarObras();
 
-      ////console.log(obrasAsignadas);
-      this.configuracionMedicoService.actualizarMedico(id,nombre,apellido,duracionTurno,obrasAsignadas).then(medicoNuevo =>{
-        ////console.log("El medico nuevo es....");
-        ////console.log(medicoNuevo);
+      console.log('#############342423423');
+      console.log(obrasAsignadas);
+      this.configuracionMedicoService.actualizarMedico(id,nombre,apellido,duracionTurno,obrasAsignadas, idUsuario).then(medicoNuevo =>{
+        console.log("El medico nuevo es....");
+        console.log(medicoNuevo);
         // let id = medicoNuevo._id;
         // let index = this.getIndex();
 
@@ -152,10 +162,15 @@ export class ConfiguracionMedicoComponent implements OnInit {
       let obrasAsignadas = [];
       let yo = this;
 
+      console.log('yo.value');
+      console.log(yo.value);
+
       this.obrasSelector.forEach(function(elem,index){
         for (let i = 0; i < yo.value.length; i++) {
-          if(elem.id == yo.value[i].id){
-            ////console.log('encontre!');
+
+          if(elem.id.toString() == yo.value[i]){
+            // console.log('****************************************');
+            // console.log('encontre!');
             obrasAsignadas.push(elem._id); //clonamos el elemento
           }
         }
@@ -186,6 +201,18 @@ export class ConfiguracionMedicoComponent implements OnInit {
 
     public abrirModal(medico){
       this.medicoSeleccionado = medico;
+
+      let yo = this;
+      let listaAux = [];
+      this.medicoSeleccionado.obras.forEach(function(elem,index){
+        listaAux.push(elem._id);
+      });
+      this.value = listaAux;
+      // this.value = [this.obrasSelector[2].id, this.obrasSelector[1].id];
+
+
+
+
       $('#formDatosBasicos').modal('show');
     }
     public cancelar(){
@@ -215,6 +242,14 @@ export class ConfiguracionMedicoComponent implements OnInit {
 
     //---------------------------------------------------------------------------
     //Metodos originales del componente
+
+
+    changed(data: {value: string[]}) {
+      this.current = data.value.join(' | ');
+      this.value = data.value;
+      //console.log(this.current);
+    }
+
 
     private get disabledV():string {
       return this._disabledV;
