@@ -3,48 +3,48 @@
     <div class="ibox float-e-margins">
       <div class="ibox-title">
         <h5>Medicos</h5>
-         <!--<iboxtools></iboxtools>  {{whatTime | async | amDateFormat:'hh:mm'}}  -->
+        <!--<iboxtools></iboxtools>  {{whatTime | async | amDateFormat:'hh:mm'}}  -->
       </div>
       <div class="ibox-content">
         <table class="table table-hover no-margins">
           <thead>
-          <tr>
-            <th>Matricula</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Duracion Turnos</th>
-            <!-- <th>Doctor<th> -->
-            <th>Acciones</th>
-          </tr>
+            <tr>
+              <th>Matricula</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Duracion Turnos</th>
+              <!-- <th>Doctor<th> -->
+              <th>Acciones</th>
+            </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let medico of medicos">
-          <!--
-          {
-            "id": 12,
-            "dia": "01-06-2017",
-            "hora": "12:30",
-            "status": "Pendiente",
-            "paciente": "Raul",
-            "doctor": "Dra. Manzazno"
-          }
+            <tr *ngFor="let medico of medicos">
+              <!--
+              {
+              "id": 12,
+              "dia": "01-06-2017",
+              "hora": "12:30",
+              "status": "Pendiente",
+              "paciente": "Raul",
+              "doctor": "Dra. Manzazno"
+            }
           -->
-            <td>{{medico.matricula}}</td>
-            <td>{{medico.nombre}}</td>
-            <td>{{medico.apellido}}</td>
-            <td>{{medico.duracion}}</td>
+          <td>{{medico.matricula}}</td>
+          <td>{{medico.nombre}}</td>
+          <td>{{medico.apellido}}</td>
+          <td>{{medico.duracion}}</td>
 
-            <td>
-              <!-- <button (click)="editar(turno)" class="btn btn-info"></button> -->
-              <button (click)="abrirModal(medico)" class="btn btn-success">Actualizar Datos Basicos</button>
-              <button (click)="configurarSemana(medico)" class="btn btn-primary">Configurar Semana</button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+          <td>
+            <!-- <button (click)="editar(turno)" class="btn btn-info"></button> -->
+            <button (click)="abrirModal(medico)" class="btn btn-success">Actualizar Datos Basicos</button>
+            <button (click)="configurarSemana(medico)" class="btn btn-primary">Configurar Semana</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+</div>
+</div>
 </div>
 
 <!-- Modal Formulario Crear Turno -->
@@ -77,38 +77,59 @@
         </div>
 
         <div class="form-group">
+
+
           <div id="divSelector" class="">
+
+            <select2
+            *ngIf = 'actualizado == true'
+            [data]="obrasSelector"
+            [options]="options"
+            [width]="500"
+            [value]="value"
+            [cssImport]="true"
+
+            (valueChanged)="changed($event)"
+            ></select2>
+
+
+
+            <!--
+            [cssImport]="false"
+
             <ng-select  *ngIf = 'actualizado == true'
-                        [multiple]="true"
-                        [allowClear]="true"
-                        [items]="obrasSelector"
-                        [disabled]="disabled"
-                        (data)="refreshValue($event)"
-                        (selected)="selected($event)"
-                        (removed)="removed($event)"
-                        (typed)="typed($event)"
-                        placeholder="Obras sociales">
-            </ng-select>
-          </div>
+            [multiple]="true"
+            [allowClear]="true"
+            [items]="obrasSelector"
+            [disabled]="disabled"
+            (data)="refreshValue($event)"
+            (selected)="selected($event)"
+            (removed)="removed($event)"
+            (typed)="typed($event)"
+            placeholder="Obras sociales">
+          </ng-select> -->
+
+
         </div>
-
       </div>
 
-      <div class="modal-footer">
-
-        <button class="btn btn-danger" (click)='cancelar()'>
-          Cancelar
-        </button>
-
-        <button class="btn btn-primary" (click)='actualizarDatos(nombreMedico.value,apellidoMedico.value,duracionTurno.value)'>
-          Editar
-        </button>
-
-      </div>
     </div>
-    <!-- /.modal-content -->
+
+    <div class="modal-footer">
+
+      <button class="btn btn-danger" (click)='cancelar()'>
+        Cancelar
+      </button>
+
+      <button class="btn btn-primary" (click)='actualizarDatos(nombreMedico.value,apellidoMedico.value,duracionTurno.value)'>
+        Editar
+      </button>
+
+    </div>
   </div>
-  <!-- /.modal-dialog -->
+  <!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
 
 </div>
 <!-- /.modal -->

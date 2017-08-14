@@ -12,6 +12,9 @@ import {default as swal} from 'sweetalert2';
 declare var $: any;
 
 
+import { Select2OptionData } from 'ng2-select2';
+
+
 
 @Component({
   selector: 'app-configuracion-medico',
@@ -27,14 +30,22 @@ export class ConfiguracionMedicoComponent implements OnInit {
 
   private esMedico: boolean = false;
 
-  public obrasSelector: Array<any> = [];
+  public obrasSelector2: Array<any> = [];
   public actualizado: boolean = false;
-  private value:any = {};
+//  private value:any = {};
   private _disabledV:string = '0';
   private disabled:boolean = false;
 
   private obras: Obra[];
   private obraSelected: Obra = null;
+
+
+  // public obrasSelector: Array<Select2OptionData>;
+  public obrasSelector: Array<any> = [];
+  public options: Select2Options;
+  public value: any[];
+  public current: string;
+
   constructor(
     route: ActivatedRoute,
     private http: Http, private configuracionMedicoService: ConfiguracionMedicoService, private obraService: ObrasService) {
@@ -88,6 +99,14 @@ export class ConfiguracionMedicoComponent implements OnInit {
           yo.obrasSelector[index].id = elem.nombre;
           yo.obrasSelector[index].text = elem.nombre;
         });
+
+        this.options = {
+          multiple: true
+        }
+
+
+        this.value= [yo.obrasSelector[2].id,yo.obrasSelector[1].id];
+
         if(yo.obrasSelector.length > 0){
           ////console.log('TRUE');
           this.actualizado = true;

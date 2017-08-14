@@ -31,7 +31,8 @@
         "../node_modules/moment/min/moment.min.js",
         "../node_modules/fullcalendar/dist/fullcalendar.js",
         "../node_modules/fullcalendar/dist/locale/es.js",
-        "../src/assets/js/inspinia.js"
+        "../src/assets/js/inspinia.js",
+        "../node_modules/select2/dist/js/select2.full.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

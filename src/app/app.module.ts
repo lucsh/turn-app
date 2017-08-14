@@ -15,6 +15,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import {MomentModule} from 'angular2-moment';
+
+import { Select2Module } from 'ng2-select2';
 import 'moment/locale/es';
 
 
@@ -95,7 +97,8 @@ import { TareasComponent } from './tareas/tareas.component';
     MomentModule,
     routing,
     DataTableModule,
-    SelectModule
+    SelectModule,
+    Select2Module
   ],
   providers: [
     DashboardService,
