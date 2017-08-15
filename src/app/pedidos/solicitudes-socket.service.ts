@@ -32,7 +32,7 @@ export class SolicitudesSocketService implements OnDestroy  {
   private feathersService;
 
   constructor(private FeathersCambiarNombre: Feathers) {
-    
+
     //Estamos usando el Service de Feathers, pues el que tiene la autenticacion del login
     this.feathersService = FeathersCambiarNombre.devolverFeathers();
     //Obtenemos el service que queremos
@@ -125,7 +125,8 @@ export class SolicitudesSocketService implements OnDestroy  {
 
     if(indexPaciente > -1){
       let id = pacienteEnSolicitud._id;
-      this.solicitudesSocketService.patch(id,{"aprobado":true}).then(
+      let idUsuario = pacienteEnSolicitud._idUsuario;
+      this.solicitudesSocketService.patch(id,{"aprobado":true,"_idUsuario":idUsuario,"aprobando":true}).then(
         pacienteAprobado => {
           ////console.log('Se aprobo el paciente que estaba en solicitud!!');
           if(pacienteAprobado.aprobado){
