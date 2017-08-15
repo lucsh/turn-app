@@ -51,11 +51,11 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
 
   */
   public agregarPaciente(nombrePaciente,apellidoPaciente, dniPaciente,
-    emailPaciente, nacimientoPaciente, telefonoPaciente){
+    emailPaciente, nacimientoPaciente, telefonoPaciente, ocupacion, observaciones){
       ////console.log('Entre a agregar Paciente');
       let obraId = this.obraSelected._id;
       this.pacientesService.createPaciente(nombrePaciente,apellidoPaciente, dniPaciente,
-        emailPaciente, nacimientoPaciente, telefonoPaciente, obraId)
+        emailPaciente, nacimientoPaciente, telefonoPaciente, obraId, ocupacion, observaciones)
         .then(pacienteNuevo => {
 
           ////console.log('Se creo el paciente con exito');

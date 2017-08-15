@@ -45,6 +45,18 @@
           <div class="input-group"><input  #telefonoPaciente placeholder="Ej: 2994771333" type="text" class="form-control">
           </div>
         </div>
+        <div class="form-group">
+          <label>Ocupación</label>
+          <div class="input-group"><input   #ocupacionPaciente type="text" class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Observaciones</label>
+          <div class="input-group">
+            <textarea class="form-control"  #observacionesPaciente rows="5" cols="80"></textarea>
+
+          </div>
+        </div>
 
         <!-- Podrian ser varias obras => Habria que ver el modelo -->
         <div class="form-group">
@@ -65,7 +77,7 @@
 
         <button class="btn btn-primary"
         (click)='agregarPaciente(nombrePaciente.value,apellidoPaciente.value,
-        dniPaciente.value, emailPaciente.value, nacimientoPaciente.value,telefonoPaciente.value);
+        dniPaciente.value, emailPaciente.value, nacimientoPaciente.value,telefonoPaciente.value, ocupacionPaciente.value, observacionesPaciente.value);
         nombrePaciente.value = null;
         apellidoPaciente.value = null;
         dniPaciente.value = null;

@@ -40,12 +40,12 @@ export class PacientesService {
 		.catch(this.handleError);
 	}
 
-	createPaciente(nombrePaciente,apellidoPaciente, dniPaciente, emailPaciente, nacimientoPaciente, telefonoPaciente, obraPaciente):Promise<Paciente>{
+	createPaciente(nombrePaciente,apellidoPaciente, dniPaciente, emailPaciente, nacimientoPaciente, telefonoPaciente, obraPaciente, ocupacion, observaciones):Promise<Paciente>{
 
 		return this.http
 		.post(this.pacientesURL, JSON.stringify({nombre: nombrePaciente ,apellido: apellidoPaciente,
 			 dni: dniPaciente, email: emailPaciente, nacimiento: nacimientoPaciente,
-			 telefono: telefonoPaciente, obra: obraPaciente,
+			 telefono: telefonoPaciente, obra: obraPaciente, ocupacion: ocupacion, observaciones:observaciones,
 			 eliminado: false, aprobado: true, sancion: false
 		 }), this.authService.jwtContentType())
 		 .toPromise()
