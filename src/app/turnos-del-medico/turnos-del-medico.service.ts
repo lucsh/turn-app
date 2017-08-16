@@ -10,6 +10,8 @@ declare var feathers:any;
 
 import { Turno } from '../turnos/turno.tipo';
 import {VariablesGlobales} from '../variablesGlobales';
+import { Feathers } from '../authentication/feathers.service'
+
 
 declare var $: any;
 
@@ -29,15 +31,17 @@ export class TurnosDelMedicoService {
     };
 
     //private matricula: string;
+    private feathersService;
     private socket;
 
     private miMatricula: String;
-    constructor() {
-      this.socket = io(this.urlServidor);
-      const feathersApp = feathers().configure(feathers.socketio(this.socket));
+    constructor(private FeathersCambiarNombre: Feathers) {
+      //this.socket = io(this.urlServidor);
+      //const feathersApp = feathers().configure(feathers.socketio(this.socket));
 
       //Obtenemos el service que queremos
-      this.turnosService = feathersApp.service('turnos');
+      this.feathersService = FeathersCambiarNombre.devolverFeathers();
+      this.turnosService = this.feathersService.service('turnos');
 
 
       //Registramos eventos
@@ -193,7 +197,7 @@ export class TurnosDelMedicoService {
     ngOnDestroy(){
 
         //this.socket.close();
-        this.socket.disconnect();
+        //this.socket.disconnect();
         //this.turnosObserver = null;
         // ////console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
     }
