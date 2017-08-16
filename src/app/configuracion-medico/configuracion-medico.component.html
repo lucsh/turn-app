@@ -135,6 +135,6 @@
 <!-- /.modal -->
 
 
-<app-modal-semana *ngIf="medicoSeleccionado != null" [obrasDispTotales]="medicoSeleccionado.obras" [medico]="medicoSeleccionado"
+<app-modal-semana *ngIf="medicoSeleccionado != null && medicoSeleccionado.obras" [obrasDispTotales]="medicoSeleccionado.obras" [medico]="medicoSeleccionado"
 (semenaCambiada)='onIntervalosGuardados($event)'
 ></app-modal-semana>

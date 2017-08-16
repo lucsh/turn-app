@@ -207,10 +207,17 @@ export class ConfiguracionMedicoComponent implements OnInit {
 
       let yo = this;
       let listaAux = [];
-      this.medicoSeleccionado.obras.forEach(function(elem,index){
-        listaAux.push(elem._id);
-      });
-      this.value = listaAux;
+
+      // Si el emdico tiene obras, entonces se las asignamos al editar
+      if(this.medicoSeleccionado.obras){
+
+        this.medicoSeleccionado.obras.forEach(function(elem,index){
+          listaAux.push(elem._id);
+        });
+        this.value = listaAux;
+      }
+
+
       // this.value = [this.obrasSelector[2].id, this.obrasSelector[1].id];
 
 
