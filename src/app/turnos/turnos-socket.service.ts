@@ -87,8 +87,8 @@ export class TurnoSocketService {
         this.dataStore = { turnos: [] };
 
         this.autenticar().then((param)=>{
-          console.log("PARAMS");
-          console.log(param);
+          // console.log("PARAMS");
+          // console.log(param);
           this.find();
 
 
@@ -105,7 +105,7 @@ export class TurnoSocketService {
     */
     private autenticar(): Promise<any>{
 
-        console.log("ENTRE AL AUTHENTICAR");
+        // console.log("ENTRE AL AUTHENTICAR");
         let token = localStorage.getItem('feathers-jwt');
 
         return this.feathersApp.authenticate({

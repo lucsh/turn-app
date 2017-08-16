@@ -62,10 +62,10 @@ export class TurnosDelMedicoService {
 
     public buscarTurnos(miMatricula: String, idMedico) {
         //let m = this.matricula;
-        console.log('ENTRE EN BUSCAR TURNOS');
+        // console.log('ENTRE EN BUSCAR TURNOS');
         this.miMatricula = miMatricula;
 
-        console.log(idMedico);
+        // console.log(idMedico);
         let fechaHoy = new Date();
         // let temp = moment(fechaHoy).subtract(1,'days').format('YYYY-MM-DD');
         let temp = moment(fechaHoy).format('YYYY-MM-DD');
@@ -101,17 +101,17 @@ export class TurnosDelMedicoService {
 
     public updateTurno(turno, nuevoEstado){
       var now = new Date();
-      console.log("################");
-      console.log(now);
+      // console.log("################");
+      // console.log(now);
 
       var nueva = moment(now).utc();
-      console.log(nueva);
+      // console.log(nueva);
       // var momentDate = moment(now).utc();
       // console.log("HORA...");
       // console.log(momentDate);
       this.turnosService.patch(turno._id,{"estado": nuevoEstado, "horaUltimoCambio": nueva }).then((turnoActualizado) => {
-        console.log("Turno actualizado correctamente");
-        console.log(turnoActualizado);
+        // console.log("Turno actualizado correctamente");
+        // console.log(turnoActualizado);
       }).catch(err => console.error(err));
     }
 

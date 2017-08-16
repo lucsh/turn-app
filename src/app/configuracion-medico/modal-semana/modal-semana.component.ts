@@ -332,7 +332,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
       intervalo.dias.splice(index,1);
     }
     intervalo.dias.sort(function(a, b){return a - b});
-    console.log(intervalo);
+    // console.log(intervalo);
   }
 
 
@@ -342,8 +342,8 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
   private parsearObras(){
     let result = [];
-    console.log("Entre a parsear obras");
-    console.log(this.turnosPorObra);
+    // console.log("Entre a parsear obras");
+    // console.log(this.turnosPorObra);
     for (let i = 0; i < this.turnosPorObra.length; i++) {
       this.turnosPorObra[i];
       result[i] = {obraSocial: this.turnosPorObra[i].obraSocial, cantDisponible:this.turnosPorObra[i].cantDisponible}

@@ -128,8 +128,8 @@ export class TurnosDelMedicoComponent implements OnInit {
       this.medicoId = medico._idMedico;
       this.subscription = this.turnosDelMedicoService.turnos$.subscribe((turnos: Turno[]) => {
           this.turnos = turnos;
-          console.log('ACAACACA CACA ');
-          console.log(this.turnos);
+          // console.log('ACAACACA CACA ');
+          // console.log(this.turnos);
           this.ref.markForCheck();
       }, (err) => {
           console.error(err);

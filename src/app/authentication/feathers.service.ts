@@ -52,11 +52,11 @@ export class Feathers {
   }
   public autenticarSocket(): Promise<any>{
 
-    console.log("ENTRE AL AUTHENTICAR");
+    // console.log("ENTRE AL AUTHENTICAR");
 
 
     let token = localStorage.getItem('feathers-jwt');
-    console.log(token);
+    // console.log(token);
     // this._feathers.authenticate({
     //   strategy: "jwt",
     //   accessToken: token

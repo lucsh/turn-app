@@ -56,8 +56,8 @@ export class NavigationComponent {
     // var p = localStorage.getItem('user');
     // console.log(p);
     var usuario: any = JSON.parse(localStorage.getItem('user'));
-    console.log('usuario');
-    console.log(usuario);
+    // console.log('usuario');
+    // console.log(usuario);
     ////console.log('ENTRE A GET USUARIO');
     // ////console.log(usuario);
     if(usuario!=undefined && usuario != null){
@@ -80,8 +80,8 @@ export class NavigationComponent {
   public actualizarListaMedicos(){
     const yo = this;
     this.medicosService.getDoctores().then((docs)=>{
-      console.log('ENTRE ACA!!!');
-      console.log(docs);
+      // console.log('ENTRE ACA!!!');
+      // console.log(docs);
       yo.medicos = docs;
     });
   }
