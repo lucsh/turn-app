@@ -13,6 +13,7 @@ export class AsignarPacienteComponent implements OnChanges{
   @Output() nuevaAsignacion = new EventEmitter();
 
   @ViewChild('closeFormCrearTurno') closeFormCrearTurno: ElementRef;
+  @ViewChild('selector2') selector: ElementRef;
 
   public horaNuevoTurno: any;
   public diaNuevoTurno: any;
@@ -26,9 +27,9 @@ export class AsignarPacienteComponent implements OnChanges{
   private disabled:boolean = false;
 
   /*
-    Este metodo es llamado cada vez que se cambia la fecha y/o los pacientes (inputs de este componente).
-    Principalmente, se completa la variable 'pacientesSelector', para poder ser utilizados con el componente ng2-select.
-    Tambien se preparan las variables de horaNuevoTurno y diaNuevoTurno para la visual del modal.
+  Este metodo es llamado cada vez que se cambia la fecha y/o los pacientes (inputs de este componente).
+  Principalmente, se completa la variable 'pacientesSelector', para poder ser utilizados con el componente ng2-select.
+  Tambien se preparan las variables de horaNuevoTurno y diaNuevoTurno para la visual del modal.
   */
   ngOnChanges(changes) {
     // changes.prop contains the old and the new value...
@@ -43,10 +44,10 @@ export class AsignarPacienteComponent implements OnChanges{
       let yo = this;
       this.pacientes.forEach(function(elem,index){
         /*
-          Dado que estamos usando el componente ng2-select,
-          debemos tener un arreglo en el que cada objeto TENGA:
-            un atributo 'id'
-            un atributo 'text'
+        Dado que estamos usando el componente ng2-select,
+        debemos tener un arreglo en el que cada objeto TENGA:
+        un atributo 'id'
+        un atributo 'text'
         */
         yo.pacientesSelector[index] = elem;
         yo.pacientesSelector[index].id = elem.nombre +' ' + elem.apellido + ' - ' + elem.dni;
@@ -109,14 +110,45 @@ export class AsignarPacienteComponent implements OnChanges{
     ////console.log('Entre en onPacienteAgregado de Asignar Paciente Turno');
     ////console.log(pacienteNuevo);
 
+    if(this.pacientesSelector.length > 0){
+      this.pacientesSelector = [];
+    }
+
+
     if(pacienteNuevo != null && pacienteNuevo.aprobado){
+      // console.log('ENTRE a paciente Nuevo y pase el if');
+      // console.log(pacienteNuevo);
       this.pacientes.push(pacienteNuevo); //No se si es necesario hacerlo con pacientes
 
-      //Acualizamos el selector
-      let aux = pacienteNuevo;
-      aux.id = pacienteNuevo.nombre +' ' + pacienteNuevo.apellido + ' - ' + pacienteNuevo.dni;
-      aux.text = pacienteNuevo.nombre +' ' + pacienteNuevo.apellido + ' - ' + pacienteNuevo.dni;
-      this.pacientesSelector.push(aux);
+      //Reiniciamos el selector
+      let yo = this;
+      this.pacientes.forEach(function(elem,index){
+        yo.pacientesSelector[index] = elem;
+        yo.pacientesSelector[index].id = elem.nombre +' ' + elem.apellido + ' - ' + elem.dni;
+        yo.pacientesSelector[index].text = elem.nombre +' ' + elem.apellido + ' - ' + elem.dni;
+      });
+    }
+
+    // console.log('ENTRE A ON PACIENTE AGREGADO');
+
+    if(this.selector != undefined){
+      // console.log('Pase el selector');
+      // console.log(this.selector);
+      /*
+      IMPORTANTE: Workaround para que se actualice segun obrasSelector
+      Sacado de:
+      https://github.com/valor-software/ng2-select/issues/635#issuecomment-281094377
+      */
+
+      //this.turnosPorObra[0].obraSocial = this.obrasSelector[0].id;
+      // let algo = {
+      //   id:'algo',
+      //   text: 'algo'
+      // }
+      //
+      // this.pacientesSelector = [algo];
+
+      (<any>this.selector).open();
     }
   }
 
