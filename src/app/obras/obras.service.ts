@@ -29,6 +29,17 @@ export class ObrasService {
     .catch(this.handleError);
   }
 
+  actualizarObra(id,datos): Promise<Obra[]>{
+    return this.http.put(this.obrasURL+'/'+id,datos,this.authService.jwt())
+		.toPromise()
+		.then(response => {
+			// ////console.log("RESPUESTA DESDE EL PUT");
+			// ////console.log(response.json());
+			return response.json() as Obra[];
+		})
+		.catch(this.handleError);
+  }
+
 
 
   //---------------------------------------------------------------------------

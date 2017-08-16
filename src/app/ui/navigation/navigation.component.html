@@ -59,6 +59,10 @@
           <a [routerLink]="['/pacientes']"><i class="fa fa-th-large"></i> <span class="nav-label">Pacientes</span></a>
         </li>
 
+        <li [ngClass]="{active: activeRoute('obras')}" *ngIf="!esMedico()">
+          <a [routerLink]="['/obras']"><i class="fa fa-th-large"></i> <span class="nav-label">Obras</span></a>
+        </li>
+
         <li [ngClass]="{active: activeRoute('configuracion')}" *ngIf="!esMedico()">
           <a [routerLink]="['/configuracion']"><i class="fa fa-th-large"></i> <span class="nav-label">Configuracion</span></a>
         </li>

@@ -1,0 +1,49 @@
+<!-- Modal Formulario Crear Turno -->
+<div class="modal fade" id="formEditarObra" #formEditarObra tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeFormEditarObra >&times;</button>
+        <h3 class="modal-title" id="myModalLabel">Editar Obra</h3>
+      </div>
+
+      <div class="modal-body" *ngIf='modeloObra != null'>
+        <!-- <div class="modal-body" *ngIf = 'horaNuevoTurno != null && diaNuevoTurno != null && Obras != null' > -->
+
+
+        <div class="form-group">
+          <label>Iniciales</label>
+          <div class="input-group"><input [(ngModel)]='modeloObra.iniciales'  #inicialesObra type="text" class="form-control">
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label>Nombre</label>
+          <div class="input-group"><input  [(ngModel)]='modeloObra.nombre'  #nombreObra type="text" class="form-control">
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button class="btn btn-danger" (click)='cancelar()'>
+          Cancelar
+        </button>
+
+        <button class="btn btn-primary"
+        (click)='editarObra();
+
+        '>
+        Guardar
+      </button>
+
+    </div>
+  </div>
+  <!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+
+</div>
+<!-- /.modal -->

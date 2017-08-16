@@ -41,6 +41,8 @@ import { SolicitudesComponent } from './pedidos/solicitudes.component';
 import { SolicitudesSocketService } from './pedidos/solicitudes-socket.service';
 import { PacientesDelDiaComponent } from './pacientes-del-dia/pacientes-del-dia.component';
 
+import { DataFilterPipe2 }   from './obras/obras-filter.pipe';
+
 
 import {AsignarPacienteComponent} from './turnos/asignarPaciente/asignarPacienteTurno';
 import {AgregarPacienteComponent} from './pacientes/agregarPaciente/agregarPaciente';
@@ -52,6 +54,7 @@ import { TurnosDelMedicoComponent } from './turnos-del-medico/turnos-del-medico.
 import { ConfiguracionMedicoComponent } from './configuracion-medico/configuracion-medico.component';
 import { ModalSemanaComponent } from './configuracion-medico/modal-semana/modal-semana.component';
 import { EditarPacienteComponent } from './pacientes/editarPaciente/editarPaciente';
+import { EditarObraComponent } from './obras/editarObra/editarObra';
 
 
 import { AuthService } from './authentication/auth.service';
@@ -80,6 +83,8 @@ import { TareasComponent } from './tareas/tareas.component';
     ObrasComponent,
     TurnosDelMedicoComponent,
     EditarPacienteComponent,
+    EditarObraComponent,
+
 
     LoginComponent,
     RegisterComponent,
