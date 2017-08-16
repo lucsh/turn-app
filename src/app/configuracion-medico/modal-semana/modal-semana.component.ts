@@ -119,7 +119,13 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
       // console.log("Turnos por obra");
       // console.log(this.medico.semanaEsquema.obrasDisponibles);
-      this.turnosPorObra = this.medico.semanaEsquema.obrasDisponibles;
+      if(this.medico.semanaEsquema && this.medico.semanaEsquema.obrasDisponibles){
+
+        this.turnosPorObra = this.medico.semanaEsquema.obrasDisponibles;
+      }else{
+
+        this.turnosPorObra = [];
+      }
     }
     // console.log("INTERVALOS");
     // console.log(this.intervalos);
@@ -214,7 +220,12 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
   public iniciarIntervalos(){
     if(this.medico.semanaEsquema){
 
-      this.intervalos = this.medico.semanaEsquema.intervalos;
+      if(this.medico.semanaEsquema && this.medico.semanaEsquema.intervalos){
+
+        this.intervalos = this.medico.semanaEsquema.intervalos;
+      }else{
+        this.intervalos = [];
+      }
     }
     // console.log("INTERVALOS");
     // console.log(this.intervalos);
@@ -267,7 +278,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
             Sacado de:
             https://github.com/valor-software/ng2-select/issues/635#issuecomment-281094377
           */
-          
+
           //this.turnosPorObra[0].obraSocial = this.obrasSelector[0].id;
           (<any>this.selector).open();
         }

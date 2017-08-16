@@ -41,12 +41,12 @@ export class ConfiguracionMedicoService {
 		return Promise.reject(error.message || error);
 	}
 
-	buscarMedico(id): Promise<any[]>{
+	buscarMedico(id): Promise<any>{
 		return this.http.get(this.medicosURL+'/'+id,this.authService.jwt())
 		.toPromise()
 		.then(response => {
 			//console.log(response.json());
-			return response.json() as any[];
+			return response.json() as any;
 		})
 		.catch(this.handleError);
 	}

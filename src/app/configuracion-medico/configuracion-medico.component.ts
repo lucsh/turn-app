@@ -54,10 +54,26 @@ export class ConfiguracionMedicoComponent implements OnInit {
         this.esMedico = true;
         this.configuracionMedicoService.buscarMedico(idMedico).then(
           medico => {
+            let listaAUX = [];
+            console.log('medico.obras.length');
+            console.log(medico.obras.length);
+            listaAUX = Object.assign([], medico.obras);
+
+
+            //FIX TEMPORAL para cuando viene 1 OBRA, por lo que (por algun motivo), no lo entiende como lista
+            //feathers al volverlo, posiblemente con un populate
+            if(!medico.obras.length){
+                let aux = Object.assign({}, medico.obras);
+                medico.obras = [];
+                medico.obras.push(aux);
+            }
+            //console.log('listaAUX');
+            //console.log(listaAUX);
+            // medico.obras = listaAUX;
             if(medico){
               console.log('El medico seleccionado es ');
               this.medicos.push(medico);
-              //console.log(this.medicoSeleccionado);
+              console.log(medico);
             }
           }
         )
@@ -210,7 +226,9 @@ export class ConfiguracionMedicoComponent implements OnInit {
 
       // Si el emdico tiene obras, entonces se las asignamos al editar
       if(this.medicoSeleccionado.obras){
-
+        console.log('ESTOY ACA');
+        console.log(this.medicoSeleccionado);
+        console.log(this.medicoSeleccionado.obras);
         this.medicoSeleccionado.obras.forEach(function(elem,index){
           listaAux.push(elem._id);
         });
