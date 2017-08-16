@@ -40,6 +40,29 @@ export class ObrasService {
 		.catch(this.handleError);
   }
 
+  crearObra(iniciales,nombre): Promise<Obra>{
+    return this.http.post(this.obrasURL,{iniciales: iniciales,nombre:nombre},this.authService.jwtContentType())
+		.toPromise()
+		.then(response => {
+			// ////console.log("RESPUESTA DESDE EL PUT");
+			// ////console.log(response.json());
+			return response.json() as Obra;
+		})
+		.catch(this.handleError);
+  }
+
+  eliminarObra(_id):Promise<Obra[]>{
+    return this.http.delete(this.obrasURL+'/'+_id,this.authService.jwt())
+		.toPromise()
+		.then(response => {
+			//console.log("RESPUESTA DESDE EL PATCH");
+			//console.log(response.json());
+			return response.json() as Obra[];
+		})
+		.catch(this.handleError);
+
+  }
+
 
 
   //---------------------------------------------------------------------------

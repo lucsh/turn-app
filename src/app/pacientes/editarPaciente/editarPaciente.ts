@@ -65,6 +65,8 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
 
     this.pacientesService.actualizarPaciente(this.modeloPaciente._id, this.modeloPaciente)
     .then(pacienteEdit => {
+      // console.log("VUELTA DEL PACIENTE");
+      // console.log(pacienteEdit);
       this.pacienteEditado.next(pacienteEdit);
 
 

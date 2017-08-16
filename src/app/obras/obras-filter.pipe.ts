@@ -2,7 +2,7 @@ import * as _ from "lodash";
 import {Pipe, PipeTransform} from "@angular/core";
 
 @Pipe({
-    name: "dataFilter"
+    name: "dataFilter2"
 })
 export class DataFilterPipe2 implements PipeTransform {
 
@@ -19,9 +19,6 @@ export class DataFilterPipe2 implements PipeTransform {
                 }
               }
               return filas;
-
-
-
             });
         }
         return array;

@@ -21,7 +21,7 @@
                 </select>
             </div>
         </div>
-        <div class="col-xs-6">
+        <div class="col-xs-5">
             <div class="row">
                 <select class="form-control input-sm" [(ngModel)]="sortOrder">
                     <option ngValue="asc">Ascendente</option>
@@ -30,12 +30,17 @@
                 </select>
             </div>
         </div>
+        <div class="col-xs-1">
+            <div class="row">
+                <button (click)="abrirFormularioCrear()" class="btn btn-xs btn-primary pull-right" ><i class="fa fa-plus"></i></button>
+            </div>
+        </div>
     </div>
 </div>
 <div class="panel panel-default">
     <!-- <div class="panel-heading">Información</div> -->
 
-    <table class="table table-striped" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable"
+    <table class="table table-striped" [mfData]="data | dataFilter2 : filterQuery" #mf="mfDataTable"
            [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
         <thead>
         <tr>
@@ -79,3 +84,56 @@
   [obra]='obraSelected'
   (obraEditado)='onObraEditado($event)'
 ></editar-obra>
+
+
+
+
+
+<div class="modal fade" id="formCrearObra" #formCrearObra tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeformCrearObra >&times;</button>
+        <h3 class="modal-title" id="myModalLabel">Crear Obra</h3>
+      </div>
+
+      <div class="modal-body">
+        <!-- <div class="modal-body" *ngIf = 'horaNuevoTurno != null && diaNuevoTurno != null && Obras != null' > -->
+
+
+        <div class="form-group">
+          <label>Iniciales</label>
+          <div class="input-group"><input  #inicialesObra type="text" class="form-control">
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label>Nombre</label>
+          <div class="input-group"><input  #nombreObra type="text" class="form-control">
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button class="btn btn-danger" (click)='cancelarModalCrear()'>
+          Cancelar
+        </button>
+
+        <button class="btn btn-primary"
+        (click)='crearObra(inicialesObra.value,nombreObra.value);
+
+        '>
+        Guardar
+      </button>
+
+    </div>
+  </div>
+  <!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+
+</div>
+<!-- /.modal -->

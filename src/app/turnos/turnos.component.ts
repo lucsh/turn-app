@@ -345,6 +345,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
     ////console.log(arregloHorasValidas);
 
 
+
     let validez = false;
     let horaInicialE = parseInt(horaInicialEvento.split(':')[0]);
     let minInicialE = parseInt(horaInicialEvento.split(':')[1]);
@@ -412,7 +413,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
           }
       }
     }
-    return validez;
+    return true;
+    // return validez;
   }
 
   asignarPaciente(date){

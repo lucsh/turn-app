@@ -76,6 +76,7 @@ import { TareasComponent } from './tareas/tareas.component';
     TurnosComponent,
     PacientesComponent,
     DataFilterPipe,
+    DataFilterPipe2,
     SolicitudesComponent,
     PacientesDelDiaComponent,
     AsignarPacienteComponent,

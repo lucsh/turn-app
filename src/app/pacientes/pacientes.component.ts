@@ -114,18 +114,13 @@ export class PacientesComponent implements OnInit {
   }
 
   onPacienteEditado(pacienteEditado){
-    console.log('on Paciente Editado');
-    console.log(pacienteEditado);
-
     let encontrado = -1;
     this.pacientes.forEach(function(elem, index){
-      //console.log(elem);
-      if(elem._id == pacienteEditado._id){
+      if(elem._id === pacienteEditado._id){
         encontrado = index;
       }
     });
-
-    if(encontrado > 0){
+    if(encontrado >= 0){
       this.pacientes[encontrado] = Object.assign({}, pacienteEditado);
     }
 
