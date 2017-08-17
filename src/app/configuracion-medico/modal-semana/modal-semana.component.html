@@ -85,6 +85,9 @@
                       .auxiliar{
                         margin-top: 12%;
                       }
+                      .auxiliar2{
+                        margin-top: 85%;
+                      }
                     </style>
                     <td>
                       <!--  TIME PICKER -->
@@ -97,6 +100,7 @@
                     <td>
                       <!-- VACIOOOO  -->
                       <!-- AGREGAR X ROJA PARA ELIMINAR EL INTERVALO -->
+                      <button (click)="eliminarIntervalo(intervaloIndex)" class="auxiliar2 btn btn-xs btn-danger pull-right " ><i class="fa fa-minus"></i></button>
                     </td>
 
 
@@ -121,6 +125,8 @@
               <h4>Turnos por obra social <button (click)="agregarObra()" class="btn btn-xs btn-primary pull-right" ><i class="fa fa-plus"></i></button></h4>
 
             </div>
+            <hr>
+            <br>
             <div *ngFor="let parObra of turnosPorObra; let parObraIndex = index; trackBy: trackByIndex">
               <!-- Selector de obra -->
               <div>
@@ -150,6 +156,7 @@
                 </div>
                 <!-- input de cantidad -->
                 <input id="cant" type="number" [(ngModel)]="turnosPorObra[parObraIndex].cantDisponible">
+                <button (click)="eliminarSelectorObra(parObraIndex)" class="btn btn-xs btn-danger pull-right " ><i class="fa fa-minus"></i></button>
               </div>
 
 

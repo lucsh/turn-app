@@ -24,7 +24,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
   @Input() obrasDispTotales: any[];
 
   @ViewChild('closeFormConfigSemana') closeFormConfigSemana: ElementRef;
-  @ViewChild('selector') selector: ElementRef;
+  // @ViewChild('selector') selector: ElementRef;
 
   @ViewChildren('diaLunes') diasLunes: QueryList<ElementRef>;
   @ViewChildren('diaMartes') diasMartes: QueryList<ElementRef>;
@@ -32,6 +32,8 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
   @ViewChildren('diaJueves') diasJueves: QueryList<ElementRef>;
   @ViewChildren('diaViernes') diasViernes: QueryList<ElementRef>;
   @ViewChildren('diaSabado') diasSabado: QueryList<ElementRef>;
+
+  @ViewChildren('selector') selectoresObras: QueryList<ElementRef>;
 
   private intervalos: any[] = [];
   private obras: Obra[];
@@ -77,6 +79,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     if(!this.primeraVez){
       this.obrasSelector = [];
       this.turnosPorObra = [];
+      this.resetearSelectoresObras();
       this.resetearCheckBoxs();
 
     }
@@ -100,6 +103,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
   }
   ngAfterViewChecked(){
     // console.log('HOLA');
+    this.iniciarSelectoresObras();
     this.actualizarCheckBoxs();
     // if(!this.primeraVez){
     //    this.actualizarCheckBoxs();
@@ -217,6 +221,43 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
       });
   }
 
+  /*
+    Este metodo INICIA CADA selector de obras, con el valor que tenia.
+  */
+  public iniciarSelectoresObras(){
+    // console.log('##$3###################################');
+    // console.log('Estoy actualizando las obras!!!');
+
+    let yo = this;
+    let selectoresAux :any[] = this.selectoresObras.toArray();
+    // console.log('Las obras');
+    // console.log(this.obras);
+
+    for (let index = 0; index < this.turnosPorObra.length; index++) {
+        let elem = this.turnosPorObra[index];
+
+        for (let i = 0; i < yo.obras.length; i++) {
+          // console.log('------');
+          // console.log(elem);
+          if(yo.obras[i]._id.toString() == elem.obraSocial.toString()){
+
+            var aux = yo.obras[i]; //Este es el que tiene el id y el text
+            // console.log(selectoresAux[index]);
+            // selectoresAux[index].active.push(aux);
+            selectoresAux[index].active = [aux];
+          }
+        }
+    }
+  }
+
+  public resetearSelectoresObras(){
+
+    let selectoresAux :any[] = this.selectoresObras.toArray();
+    selectoresAux.forEach(function(elem,index){
+      elem.active = [];
+    });
+  }
+
   public iniciarIntervalos(){
     if(this.medico.semanaEsquema){
 
@@ -245,6 +286,8 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     // this.actualizarCheckBoxs();
   }
 
+
+
   public actualizarSelector(){
     if(this.obras!=null){
       ////console.log("Entre al actualizar selector");
@@ -259,30 +302,19 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
         un atributo 'id'
         un atributo 'text'
         */
+
         yo.obrasSelector[index] = elem;
         yo.obrasSelector[index].id = elem._id;
         yo.obrasSelector[index].text = elem.nombre;
         yo.obrasSelector[index]._id = elem._id;
+
+        // yo.selectoresObras[0].nativeElement;
+
       });
       if(yo.obrasSelector.length > 0){
         ////console.log('TRUE');
         this.actualizado = true;
         ////console.log(this.selector);
-
-
-
-        if(this.selector != undefined){
-
-          /*
-            IMPORTANTE: Workaround para que se actualice segun obrasSelector
-            Sacado de:
-            https://github.com/valor-software/ng2-select/issues/635#issuecomment-281094377
-          */
-
-          //this.turnosPorObra[0].obraSocial = this.obrasSelector[0].id;
-          (<any>this.selector).open();
-        }
-
       }
     }
   }
@@ -335,6 +367,13 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     // console.log(intervalo);
   }
 
+  public eliminarIntervalo(index){
+    this.intervalos.splice(index,1);
+  }
+
+  public eliminarSelectorObra(index){
+    this.turnosPorObra.splice(index,1);
+  }
 
   public trackByIndex(index: number, item) {
     return index;
