@@ -35,9 +35,9 @@ export class ObrasComponent implements OnInit {
   private getAllObras(): void{
     this.obrasService
     .getObras()
-    .then(obras => {
-        this.obras = obras;
-        this.data = obras;
+    .then(obrasObtenidas => {
+        this.obras = obrasObtenidas;
+        this.data = obrasObtenidas;
         ////console.log(obras);
     });
   }
@@ -80,7 +80,7 @@ export class ObrasComponent implements OnInit {
 
 
 
-  
+
   abrirFormularioCrear(){
     setTimeout(()=> {
       $('#formCrearObra').modal('show');
@@ -97,7 +97,7 @@ export class ObrasComponent implements OnInit {
       console.log("OBRA CREADAAAAAAAAAAAAAAAAAA");
       console.log(obraCreada);
       this.obras.push(obraCreada);
-      this.data.push(obraCreada);
+      // this.data.push(obraCreada);
       this.closeformCrearObra.nativeElement.click();
     })
   }

@@ -282,6 +282,7 @@ export class TurnoSocketService {
         // return 0;
     }
 
+
     //-------------------------------------------------------------------------
     // Metodos de recepcion de eventos de sockets
 
@@ -318,6 +319,8 @@ export class TurnoSocketService {
         this.dataStore.turnos.splice(index, 1);
 
         this.turnosObserver.next(this.dataStore.turnos);
+
+        $('#calendar').fullCalendar('removeEvents',turno._id); // Esto elimina el evento (grafico) con el id = turno._id
     }
 
     /*

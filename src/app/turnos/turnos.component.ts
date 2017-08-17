@@ -490,7 +490,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
     let turnoEncontrado = null;
 
     for (let i = 0; i < this.turnos.length; i++) {
-        this.turnos[i];
+        
         if(id === this.turnos[i]._id){
           turnoEncontrado = this.turnos[i];
           // console.log("Turno encontrado!");

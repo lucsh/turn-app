@@ -14,7 +14,7 @@ declare var $: any;
 
 @Component({
   selector: 'ver-turno',
-  providers:[TurnoSocketService],
+  // providers:[TurnoSocketService],
   templateUrl: './verTurno.html'
 })
 export class VerTurnoComponent implements OnInit, OnChanges{
