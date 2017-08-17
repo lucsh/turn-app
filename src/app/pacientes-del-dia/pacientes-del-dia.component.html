@@ -16,7 +16,7 @@
             <th>Doctor<th>
           </tr>
           </thead>
-          <tbody>
+          <tbody *ngIf="ordenados">
           <tr *ngFor="let turno of turnos">
           <!--
           {

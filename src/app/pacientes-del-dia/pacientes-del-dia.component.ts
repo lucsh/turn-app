@@ -18,6 +18,7 @@ import * as moment from 'moment';
 export class PacientesDelDiaComponent implements OnInit {
 
   private subscription: Subscription;
+  private ordenados: boolean = false;
   estadosTurnos:any[] =  [
     {
       "id": 1,
@@ -94,8 +95,19 @@ export class PacientesDelDiaComponent implements OnInit {
   ngOnInit() {
 
     this.subscription = this.pacienteDelDiaService.turnos$.subscribe((turnos: Turno[]) => {
+        this.ordenados = false;
         this.turnos = turnos;
         this.ref.markForCheck();
+        this.turnos.sort(function(a, b){
+
+          let c = new Date(a.horaInicial);
+          let d = new Date(b.horaInicial)
+          let comparacion = c.getTime() - d.getTime();
+
+          return (comparacion)
+
+        });
+        this.ordenados = true;
     }, (err) => {
         console.error(err);
     });
