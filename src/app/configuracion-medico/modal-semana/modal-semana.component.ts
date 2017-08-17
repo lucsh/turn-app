@@ -367,6 +367,13 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     // console.log(intervalo);
   }
 
+  public eliminarIntervalo(index){
+    this.intervalos.splice(index,1);
+  }
+
+  public eliminarSelectorObra(index){
+    this.turnosPorObra.splice(index,1);
+  }
 
   public trackByIndex(index: number, item) {
     return index;
