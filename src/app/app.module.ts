@@ -26,6 +26,7 @@ import { MedicosService } from './medico/medicos.service';
 import { NavigationService } from './ui/navigation/navigation.service';
 import { PacientesService } from './pacientes/pacientes.service';
 
+
 import { routing } from './app.routing';
 import { FooterComponent } from './ui/footer.component';
 import { NavigationComponent } from './ui/navigation/navigation.component';
@@ -63,7 +64,8 @@ import { Feathers } from './authentication/feathers.service';
 import { LoginComponent } from './authentication/login.component';
 import { RegisterComponent } from './authentication/register.component';
 import { TareasComponent } from './tareas/tareas.component';
-
+import { VerTurnoComponent } from './turnos/verTurno/verTurno';
+import { AgePipe } from './pacientes/edad.pipe';
 
 @NgModule({
   declarations: [
@@ -92,7 +94,9 @@ import { TareasComponent } from './tareas/tareas.component';
 
     ConfiguracionMedicoComponent,
     ModalSemanaComponent,
-    TareasComponent
+    TareasComponent,
+    VerTurnoComponent,
+    AgePipe
 
   ],
   imports: [

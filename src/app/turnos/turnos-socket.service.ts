@@ -112,7 +112,11 @@ export class TurnoSocketService {
           strategy: "jwt",
           accessToken: token
         });
-      }
+    }
+
+    public obtenerTurno(id){
+
+    }
 
     public cambiarMedico(id){
         this.cleanService();
@@ -174,10 +178,10 @@ export class TurnoSocketService {
         //*************************************************
 
         //Windows: descomentar la linea de abajo
-        //var temp = moment(fecha).utc().add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+        var temp = moment(fecha).utc().add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
 
         //LINUX: descomentar la linea de abajo
-        var temp = moment(fecha,'YYYY-MM-DDTHH:mm:ss Z').add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+        // var temp = moment(fecha,'YYYY-MM-DDTHH:mm:ss Z').add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
 
 
         //*************************************************
@@ -225,12 +229,13 @@ export class TurnoSocketService {
         });
     }
 
-    public eliminarTurno(turno){
-
-        let id = turno._id;
-        this.turnosSocketService.remove(id).then((turnoEliminado)=>{
-            ////console.log("Turno eliminado!!");
-        })
+    public eliminarTurno(idTurno){
+        console.log("Entre al eliminar Turno con el id de : ", idTurno);
+        let id = idTurno;
+        this.turnosSocketService.remove(idTurno).then((turnoEliminado)=>{
+            console.log("Turno eliminado!!");
+        });
+        console.log("despues del eliminar");
     }
 
 
@@ -297,11 +302,11 @@ export class TurnoSocketService {
         Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onUpdated'
     */
     private onUpdated(turno: Turno) {
-        // const index = this.getIndex(turno._id);
-        //
-        // this.dataStore.turnos[index] = turno;
-        //
-        // this.turnosObserver.next(this.dataStore.turnos);
+        const index = this.getIndex(turno._id);
+
+        this.dataStore.turnos[index] = turno;
+
+        this.turnosObserver.next(this.dataStore.turnos);
     }
 
     /*

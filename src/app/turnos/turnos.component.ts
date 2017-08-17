@@ -41,6 +41,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
   doctores: Medico[];
   turnos: Turno[];
+  turnoSeleccionado: any;
 
   pacientes: any[] = [];
 
@@ -318,22 +319,29 @@ export class TurnosComponent implements OnInit, OnDestroy {
         //La idea seria que cuando haga click le tire un popup o algo asi, para ver los detalles
         // del turno y poder eliminarlo, editarlo, etc.
 
-        swal({
-          title: '¿Estas seguro que queres eliminar el turno?',
-          //text: 'You will not be able to recover this imaginary file!',
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Si, eliminar!',
-          cancelButtonText: 'Cancelar'
-        }).then(function() {
-          $('#calendar').fullCalendar('removeEvents', function (event) {
-            return event == calEvent; //Esto remueve solamente el evento "clickeado" que entra por parametro del evento del calendario 'calEvent'
-          });
+        yo.turnoSeleccionado = calEvent;
+        yo.turnoSeleccionado = yo.obtenerTurno(calEvent._id);
+        $('#formVerTurno').modal('show');
 
-          yo.turnosSocketService.eliminarTurno(calEvent);
-        }).catch(swal.noop);
+        // swal({
+        //   title: '¿Estas seguro que queres eliminar el turno?',
+        //   //text: 'You will not be able to recover this imaginary file!',
+        //   type: 'warning',
+        //   showCancelButton: true,
+        //   confirmButtonColor: '#3085d6',
+        //   cancelButtonColor: '#d33',
+        //   confirmButtonText: 'Si, eliminar!',
+        //   cancelButtonText: 'Cancelar'
+        // }).then(function() {
+        //   $('#calendar').fullCalendar('removeEvents', function (event) {
+        //     return event == calEvent; //Esto remueve solamente el evento "clickeado" que entra por parametro del evento del calendario 'calEvent'
+        //   });
+        //
+        //   yo.turnosSocketService.eliminarTurno(calEvent);
+        // }).catch(swal.noop);
+
+
+
       }
     });
   }
@@ -475,6 +483,21 @@ export class TurnosComponent implements OnInit, OnDestroy {
     // //^^ no lo encuentra
     // ////console.log(this.doctores);
 
+  }
+
+
+  obtenerTurno(id){
+    let turnoEncontrado = null;
+
+    for (let i = 0; i < this.turnos.length; i++) {
+        this.turnos[i];
+        if(id === this.turnos[i]._id){
+          turnoEncontrado = this.turnos[i];
+          // console.log("Turno encontrado!");
+        }
+
+    }
+    return turnoEncontrado;
   }
 
   getAllDoctores(): void {
