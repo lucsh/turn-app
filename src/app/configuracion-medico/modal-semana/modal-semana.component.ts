@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output,EventEmitter,OnChanges, ElementRef, ViewChild } from '@angular/core';
 
-import { ViewChildren, QueryList } from '@angular/core';
+import { ViewChildren, QueryList, ChangeDetectorRef } from '@angular/core';
 
 import { Obra } from '../../obras/obra.tipo';
 import { ObrasService } from '../../obras/obras.service';
@@ -50,7 +50,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
   private primeraVez: boolean = true;
 
-  constructor(private obraService: ObrasService, private medicosService: MedicosService) { }
+  constructor(private obraService: ObrasService, private medicosService: MedicosService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     if(this.medico != null){
@@ -98,13 +98,23 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
   ngAfterViewInit() {
     //  console.log("AFTER VIEW");
-     this.primeraVez = false;
+    this.primeraVez = false;
     // this.actualizarCheckBoxs();
   }
   ngAfterViewChecked(){
     // console.log('HOLA');
     this.iniciarSelectoresObras();
     this.actualizarCheckBoxs();
+
+
+
+    /*
+      Estamos evitando problemas con los cambios de ciclos de los hooks de los componentes. Para entender este fix:
+      https://blog.angularindepth.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4
+    */
+
+    this.cd.detectChanges();
+
     // if(!this.primeraVez){
     //    this.actualizarCheckBoxs();
     // }
