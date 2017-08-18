@@ -19,6 +19,7 @@ import * as moment from 'moment';
 export class TurnosDelMedicoComponent implements OnInit {
 
   private subscription: Subscription;
+  private ordenados: boolean = false;
   estadosTurnos:any[] =  [
     {
       "id": 1,
@@ -123,6 +124,7 @@ export class TurnosDelMedicoComponent implements OnInit {
 
 
     var medico: any = JSON.parse(localStorage.getItem('user'));
+    this.ordenados = false;
     if (medico.clase === "medico"){
       this.miMatricula = medico.matricula;
       this.medicoId = medico._idMedico;
@@ -131,6 +133,16 @@ export class TurnosDelMedicoComponent implements OnInit {
           // console.log('ACAACACA CACA ');
           // console.log(this.turnos);
           this.ref.markForCheck();
+          this.turnos.sort(function(a, b){
+  
+            let c = new Date(a.horaInicial);
+            let d = new Date(b.horaInicial)
+            let comparacion = c.getTime() - d.getTime();
+
+            return (comparacion)
+
+          });
+          this.ordenados = true;
       }, (err) => {
           console.error(err);
       });
