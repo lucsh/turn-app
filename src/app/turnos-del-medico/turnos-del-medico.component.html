@@ -12,7 +12,7 @@
             <th>Estado</th>
             <th>Horario</th>
             <th>Paciente</th>
-            <th>1ºVez</th>
+            <th class="centro2">1ºVez</th>
             <th>Tiempo de espera</th>
             <!-- <th>Doctor<th> -->
             <th>Acciones</th>
@@ -44,7 +44,7 @@
             </td>
             <td><i class="fa fa-calendar-o"></i> {{turno.horaInicial | amUtc | amDateFormat:'HH:mm'}}</td>
             <td>{{turno.paciente.nombre}} {{turno.paciente.apellido}}</td>
-            <td>{{turno.paciente.primeraVez}}</td>
+            <td><i class="centro fa fa-check" aria-hidden="true" *ngIf="turno.paciente.primeraVez"></i><i class="centro fa fa-times" aria-hidden="true" *ngIf="!turno.paciente.primeraVez"></i></td>
             <td><span *ngIf="turno.estado === 'en espera' || turno.estado === 'en estudio'" class="text-warning"><i class="fa fa-clock-o"></i> Hace {{ aDate(turno.horaUltimoCambio)  | timeAgo }}</span></td>
             <!-- <td>{{turno.medico.apellido}}</td> -->
             <td>
@@ -60,3 +60,16 @@
     </div>
   </div>
 </div>
+
+<style media="screen">
+  .centro{
+    margin: auto;
+    width: 50%;
+    display: block;
+  }
+  .centro2{
+    margin: auto;
+    width: 85%;
+    display: block;
+  }
+</style>

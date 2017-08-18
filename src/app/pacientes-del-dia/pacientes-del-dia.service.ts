@@ -35,7 +35,7 @@ export class PacientesDelDiaService {
     constructor(private FeathersCambiarNombre: Feathers) {
       // this.socket = io(this.urlServidor);
       // const feathersApp = feathers().configure(feathers.socketio(this.socket));
-      
+
       //Estamos usando el Service de Feathers, pues el que tiene la autenticacion del login
       this.feathersService = FeathersCambiarNombre.devolverFeathers();
       //Obtenemos el service que queremos
@@ -91,8 +91,8 @@ export class PacientesDelDiaService {
 
     public updateTurno(turno, nuevoEstado){
       var now = new Date();
-      var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
-      this.pacientesDelDiaService.patch(turno._id,{"estado": nuevoEstado, "horaUltimoCambio": now_utc }).then((turnoActualizado) => {
+      // var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+      this.pacientesDelDiaService.patch(turno._id,{"estado": nuevoEstado}).then((turnoActualizado) => {
         ////console.log("Turno actualizado correctamente");
       }).catch(err => console.error(err));
     }
