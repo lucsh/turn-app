@@ -60,13 +60,13 @@
         </div>
 
         <!-- Podrian ser varias obras => Habria que ver el modelo -->
-        <!-- <div class="form-group">
+        <div class="form-group" *ngIf='obraSelected'>
           <label>Obra Social</label>
 
           <select class="form-control" required [(ngModel)] = "obraSelected" name="obraSelected"  >
-            <option *ngFor="let obra of obras" [ngValue]="obra" >{{obra.nombre}}</option>
+            <option *ngFor="let obra of obras" [ngValue]="obra">{{obra.nombre}}</option>
           </select>
-        </div> -->
+        </div>
 
       </div>
 

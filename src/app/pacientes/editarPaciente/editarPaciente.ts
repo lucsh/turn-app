@@ -39,17 +39,35 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
       obras =>{
         console.log('Tengo las obras!!');
         this.obras = obras;
+
+        this.iniciarObraSeleccionada();
         this.modeloPaciente = Object.assign({}, this.paciente); //clonamos el paciente
 
-        console.log(this.paciente);
+        // console.log(this.paciente);
       }
     ).catch(error=>{console.log(error)})
+  }
+
+  private iniciarObraSeleccionada(){
+    this.obraSelected = null;
+    let yo = this;
+
+    if(this.obras){
+      this.obras.forEach(function(obra,index){
+        if(obra._id == yo.paciente.obra._id){
+          yo.obraSelected = obra;
+        }
+      });
+    }
+
+
   }
 
   /*
   */
   ngOnChanges(changes) {
     // changes.prop contains the old and the new value...
+    this.iniciarObraSeleccionada();
     this.modeloPaciente = Object.assign({}, this.paciente); //clonamos el paciente
   }
 
@@ -60,8 +78,13 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
     ////console.log('Entre a agregar Paciente');
     //  let obraId = this.obraSelected._id;
 
-    console.log('this.modeloPaciente');
-    console.log(this.modeloPaciente);
+    // console.log('this.modeloPaciente');
+    // console.log(this.modeloPaciente);
+
+    //Actualizamos la obra seleccionada
+    if(this.obraSelected){
+      this.modeloPaciente.obra = this.obraSelected._id;
+    }
 
     this.pacientesService.actualizarPaciente(this.modeloPaciente._id, this.modeloPaciente)
     .then(pacienteEdit => {
