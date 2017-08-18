@@ -147,22 +147,22 @@ export class TurnosComponent implements OnInit, OnDestroy {
       slotDuration:'00:15:00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
       minTime:'08:00:00',
       maxTime:'18:00:00',
-      businessHours: [
-
-        {
-         dow: [0, 1, 2, 3, 4, 5, 6], // Maybe not 0,6? Sunday,Saturday
-         start: '08:00',
-         end: '11:00'
-       },
-       {
-          dow: [1, 2], // Maybe not 0,6? Sunday,Saturday
-          start: '11:30',
-          end: '12:00'
-        }, {
-         dow: [0, 1, 2, 3, 4, 5, 6], // Maybe not 0,6? Sunday,Saturday
-         start: '15:00',
-         end: '18:00'
-       }],
+      // businessHours: [
+      //
+      //   {
+      //    dow: [0, 1, 2, 3, 4, 5, 6], // Maybe not 0,6? Sunday,Saturday
+      //    start: '08:00',
+      //    end: '11:00'
+      //  },
+      //  {
+      //     dow: [1, 2], // Maybe not 0,6? Sunday,Saturday
+      //     start: '11:30',
+      //     end: '12:00'
+      //   }, {
+      //    dow: [0, 1, 2, 3, 4, 5, 6], // Maybe not 0,6? Sunday,Saturday
+      //    start: '15:00',
+      //    end: '18:00'
+      //  }],
       //defaultDate: new Date(), // Esto esta de mas. Si no especificamos la fecha, por defecto es la acutal.
       navLinks: true, // can click day/week names to navigate views
       editable: true, //falso para la vista de clientes
@@ -436,7 +436,44 @@ export class TurnosComponent implements OnInit, OnDestroy {
     // ////console.log(asignacion);
 
     if(asignacion != null){
-      this.crearTurno(this.fechaNuevoTurno, asignacion);
+
+      // console.log("Fecha");
+      // console.log(this.fechaNuevoTurno);
+      // console.log(asignacion);
+      let yo = this;
+      let paciente = ""+ asignacion.nombre + " " + asignacion.apellido;
+      let fecha = this.fechaNuevoTurno.format("DD-MM-YYYY HH:mm")
+      swal({
+        title: 'Confirmacion de creacion de turno',
+        text: "¿Estas seguro de crear un turno para el dia "+ fecha + " para el paciente " + paciente + " ?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Crear!',
+        cancelButtonText: 'No, Cancelar!',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        // buttonsStyling: false
+      }).then(function () {
+        swal(
+          'Turno creado!',
+          'El turno fue creado correctamente',
+          'success'
+        ),
+        yo.crearTurno(yo.fechaNuevoTurno, asignacion);
+      }, function (dismiss) {
+        // dismiss can be 'cancel', 'overlay',
+        // 'close', and 'timer'
+        if (dismiss === 'cancel') {
+          swal(
+            'Cancelado',
+            'El turno fue descartado',
+            'error'
+          )
+        }
+      })
+
     }
   }
 
@@ -490,7 +527,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
     let turnoEncontrado = null;
 
     for (let i = 0; i < this.turnos.length; i++) {
-        
+
         if(id === this.turnos[i]._id){
           turnoEncontrado = this.turnos[i];
           // console.log("Turno encontrado!");
