@@ -276,6 +276,10 @@ export class ConfiguracionMedicoComponent implements OnInit {
 
     }
 
+    public formAgregarMedico(){
+      $('#formAgregarMedico').modal('show');
+    }
+
     //---------------------------------------------------------------------------
     //Metodos originales del componente
 

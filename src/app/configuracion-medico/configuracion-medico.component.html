@@ -3,6 +3,16 @@
     <div class="ibox float-e-margins">
       <div class="ibox-title">
         <h5>Medicos</h5>
+
+        <style media="screen">
+          #agregarMedico{
+            margin-right: 1%;
+          }
+        </style>
+         <div id='agregarMedico' class="row">
+           <button (click)="formAgregarMedico()" class="btn btn-s btn-primary pull-right" ><i class="fa fa-plus"></i></button>
+         </div>
+
         <!--<iboxtools></iboxtools>  {{whatTime | async | amDateFormat:'hh:mm'}}  -->
       </div>
       <div class="ibox-content">
@@ -15,6 +25,7 @@
               <th>Duracion Turnos</th>
               <!-- <th>Doctor<th> -->
               <th>Acciones</th>
+
             </tr>
           </thead>
           <tbody>
@@ -138,3 +149,5 @@
 <app-modal-semana *ngIf="medicoSeleccionado != null && medicoSeleccionado.obras" [obrasDispTotales]="medicoSeleccionado.obras" [medico]="medicoSeleccionado"
 (semenaCambiada)='onIntervalosGuardados($event)'
 ></app-modal-semana>
+
+<agregar-medico></agregar-medico>

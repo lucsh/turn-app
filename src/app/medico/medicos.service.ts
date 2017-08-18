@@ -30,12 +30,23 @@ export class MedicosService {
         .catch(this.handleError);
     }
 
+		public createMedico(nuevoMedico): Promise <any>{
+			return this.http.post(this.medicosURL, nuevoMedico, this.authService.jwtContentType()).toPromise().
+			then(res => {
+				// console.log('Se ha creado el siguiente medico:');
+				// console.log(res.json());
+
+				return res.json();
+			})
+			.catch(err => this.handleError);
+		}
+
 	public actualizarSemana(id,semana): Promise<any[]>{
 		return this.http.patch(this.medicosURL+'/'+id,{semanaEsquema:semana},this.authService.jwt()).toPromise().then(respuesta => {
 			//console.log("Semana actualizada");
 			//console.log(respuesta);
 			return respuesta.json();
-		})
+		}).catch(err => this.handleError);
 	}
 
 	private handleError(error: any): Promise<any> {

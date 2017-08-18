@@ -67,6 +67,8 @@ import { TareasComponent } from './tareas/tareas.component';
 import { VerTurnoComponent } from './turnos/verTurno/verTurno';
 import { AgePipe } from './pacientes/edad.pipe';
 
+import { AgregarMedicoComponent } from './medico/agregarMedico/agregarMedico';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -96,7 +98,8 @@ import { AgePipe } from './pacientes/edad.pipe';
     ModalSemanaComponent,
     TareasComponent,
     VerTurnoComponent,
-    AgePipe
+    AgePipe,
+    AgregarMedicoComponent
 
   ],
   imports: [
