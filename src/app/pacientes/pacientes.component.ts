@@ -113,6 +113,23 @@ export class PacientesComponent implements OnInit {
 
   }
 
+  /*
+    Abrimos el modal para agregar un nuevo paciente
+  */
+  formAgregarPaciente(){
+    setTimeout(()=> {
+      $('#formAgregarPaciente').modal('show');
+    },
+    200);
+  }
+
+  onPacienteAgregado(pacienteNuevo){
+    if(pacienteNuevo){
+      //Actualizamos la vista
+      this.pacientes.push(pacienteNuevo);
+    }
+  }
+
   onPacienteEditado(pacienteEditado){
     let encontrado = -1;
     this.pacientes.forEach(function(elem, index){
