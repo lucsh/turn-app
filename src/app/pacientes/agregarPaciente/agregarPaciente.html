@@ -6,55 +6,70 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeFormAgregarPaciente >&times;</button>
         <h3 class="modal-title" id="myModalLabel">Agregar nuevo paciente</h3>
       </div>
-
       <div class="modal-body" >
         <!-- <div class="modal-body" *ngIf = 'horaNuevoTurno != null && diaNuevoTurno != null && pacientes != null' > -->
 
         <div class="form-group">
           <label>Nombre</label>
-          <div class="input-group"><input  #nombrePaciente placeholder="Ej: Jorge" type="text" class="form-control">
+          <div class="input-group">
+            <input #estadoNombre="ngModel" minlength="1" required [(ngModel)]="pacienteNuevo.nombre" #nombrePaciente placeholder="Ej: Jorge" type="text" class="form-control">
+          </div>
+          <div *ngIf="estadoNombre.invalid && (estadoNombre.dirty || estadoNombre.touched)" class="alert alert-danger">
+              El nombre es obligatorio
           </div>
         </div>
 
         <div class="form-group">
           <label>Apellido</label>
-          <div class="input-group"><input  #apellidoPaciente placeholder="Ej: Perez" type="text" class="form-control">
+          <div class="input-group">
+            <input #estadoApellido="ngModel" minlength="1" required [(ngModel)]="pacienteNuevo.apellido"  #apellidoPaciente placeholder="Ej: Perez" type="text" class="form-control">
+          </div>
+          <div *ngIf="estadoApellido.invalid && (estadoApellido.dirty || estadoApellido.touched)" class="alert alert-danger">
+              El apellido es obligatorio
           </div>
         </div>
 
         <div class="form-group">
           <label>Dni</label>
-          <div class="input-group"><input  #dniPaciente placeholder="Ej: 38332764" type="text" class="form-control">
+          <div class="input-group">
+            <input  #estadoDni="ngModel" minlength="7" maxlength="9" required [(ngModel)]="pacienteNuevo.dni" #dniPaciente placeholder="Ej: 38332764" type="text" class="form-control">
+          </div>
+          <div *ngIf="estadoDni.invalid && (estadoDni.dirty || estadoDni.touched)" class="alert alert-danger">
+              <p *ngIf="estadoDni.errors.minlength || estadoDni.errors.maxlength "> El numero debe ser entre 7 y 9 numeros</p>
+              <p *ngIf="estadoDni.errors.required"> El DNI es obligatorio</p>
           </div>
         </div>
 
         <div class="form-group">
           <label>Email</label>
-          <div class="input-group"><input  #emailPaciente placeholder="Ej: ejemplo@gmail.com" type="text" class="form-control">
+          <div class="input-group">
+            <input [(ngModel)]="pacienteNuevo.email" #emailPaciente placeholder="Ej: ejemplo@gmail.com" type="text" class="form-control">
           </div>
         </div>
 
         <div class="form-group">
           <label>Fecha de Nacimiento</label>
-          <div class="input-group"><input  #nacimientoPaciente placeholder="Ej: 1994-07-21" type="text" class="form-control">
+          <div class="input-group">
+            <input [(ngModel)]="pacienteNuevo.fechaNacimiento" #nacimientoPaciente placeholder="Ej: 1994-07-21" type="text" class="form-control">
           </div>
         </div>
 
         <div class="form-group">
           <label>Telefono</label>
-          <div class="input-group"><input  #telefonoPaciente placeholder="Ej: 2994771333" type="text" class="form-control">
+          <div class="input-group">
+            <input [(ngModel)]="pacienteNuevo.telefono" #telefonoPaciente placeholder="Ej: 2994771333" type="text" class="form-control">
           </div>
         </div>
         <div class="form-group">
           <label>Ocupación</label>
-          <div class="input-group"><input   #ocupacionPaciente type="text" class="form-control">
+          <div class="input-group">
+            <input  [(ngModel)]="pacienteNuevo.ocupacion" #ocupacionPaciente type="text" class="form-control">
           </div>
         </div>
         <div class="form-group">
           <label>Observaciones</label>
           <div class="input-group">
-            <textarea class="form-control"  #observacionesPaciente rows="5" cols="80"></textarea>
-
+            <textarea class="form-control" [(ngModel)]="pacienteNuevo.observaciones" #observacionesPaciente rows="5" cols="80"></textarea>
           </div>
         </div>
 
@@ -68,7 +83,6 @@
         </div>
 
       </div>
-
       <div class="modal-footer">
 
         <button class="btn btn-danger" (click)='cancelar()'>
@@ -84,8 +98,10 @@
         emailPaciente.value = null;
         nacimientoPaciente.value = null;
         telefonoPaciente.value = null;
+        ocupacionPaciente.value = null;
+        observacionesPaciente.value = null
 
-        '>
+        ' [disabled]="estadoNombre.invalid || estadoApellido.invalid || estadoDni.invalid">
         Agregar
       </button>
 

@@ -10,7 +10,8 @@ import {default as swal} from 'sweetalert2';
 
 @Component({
   selector: 'agregar-paciente',
-  templateUrl: './agregarPaciente.html'
+  templateUrl: './agregarPaciente.html',
+  styleUrls: ['./agregarPaciente.css']
 })
 export class AgregarPacienteComponent implements OnInit, OnChanges{
 
@@ -22,12 +23,13 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
 
   private obras: Obra[];
   private obraSelected: Obra = null;
+  private pacienteNuevo: Paciente;
 
   constructor(
     private pacientesService: PacientesService,
     private obrasService: ObrasService
   ){
-
+    this.pacienteNuevo = new Paciente();
   }
 
   /*
@@ -36,6 +38,7 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
     this.obrasService.getObras().then(
       obras =>{
         this.obras = obras;
+        // this.pacienteNuevo = new Paciente();
       }
     ).catch(error=>{console.log(error)})
   }
