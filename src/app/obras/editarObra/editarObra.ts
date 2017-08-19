@@ -8,7 +8,8 @@ import {default as swal} from 'sweetalert2';
 
 @Component({
   selector: 'editar-obra',
-  templateUrl: './editarObra.html'
+  templateUrl: './editarObra.html',
+  styleUrls: ['../obras.component.css']
 })
 export class EditarObraComponent implements OnInit, OnChanges{
 

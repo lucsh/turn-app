@@ -7,20 +7,28 @@
         <h3 class="modal-title" id="myModalLabel">Editar Obra</h3>
       </div>
 
-      <div class="modal-body" *ngIf='modeloObra != null'>
+      <div class="modal-body">
         <!-- <div class="modal-body" *ngIf = 'horaNuevoTurno != null && diaNuevoTurno != null && Obras != null' > -->
 
 
         <div class="form-group">
           <label>Iniciales</label>
-          <div class="input-group"><input [(ngModel)]='modeloObra.iniciales'  #inicialesObra type="text" class="form-control">
+          <div class="input-group">
+            <input #estadoIniciales="ngModel" minlength="1" required  [(ngModel)]='modeloObra.iniciales'  #inicialesObra type="text" class="form-control">
+          </div>
+          <div *ngIf="estadoIniciales.invalid && (estadoIniciales.dirty || estadoIniciales.touched)" class="alert alert-danger">
+              Debe tener al menos 1 inicial.
           </div>
         </div>
 
 
         <div class="form-group">
           <label>Nombre</label>
-          <div class="input-group"><input  [(ngModel)]='modeloObra.nombre'  #nombreObra type="text" class="form-control">
+          <div class="input-group">
+            <input #estadoNombre="ngModel" minlength="1" required  [(ngModel)]='modeloObra.nombre'  #nombreObra type="text" class="form-control">
+          </div>
+          <div *ngIf="estadoNombre.invalid && (estadoNombre.dirty || estadoNombre.touched)" class="alert alert-danger">
+              El nombre es obligatorio
           </div>
         </div>
 
@@ -32,7 +40,7 @@
           Cancelar
         </button>
 
-        <button class="btn btn-primary"
+        <button class="btn btn-primary" [disabled]="estadoNombre.invalid || estadoIniciales.invalid"
         (click)='editarObra();
 
         '>
