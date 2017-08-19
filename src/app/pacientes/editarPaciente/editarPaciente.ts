@@ -10,7 +10,8 @@ import {default as swal} from 'sweetalert2';
 
 @Component({
   selector: 'editar-paciente',
-  templateUrl: './editarPaciente.html'
+  templateUrl: './editarPaciente.html',
+  styleUrls: ['./editarPaciente.css']
 })
 export class EditarPacienteComponent implements OnInit, OnChanges{
 
@@ -29,7 +30,7 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
     private pacientesService: PacientesService,
     private obrasService: ObrasService
   ){
-
+    this.modeloPaciente = new Paciente();
   }
 
   /*
@@ -41,6 +42,7 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
         this.obras = obras;
 
         this.iniciarObraSeleccionada();
+        this.modeloPaciente = null;
         this.modeloPaciente = Object.assign({}, this.paciente); //clonamos el paciente
 
         // console.log(this.paciente);

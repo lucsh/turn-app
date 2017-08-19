@@ -6,48 +6,64 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeFormEditarPaciente >&times;</button>
         <h3 class="modal-title" id="myModalLabel">Editar paciente</h3>
       </div>
-
-      <div class="modal-body" *ngIf='modeloPaciente != null'>
+      <div class="modal-body" >
         <!-- <div class="modal-body" *ngIf = 'horaNuevoTurno != null && diaNuevoTurno != null && pacientes != null' > -->
 
         <div class="form-group">
           <label>Nombre</label>
-          <div class="input-group"><input  [(ngModel)]='modeloPaciente.nombre'  #nombrePaciente type="text" class="form-control">
+          <div class="input-group">
+            <input #estadoNombre="ngModel" minlength="1" required [(ngModel)]='modeloPaciente.nombre'  #nombrePaciente type="text" class="form-control">
+          </div>
+          <div *ngIf="estadoNombre.invalid && (estadoNombre.dirty || estadoNombre.touched)" class="alert alert-danger">
+              El nombre es obligatorio
           </div>
         </div>
 
         <div class="form-group">
           <label>Apellido</label>
-          <div class="input-group"><input [(ngModel)]='modeloPaciente.apellido'  #apellidoPaciente type="text" class="form-control">
+          <div class="input-group">
+            <input #estadoApellido="ngModel" minlength="1" required  [(ngModel)]='modeloPaciente.apellido'  #apellidoPaciente type="text" class="form-control">
+          </div>
+          <div *ngIf="estadoApellido.invalid && (estadoApellido.dirty || estadoApellido.touched)" class="alert alert-danger">
+              El apellido es obligatorio
           </div>
         </div>
 
         <div class="form-group">
           <label>Dni</label>
-          <div class="input-group"><input  [(ngModel)]='modeloPaciente.dni' #dniPaciente type="text" class="form-control">
+          <div class="input-group">
+            <input #estadoDni="ngModel" minlength="7" maxlength="9" required [(ngModel)]='modeloPaciente.dni' #dniPaciente type="text" class="form-control">
+          </div>
+          <div *ngIf="estadoDni.invalid && (estadoDni.dirty || estadoDni.touched)" class="alert alert-danger">
+              <p *ngIf="estadoDni.errors.minlength || estadoDni.errors.maxlength "> El numero debe ser entre 7 y 9 numeros</p>
+              <p *ngIf="estadoDni.errors.required"> El DNI es obligatorio</p>
           </div>
         </div>
 
         <div class="form-group">
           <label>Email</label>
-          <div class="input-group"><input  [(ngModel)]='modeloPaciente.email' #emailPaciente type="text" class="form-control">
+          <div class="input-group">
+            <input  [(ngModel)]='modeloPaciente.email' #emailPaciente type="text" class="form-control">
           </div>
         </div>
 
         <div class="form-group">
           <label>Fecha de Nacimiento</label>
-          <div class="input-group"><input  [(ngModel)]='modeloPaciente.fechaNacimiento'  #nacimientoPaciente type="text" class="form-control">
+          <div class="input-group">
+            <input  [(ngModel)]='modeloPaciente.fechaNacimiento'  #nacimientoPaciente type="text" class="form-control">
           </div>
         </div>
 
         <div class="form-group">
           <label>Telefono</label>
-          <div class="input-group"><input  [(ngModel)]='modeloPaciente.telefono' #telefonoPaciente  type="text" class="form-control">
+          <div class="input-group">
+            <input  [(ngModel)]='modeloPaciente.telefono' #telefonoPaciente  type="text" class="form-control">
           </div>
         </div>
         <div class="form-group">
           <label>Ocupación</label>
-          <div class="input-group"><input  [(ngModel)]='modeloPaciente.ocupacion' #ocupacionPaciente type="text" class="form-control">
+          <div class="input-group">
+            <input  [(ngModel)]='modeloPaciente.ocupacion' #ocupacionPaciente type="text" class="form-control">
           </div>
         </div>
         <div class="form-group">
@@ -70,16 +86,14 @@
 
       </div>
 
-      <div class="modal-footer">
+      <div class="modal-footer" >
 
         <button class="btn btn-danger" (click)='cancelar()'>
           Cancelar
         </button>
 
-        <button class="btn btn-primary"
-        (click)='editarPaciente();
-
-        '>
+        <button class="btn btn-primary" [disabled]="'modeloPaciente == null' && estadoNombre.invalid || estadoApellido.invalid || estadoDni.invalid"
+        (click)='editarPaciente();' >
         Guardar
       </button>
 
