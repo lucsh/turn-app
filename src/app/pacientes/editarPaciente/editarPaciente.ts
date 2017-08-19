@@ -54,7 +54,7 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
     this.obraSelected = null;
     let yo = this;
 
-    if(this.obras){
+    if(this.obras && yo.paciente!= null){
       this.obras.forEach(function(obra,index){
         if(obra._id == yo.paciente.obra._id){
           yo.obraSelected = obra;
