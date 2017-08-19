@@ -24,8 +24,11 @@ export class ObrasComponent implements OnInit {
 
   public obraSelected = null;
 
+  obraNueva: Obra;
   obras: Obra[];
-  constructor(private obrasService: ObrasService) { }
+  constructor(private obrasService: ObrasService) {
+    this.obraNueva = new Obra();
+  }
 
   ngOnInit() {
     this.getAllObras();
