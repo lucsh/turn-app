@@ -28,6 +28,7 @@ export class ConfiguracionMedicoComponent implements OnInit {
   public medicos = [];
   private medicoSeleccionado = null;
 
+  private modeloMedico = null;
   private esMedico: boolean = false;
 
   public obrasSelector2: Array<any> = [];
@@ -49,6 +50,11 @@ export class ConfiguracionMedicoComponent implements OnInit {
   constructor(
     route: ActivatedRoute,
     private http: Http, private configuracionMedicoService: ConfiguracionMedicoService, private obraService: ObrasService) {
+      this.modeloMedico = {
+        nombre: '',
+        apellido: '',
+        duracion: 0
+      }
       let idMedico = route.snapshot.params['idDoctor'];
       if(idMedico != null){
         this.esMedico = true;
@@ -65,9 +71,9 @@ export class ConfiguracionMedicoComponent implements OnInit {
                   medico.obras = [];
                   medico.obras.push(aux);
               }
-              // console.log('El medico seleccionado es ');
               this.medicos.push(medico);
-              // console.log(medico);
+              console.log('El medico seleccionado es ');
+              console.log(medico);
             }
           }
         )
@@ -222,6 +228,7 @@ export class ConfiguracionMedicoComponent implements OnInit {
       if(this.medicoSeleccionado.obras){
         // console.log('ESTOY ACA');
         // console.log(this.medicoSeleccionado);
+        this.modeloMedico = Object.assign({}, medico);
         // console.log(this.medicoSeleccionado.obras);
         this.medicoSeleccionado.obras.forEach(function(elem,index){
           listaAux.push(elem._id);

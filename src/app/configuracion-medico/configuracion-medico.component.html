@@ -68,23 +68,32 @@
       </div>
 
       <!-- <div class="modal-body" > -->
-      <div class="modal-body">
+      <div class="modal-body" >
         <div class="form-group">
           <label>Nombre</label>
-          <div class="input-group"><input  #nombreMedico placeholder="Ej: Martin" type="text" class="form-control">
+          <div class="input-group">
+            <input #estadoNombre="ngModel" minlength="1" required #nombreMedico [(ngModel)]="modeloMedico.nombre" placeholder="Ej: Martin" type="text" class="form-control">
+          </div>
+          <div *ngIf="estadoNombre.invalid && (estadoNombre.dirty || estadoNombre.touched)" class="alert alert-danger">
+              El nombre es obligatorio
           </div>
         </div>
 
 
         <div class="form-group">
           <label>Apellido</label>
-          <div class="input-group"><input  #apellidoMedico placeholder="Ej: Martin" type="text" class="form-control">
+          <div class="input-group">
+            <input #estadoApellido="ngModel" minlength="1" required  #apellidoMedico [(ngModel)]="modeloMedico.apellido" placeholder="Ej: Martin" type="text" class="form-control">
+          </div>
+          <div *ngIf="estadoApellido.invalid && (estadoApellido.dirty || estadoApellido.touched)" class="alert alert-danger">
+              El apellido es obligatorio
           </div>
         </div>
 
         <div class="form-group">
           <label for="">Duracion del turno</label>
-          <div class="input-group"><input type="text"#duracionTurno class="form-control"></div>
+          <div class="input-group">
+            <input type="text" [(ngModel)]="modeloMedico.duracion" #duracionTurno class="form-control"></div>
         </div>
 
         <div class="form-group">
@@ -132,7 +141,7 @@
         Cancelar
       </button>
 
-      <button class="btn btn-primary" (click)='actualizarDatos(nombreMedico.value,apellidoMedico.value,duracionTurno.value)'>
+      <button class="btn btn-primary"  [disabled]="estadoNombre.invalid || estadoApellido.invalid" (click)='actualizarDatos(modeloMedico.nombre,modeloMedico.apellido,modeloMedico.duracion)'>
         Editar
       </button>
 
