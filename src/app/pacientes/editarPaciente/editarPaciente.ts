@@ -22,7 +22,7 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
   @ViewChild('closeFormEditarPaciente') closeFormEditarPaciente: ElementRef;
 
   private obras: Obra[];
-  private obraSelected: Obra = null;
+  public obraSelected: Obra = null;
 
   public modeloPaciente = null;
 
