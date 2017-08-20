@@ -220,7 +220,7 @@ export class TurnosDelMedicoService {
 
     notificarPacienteEspera(paciente) {
       this.notificaciones.info(
-        'El paciente ' + paciente.nombre + ' se encuentra en sala de espera'
+        'El paciente ' + paciente.nombre + ' ' + paciente.apellido + ' se encuentra en sala de espera'
       )
     }
 

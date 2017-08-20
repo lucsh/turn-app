@@ -177,7 +177,7 @@ export class PacientesDelDiaService {
   notificarLlamado(medico, paciente) {
     this.notificaciones.info(
       'Llamar al paciente',
-      'El doctor ' + medico.nombre + ' llama a ' + paciente.nombre
+      'El doctor ' + medico.nombre + ' llama a ' + paciente.nombre + ' ' + paciente.apellido
     )
   }
 
