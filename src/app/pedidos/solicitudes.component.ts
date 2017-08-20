@@ -24,7 +24,7 @@ export class SolicitudesComponent implements OnInit, OnDestroy  {
     public solicitudes: any[] = [];
     private subscription: Subscription;
 
-    private solicitudAbierta: any;
+    public solicitudAbierta: any;
 
     //@ViewChild('closeBtn') closeBtn: ElementRef;
     @ViewChild('closeFormSolicitud') closeFormSolicitud: ElementRef;

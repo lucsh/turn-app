@@ -26,9 +26,9 @@ export class ConfiguracionMedicoComponent implements OnInit {
   //@ViewChild('formDatosBasicos') formDatosBasicos: ElementRef;
   public formDatosBasicos;
   public medicos = [];
-  private medicoSeleccionado = null;
+  public medicoSeleccionado = null;
 
-  private modeloMedico = null;
+  public modeloMedico = null;
   private esMedico: boolean = false;
 
   public obrasSelector2: Array<any> = [];

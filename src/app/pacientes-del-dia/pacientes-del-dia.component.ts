@@ -19,7 +19,7 @@ export class PacientesDelDiaComponent implements OnInit {
 
   @Input() notificaciones: any;
   private subscription: Subscription;
-  private ordenados: boolean = false;
+  public ordenados: boolean = false;
   estadosTurnos:any[] =  [
     {
       "id": 1,

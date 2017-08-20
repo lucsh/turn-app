@@ -35,7 +35,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
    };
 
   constructor(private dashboardService: DashboardService,
-    private _service: NotificationsService){
+    public _service: NotificationsService){
     this.nav = document.querySelector('nav.navbar');
     this.whatTime = Observable.interval(1000)
     .map(x => moment()).share();

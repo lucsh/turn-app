@@ -13,7 +13,11 @@ export class TareasComponent implements OnInit {
 
   todos: Tarea[];
 
-  public todoActual = {};
+  public todoActual : {
+    algo: any
+  } = {
+    algo: null
+  };
   constructor(private tareasService: TareasService) { }
 
   ngOnInit() {
@@ -33,7 +37,9 @@ export class TareasComponent implements OnInit {
       data => {
         // console.log(data);
         // console.log(data.json());
-        this.todoActual = {};
+        this.todoActual = {
+          algo: null
+        };;
         this.todos.push(data.json());
         // this.getAllTodos();
       });

@@ -21,9 +21,9 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
 
   @ViewChild('closeFormAgregarPaciente') closeFormAgregarPaciente: ElementRef;
 
-  private obras: Obra[];
-  private obraSelected: Obra = null;
-  private pacienteNuevo: Paciente;
+  public obras: Obra[];
+  public obraSelected: Obra = null;
+  public pacienteNuevo: Paciente;
 
   constructor(
     private pacientesService: PacientesService,

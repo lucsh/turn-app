@@ -14,8 +14,8 @@ import { DataFilterPipe }   from './pacientes-filter.pipe';
     FormsModule,
     HttpModule
   ],
-  declarations: [ PacientesComponent, DataFilterPipe ],
-  exports: [PacientesComponent]
+  declarations: [],
+  exports: []
 })
 
 export class PacientesModule{}
