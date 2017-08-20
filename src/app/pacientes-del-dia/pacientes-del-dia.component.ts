@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PacientesDelDiaService} from './pacientes-del-dia.service';
 import { Subscription } from 'rxjs/Subscription';
 import {Turno} from '../turnos/turno.tipo';
@@ -17,6 +17,7 @@ import * as moment from 'moment';
 })
 export class PacientesDelDiaComponent implements OnInit {
 
+  @Input() notificaciones: any;
   private subscription: Subscription;
   private ordenados: boolean = false;
   estadosTurnos:any[] =  [
@@ -94,6 +95,7 @@ export class PacientesDelDiaComponent implements OnInit {
 
   ngOnInit() {
 
+    this.pacienteDelDiaService.asignarNotificaciones(this.notificaciones);
     this.subscription = this.pacienteDelDiaService.turnos$.subscribe((turnos: Turno[]) => {
         this.ordenados = false;
         this.turnos = turnos;

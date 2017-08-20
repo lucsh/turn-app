@@ -19,6 +19,8 @@ import {MomentModule} from 'angular2-moment';
 import { Select2Module } from 'ng2-select2';
 import 'moment/locale/es';
 
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { SimpleNotificationsModule } from 'angular2-notifications';
 
 import { DashboardService } from './dashboard/dashboard.service';
 import { TurnosService } from './turnos/turnos.service';
@@ -111,7 +113,9 @@ import { AgregarMedicoComponent } from './medico/agregarMedico/agregarMedico';
     routing,
     DataTableModule,
     SelectModule,
-    Select2Module
+    Select2Module,
+    BrowserAnimationsModule,
+    SimpleNotificationsModule.forRoot()
   ],
   providers: [
     DashboardService,

@@ -8,6 +8,8 @@ import { Observable } from 'rxjs/Rx';
 declare var jQuery:any;
 
 
+import { NotificationsService } from 'angular2-notifications';
+
 @Component({
   selector: 'dashboard',
   templateUrl: './dashboard.component.html',
@@ -22,7 +24,18 @@ export class DashboardComponent implements OnDestroy, OnInit {
   estadosCitas: any;
   whatTime: any;
 
-  constructor(private dashboardService: DashboardService){
+
+  //Opciones de las notificiones
+  public options = {
+       position: ["top", "right"],
+      //  timeOut: 5000,
+       showProgressBar: false,
+       animate: "fromRight",
+       lastOnBottom: false,
+   };
+
+  constructor(private dashboardService: DashboardService,
+    private _service: NotificationsService){
     this.nav = document.querySelector('nav.navbar');
     this.whatTime = Observable.interval(1000)
     .map(x => moment()).share();
@@ -43,42 +56,17 @@ export class DashboardComponent implements OnDestroy, OnInit {
     return clase
   }
 
-  // getAllMensajes(){
-  //   this.dashboardService.getMensajes()
-  //   .subscribe(
-  //     data => this.mensajes = data,
-  //     error => ////console.log('Server Error')
-  //   );
-  // }
-  // getAllEstadosCitas(){
-  //   this.dashboardService.getEstadosCitas()
-  //   .subscribe(
-  //     data => this.estadosCitas = data,
-  //     error => ////console.log('Server Error')
-  //   );
-  // }
-  // getAllCitas(){
-  //   this.dashboardService.getCitas()
-  //   .subscribe(
-  //     data => this.citas = data,
-  //     error => ////console.log('Server Error')
-  //   );
-  // }
-  // updateCita(cita,estado){
-  //   ////console.log(cita);
-  //   ////console.log(estado);
-  //   cita.status=estado;
-  //   this.dashboardService.updateCita(cita).subscribe(
-  //     data => {
-  //       this.getAllTodos();
-  //     });
-  //
-  // }
 
+  // create() {
+  //         this._service.success(
+  //           'Some Title',
+  //           'Some Content'
+  //       )
+  //   }
 
 
   public ngOnInit():any {
-    
+
   //  this.getAllCitas();
     //this.getAllMensajes();
     //this.getAllEstadosCitas();

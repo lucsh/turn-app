@@ -5,7 +5,7 @@
 
     <div class="col-lg-8">
 
-      <app-pacientes-del-dia></app-pacientes-del-dia>
+      <app-pacientes-del-dia [notificaciones]='_service'></app-pacientes-del-dia>
       <app-tareas></app-tareas>
 
     </div>
@@ -13,3 +13,4 @@
 
   </div>
 </div>
+<simple-notifications [options]="options"></simple-notifications>

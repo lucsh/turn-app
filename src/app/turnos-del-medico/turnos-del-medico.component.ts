@@ -8,7 +8,7 @@ import {
     OnDestroy,
 } from '@angular/core';
 import * as moment from 'moment';
-
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-turnos-del-medico',
@@ -55,7 +55,17 @@ export class TurnosDelMedicoComponent implements OnInit {
   turnos: Turno[];
   private miMatricula: String;
   private medicoId: String;
-  constructor(private turnosDelMedicoService : TurnosDelMedicoService,private ref: ChangeDetectorRef) { }
+
+  //Opciones de las notificiones
+  public options = {
+       position: ["top", "right"],
+      //  timeOut: 5000,
+       showProgressBar: false,
+       animate: "fromRight",
+       lastOnBottom: false,
+   };
+  constructor(private turnosDelMedicoService : TurnosDelMedicoService,private ref: ChangeDetectorRef,
+    private notificacionesService: NotificationsService) { }
 
 
   /* Metodo para asignar la visual de los desplegables de la visual */
@@ -128,13 +138,16 @@ export class TurnosDelMedicoComponent implements OnInit {
     if (medico.clase === "medico"){
       this.miMatricula = medico.matricula;
       this.medicoId = medico._idMedico;
+
+      this.turnosDelMedicoService.asignarNotificaciones(this.notificacionesService);
+
       this.subscription = this.turnosDelMedicoService.turnos$.subscribe((turnos: Turno[]) => {
           this.turnos = turnos;
           // console.log('ACAACACA CACA ');
           // console.log(this.turnos);
           this.ref.markForCheck();
           this.turnos.sort(function(a, b){
-  
+
             let c = new Date(a.horaInicial);
             let d = new Date(b.horaInicial)
             let comparacion = c.getTime() - d.getTime();

@@ -12,7 +12,6 @@ import { Turno } from '../turnos/turno.tipo';
 import {VariablesGlobales} from '../variablesGlobales';
 import { Feathers } from '../authentication/feathers.service'
 
-
 declare var $: any;
 
 
@@ -29,6 +28,9 @@ export class TurnosDelMedicoService {
     private dataStore: {
         turnos: Turno[]
     };
+
+    private notificaciones:any;
+
 
     //private matricula: string;
     private feathersService;
@@ -182,6 +184,14 @@ export class TurnosDelMedicoService {
       let indexTurno = this.buscarIndexTurno(turno);
 
       if(indexTurno != -1){
+
+        let turnoAnterior:any = this.dataStore.turnos[indexTurno];
+
+        //El medico esta llamando un nuevo paciente
+        if(turnoAnterior.estado !='en espera' && turno.estado == 'en espera'){
+          // console.log('Estaba pendiente y ahora el paciente llego al consultorio.');
+          this.notificarPacienteEspera(turno.paciente);
+        }
         this.dataStore.turnos[indexTurno] = turno;
       }
 
@@ -200,6 +210,18 @@ export class TurnosDelMedicoService {
         //this.socket.disconnect();
         //this.turnosObserver = null;
         // ////console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
+    }
+
+
+    public asignarNotificaciones(notificaciones){
+      this.notificaciones = notificaciones;
+    }
+
+
+    notificarPacienteEspera(paciente) {
+      this.notificaciones.info(
+        'El paciente ' + paciente.nombre + ' se encuentra en sala de espera'
+      )
     }
 
     //Metodos auxiliares
