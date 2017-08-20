@@ -35,11 +35,11 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
   @ViewChildren('selector') selectoresObras: QueryList<ElementRef>;
 
-  private intervalos: any[] = [];
+  public intervalos: any[] = [];
   private obras: Obra[];
   private obraSelected: Obra = null;
 
-  private turnosPorObra: any[] = [];
+  public turnosPorObra: any[] = [];
 
 
   public obrasSelector: Array<any> = [];

@@ -35,7 +35,7 @@ export class VerTurnoComponent implements OnInit, OnChanges{
   public horaNuevoTurno: any;
   public diaNuevoTurno: any;
 
-  private pacienteDelTurno: any = null;
+  public pacienteDelTurno: any = null;
 
 
   constructor(
