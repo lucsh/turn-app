@@ -19,7 +19,7 @@ import { NotificationsService } from 'angular2-notifications';
 export class TurnosDelMedicoComponent implements OnInit {
 
   private subscription: Subscription;
-  private ordenados: boolean = false;
+  public ordenados: boolean = false;
   estadosTurnos:any[] =  [
     {
       "id": 1,

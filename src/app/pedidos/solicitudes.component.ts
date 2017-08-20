@@ -26,6 +26,9 @@ export class SolicitudesComponent implements OnInit, OnDestroy  {
 
     public solicitudAbierta: any;
 
+    public haySolicitudes = false;
+    public cantidadSolicitudes : number = 0;
+
     //@ViewChild('closeBtn') closeBtn: ElementRef;
     @ViewChild('closeFormSolicitud') closeFormSolicitud: ElementRef;
     //@ViewChild('formularioSolicitud') formularioSolicitud: ElementRef;
@@ -38,6 +41,10 @@ export class SolicitudesComponent implements OnInit, OnDestroy  {
     ngOnInit() {
         this.subscription = this.solicitudesService.solicitudes$.subscribe((pacientesEnSolicitud: any[]) => {
             this.solicitudes = pacientesEnSolicitud;
+            if(this.solicitudes.length > 0){
+              this.cantidadSolicitudes = this.solicitudes.length;
+              this.haySolicitudes = true;
+            }
             this.ref.markForCheck();
         }, (err) => {
             console.error(err);

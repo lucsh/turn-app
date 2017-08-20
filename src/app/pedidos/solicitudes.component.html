@@ -6,11 +6,11 @@
     </div>
     <div class="ibox-content ibox-heading">
       <h3><i class="fa fa-envelope-o"></i> Pedido de usuario</h3>
-      <small><i class="fa fa-tim"></i> Tenes {{solicitudes?.lenght}} solicitudes de usuario nuevas.</small>
+      <small><i class="fa fa-tim"></i> Tenes {{cantidadSolicitudes}} solicitudes de usuario nuevas.</small>
     </div>
     <div class="ibox-content">
       <div class="feed-activity-list">
-      <div *ngIf='solicitudes.length > 0'>
+      <div *ngIf='haySolicitudes'>
         <div  class="feed-element" *ngFor="let solicitud of solicitudes">
           <div (click)="abrirSolicitud(solicitud)">
           <!-- <div data-dismiss="modal" data-toggle="modal" data-target="#formularioSolicitud"> -->
