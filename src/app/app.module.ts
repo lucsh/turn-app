@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { DataTableModule } from "angular2-datatable";
-
+import {MdProgressBarModule} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -115,7 +115,8 @@ import { AgregarMedicoComponent } from './medico/agregarMedico/agregarMedico';
     SelectModule,
     Select2Module,
     BrowserAnimationsModule,
-    SimpleNotificationsModule.forRoot()
+    SimpleNotificationsModule.forRoot(),
+    MdProgressBarModule
   ],
   providers: [
     DashboardService,
