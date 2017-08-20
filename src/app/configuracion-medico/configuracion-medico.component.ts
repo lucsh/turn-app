@@ -40,7 +40,7 @@ export class ConfiguracionMedicoComponent implements OnInit {
   private obras: Obra[];
   private obraSelected: Obra = null;
 
-  public modeloMedico = {};
+  // public modeloMedico = {};
 
 
   // public obrasSelector: Array<Select2OptionData>;
