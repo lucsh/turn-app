@@ -12,6 +12,8 @@ export class TareasComponent implements OnInit {
 
 
   todos: Tarea[];
+
+  public todoActual = {};
   constructor(private tareasService: TareasService) { }
 
   ngOnInit() {
@@ -29,7 +31,11 @@ export class TareasComponent implements OnInit {
 
     this.tareasService.createTodo(descripcion).subscribe(
       data => {
-        this.getAllTodos();
+        // console.log(data);
+        // console.log(data.json());
+        this.todoActual = {};
+        this.todos.push(data.json());
+        // this.getAllTodos();
       });
   }
   updateTodo(todoId:string, todo:string, newStatus:boolean){

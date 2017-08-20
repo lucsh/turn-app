@@ -40,6 +40,8 @@ export class ConfiguracionMedicoComponent implements OnInit {
   private obras: Obra[];
   private obraSelected: Obra = null;
 
+  public modeloMedico = {};
+
 
   // public obrasSelector: Array<Select2OptionData>;
   public obrasSelector: Array<any> = [];
@@ -81,6 +83,10 @@ export class ConfiguracionMedicoComponent implements OnInit {
       this.formDatosBasicos = $('#formDatosBasicos');
     }
 
+    submitForm(form){
+      console.log('ESTE ES EL FORM');
+      console.log(form);
+    }
     ngOnInit() {
       if(this.esMedico){
         // console.log('Exito!!!!!');
