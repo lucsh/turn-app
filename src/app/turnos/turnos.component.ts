@@ -235,81 +235,52 @@ export class TurnosComponent implements OnInit, OnDestroy {
       eventDrop: function(event, delta, revertFunc) {
 
 
-        let arregloDeHoras = $('#calendar').fullCalendar('option', 'businessHours');
-
-
         var startUtc = moment(event.start).utc();
         var endUtc = moment(event.end).utc();
 
-        let horaInicial = startUtc.hour() + ':' + startUtc.minutes();
-        let horaFinal = endUtc.hour() + ':' + endUtc.minutes();
-
-        ////console.log("Horas...");
-        ////console.log(horaInicial);
-        ////console.log(horaFinal);
-
-        // if(yo.comprobarValidezHora(arregloDeHoras,horaInicial,horaFinal,event.start.day())){
-        if(yo.comprobarValidezHora(arregloDeHoras,horaInicial,horaFinal,event.start.day())){
-
-          swal({
-            title: '¿Estas seguro que queres cambiar el turno?',
-            //text: 'You will not be able to recover this imaginary file!',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, modificar!',
-            cancelButtonText: 'Cancelar'
-          }).then(function() {
-            // yo.turnosSocketService.actualizarTurno(event);
-            yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
-          }, function(dismiss) {
-            // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
-            if (dismiss === 'cancel') {
-              revertFunc();
-            }
-          });
-        }
-        else{
-          revertFunc();
-        }
-
-
-
-
+        swal({
+          title: '¿Estas seguro que queres cambiar el turno?',
+          //text: 'You will not be able to recover this imaginary file!',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Si, modificar!',
+          cancelButtonText: 'Cancelar'
+        }).then(function() {
+          // yo.turnosSocketService.actualizarTurno(event);
+          yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
+        }, function(dismiss) {
+          // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+          if (dismiss === 'cancel') {
+            revertFunc();
+          }
+        });
       },
       eventResize: function(event, delta, revertFunc) {
 
-        let arregloDeHoras = $('#calendar').fullCalendar('option', 'businessHours');
         var startUtc = moment(event.start).utc();
         var endUtc = moment(event.end).utc();
 
-        let horaInicial = startUtc.hour() + ':' + startUtc.minutes();
-        let horaFinal = endUtc.hour() + ':' + endUtc.minutes();
+        swal({
+          title: '¿Estas seguro que queres agrandar el turno?',
+          //text: 'You will not be able to recover this imaginary file!',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Si, agrandar!',
+          cancelButtonText: 'Cancelar'
+        }).then(function() {
+          // yo.turnosSocketService.actualizarTurno(event);
+            yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
+        }, function(dismiss) {
+          // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+          if (dismiss === 'cancel') {
+            revertFunc();
+          }
+        });
 
-        if(yo.comprobarValidezHora(arregloDeHoras,horaInicial,horaFinal,event.start.day())){
-          swal({
-            title: '¿Estas seguro que queres agrandar el turno?',
-            //text: 'You will not be able to recover this imaginary file!',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, agrandar!',
-            cancelButtonText: 'Cancelar'
-          }).then(function() {
-            // yo.turnosSocketService.actualizarTurno(event);
-              yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
-          }, function(dismiss) {
-            // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
-            if (dismiss === 'cancel') {
-              revertFunc();
-            }
-          });
-        }
-        else{
-          revertFunc();
-        }
 
         //actualizar el turno en la db (tenemos el event.id)
         //???
