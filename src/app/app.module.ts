@@ -62,6 +62,8 @@ import { EditarObraComponent } from './obras/editarObra/editarObra';
 
 import { AuthService } from './authentication/auth.service';
 import { AuthGuard } from './authentication/auth.guard';
+import { AdministrativoGuard } from './authentication/administrativo.guard';
+import { MedicoGuard } from './authentication/medico.guard';
 import { Feathers } from './authentication/feathers.service';
 import { LoginComponent } from './authentication/login.component';
 import { RegisterComponent } from './authentication/register.component';
@@ -129,7 +131,10 @@ import { AgregarMedicoComponent } from './medico/agregarMedico/agregarMedico';
     Feathers,
     AuthService,
     AuthGuard,
-    AppComponent
+    AppComponent,
+    AdministrativoGuard,
+    MedicoGuard
+
   ],
   bootstrap: [AppComponent]
 })

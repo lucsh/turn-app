@@ -9,6 +9,8 @@ import {ObrasComponent} from './obras/obras.component';
 import {TurnosDelMedicoComponent} from './turnos-del-medico/turnos-del-medico.component'
 
 import { AuthGuard } from './authentication/auth.guard';
+import { AdministrativoGuard } from './authentication/administrativo.guard';
+import { MedicoGuard } from './authentication/medico.guard';
 
 
 import { LoginComponent }     from './authentication/login.component';
@@ -20,7 +22,7 @@ const appRoutes: Routes =  [
 {
 	path:'',
 	component: DashboardComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard,AdministrativoGuard]
 },
 {
 	path:'turnos',
@@ -30,7 +32,7 @@ const appRoutes: Routes =  [
 {
 	path:'turnos/:doctor/:idDoctor',
 	component: TurnosComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard,MedicoGuard]
 },
 {
 	path:'pacientes',
@@ -40,17 +42,17 @@ const appRoutes: Routes =  [
 {
 	path:'medico',
 	component: TurnosDelMedicoComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard,MedicoGuard]
 },
 {
 	path:'configuracion',
 	component: ConfiguracionMedicoComponent,
-	canActivate: [AuthGuard]
+	canActivate: [AuthGuard,AdministrativoGuard]
 },
 {
 	path:'obras',
 	component: ObrasComponent,
-	canActivate: [AuthGuard]
+	canActivate: [AuthGuard,AdministrativoGuard]
 },
 {
 	path:'configuracion/:idDoctor',
