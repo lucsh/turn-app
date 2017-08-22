@@ -73,6 +73,8 @@ import { AgePipe } from './pacientes/edad.pipe';
 
 import { AgregarMedicoComponent } from './medico/agregarMedico/agregarMedico';
 
+import { NodeService } from './routerService/medicos.sistema';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -133,7 +135,8 @@ import { AgregarMedicoComponent } from './medico/agregarMedico/agregarMedico';
     AuthGuard,
     AppComponent,
     AdministrativoGuard,
-    MedicoGuard
+    MedicoGuard,
+    NodeService
 
   ],
   bootstrap: [AppComponent]

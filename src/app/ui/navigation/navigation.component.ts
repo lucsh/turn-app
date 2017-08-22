@@ -7,7 +7,11 @@ import { Medico } from '../../medico/medico.tipo';
 
 import 'jquery-slimscroll';
 
-import { AuthService } from '../../authentication/auth.service'
+import { AuthService } from '../../authentication/auth.service';
+
+
+import { NodeService } from '../../routerService/medicos.sistema';
+import { Subscription } from 'rxjs/Subscription';
 
 
 declare var jQuery:any;
@@ -24,12 +28,16 @@ export class NavigationComponent {
   private medicos: Medico[] = [];
   private medico: Medico;
 
+  private subscription: Subscription;
   constructor(
     private router: Router,
     private navigationService: NavigationService,
     private medicosService: MedicosService,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private medicosCompartidos: NodeService
+  ) {
+
+  }
 
   ngAfterViewInit() {
     jQuery('#side-menu').metisMenu();
@@ -39,6 +47,20 @@ export class NavigationComponent {
         height: '100%'
       })
     }
+
+    this.medicosService.getDoctores().then((docs)=>{
+      this.subscription = this.medicosCompartidos.medicos$.subscribe((medicos) => {
+
+        console.log('ENTRE A LA SUBSCRIPCION');
+        this.medicos = medicos;
+        // this.ref.markForCheck();
+      }, (err) => {
+        console.error(err);
+      });
+      this.medicosCompartidos.iniciar(docs);
+
+    });
+
   }
 
   activeRoute(routename: string): boolean{
@@ -82,7 +104,7 @@ export class NavigationComponent {
     this.medicosService.getDoctores().then((docs)=>{
       // console.log('ENTRE ACA!!!');
       // console.log(docs);
-      yo.medicos = docs;
+      // yo.medicos = docs;
     });
   }
 

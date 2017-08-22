@@ -14,6 +14,9 @@ declare var $: any;
 
 import { Select2OptionData } from 'ng2-select2';
 
+import { NodeService } from '../routerService/medicos.sistema';
+import { Subscription } from 'rxjs/Subscription';
+
 
 
 @Component({
@@ -48,15 +51,35 @@ export class ConfiguracionMedicoComponent implements OnInit {
   public options: Select2Options;
   public value: any[] = [];
   public current: string;
-
+  private subscription: Subscription;
   constructor(
     route: ActivatedRoute,
+    private medicosCompartidos: NodeService,
     private http: Http, private configuracionMedicoService: ConfiguracionMedicoService, private obraService: ObrasService) {
       this.modeloMedico = {
         nombre: '',
         apellido: '',
         duracion: 0
       }
+
+      /*
+        Subscribimos a los medicos, para que tengan una correspondencia
+        con los medicos del navigator
+      */
+      if(this.medicosCompartidos.medicos$){
+        this.subscription = this.medicosCompartidos.medicos$.subscribe((medicos) => {
+
+          console.log('ENTRE A LA SUBSCRIPCION desde configuracion medico');
+          this.medicos = medicos;
+          // this.ref.markForCheck();
+        }, (err) => {
+          console.error(err);
+        });
+      }
+
+      /*
+        Vemos si el usuario logueado es un DOCTOR => no tenemos que buscar todo
+      */
       let idMedico = route.snapshot.params['idDoctor'];
       if(idMedico != null){
         this.esMedico = true;
@@ -145,10 +168,16 @@ export class ConfiguracionMedicoComponent implements OnInit {
 
 
     getAllMedicos(): void{
-      this.configuracionMedicoService.getMedicos().then(medics => {
-        this.medicos = medics;
-        ////console.log(medics);
-      });
+
+      /*
+        Pedimos al servicio compartido que nos actualice sus medicos.
+      */
+      this.medicosCompartidos.getMedicos();
+
+      // this.configuracionMedicoService.getMedicos().then(medics => {
+      //   this.medicos = medics;
+      //   ////console.log(medics);
+      // });
     }
 
     actualizarDatos(nombre,apellido,duracionTurno){
@@ -174,6 +203,8 @@ export class ConfiguracionMedicoComponent implements OnInit {
         // console.log(medicoNuevo.obras);
         yo.medicoSeleccionado.obras = medicoNuevo.obras;
 
+        //Actualizamos los medicos compartidos (para el navigator)
+        this.medicosCompartidos.updateMedico(medicoNuevo);
 
       });
 
