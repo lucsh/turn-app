@@ -64,14 +64,14 @@ export class VerTurnoComponent implements OnInit, OnChanges{
   ngOnChanges(changes) {
     // changes.prop contains the old and the new value...
     // console.log("Entre al modal22222");
-    console.log(this.turno);
+    // console.log(this.turno);
 
     //Asignamos las fechas para el modal
     if(this.turno != null){
       this.pacienteDelTurno = this.turno.paciente;
       // let fechaNuevoTurno = this.turno.horaInicial;
       let fechaNuevoTurno = moment(this.turno.horaInicial).utc();
-      console.log(fechaNuevoTurno);
+      // console.log(fechaNuevoTurno);
       this.horaNuevoTurno = fechaNuevoTurno.format('HH:mm');
       this.diaNuevoTurno = fechaNuevoTurno.format('DD [de] MMMM');
     }
@@ -84,6 +84,12 @@ export class VerTurnoComponent implements OnInit, OnChanges{
   public editarPaciente(){
     $('#formEditarPaciente').modal('show');
   }
+
+  public onEditarPaciente(pacienteEditado){
+    if(pacienteEditado != null && pacienteEditado != undefined){
+      this.pacienteDelTurno = pacienteEditado;
+    }
+  }
   /*
 
   */
@@ -91,8 +97,8 @@ export class VerTurnoComponent implements OnInit, OnChanges{
     ////console.log('Entre a agregar Paciente');
     //  let obraId = this.obraSelected._id;
 
-    console.log('this.modeloObra');
-    console.log(this.modeloObra);
+    // console.log('this.modeloObra');
+    // console.log(this.modeloObra);
 
     this.obrasService.actualizarObra(this.modeloObra._id, this.modeloObra)
     .then(obraEdit => {

@@ -24,15 +24,15 @@ const appRoutes: Routes =  [
 	component: DashboardComponent,
     canActivate: [AuthGuard,AdministrativoGuard]
 },
-{
-	path:'turnos',
-	component: TurnosComponent,
-    canActivate: [AuthGuard]
-},
+// {
+// 	path:'turnos',
+// 	component: TurnosComponent,
+//     canActivate: [AuthGuard]
+// },
 {
 	path:'turnos/:doctor/:idDoctor',
 	component: TurnosComponent,
-    canActivate: [AuthGuard,MedicoGuard]
+    canActivate: [AuthGuard]
 },
 {
 	path:'pacientes',
