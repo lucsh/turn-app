@@ -8,3 +8,17 @@
 @import "assets/styles/style";
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+// .md-datepicker-calendar-pane{
+//   z-index: 1200}
+  // .mat-calendar{
+  //   z-index: 5000
+  // }
+  // .md-dialog-container {
+  //     z-index: 6000;
+  // }
+
+  //Aca le damos estilo para que pueda verse el datepicker SOBRE el modal de bootstrap
+  .cdk-overlay-container {
+      z-index: 9000 !important;
+  }

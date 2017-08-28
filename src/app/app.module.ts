@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { DataTableModule } from "angular2-datatable";
 import {MdProgressBarModule} from '@angular/material';
+import {MdDatepickerModule, MdNativeDateModule} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -120,7 +121,9 @@ import { NodeService } from './routerService/medicos.sistema';
     Select2Module,
     BrowserAnimationsModule,
     SimpleNotificationsModule.forRoot(),
-    MdProgressBarModule
+    MdProgressBarModule,
+    MdDatepickerModule,
+    MdNativeDateModule
   ],
   providers: [
     DashboardService,

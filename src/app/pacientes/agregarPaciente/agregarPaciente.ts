@@ -24,6 +24,7 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
   public obras: Obra[];
   public obraSelected: Obra = null;
   public pacienteNuevo: Paciente;
+  public fechaNacimiento: Date = null;
 
   constructor(
     private pacientesService: PacientesService,
@@ -54,11 +55,11 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
 
   */
   public agregarPaciente(nombrePaciente,apellidoPaciente, dniPaciente,
-    emailPaciente, nacimientoPaciente, telefonoPaciente, ocupacion, observaciones){
+    emailPaciente, telefonoPaciente, ocupacion, observaciones){
       ////console.log('Entre a agregar Paciente');
       let obraId = this.obraSelected._id;
       this.pacientesService.createPaciente(nombrePaciente,apellidoPaciente, dniPaciente,
-        emailPaciente, nacimientoPaciente, telefonoPaciente, obraId, ocupacion, observaciones)
+        emailPaciente, this.fechaNacimiento, telefonoPaciente, obraId, ocupacion, observaciones)
         .then(pacienteNuevo => {
 
           ////console.log('Se creo el paciente con exito');
@@ -69,6 +70,7 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
 
           //Cerramos el modal
           this.obraSelected = null;
+          this.fechaNacimiento = null;
           this.closeFormAgregarPaciente.nativeElement.click();
 
           /*
@@ -93,6 +95,18 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
 
 
 
+  }
+
+  /*
+    La fecha entrante tiene el formato 2017-08-23T03:00:00.000Z
+  */
+  datePickerChanged(nuevaFecha){
+
+    this.fechaNacimiento = nuevaFecha;
+
+
+    // console.log(nuevaFecha);
+    // console.log('ENTRO');
   }
 
 
