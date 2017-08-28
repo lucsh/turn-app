@@ -406,28 +406,38 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
     ////console.log(this.selector);
     ////console.log(this.medico);
-    let obras = this.parsearObras();
 
-    let semana = {
-      intervalos: this.intervalos,
-      obrasDisponibles: obras
-    }
-
-    this.medicosService.actualizarSemana(this.medico._id,semana).then(resultado => {
-      ////console.log("EL RESULTADO DE ACTUALIZAR SEMANA ES....");
-      ////console.log(resultado);
-
-      //this.resetearCheckBoxs();
-      this.semenaCambiada.next(resultado);
-
-    }).catch(error => {console.log(error)});
-
-
-
-    /* Restableciendo variables */
-    this.intervalos = [];
-    this.turnosPorObra = [];
     this.closeFormConfigSemana.nativeElement.click();
+    let yo = this;
+    swal({
+      title: '¿Estas seguro que queres actualizar el intervalo?',
+      //text: 'You will not be able to recover this imaginary file!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, actualizar!',
+      cancelButtonText: 'Cancelar'
+    }).then(function() {
+
+
+      let obras = yo.parsearObras();
+      let semana = {
+        intervalos: yo.intervalos,
+        obrasDisponibles: obras
+      }
+      yo.medicosService.actualizarSemana(yo.medico._id,semana).then(resultado => {
+        yo.semenaCambiada.next(resultado);
+      }).catch(error => {console.log(error)});
+      yo.intervalos = [];
+      yo.turnosPorObra = [];
+      yo.closeFormConfigSemana.nativeElement.click();
+
+    }, function(dismiss){
+      $('#formConfigSemana').modal('show');
+    });
+
+
 
   }
   public cancelar(){
