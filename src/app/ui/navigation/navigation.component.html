@@ -38,7 +38,7 @@
         </li>
 
         <li [ngClass]="{active: activeRoute('turnos')}" *ngIf='mostrarTurnosMedicos()'>
-          <a><i class="fa fa-th-large"></i> <span class="nav-label">Turnos</span> <span class="fa arrow"></span> </a>
+          <a><i class="fa fa-user-md"></i> <span class="nav-label">Turnos</span> <span class="fa arrow"></span> </a>
           <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('turnos')}">
             <!-- *ngFor="let doctor of doctores" -->
             <li *ngFor='let med of medicos'><a [routerLink]="['/turnos/' + med.nombre +'/'+med._id]">{{med.nombre}} {{med.apellido}}</a></li>
@@ -47,28 +47,28 @@
 
 
         <li [ngClass]="{active: activeRoute('medico')}" *ngIf="esMedico()">
-          <a [routerLink]="['/medico']"><i class="fa fa-th-large"></i> <span class="nav-label">Turnos del Dia</span></a>
+          <a [routerLink]="['/medico']"><i class="fa fa-list-alt"></i> <span class="nav-label">Turnos del Dia</span></a>
         </li>
 
         <li [ngClass]="{active: activeRoute('turnos')}" *ngIf="esMedico()">
-          <a [routerLink]="['/turnos/' + medico.nombre +'/'+medico._idMedico]"><i class="fa fa-th-large"></i> <span class="nav-label">Calendario</span></a>
+          <a [routerLink]="['/turnos/' + medico.nombre +'/'+medico._idMedico]"><i class="fa fa-user-md"></i> <span class="nav-label">Calendario</span></a>
         </li>
 
 
         <li [ngClass]="{active: activeRoute('pacientes')}">
-          <a [routerLink]="['/pacientes']"><i class="fa fa-th-large"></i> <span class="nav-label">Pacientes</span></a>
+          <a [routerLink]="['/pacientes']"><i class="fa fa-user"></i> <span class="nav-label">Pacientes</span></a>
         </li>
 
         <li [ngClass]="{active: activeRoute('obras')}" *ngIf="!esMedico()">
-          <a [routerLink]="['/obras']"><i class="fa fa-th-large"></i> <span class="nav-label">Obras</span></a>
+          <a [routerLink]="['/obras']"><i class="fa fa-university"></i> <span class="nav-label">Obras</span></a>
         </li>
 
         <li [ngClass]="{active: activeRoute('configuracion')}" *ngIf="!esMedico()">
-          <a [routerLink]="['/configuracion']"><i class="fa fa-th-large"></i> <span class="nav-label">Configuracion</span></a>
+          <a [routerLink]="['/configuracion']"><i class="fa fa-cog"></i> <span class="nav-label">Configuracion</span></a>
         </li>
 
         <li [ngClass]="{active: activeRoute('configuracion')}" *ngIf="esMedico()">
-          <a [routerLink]="['/configuracion/' + medico._idMedico]"><i class="fa fa-th-large"></i> <span class="nav-label">Configuracion</span></a>
+          <a [routerLink]="['/configuracion/' + medico._idMedico]"><i class="fa fa-cog"></i> <span class="nav-label">Configuracion</span></a>
         </li>
 
 
