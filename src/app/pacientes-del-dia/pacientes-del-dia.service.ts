@@ -119,9 +119,36 @@ export class PacientesDelDiaService {
     ////console.log('On created de Angular con Socket de Feathers');
     ////console.log(turno);
 
-    this.dataStore.turnos.push(turno);
-    //lo pusheo al calendar
-    this.turnosObserver.next(this.dataStore.turnos);
+    /*
+      IMPORTANTE:
+      Por el momento, la variable hoy es la correcta, pero la pasamos a local para
+      poder compararla con diaTurno. Es decir, ambos horarios estan en -3 horas.
+    */
+
+    let hoy = new Date();
+
+    hoy.setUTCDate(hoy.getDate());
+    hoy.setUTCHours(hoy.getHours());
+
+
+    let diaTurno = new Date(turno.horaInicial);
+    // diaTurno.setUTCDate(diaTurno.getDate());
+    // diaTurno.setUTCHours(diaTurno.getHours());
+
+    if( diaTurno.getTime() >= hoy.getTime()){
+
+      // No aseguramos que SI O SI pertenezca a hoy
+      if(hoy.getDate() == diaTurno.getDate() && hoy.getMonth() == diaTurno.getMonth()){
+        // console.log('Esto es lo que queriamos!');
+
+        this.dataStore.turnos.push(turno);
+        // Lo pusheo al componente
+        this.turnosObserver.next(this.dataStore.turnos);
+      }
+    }
+
+
+
   }
 
   /*

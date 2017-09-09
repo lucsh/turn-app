@@ -157,7 +157,7 @@ export class TurnosDelMedicoService {
 
             //No aseguramos que SI O SI pertenezca a hoy
             if(hoy.getDate() == diaTurno.getDate() && hoy.getMonth() == diaTurno.getMonth()){
-              console.log('Esto es lo que queriamos!');
+              // console.log('Esto es lo que queriamos!');
               this.dataStore.turnos.push(turno);
               //lo pusheo al calendar
               this.turnosObserver.next(this.dataStore.turnos);
