@@ -7,6 +7,7 @@ import { Obra } from '../../obras/obra.tipo';
 import { ObrasService } from '../../obras/obras.service';
 
 import {default as swal} from 'sweetalert2';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'agregar-paciente',
@@ -20,6 +21,7 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
   @Output() pacienteAgregado = new EventEmitter();
 
   @ViewChild('closeFormAgregarPaciente') closeFormAgregarPaciente: ElementRef;
+  @ViewChild('fechaPaciente') fechaPaciente:ElementRef;
 
   public obras: Obra[];
   public obraSelected: Obra = null;
@@ -49,6 +51,11 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
   ngOnChanges(changes) {
     // changes.prop contains the old and the new value...
 
+  }
+/* Este metodo se encarga de reiniciar el formulario, asi evita errores en las validaciones que quedan guardads.*/
+  public reiniciarFormulario(formulario:NgForm){
+    formulario.resetForm();
+    this.fechaPaciente.nativeElement.value = null; //Reinicio el input de fecha para evitar errores.
   }
 
   /*

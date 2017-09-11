@@ -5,6 +5,7 @@ import {ObrasService} from './obras.service';
 
 import { Obra } from './obra.tipo';
 import {default as swal} from 'sweetalert2';
+import { NgForm } from '@angular/forms';
 
 
 declare var $: any;
@@ -34,6 +35,10 @@ export class ObrasComponent implements OnInit {
     this.getAllObras();
   }
 
+  /* Este metodo se encarga de reiniciar el formulario, asi evita errores en las validaciones que quedan guardads.*/
+    public reiniciarFormulario(formulario:NgForm){
+      formulario.resetForm();
+    }
 
   private getAllObras(): void{
     this.obrasService
