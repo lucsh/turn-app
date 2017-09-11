@@ -1,162 +1,171 @@
-<div class="row">
-  <div class="col-lg-12">
-    <div class="ibox float-e-margins">
-      <div class="ibox-title">
-        <h5>Medicos</h5>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Configuración</h2>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
 
-        <style media="screen">
-          #agregarMedico{
-            margin-right: 1%;
-          }
-        </style>
-         <div id='agregarMedico' class="row">
-           <button (click)="formAgregarMedico()" class="btn btn-s btn-primary pull-right" ><i class="fa fa-plus"></i></button>
-         </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Medicos</h5>
 
-        <!--<iboxtools></iboxtools>  {{whatTime | async | amDateFormat:'hh:mm'}}  -->
-      </div>
-      <div class="ibox-content">
-        <table class="table table-hover no-margins">
-          <thead>
-            <tr>
-              <th>Matricula</th>
-              <th>Nombre</th>
-              <th>Apellido</th>
-              <th>Duracion Turnos</th>
-              <!-- <th>Doctor<th> -->
-              <th>Acciones</th>
-
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let medico of medicos">
-              <!--
-              {
-              "id": 12,
-              "dia": "01-06-2017",
-              "hora": "12:30",
-              "status": "Pendiente",
-              "paciente": "Raul",
-              "doctor": "Dra. Manzazno"
+          <style media="screen">
+            #agregarMedico{
+              margin-right: 1%;
             }
-          -->
-          <td>{{medico.matricula}}</td>
-          <td>{{medico.nombre}}</td>
-          <td>{{medico.apellido}}</td>
-          <td>{{medico.duracion}}</td>
+          </style>
+           <div id='agregarMedico' class="row">
+             <button (click)="formAgregarMedico()" class="btn btn-s btn-primary pull-right" ><i class="fa fa-plus"></i></button>
+           </div>
 
-          <td>
-            <!-- <button (click)="editar(turno)" class="btn btn-info"></button> -->
-            <button (click)="abrirModal(medico)" class="btn btn-success">Actualizar Datos Basicos</button>
-            <button (click)="configurarSemana(medico)" class="btn btn-primary">Configurar Semana</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-</div>
-</div>
-
-<!-- Modal Formulario Crear Turno -->
-<div class="modal fade" id="formDatosBasicos" #formDatosBasicos tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeFormDatosBasicos >&times;</button>
-        <h3 class="modal-title" id="myModalLabel">Datos Basicos del Medico</h3>
-      </div>
-
-      <!-- <div class="modal-body" > -->
-      <div class="modal-body" >
-        <div class="form-group">
-          <label>Nombre</label>
-          <div class="input-group">
-            <input #estadoNombre="ngModel" minlength="1" required #nombreMedico [(ngModel)]="modeloMedico.nombre" placeholder="Ej: Martin" type="text" class="form-control">
-          </div>
-          <div *ngIf="estadoNombre.invalid && (estadoNombre.dirty || estadoNombre.touched)" class="alert alert-danger">
-              El nombre es obligatorio
-          </div>
+          <!--<iboxtools></iboxtools>  {{whatTime | async | amDateFormat:'hh:mm'}}  -->
         </div>
+        <div class="ibox-content">
+          <table class="table table-hover no-margins">
+            <thead>
+              <tr>
+                <th>Matricula</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Duracion Turnos</th>
+                <!-- <th>Doctor<th> -->
+                <th>Acciones</th>
 
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let medico of medicos">
+                  <!--
+                  {
+                  "id": 12,
+                  "dia": "01-06-2017",
+                  "hora": "12:30",
+                  "status": "Pendiente",
+                  "paciente": "Raul",
+                  "doctor": "Dra. Manzazno"
+                }
+              -->
+                <td>{{medico.matricula}}</td>
+                <td>{{medico.nombre}}</td>
+                <td>{{medico.apellido}}</td>
+                <td>{{medico.duracion}}</td>
 
-        <div class="form-group">
-          <label>Apellido</label>
-          <div class="input-group">
-            <input #estadoApellido="ngModel" minlength="1" required  #apellidoMedico [(ngModel)]="modeloMedico.apellido" placeholder="Ej: Martin" type="text" class="form-control">
-          </div>
-          <div *ngIf="estadoApellido.invalid && (estadoApellido.dirty || estadoApellido.touched)" class="alert alert-danger">
-              El apellido es obligatorio
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="">Duracion del turno</label>
-          <div class="input-group">
-            <input type="text" [(ngModel)]="modeloMedico.duracion" #duracionTurno class="form-control"></div>
-        </div>
-
-        <div class="form-group">
-
-
-          <div id="divSelector" class="">
-
-            <select2
-            *ngIf = 'actualizado == true'
-            [data]="obrasSelector"
-            [options]="options"
-            [width]="500"
-            [value]="value"
-            [cssImport]="true"
-
-            (valueChanged)="changed($event)"
-            ></select2>
-
-
-
-            <!--
-            [cssImport]="false"
-
-            <ng-select  *ngIf = 'actualizado == true'
-            [multiple]="true"
-            [allowClear]="true"
-            [items]="obrasSelector"
-            [disabled]="disabled"
-            (data)="refreshValue($event)"
-            (selected)="selected($event)"
-            (removed)="removed($event)"
-            (typed)="typed($event)"
-            placeholder="Obras sociales">
-          </ng-select> -->
-
-
+                <td>
+                  <!-- <button (click)="editar(turno)" class="btn btn-info"></button> -->
+                  <button (click)="abrirModal(medico)" class="btn btn-success">Actualizar Datos Basicos</button>
+                  <button (click)="configurarSemana(medico)" class="btn btn-primary">Configurar Semana</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-
-    </div>
-
-    <div class="modal-footer">
-
-      <button class="btn btn-danger" (click)='cancelar()'>
-        Cancelar
-      </button>
-
-      <button class="btn btn-primary"  [disabled]="estadoNombre.invalid || estadoApellido.invalid" (click)='actualizarDatos(modeloMedico.nombre,modeloMedico.apellido,modeloMedico.duracion)'>
-        Editar
-      </button>
-
     </div>
   </div>
-  <!-- /.modal-content -->
-</div>
-<!-- /.modal-dialog -->
+
+  <!-- Modal Formulario Crear Turno -->
+  <div class="modal fade" id="formDatosBasicos" #formDatosBasicos tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeFormDatosBasicos >&times;</button>
+          <h3 class="modal-title" id="myModalLabel">Datos Basicos del Medico</h3>
+        </div>
+
+        <!-- <div class="modal-body" > -->
+        <div class="modal-body" >
+          <div class="form-group">
+            <label>Nombre</label>
+            <div class="input-group">
+              <input #estadoNombre="ngModel" minlength="1" required #nombreMedico [(ngModel)]="modeloMedico.nombre" placeholder="Ej: Martin" type="text" class="form-control">
+            </div>
+            <div *ngIf="estadoNombre.invalid && (estadoNombre.dirty || estadoNombre.touched)" class="alert alert-danger">
+                El nombre es obligatorio
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label>Apellido</label>
+            <div class="input-group">
+              <input #estadoApellido="ngModel" minlength="1" required  #apellidoMedico [(ngModel)]="modeloMedico.apellido" placeholder="Ej: Martin" type="text" class="form-control">
+            </div>
+            <div *ngIf="estadoApellido.invalid && (estadoApellido.dirty || estadoApellido.touched)" class="alert alert-danger">
+                El apellido es obligatorio
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="">Duracion del turno</label>
+            <div class="input-group">
+              <input type="text" [(ngModel)]="modeloMedico.duracion" #duracionTurno class="form-control"></div>
+          </div>
+
+          <div class="form-group">
+
+
+            <div id="divSelector" class="">
+
+              <select2
+              *ngIf = 'actualizado == true'
+              [data]="obrasSelector"
+              [options]="options"
+              [width]="500"
+              [value]="value"
+              [cssImport]="true"
+
+              (valueChanged)="changed($event)"
+              ></select2>
+
+
+
+              <!--
+              [cssImport]="false"
+
+              <ng-select  *ngIf = 'actualizado == true'
+              [multiple]="true"
+              [allowClear]="true"
+              [items]="obrasSelector"
+              [disabled]="disabled"
+              (data)="refreshValue($event)"
+              (selected)="selected($event)"
+              (removed)="removed($event)"
+              (typed)="typed($event)"
+              placeholder="Obras sociales">
+            </ng-select> -->
+
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button class="btn btn-danger" (click)='cancelar()'>
+          Cancelar
+        </button>
+
+        <button class="btn btn-primary"  [disabled]="estadoNombre.invalid || estadoApellido.invalid" (click)='actualizarDatos(modeloMedico.nombre,modeloMedico.apellido,modeloMedico.duracion)'>
+          Editar
+        </button>
+
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+
+  </div>
+  <!-- /.modal -->
+
+
+  <app-modal-semana *ngIf="medicoSeleccionado != null && medicoSeleccionado.obras" [obrasDispTotales]="medicoSeleccionado.obras" [medico]="medicoSeleccionado"
+  (semenaCambiada)='onIntervalosGuardados($event)'
+  ></app-modal-semana>
+
+  <agregar-medico></agregar-medico>
 
 </div>
-<!-- /.modal -->
-
-
-<app-modal-semana *ngIf="medicoSeleccionado != null && medicoSeleccionado.obras" [obrasDispTotales]="medicoSeleccionado.obras" [medico]="medicoSeleccionado"
-(semenaCambiada)='onIntervalosGuardados($event)'
-></app-modal-semana>
-
-<agregar-medico></agregar-medico>
