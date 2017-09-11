@@ -84,20 +84,20 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
             EL SWAL aparace debajo del modal anterior!! Solucionarlo!!!
           */
 
-          // swal({
-          //   title: 'Éxito!',
-          //   text: 'Nuevo paciente registrado!',
-          //   type: 'success',
-          //   timer: 2000
-          // }).then(
-          //   function () {},
-          //   // handling the promise rejection
-          //   function (dismiss) {
-          //     if (dismiss === 'timer') {
-          //
-          //     }
-          //   }
-          // )
+          swal({
+            title: 'Éxito!',
+            text: 'Nuevo paciente registrado!',
+            type: 'success',
+            timer: 2000
+          }).then(
+            function () {},
+            // handling the promise rejection
+            function (dismiss) {
+              if (dismiss === 'timer') {
+
+              }
+            }
+          )
         });
 
 
