@@ -93,36 +93,35 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeformCrearObra >&times;</button>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="reiniciarFormulario(formulario)" #closeformCrearObra >&times;</button>
         <h3 class="modal-title" id="myModalLabel">Crear Obra</h3>
       </div>
 
-      <div class="modal-body">
-        <!-- <div class="modal-body" *ngIf = 'horaNuevoTurno != null && diaNuevoTurno != null && Obras != null' > -->
 
-
-        <div class="form-group">
-          <label>Iniciales</label>
-          <div class="input-group">
-            <input #estadoIniciales="ngModel" minlength="1" required  [(ngModel)]='obraNueva.iniciales' #inicialesObra type="text" class="form-control">
+      <form #formulario="ngForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Iniciales</label>
+            <div class="input-group">
+              <input #estadoIniciales="ngModel" minlength="1" required  name="inicialesObra" [(ngModel)]='obraNueva.iniciales' #inicialesObra type="text" class="form-control">
+            </div>
+            <div *ngIf="estadoIniciales.invalid && (estadoIniciales.dirty || estadoIniciales.touched)" class="alert alert-danger">
+                Debe tener al menos 1 inicial.
+            </div>
           </div>
-          <div *ngIf="estadoIniciales.invalid && (estadoIniciales.dirty || estadoIniciales.touched)" class="alert alert-danger">
-              Debe tener al menos 1 inicial.
+
+          <div class="form-group">
+            <label>Nombre</label>
+            <div class="input-group">
+              <input #estadoNombre="ngModel" minlength="1" required   [(ngModel)]='obraNueva.nombre'  name="nombreObra" #nombreObra type="text" class="form-control">
+            </div>
+            <div *ngIf="estadoNombre.invalid && (estadoNombre.dirty || estadoNombre.touched)" class="alert alert-danger">
+                El nombre es obligatorio
+            </div>
           </div>
         </div>
+      </form>
 
-
-        <div class="form-group">
-          <label>Nombre</label>
-          <div class="input-group">
-            <input #estadoNombre="ngModel" minlength="1" required  [(ngModel)]='obraNueva.nombre'  #nombreObra type="text" class="form-control">
-          </div>
-          <div *ngIf="estadoNombre.invalid && (estadoNombre.dirty || estadoNombre.touched)" class="alert alert-danger">
-              El nombre es obligatorio
-          </div>
-        </div>
-
-      </div>
 
       <div class="modal-footer">
 
