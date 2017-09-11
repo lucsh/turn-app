@@ -18,7 +18,12 @@
   //     z-index: 6000;
   // }
 
-  //Aca le damos estilo para que pueda verse el datepicker SOBRE el modal de bootstrap
+  // Aca le damos estilo para que pueda verse el datepicker SOBRE el modal de bootstrap
   .cdk-overlay-container {
       z-index: 9000 !important;
+  }
+
+  // Aca le damos estilo para que el ng2-select2 se vea sobre el modal!
+  .select2-container {
+      z-index: 5000 !important;
   }
