@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { DataTableModule } from "angular2-datatable";
 import {MdProgressBarModule} from '@angular/material';
-import {MdDatepickerModule, MdNativeDateModule} from '@angular/material';
+//import {MdDatepickerModule, MdNativeDateModule} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -76,6 +76,9 @@ import { AgregarMedicoComponent } from './medico/agregarMedico/agregarMedico';
 
 import { NodeService } from './routerService/medicos.sistema';
 
+
+import { MyDatePickerModule } from 'mydatepicker';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -122,8 +125,9 @@ import { NodeService } from './routerService/medicos.sistema';
     BrowserAnimationsModule,
     SimpleNotificationsModule.forRoot(),
     MdProgressBarModule,
-    MdDatepickerModule,
-    MdNativeDateModule
+//    MdDatepickerModule,
+//    MdNativeDateModule,
+    MyDatePickerModule
   ],
   providers: [
     DashboardService,
