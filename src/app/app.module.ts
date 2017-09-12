@@ -194,7 +194,6 @@ import { MyDatePickerModule } from 'mydatepicker';
     routing,
     SelectModule,
     Select2Module,
-    SimpleNotificationsModule.forRoot()
     SimpleNotificationsModule.forRoot(),
     MyDatePickerModule
   ],
