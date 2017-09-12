@@ -2,9 +2,47 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+
 import { DataTableModule } from "angular2-datatable";
-import {MdProgressBarModule} from '@angular/material';
-import {MdDatepickerModule, MdNativeDateModule} from '@angular/material';
+
+
+import 'hammerjs';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MdFormFieldModule} from '@angular/material';
+
+import {
+  MdAutocompleteModule,
+  MdButtonModule,
+  MdButtonToggleModule,
+  MdCardModule,
+  MdCheckboxModule,
+  MdChipsModule,
+  MdCoreModule,
+  MdDatepickerModule,
+  MdDialogModule,
+  MdExpansionModule,
+  MdGridListModule,
+  MdIconModule,
+  MdInputModule,
+  MdListModule,
+  MdMenuModule,
+  MdNativeDateModule,
+  MdPaginatorModule,
+  MdProgressBarModule,
+  MdProgressSpinnerModule,
+  MdRadioModule,
+  MdRippleModule,
+  MdSelectModule,
+  MdSidenavModule,
+  MdSliderModule,
+  MdSlideToggleModule,
+  MdSnackBarModule,
+  MdSortModule,
+  MdTableModule,
+  MdTabsModule,
+  MdToolbarModule,
+  MdTooltipModule
+} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -20,7 +58,6 @@ import {MomentModule} from 'angular2-moment';
 import { Select2Module } from 'ng2-select2';
 import 'moment/locale/es';
 
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 
 import { DashboardService } from './dashboard/dashboard.service';
@@ -76,6 +113,8 @@ import { AgregarMedicoComponent } from './medico/agregarMedico/agregarMedico';
 
 import { NodeService } from './routerService/medicos.sistema';
 
+import { TablaPacientesComponent } from './pacientes/tablaPacientes/tablaPacientes.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -106,24 +145,54 @@ import { NodeService } from './routerService/medicos.sistema';
     TareasComponent,
     VerTurnoComponent,
     AgePipe,
-    AgregarMedicoComponent
+    AgregarMedicoComponent,
+    TablaPacientesComponent
 
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    BrowserAnimationsModule,
+    DataTableModule,
+    MdButtonModule,
+    MdAutocompleteModule,
+    MdButtonToggleModule,
+    MdCardModule,
+    MdCheckboxModule,
+    MdChipsModule,
+    MdCoreModule,
+    MdDatepickerModule,
+    MdDialogModule,
+    MdExpansionModule,
+    MdGridListModule,
+    MdIconModule,
+    MdInputModule,
+    MdListModule,
+    MdMenuModule,
+    MdNativeDateModule,
+    MdPaginatorModule,
+    MdProgressBarModule,
+    MdProgressSpinnerModule,
+    MdRadioModule,
+    MdRippleModule,
+    MdSelectModule,
+    MdSidenavModule,
+    MdSliderModule,
+    MdSlideToggleModule,
+    MdSnackBarModule,
+    MdSortModule,
+    MdTableModule,
+    MdTabsModule,
+    MdToolbarModule,
+    MdTooltipModule,
     BsDropdownModule.forRoot(),
     MomentModule,
     routing,
-    DataTableModule,
     SelectModule,
     Select2Module,
-    BrowserAnimationsModule,
-    SimpleNotificationsModule.forRoot(),
-    MdProgressBarModule,
-    MdDatepickerModule,
-    MdNativeDateModule
+    SimpleNotificationsModule.forRoot()
+
   ],
   providers: [
     DashboardService,
