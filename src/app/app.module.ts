@@ -115,6 +115,9 @@ import { NodeService } from './routerService/medicos.sistema';
 
 import { TablaPacientesComponent } from './pacientes/tablaPacientes/tablaPacientes.component';
 
+
+import { MyDatePickerModule } from 'mydatepicker';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -192,7 +195,8 @@ import { TablaPacientesComponent } from './pacientes/tablaPacientes/tablaPacient
     SelectModule,
     Select2Module,
     SimpleNotificationsModule.forRoot()
-
+    SimpleNotificationsModule.forRoot(),
+    MyDatePickerModule
   ],
   providers: [
     DashboardService,

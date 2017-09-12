@@ -9,6 +9,8 @@ import { ObrasService } from '../../obras/obras.service';
 import {default as swal} from 'sweetalert2';
 import { NgForm } from '@angular/forms';
 
+import {IMyDpOptions} from 'mydatepicker';
+
 @Component({
   selector: 'agregar-paciente',
   templateUrl: './agregarPaciente.html',
@@ -26,7 +28,17 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
   public obras: Obra[];
   public obraSelected: Obra = null;
   public pacienteNuevo: Paciente;
-  public fechaNacimiento: Date = null;
+  public fechaNacimiento: any = null;
+
+  //Configuraciones del DatePicker
+  private myDatePickerOptions: IMyDpOptions = {
+      todayBtnTxt: 'Hoy',
+      openSelectorOnInputClick: true,
+      editableDateField: false,
+      dateFormat: 'dd/mm/yyyy',
+      dayLabels: {su: 'Dom', mo: 'Lun', tu: 'Mar', we: 'Mie', th: 'Jue', fr: 'Vie', sa: 'Sab'},
+      monthLabels: { 1: 'Ene', 2: 'Feb', 3: 'Mar', 4: 'Abr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Ago', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dic' }
+  };
 
   constructor(
     private pacientesService: PacientesService,
@@ -55,7 +67,7 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
 /* Este metodo se encarga de reiniciar el formulario, asi evita errores en las validaciones que quedan guardads.*/
   public reiniciarFormulario(formulario:NgForm){
     formulario.resetForm();
-    this.fechaPaciente.nativeElement.value = null; //Reinicio el input de fecha para evitar errores.
+    //this.fechaPaciente.nativeElement.value = null; //Reinicio el input de fecha para evitar errores.
   }
 
   /*
@@ -66,7 +78,7 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
       ////console.log('Entre a agregar Paciente');
       let obraId = this.obraSelected._id;
       this.pacientesService.createPaciente(nombrePaciente,apellidoPaciente, dniPaciente,
-        emailPaciente, this.fechaNacimiento, telefonoPaciente, obraId, ocupacion, observaciones)
+        emailPaciente, this.fechaNacimiento.jsdate, telefonoPaciente, obraId, ocupacion, observaciones)
         .then(pacienteNuevo => {
 
           ////console.log('Se creo el paciente con exito');
@@ -80,9 +92,9 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
           this.fechaNacimiento = null;
           this.closeFormAgregarPaciente.nativeElement.click();
 
-          /*
-            EL SWAL aparace debajo del modal anterior!! Solucionarlo!!!
-          */
+          
+            //EL SWAL aparace debajo del modal anterior!! Solucionarlo!!!
+          
 
           swal({
             title: 'Éxito!',
@@ -100,7 +112,7 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
           )
         });
 
-
+         
 
   }
 

@@ -43,6 +43,7 @@
     "jquery-slimscroll": "^1.3.8",
     "metismenu": "^2.7.0",
     "moment": "^2.18.1",
+    "mydatepicker": "^2.0.30",
     "ng2-select": "^1.2.0",
     "ng2-select2": "^1.0.0-beta.10",
     "ngx-bootstrap": "^1.9.3",

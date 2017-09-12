@@ -49,36 +49,13 @@
             </div>
           </div>
 
-          <label>Fecha de Nacimiento</label>
-          <div class="form-group row">
+          
+          <div class="form-group ">
+            <label>Fecha de Nacimiento</label>
+            
+              <my-date-picker name="fechaPaciente" [options]="myDatePickerOptions" [(ngModel)]="fechaNacimiento" ></my-date-picker>
 
-            <div class="col-sm-4">
-              <input class="form-control" #fechaPaciente name="fechaPaciente" [mdDatepicker]="picker" placeholder="9/8/1994">
-              <!-- <input type="email" class="form-control" id="inputEmail3" placeholder="Email"> -->
-            </div>
-
-            <!-- <button class="col-sm-2 col-form-label" mdSuffix md-datepicker-toggle="picker"></button> -->
-            <md-datepicker-toggle class="col-sm-2 col-form-label" mdSuffix [for]="picker"></md-datepicker-toggle>
-           <!-- <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label> -->
-         </div>
-
-         <md-datepicker
-         [touchUi]='true'
-         #picker
-         (selectedChanged)='datePickerChanged($event)'></md-datepicker>
-
-
-
-
-
-
-          <!-- <md-input-container> -->
-            <!-- <input mdInput [mdDatepicker]="picker" placeholder="Choose a date">
-            <button mdSuffix [mdDatepickerToggle]="picker"></button> -->
-          <!-- </md-input-container> -->
-          <!-- <md-datepicker #picker></md-datepicker> -->
-
-
+          </div>
 
           <div class="form-group">
             <label>Telefono</label>
