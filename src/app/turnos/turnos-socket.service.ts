@@ -144,7 +144,6 @@ export class TurnoSocketService {
 
     private actualizarVisual(turno:Turno){
 
-
         //let horaInicial = turno.horaInicial.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
         let horaInicial = turno.horaInicial
         //let horaFin = turno.horaFin.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
@@ -332,7 +331,7 @@ export class TurnoSocketService {
         let id = turno._id;
 
         $('#calendar').fullCalendar('removeEvents',turno._id); // Esto elimina el evento (grafico) con el id = turno._id
-        this.actualizarVisual(turno); //
+        // this.actualizarVisual(turno); //
     }
 
 
