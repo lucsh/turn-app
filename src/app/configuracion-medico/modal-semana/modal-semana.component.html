@@ -1,177 +1,184 @@
 <!-- Modal Formulario Configuracion Semana -->
 <!-- tabindex="-1" seria para que cierre con escape  -->
-<div class="modal fade" id="formConfigSemana" tabindex="-1" #formConfigSemana  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeFormConfigSemana (click)='cancelar()' >&times;</button>
-        <h3 class="modal-title" id="myModalLabel">Configuración Semana</h3>
+<div class="modal fade" id="formConfigSemana" tabindex="-1" #formConfigSemana role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeFormConfigSemana (click)='cancelar()'>&times;</button>
+                <h3 class="modal-title" id="myModalLabel">Configuración Semana</h3>
 
-      </div>
+            </div>
 
-      <!-- <div class="modal-body" > -->
-        <div class="modal-body">
-          <!-- ACA VA LA POSTA -->
+            <!-- <div class="modal-body" > -->
+            <div class="modal-body">
+                <!-- ACA VA LA POSTA -->
 
-          <div class="row">
+                <div class="row">
 
-            <div>
-              <!-- <div class="ibox-title">
+                    <div>
+                        <!-- <div class="ibox-title">
                 <h5>Configuración de Semana</h5>
 
               </div> -->
 
-              <div class="row m-md">
-                <div class="col-sm-8"><h4>Intervalos Semanales</h4></div>
-                <div class="col-sm-4 pull-right"><button (click)="agregarIntervalo()" class="btn btn-xs btn-primary pull-right" ><i class="fa fa-plus"></i></button></div>
-                
-              </div>
-              <hr>
-                <div class="row"  *ngFor="let intervalo of intervalos; let intervaloIndex = index; trackBy: trackByIndex">
-                  <div class="col-lg-5 col-xs-12">
-                    <p>
-                    Días
-                  </p>
-                      <div class="col-xs-1">
-                        L
-                      <div class="checkbox">
-                        <label><input #diaLunes (click)="actualizarDiaIntervalo(intervalo,1)" type="checkbox" value=""></label>
-                      </div>
-                      </div>
-                      <div class="col-xs-1">
-                       M
-                      <div class="checkbox">
-                        <label><input #diaMartes (click)="actualizarDiaIntervalo(intervalo,2)" type="checkbox" value=""></label>
-                      </div>
-                      </div>
-                      <div class="col-xs-1">
-                       M
-                      <div class="checkbox">
-                        <label><input #diaMiercoles (click)="actualizarDiaIntervalo(intervalo,3)" type="checkbox" value=""></label>
-                      </div>
-                      </div>
-                      <div class="col-xs-1">
-                       J
-                      <div class="checkbox">
-                        <label><input #diaJueves (click)="actualizarDiaIntervalo(intervalo,4)" type="checkbox" value=""></label>
-                      </div>
-                      </div>
-                      <div class="col-xs-1">
-                       V
-                      <div class="checkbox">
-                        <label><input #diaViernes (click)="actualizarDiaIntervalo(intervalo,5)" type="checkbox" value=""></label>
-                      </div>
-                      </div>
-                      <div class="col-xs-1">
-                       S
-                      <div class="checkbox">
-                        <label><input #diaSabado (click)="actualizarDiaIntervalo(intervalo,6)" type="checkbox" value=""></label>
-                      </div>
-                      </div>
-                  
-                  </div>
+                        <div class="row m-md">
+                            <div class="col-sm-8">
+                                <h4>Intervalos Semanales</h4></div>
+                            <div class="col-sm-4 pull-right">
+                                <button (click)="agregarIntervalo()" class="btn btn-xs btn-primary pull-right"><i class="fa fa-plus"></i></button>
+                            </div>
 
-                  <div class="col-md-3 col-xs-5">
-                    <!--  TIME PICKER -->
-                    <p> 
-                     Hora Inicial
-                    </p>
-                    <input style="width:100%" class='p-xxs m-xs' type="text" [(ngModel)]="intervalos[intervaloIndex].horaInicial" id="">
-                  </div>
-                  <div class="col-md-3 col-xs-5">
-                    <!-- TIME PICKER -->
-                     <p> 
-                     Hora Final
-                    </p>
-                    <input style="width:100%" class='p-xxs m-xs' type="text" [(ngModel)]="intervalos[intervaloIndex].horaFin" id="">
-                  </div>
-                  <div class="col-md-1 col-xs-2 m-t-md ">
-                    <!-- VACIOOOO  -->
-                    <!-- AGREGAR X ROJA PARA ELIMINAR EL INTERVALO -->
-                    <button (click)="eliminarIntervalo(intervaloIndex)" class="btn btn-xs btn-danger" ><i class="fa fa-minus"></i></button>
-                  </div>
+                        </div>
+                        <hr>
+                        <div class="row" *ngFor="let intervalo of intervalos; let intervaloIndex = index; trackBy: trackByIndex">
+                            <div class="col-lg-5 col-xs-12">
+                                <p>
+                                    Días
+                                </p>
+                                <div class="col-xs-1">
+                                    L
+                                    <div class="checkbox">
+                                        <label>
+                                            <input #diaLunes (click)="actualizarDiaIntervalo(intervalo,1)" type="checkbox" value="">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-1">
+                                    M
+                                    <div class="checkbox">
+                                        <label>
+                                            <input #diaMartes (click)="actualizarDiaIntervalo(intervalo,2)" type="checkbox" value="">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-1">
+                                    M
+                                    <div class="checkbox">
+                                        <label>
+                                            <input #diaMiercoles (click)="actualizarDiaIntervalo(intervalo,3)" type="checkbox" value="">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-1">
+                                    J
+                                    <div class="checkbox">
+                                        <label>
+                                            <input #diaJueves (click)="actualizarDiaIntervalo(intervalo,4)" type="checkbox" value="">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-1">
+                                    V
+                                    <div class="checkbox">
+                                        <label>
+                                            <input #diaViernes (click)="actualizarDiaIntervalo(intervalo,5)" type="checkbox" value="">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-1">
+                                    S
+                                    <div class="checkbox">
+                                        <label>
+                                            <input #diaSabado (click)="actualizarDiaIntervalo(intervalo,6)" type="checkbox" value="">
+                                        </label>
+                                    </div>
+                                </div>
 
-<!-- <button (click)="abrirModal(medico)" class="btn btn-success">Actualizar Datos Basicos</button>
+                            </div>
+
+                            <div class="col-md-3 col-xs-5">
+                                <!--  TIME PICKER -->
+                                <p>
+                                    Hora Inicial
+                                </p>
+                                <input style="width:100%" class='p-xxs m-xs' type="text" [(ngModel)]="intervalos[intervaloIndex].horaInicial" id="">
+                            </div>
+                            <div class="col-md-3 col-xs-5">
+                                <!-- TIME PICKER -->
+                                <p>
+                                    Hora Final
+                                </p>
+                                <input style="width:100%" class='p-xxs m-xs' type="text" [(ngModel)]="intervalos[intervaloIndex].horaFin" id="">
+                            </div>
+                            <div class="col-md-1 col-xs-2 m-t-md ">
+                                <!-- VACIOOOO  -->
+                                <!-- AGREGAR X ROJA PARA ELIMINAR EL INTERVALO -->
+                                <button (click)="eliminarIntervalo(intervaloIndex)" class="btn btn-xs btn-danger"><i class="fa fa-minus"></i></button>
+                            </div>
+
+                            <!-- <button (click)="abrirModal(medico)" class="btn btn-success">Actualizar Datos Basicos</button>
   <button (click)="configurarSemana(medico)" class="btn btn-primary">Configurar Semana</button> -->
 
-</div>
+                        </div>
 
+                    </div>
+                    <div class="m-b-l"></div>
+                    <div class="row m-md">
+                        <div class="col-sm-8">
+                            <h4>Turnos por obra social</h4></div>
+                        <div class="col-sm-4 pull-right">
+                            <button (click)="agregarObra()" class="btn btn-xs btn-primary pull-right"><i class="fa fa-plus"></i></button>
+                        </div>
 
-</div>
+                    </div>
+                    <div class="row">
 
-</div>
-<div class="m-b-l"></div>
+                        <div class="col-lg-12">
+                            <div>
 
-<div class="row">
-  <div class="col-lg-12">
-    <div>
-      <h4>Turnos por obra social <button (click)="agregarObra()" class="btn btn-xs btn-primary pull-right" ><i class="fa fa-plus"></i></button></h4>
+                            </div>
+                            <hr>
+                            <br>
+                            <div *ngFor="let parObra of turnosPorObra; let parObraIndex = index; trackBy: trackByIndex">
+                                <!-- Selector de obra -->
+                                <div>
+                                    <style>
+                                        #cant {
+                                            display: inline;
+                                            min-width: 30%;
+                                        }
+                                        
+                                        #divSelector {
+                                            float: left;
+                                            margin-right: 1%;
+                                            min-width: 50%;
+                                        }
+                                    </style>
+                                    <div id="divSelector" class="">
+                                        <label>Obra social permitida</label>
+                                        <ng-select #selector *ngIf='actualizado == true' [allowClear]="true" [items]="obrasSelector" [disabled]="disabled" (data)="refreshValue($event)" (selected)="selected($event,parObraIndex)" (removed)="removed($event)" (typed)="typed($event)" placeholder="buscar">
+                                        </ng-select>
+                                    </div>
+                                    <!-- input de cantidad -->
+                                    <div id="cant">
+                                        <label>Cantidad de turnos</label>
+                                        <input type="number" [(ngModel)]="turnosPorObra[parObraIndex].cantDisponible">
+                                    </div>
+                                    <button (click)="eliminarSelectorObra(parObraIndex)" class="btn btn-xs btn-danger pull-right "><i class="fa fa-minus"></i></button>
 
+                                </div>
+                                <div class="m-b-l"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button class="btn btn-danger" (click)='cancelar()'>
+                    Cancelar
+                </button>
+
+                <button class="btn btn-primary" (click)='guardarIntervalos()'>
+                    Guardar Configuración
+                </button>
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
     </div>
-    <hr>
-    <br>
-    <div *ngFor="let parObra of turnosPorObra; let parObraIndex = index; trackBy: trackByIndex">
-      <!-- Selector de obra -->
-      <div>
-        <style>
-        #cant{
-          display: inline;
-          min-width: 30%;
-        }
-
-        #divSelector{
-          float: left;
-          margin-right: 1%;
-          min-width: 50%;
-        }
-      </style>
-      <div id="divSelector" class="">
-        <label >Obra social permitida</label>
-        <ng-select #selector  *ngIf = 'actualizado == true'
-        [allowClear]="true"
-        [items]="obrasSelector"
-        [disabled]="disabled"
-        (data)="refreshValue($event)"
-        (selected)="selected($event,parObraIndex)"
-        (removed)="removed($event)"
-        (typed)="typed($event)"
-        placeholder="buscar">
-      </ng-select>
-    </div>
-    <!-- input de cantidad -->
-    <div id="cant">
-      <label>Cantidad de turnos</label>
-      <input  type="number" [(ngModel)]="turnosPorObra[parObraIndex].cantDisponible">
-    </div>
-    <button (click)="eliminarSelectorObra(parObraIndex)" class="btn btn-xs btn-danger pull-right " ><i class="fa fa-minus"></i></button>
-
-
-  </div>
-
-
-  <br>
-  <br>
-</div>
-
-</div>
-</div>
-</div>
-
-<div class="modal-footer">
-
-  <button class="btn btn-danger" (click)='cancelar()'>
-    Cancelar
-  </button>
-
-  <button class="btn btn-primary" (click)='guardarIntervalos()'>
-    Guardar Configuración
-  </button>
-
-</div>
-</div>
-<!-- /.modal-content -->
-</div>
-<!-- /.modal-dialog -->
+    <!-- /.modal-dialog -->
 
 </div>
 <!-- /.modal -->
