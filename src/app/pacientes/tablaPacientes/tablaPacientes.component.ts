@@ -37,7 +37,7 @@ export class TablaPacientesComponent implements OnInit {
 
   @Output() pacienteSeleccionado = new EventEmitter();
 
-  displayedColumns = ['dni', 'email', 'nombre', 'apellido','telefono', 'acciones'];
+  displayedColumns = ['dni', 'email', 'nombre', 'apellido','telefono'];
   exampleDatabase : ExampleDatabase;
   dataSource: ExampleDataSource | null;
 
@@ -158,71 +158,10 @@ export class TablaPacientesComponent implements OnInit {
 
     }
 
-    sancionar(paciente){
 
-      let yo = this;
-      swal({
-        title: '¿Estas seguro que queres sancionar al paciente?',
-        //text: "No seras capaz de revertir esta accion!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, Sancionar!',
-        cancelButtonText: 'Cancelar',
-      }).then(function () {
-        yo.pacientesService.sancionarPaciente(paciente._id).then(pac => {
-          // ////console.log("Paciente sancionado");
-          // ////console.log(pac);
-          paciente.sancion = true;
-        }).catch(err => console.error(err))
-      }).catch(swal.noop);
-    }
-
-    habilitar(paciente){
-      let yo = this;
-      swal({
-        title: '¿Estas seguro que queres habilitar al paciente?',
-        //text: "No seras capaz de revertir esta accion!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, Habilitar!',
-        cancelButtonText: 'Cancelar',
-      }).then(function () {
-        yo.pacientesService.habilitarPaciente(paciente._id).then(pac => {
-          // ////console.log("Paciente habilitado");
-          // ////console.log(pac);
-          paciente.sancion = false;
-        }).catch(err => console.error(err))
-      }).catch(swal.noop);
-
-
-
-    }
-
-    eliminar(paciente){
-      let yo = this;
-      swal({
-        title: '¿Estas seguro que queres habilitar al paciente?',
-        //text: "No seras capaz de revertir esta accion!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, Eliminar!',
-        cancelButtonText: 'Cancelar',
-      }).then(function () {
-        yo.pacientesService.eliminarPaciente(paciente._id).then(pac => {
-          // ////console.log("Paciente eliminado");
-          // ////console.log(pac);
-          yo.exampleDatabase.removePaciente(pac);
-
-
-        }).catch(err => console.error(err))
-      }).catch(swal.noop);
-    }
+  onPacienteEliminado(paciente){
+    this.exampleDatabase.removePaciente(paciente);
+  }
 
   }
 

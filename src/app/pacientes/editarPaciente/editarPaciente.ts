@@ -18,6 +18,7 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
   // @Input() fechaNuevoTurno: any;
   @Input() paciente: any;
   @Output() pacienteEditado = new EventEmitter();
+  @Output() pacienteEliminado = new EventEmitter();
 
   @ViewChild('closeFormEditarPaciente') closeFormEditarPaciente: ElementRef;
 
@@ -107,6 +108,75 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
 
 
 
+  }
+
+  sancionar(paciente){
+
+    let yo = this;
+    swal({
+      title: '¿Estas seguro que queres sancionar al paciente?',
+      //text: "No seras capaz de revertir esta accion!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Sancionar!',
+      cancelButtonText: 'Cancelar',
+    }).then(function () {
+      yo.pacientesService.sancionarPaciente(paciente._id).then(pac => {
+        // ////console.log("Paciente sancionado");
+        // ////console.log(pac);
+        paciente.sancion = true;
+      }).catch(err => console.error(err))
+    }).catch(swal.noop);
+  }
+
+  habilitar(paciente){
+    let yo = this;
+    swal({
+      title: '¿Estas seguro que queres habilitar al paciente?',
+      //text: "No seras capaz de revertir esta accion!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Habilitar!',
+      cancelButtonText: 'Cancelar',
+    }).then(function () {
+      yo.pacientesService.habilitarPaciente(paciente._id).then(pac => {
+        // ////console.log("Paciente habilitado");
+        // ////console.log(pac);
+        paciente.sancion = false;
+      }).catch(err => console.error(err))
+    }).catch(swal.noop);
+
+
+
+  }
+
+  eliminar(paciente){
+    let yo = this;
+    swal({
+      title: '¿Estas seguro que queres habilitar al paciente?',
+      //text: "No seras capaz de revertir esta accion!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Eliminar!',
+      cancelButtonText: 'Cancelar',
+    }).then(function () {
+      console.log('paciente');
+      console.log(paciente);
+      yo.pacientesService.eliminarPaciente(paciente._id).then(pac => {
+        // ////console.log("Paciente eliminado");
+        // ////console.log(pac);
+        yo.pacienteEliminado.next(pac);
+
+        yo.obraSelected = null;
+        yo.closeFormEditarPaciente.nativeElement.click();
+      }).catch(err => console.error(err))
+    }).catch(swal.noop);
   }
 
 
