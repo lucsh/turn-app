@@ -118,6 +118,9 @@ import { TablaPacientesComponent } from './pacientes/tablaPacientes/tablaPacient
 
 import { MyDatePickerModule } from 'mydatepicker';
 
+import { AgregarObraComponent } from './obras/agregarObra/agregarObra';
+import { TablaObrasComponent } from './obras/tablaObras/tablaObras.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -149,7 +152,9 @@ import { MyDatePickerModule } from 'mydatepicker';
     VerTurnoComponent,
     AgePipe,
     AgregarMedicoComponent,
-    TablaPacientesComponent
+    TablaPacientesComponent,
+    AgregarObraComponent,
+    TablaObrasComponent
 
   ],
   imports: [

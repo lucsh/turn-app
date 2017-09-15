@@ -1,0 +1,93 @@
+<div class=" example-container ">
+  <!-- <h4>Seleccione el trabajo deseado</h4> -->
+  <!-- <h2 class="col-xs-6">Pacientes</h2> -->
+  <!-- <h2 class="col-lg-6">Pacientes</h2> -->
+
+
+  <div class="">
+    <h2 class="col-lg-8">Obras</h2>
+    <div class="col-lg-4">
+          <style media="screen">
+          #agregarObra{
+              margin-top: 5%;
+              margin-bottom: 2%;
+            }
+          </style>
+           <div id='agregarObra' class="row">
+               <button class="btn btn-s btn-primary pull-right"  data-toggle="modal" data-target="#formCrearObra" ><i class="fa fa-plus"></i></button>
+           </div>
+    </div>
+  </div>
+
+  <br>
+
+  <div class="example-header">
+
+    <md-form-field floatPlaceholder="never">
+      <input mdInput #filter placeholder="Buscar Obras">
+    </md-form-field>
+
+
+  </div>
+  <md-table class='hoverTable col-lg-12'
+  selectable-rows="true"
+  table-card="{title: Nutrition, actionIcons: true}"
+  #table [dataSource]="dataSource" mdSort>
+
+  <!-- Iniciales Column -->
+  <ng-container mdColumnDef="iniciales">
+    <md-header-cell *mdHeaderCellDef md-sort-header> Iniciales </md-header-cell>
+    <md-cell *mdCellDef="let row"> {{row.iniciales}} </md-cell>
+  </ng-container>
+
+  <!-- Nombre Column -->
+  <ng-container mdColumnDef="nombre">
+    <md-header-cell *mdHeaderCellDef md-sort-header> Nombre </md-header-cell>
+    <md-cell *mdCellDef="let row"> {{row.nombre}} </md-cell>
+  </ng-container>
+
+
+  <!-- Acciones  -->
+  <!-- <ng-container mdColumnDef="acciones">
+    <md-header-cell *mdHeaderCellDef> Acciones </md-header-cell>
+    <md-cell *mdCellDef="let row">
+
+
+      <button *ngIf="!row.sancion" (click)="sancionar(row)" class="btn btn-warning">Sancionar</button>
+      <button *ngIf="row.sancion" (click)="habilitar(row)" class="btn btn-primary">Habilitar</button>
+      <button (click)="eliminar(row)" class="btn btn-danger">Eliminar</button>
+
+    </md-cell>
+  </ng-container> -->
+
+
+  <md-header-row  *mdHeaderRowDef="displayedColumns"></md-header-row>
+  <md-row (click)="editar(row)" [ngClass]="{'isSpecial':  row._id == seleccionado._id}" *mdRowDef="let row; columns: displayedColumns;" (click)="rowClick(row)"></md-row>
+
+</md-table>
+
+<div class="example-no-results"
+[style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+No se encuentran obras que coincidan con la búsqueda!
+</div>
+
+<md-paginator #paginator
+[length]="exampleDatabase.data.length"
+[pageIndex]="0"
+[pageSize]="5"
+[pageSizeOptions]="[5, 10, 25, 100]">
+</md-paginator>
+
+</div>
+<br>
+
+<editar-obra *ngIf = 'seleccionado._id'
+  [obra]='seleccionado'
+  (obraEditada)='onObraEditada($event)'
+  (obraEliminada)='onObraEliminada($event)'
+></editar-obra>
+<agregar-obra
+  (obraAgregada)='onObraAgregada($event)'
+></agregar-obra>
+
+<!-- <button type="button" class="btn btn-lg btn-success pull-right" (click)='siguiente()'[disabled]="seleccionado._id =='' " >Siguiente</button> -->
