@@ -456,6 +456,43 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     // this.agregarObra();
   }
 
+  public horaInicial(intervalo){
+    console.log('Entre aca!!!');
+    console.log('intervalo');
+    console.log(intervalo);
+    let inputsHoraInicial = $('.claseHoraInicial');
+    console.log('inputsHoraInicial');
+    console.log(inputsHoraInicial);
+    inputsHoraInicial.clockpicker({
+      autoclose: true
+    });
+
+    // Manual operations
+    // $('#button-a').click(function(e){
+    //   // Have to stop propagation here
+    //   e.stopPropagation();
+    //   input.clockpicker('show')
+    //           .clockpicker('toggleView', 'minutes');
+    // });
+    // $('#button-b').click(function(e){
+    //   // Have to stop propagation here
+    //   e.stopPropagation();
+    //   input.clockpicker('show')
+    //           .clockpicker('toggleView', 'hours');
+    // });
+  }
+  public horaFin(intervalo){
+    console.log('Entre aca!!!');
+    console.log('intervalo');
+    console.log(intervalo);
+    let inputsHoraFin = $('.claseHoraFin');
+    console.log('inputsHoraFin');
+    console.log(inputsHoraFin);
+    inputsHoraFin.clockpicker({
+      autoclose: true
+    });
+  }
+
 
 
 

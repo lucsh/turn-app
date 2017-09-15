@@ -6,6 +6,7 @@ import { detectBody } from './app.helpers';
 import { AuthService } from './authentication/auth.service';
 
 declare var jQuery:any;
+declare var $: any;
 
 import {
   Router,

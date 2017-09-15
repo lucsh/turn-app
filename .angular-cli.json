@@ -21,6 +21,8 @@
       "styles": [
         "../node_modules/sweetalert2/dist/sweetalert2.min.css",
         "../node_modules/fullcalendar/dist/fullcalendar.css",
+        "../src/assets/js/clockpicker-gh-pages/dist/jquery-clockpicker.min.css",
+        "../src/assets/js/clockpicker-gh-pages/dist/bootstrap-clockpicker.min.css",
         "styles.scss"
       ],
       "scripts": [
@@ -32,7 +34,10 @@
         "../node_modules/fullcalendar/dist/fullcalendar.js",
         "../node_modules/fullcalendar/dist/locale/es.js",
         "../src/assets/js/inspinia.js",
-        "../node_modules/select2/dist/js/select2.full.js"
+        "../node_modules/select2/dist/js/select2.full.js",
+        "../src/assets/js/clockpicker-gh-pages/dist/jquery-clockpicker.min.js",
+        "../src/assets/js/clockpicker-gh-pages/dist/bootstrap-clockpicker.min.js"
+
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

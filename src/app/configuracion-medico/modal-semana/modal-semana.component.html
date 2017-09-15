@@ -91,14 +91,25 @@
                                 <p>
                                     Hora Inicial
                                 </p>
-                                <input style="width:100%" class='p-xxs m-xs' type="text" [(ngModel)]="intervalos[intervaloIndex].horaInicial" id="">
+                                <div class="container">
+                                    <input #inputHoraInicial id='input-horaInicial'
+                                     style="width:100%" class='p-xxs m-xs claseHoraInicial' type="text" [(ngModel)]="intervalos[intervaloIndex].horaInicial"
+                                     (click)='horaInicial(intervalo)'
+                                     >
+
+                                    <!-- <button type="button" id="button-a">Check the  minutes</button>
+                                    <button type="button" id="button-b">Check the  hours</button> -->
+                                </div>
                             </div>
                             <div class="col-md-3 col-xs-5">
                                 <!-- TIME PICKER -->
                                 <p>
                                     Hora Final
                                 </p>
-                                <input style="width:100%" class='p-xxs m-xs' type="text" [(ngModel)]="intervalos[intervaloIndex].horaFin" id="">
+                                <input #inputHoraFin id='input-horaFin'
+                                 style="width:100%" class='p-xxs m-xs claseHoraFin' type="text" [(ngModel)]="intervalos[intervaloIndex].horaFin"
+                                 (click)='horaFin(intervalo)'
+                                 >
                             </div>
                             <div class="col-md-1 col-xs-2 m-t-md ">
                                 <!-- VACIOOOO  -->
@@ -137,7 +148,7 @@
                                             display: inline;
                                             min-width: 30%;
                                         }
-                                        
+
                                         #divSelector {
                                             float: left;
                                             margin-right: 1%;
