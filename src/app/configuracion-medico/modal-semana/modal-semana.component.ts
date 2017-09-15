@@ -70,11 +70,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
   ngOnChanges(changes) {
     // changes.prop contains the old and the new value...
-    ////console.log("CAMBIE DE MEDICOOOOOOOOOOOOOOOOOOO");
     this.reiniciarConfiguracion();
-
-    // console.log("EL MEDICO DEL MODAL ES:");
-    // console.log(this.medico);
 
     if(!this.primeraVez){
       this.obrasSelector = [];
@@ -89,20 +85,16 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
       this.iniciarTurnosPorObras();
       this.iniciarIntervalos();
       this.obras = this.obrasDispTotales;
-      ////console.log("medicos obras");
-      ////console.log(this.medico.obras);
       this.actualizarSelector();
 
     }
   }
 
   ngAfterViewInit() {
-    //  console.log("AFTER VIEW");
     this.primeraVez = false;
     // this.actualizarCheckBoxs();
   }
   ngAfterViewChecked(){
-    // console.log('HOLA');
     this.iniciarSelectoresObras();
     this.actualizarCheckBoxs();
 
@@ -130,9 +122,6 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
   public iniciarTurnosPorObras(){
     if(this.medico.semanaEsquema){
-
-      // console.log("Turnos por obra");
-      // console.log(this.medico.semanaEsquema.obrasDisponibles);
       if(this.medico.semanaEsquema && this.medico.semanaEsquema.obrasDisponibles){
 
         this.turnosPorObra = this.medico.semanaEsquema.obrasDisponibles;
@@ -141,8 +130,6 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
         this.turnosPorObra = [];
       }
     }
-    // console.log("INTERVALOS");
-    // console.log(this.intervalos);
     if(this.turnosPorObra == undefined || this.turnosPorObra == null){
       this.agregarObra();
     }
@@ -167,31 +154,26 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
             diasArray[i].nativeElement.checked = true;
           }
           if(diaAux == 2){
-            // console.log(this.diasMartes[i]);
             diasArray = this.diasMartes.toArray();
             diasArray[i].nativeElement.checked = true;
             // this.diaMartes.nativeElement.checked = true;
           }
           if(diaAux == 3){
-            // console.log(this.diasMiercoles[i]);
             diasArray = this.diasMiercoles.toArray();
             diasArray[i].nativeElement.checked = true;
             // this.diaMiercoles.nativeElement.checked = true;
           }
           if(diaAux == 4){
-            // console.log(this.diasJueves[i]);
             diasArray = this.diasJueves.toArray();
             diasArray[i].nativeElement.checked = true;
             // this.diaJueves.nativeElement.checked = true;
           }
           if(diaAux == 5){
-            // console.log(this.diasViernes[i]);
             diasArray = this.diasViernes.toArray();
             diasArray[i].nativeElement.checked = true;
             // this.diaViernes.nativeElement.checked = true;
           }
           if(diaAux == 6){
-            // console.log(this.diasSabado[i]);
             diasArray = this.diasSabado.toArray();
             diasArray[i].nativeElement.checked = true;
             // this.diaSabado.nativeElement.checked = true;
@@ -235,20 +217,13 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     Este metodo INICIA CADA selector de obras, con el valor que tenia.
   */
   public iniciarSelectoresObras(){
-    // console.log('##$3###################################');
-    // console.log('Estoy actualizando las obras!!!');
 
     let yo = this;
     let selectoresAux :any[] = this.selectoresObras.toArray();
-    // console.log('Las obras');
-    // console.log(this.obras);
-
     for (let index = 0; index < this.turnosPorObra.length; index++) {
         let elem = this.turnosPorObra[index];
 
         for (let i = 0; i < yo.obras.length; i++) {
-          // console.log('------');
-          // console.log(elem);
           if(yo.obras[i]._id.toString() == elem.obraSocial.toString()){
 
             var aux = yo.obras[i]; //Este es el que tiene el id y el text
@@ -274,6 +249,49 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
       if(this.medico.semanaEsquema && this.medico.semanaEsquema.intervalos){
 
         this.intervalos = this.medico.semanaEsquema.intervalos;
+
+        /*
+          HoraInicialReal mantendra la hora + minutos convetidos a minutos.
+          HoraInical tendra un string con formato hh:mm para la visual.
+        */
+        this.intervalos.forEach(function(elem,index){
+
+          if(!elem.horaInicialReal){
+            elem.horaInicialReal = elem.horaInicial;
+
+            let horasAux = (Math.floor(elem.horaInicial / 60)).toString();
+            let minutosAux = (elem.horaInicial % 60).toString();
+
+            // Le debemos agregar un 0 antes por si es 1 minuto o 1 hora => 01
+            if(horasAux.length == 1){
+              horasAux = '0' + horasAux;
+            }
+            if(minutosAux.length == 1){
+              minutosAux = '0' + minutosAux;
+            }
+            // Asignamos el string creado
+            elem.horaInicial = horasAux +":"+ minutosAux;
+          }
+
+          if(!elem.horaFinReal){
+            elem.horaFinReal = elem.horaFin;
+
+            let horasAux = (Math.floor(elem.horaFin / 60)).toString();
+            let minutosAux = (elem.horaFin % 60).toString();
+
+            // Le debemos agregar un 0 antes por si es 1 minuto o 1 hora => 01
+            if(horasAux.length == 1){
+              horasAux = '0' + horasAux;
+            }
+            if(minutosAux.length == 1){
+              minutosAux = '0' + minutosAux;
+            }
+            // Asignamos el string creado
+            elem.horaFin = horasAux +":"+ minutosAux;
+          }
+
+        });
+        console.log('FIN FOR EACH');
       }else{
         this.intervalos = [];
       }
@@ -285,7 +303,8 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
       let inter = {
         dias : [],
         horaInicial: "",
-        horaFin: ""
+        horaFin: "",
+        horaInicialReal: ""
       };
       this.intervalos.push(inter);
     }
@@ -300,10 +319,6 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
   public actualizarSelector(){
     if(this.obras!=null){
-      ////console.log("Entre al actualizar selector");
-
-
-
       let yo = this;
       this.obras.forEach(function(elem,index){
         /*
@@ -322,16 +337,13 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
       });
       if(yo.obrasSelector.length > 0){
-        ////console.log('TRUE');
         this.actualizado = true;
-        ////console.log(this.selector);
       }
     }
   }
 
 
   public agregarPaciente(){
-    ////console.log('Entre a agregar Paciente');
     let obraId = this.obraSelected._id;
   }
 
@@ -391,21 +403,14 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
   private parsearObras(){
     let result = [];
-    // console.log("Entre a parsear obras");
-    // console.log(this.turnosPorObra);
     for (let i = 0; i < this.turnosPorObra.length; i++) {
       this.turnosPorObra[i];
       result[i] = {obraSocial: this.turnosPorObra[i].obraSocial, cantDisponible:this.turnosPorObra[i].cantDisponible}
     }
-
-    ////console.log(result);
     return result;
   }
 
   public guardarIntervalos(){
-
-    ////console.log(this.selector);
-    ////console.log(this.medico);
 
     this.closeFormConfigSemana.nativeElement.click();
     let yo = this;
@@ -419,6 +424,19 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
       confirmButtonText: 'Si, actualizar!',
       cancelButtonText: 'Cancelar'
     }).then(function() {
+
+      /*
+        HoraInicialReal tenia la hora + minutos convetidos a minutos.
+        HoraInical tenia un string con formato hh:mm para la visual.
+        Lo mismo sucede con HoraFin y HoraFinReal.
+
+        Ahora, para guardar en la base debemos intercambiar los valores (pues necesitamos guardarlo en minutos)
+      */
+
+      yo.intervalos.forEach(function(elem,index){
+          elem.horaInicial = elem.horaInicialReal;
+          elem.horaFin = elem.horaFinReal;
+      });
 
 
       let obras = yo.parsearObras();
@@ -456,44 +474,115 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     // this.agregarObra();
   }
 
+
+
+  // ***************************************************************************
+
+  // Metodos para obtener el horario del timePicker
   public horaInicial(intervalo){
-    console.log('Entre aca!!!');
-    console.log('intervalo');
-    console.log(intervalo);
-    let inputsHoraInicial = $('.claseHoraInicial');
-    console.log('inputsHoraInicial');
-    console.log(inputsHoraInicial);
-    inputsHoraInicial.clockpicker({
-      autoclose: true
+
+    /*
+      OBS: Se debe hacer al estilo de 'JQuery', pues el componente timepicker
+      maneja una variable interna que NO actualiza al modelo asociado al input.
+      Es decir, al seleccionar un valor con el timepicker,
+      el modelo no se esta actualizando por mas de que tenemos [(ngModel)]="intervalos[intervaloIndex].horaInicial
+    */
+
+    let indexIntervalo = -1;
+    this.intervalos.forEach(function(elem,index){
+      if(elem._id == intervalo._id){
+        indexIntervalo = index;
+      }
     });
 
-    // Manual operations
-    // $('#button-a').click(function(e){
-    //   // Have to stop propagation here
-    //   e.stopPropagation();
-    //   input.clockpicker('show')
-    //           .clockpicker('toggleView', 'minutes');
-    // });
-    // $('#button-b').click(function(e){
-    //   // Have to stop propagation here
-    //   e.stopPropagation();
-    //   input.clockpicker('show')
-    //           .clockpicker('toggleView', 'hours');
-    // });
+    let inputsHoraInicial = $('.claseHoraInicial');
+
+
+    inputsHoraInicial.clockpicker({
+      autoclose: true,
+      afterDone: function() {
+
+        /*
+
+          Debemos convertir el string que obtenemos con el timepicker, a minutos
+          para manejarlo en la base de datos. Asi, tendremos:
+
+          HoraInicialReal : la hora + minutos convetidos a minutos.
+          HoraInical : un string con formato hh:mm para la visual. [desactualizado, pues el timepicker maneja su variable local]
+
+        */
+
+        let nuevoValorString: String = (<any>inputsHoraInicial)[indexIntervalo].value;
+        let valores =  nuevoValorString.split(":");
+
+        let horas = parseInt(valores[0]);
+        let minutos = 0;
+        if(valores.length > 1){
+          minutos = parseInt(valores[1]);
+        }
+
+        let minutosDeHora = horas * 60;
+        let horaInicialMinutos = minutos + minutosDeHora;
+
+        intervalo.horaInicialReal = horaInicialMinutos;
+
+        // FIX : Debemos removerlo para que se reinicie el constructor de clockPicker
+        inputsHoraInicial.clockpicker('remove');
+      }
+    });
   }
   public horaFin(intervalo){
-    console.log('Entre aca!!!');
-    console.log('intervalo');
-    console.log(intervalo);
+
+    /*
+      OBS: Se debe hacer al estilo de 'JQuery', pues el componente timepicker
+      maneja una variable interna que NO actualiza al modelo asociado al input.
+      Es decir, al seleccionar un valor con el timepicker,
+      el modelo no se esta actualizando por mas de que tenemos [(ngModel)]="intervalos[intervaloIndex].horaInicial
+    */
+
+    let indexIntervalo = -1;
+    this.intervalos.forEach(function(elem,index){
+      if(elem._id == intervalo._id){
+        indexIntervalo = index;
+      }
+    });
+
     let inputsHoraFin = $('.claseHoraFin');
-    console.log('inputsHoraFin');
-    console.log(inputsHoraFin);
+
     inputsHoraFin.clockpicker({
-      autoclose: true
+      autoclose: true,
+      afterDone: function() {
+
+        /*
+
+          Debemos convertir el string que obtenemos con el timepicker, a minutos
+          para manejarlo en la base de datos. Asi, tendremos:
+
+          horaFinReal : la hora + minutos convetidos a minutos.
+          horaFin : un string con formato hh:mm para la visual. [desactualizado, pues el timepicker maneja su variable local]
+
+        */
+
+        let nuevoValorString: String = (<any>inputsHoraFin)[indexIntervalo].value;
+        let valores =  nuevoValorString.split(":");
+
+        let horas = parseInt(valores[0]);
+        let minutos = 0;
+        if(valores.length > 1){
+          minutos = parseInt(valores[1]);
+        }
+
+        let minutosDeHora = horas * 60;
+        let horaFinMinutos = minutos + minutosDeHora;
+
+
+        intervalo.horaFinReal = horaFinMinutos;
+
+        // FIX : Debemos removerlo para que se reinicie el constructor de clockPicker
+        inputsHoraFin.clockpicker('remove');
+      }
     });
   }
-
-
 
 
 
@@ -509,19 +598,14 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     this.disabled = this._disabledV === '1';
   }
   public selected(value:any,pos:number):void {
-    // console.log('Selected value is: ', value);
-    // console.log("Seleccionado",pos);
     this.turnosPorObra[pos].obraSocial = value.id;
-    // console.log(this.turnosPorObra[pos]);
 
   }
 
   public removed(value:any):void {
-    ////console.log('Removed value is: ', value);
   }
 
   public typed(value:any):void {
-    ////console.log('New search input: ', value);
   }
 
   public refreshValue(value:any):void {
