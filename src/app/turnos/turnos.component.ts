@@ -52,6 +52,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription;
 
+  private cargandoTurnos: boolean = true;
+
   constructor(
     route: ActivatedRoute,
     private turnosService: TurnosService,
@@ -525,6 +527,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.turnosSocketService.turnos$.subscribe((turnos: Turno[]) => {
+      this.cargandoTurnos = false;
       this.turnos = turnos;
       this.ref.markForCheck();
     }, (err) => {
