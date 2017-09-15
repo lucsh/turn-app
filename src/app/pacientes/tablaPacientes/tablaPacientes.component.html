@@ -65,21 +65,21 @@
   </ng-container>
 
   <!-- Acciones  -->
-  <ng-container mdColumnDef="acciones">
+  <!-- <ng-container mdColumnDef="acciones">
     <md-header-cell *mdHeaderCellDef> Acciones </md-header-cell>
     <md-cell *mdCellDef="let row">
 
-      <button (click)="editar(row)"  class="btn btn-info">Editar</button>
+
       <button *ngIf="!row.sancion" (click)="sancionar(row)" class="btn btn-warning">Sancionar</button>
       <button *ngIf="row.sancion" (click)="habilitar(row)" class="btn btn-primary">Habilitar</button>
       <button (click)="eliminar(row)" class="btn btn-danger">Eliminar</button>
 
     </md-cell>
-  </ng-container>
+  </ng-container> -->
 
 
   <md-header-row  *mdHeaderRowDef="displayedColumns"></md-header-row>
-  <md-row [ngClass]="{'isSpecial':  row._id == seleccionado._id}" *mdRowDef="let row; columns: displayedColumns;" (click)="rowClick(row)"></md-row>
+  <md-row (click)="editar(row)" [ngClass]="{'isSpecial':  row._id == seleccionado._id}" *mdRowDef="let row; columns: displayedColumns;" (click)="rowClick(row)"></md-row>
 
 </md-table>
 
@@ -101,6 +101,7 @@ No se encuentran trabajos que coincidan con la búsqueda!
 <editar-paciente *ngIf = 'seleccionado._id'
   [paciente]='seleccionado'
   (pacienteEditado)='onPacienteEditado($event)'
+  (pacienteEliminado)='onPacienteEliminado($event)'
 ></editar-paciente>
 <agregar-paciente
   (pacienteAgregado)='onPacienteAgregado($event)'
