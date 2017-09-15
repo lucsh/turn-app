@@ -83,16 +83,21 @@ export class TurnoSocketService {
         this.turnos$ = new Observable((observer) => {
             this.turnosObserver = observer;
         });
-
+        console.log("ANTES DE CARGAR");
         this.dataStore = { turnos: [] };
+        var thisLocal = this;
+        setTimeout(function() {
+            
+            thisLocal.autenticar().then((param)=>{
+              // console.log("PARAMS");
+              // console.log(param);
+              thisLocal.find();
 
-        this.autenticar().then((param)=>{
-          // console.log("PARAMS");
-          // console.log(param);
-          this.find();
 
+            });
 
-        });
+        }, 4000);
+        
 
         //Quizas este no iria aca
         return true;

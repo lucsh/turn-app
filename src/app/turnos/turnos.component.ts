@@ -38,6 +38,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
   url: string;
   idDoctor: string;
+  doctorSeleccionado: Medico;
 
   doctores: Medico[];
   turnos: Turno[];
@@ -51,6 +52,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
   private cambio: boolean = false;
 
   private subscription: Subscription;
+
+  private cargandoTurnos: boolean = true;
 
   constructor(
     route: ActivatedRoute,
@@ -126,8 +129,15 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
   loadCalendar(idDoctor: string){
 
-    ////console.log('LLEGUE A LOAD CALENDAR');
+    //console.log('LLEGUE A LOAD CALENDAR');
+    
     ////console.log(matricula);
+    console.log(this.doctores);
+    this.setDoctorSeleccionado(idDoctor);
+
+
+    //VARIABLE PARA EL LOADING
+    this.cargandoTurnos = true;
 
     var yo = this;
     $('#calendar')
@@ -466,6 +476,9 @@ export class TurnosComponent implements OnInit, OnDestroy {
     // calendario.fullCalendar( 'destroy' );
     let yo = this;
 
+    this.setDoctorSeleccionado(idDoctor);
+
+
     this.pacientesService.getPacientes().then(pacientes => {
 
       yo.pacientes = pacientes;
@@ -524,7 +537,9 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+    this.cargandoTurnos = true;
     this.subscription = this.turnosSocketService.turnos$.subscribe((turnos: Turno[]) => {
+      this.cargandoTurnos = false;
       this.turnos = turnos;
       this.ref.markForCheck();
     }, (err) => {
@@ -542,10 +557,24 @@ export class TurnosComponent implements OnInit, OnDestroy {
       // ////console.log(pacientes);
       yo.getAllDoctores();
 
+      
 
     }).catch(err =>  console.log(err))
     //alert(this.url);
 
+  }
+
+  setDoctorSeleccionado(idDoctor) {
+    //Seteo el doctor seleccionado
+    if(this.doctores != undefined){
+      var thisLocal = this;
+      this.doctores.forEach(function(elem,index){
+        if(elem._id == idDoctor){
+           thisLocal.doctorSeleccionado = elem;
+           console.log(thisLocal.doctorSeleccionado);
+        }
+      });
+    }
   }
 
   ngOnDestroy() {
