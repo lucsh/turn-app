@@ -530,6 +530,9 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
         inputsHoraInicial.clockpicker('remove');
       }
     });
+
+    // Obligamos a que la cada vez que se toque se abra
+    inputsHoraInicial.clockpicker('show');
   }
   public horaFin(intervalo){
 
@@ -582,6 +585,9 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
         inputsHoraFin.clockpicker('remove');
       }
     });
+
+    // Obligamos a que la cada vez que se toque se abra
+    inputsHoraFin.clockpicker('show');
   }
 
 
