@@ -15,7 +15,8 @@ export class EditarObraComponent implements OnInit, OnChanges{
 
   // @Input() fechaNuevoTurno: any;
   @Input() obra: any;
-  @Output() obraEditado = new EventEmitter();
+  @Output() obraEditada = new EventEmitter();
+  @Output() obraEliminada = new EventEmitter();
 
   @ViewChild('closeFormEditarObra') closeFormEditarObra: ElementRef;
 
@@ -63,7 +64,7 @@ export class EditarObraComponent implements OnInit, OnChanges{
 
     this.obrasService.actualizarObra(this.modeloObra._id, this.modeloObra)
     .then(obraEdit => {
-      this.obraEditado.next(obraEdit);
+      this.obraEditada.next(obraEdit);
 
 
       //Cerramos el modal y limpiamos variables
@@ -85,6 +86,33 @@ export class EditarObraComponent implements OnInit, OnChanges{
     //Cerramos el modal
     // this.obraSelected = null;
     this.closeFormEditarObra.nativeElement.click();
+  }
+
+  eliminar(obra){
+    let yo = this;
+    swal({
+      title: '¿Estas seguro que queres eliminar a la obra social?',
+      //text: "No seras capaz de revertir esta accion!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Eliminar!',
+      cancelButtonText: 'Cancelar',
+    }).then(function () {
+      yo.obrasService.eliminarObra(obra._id).then(obraEliminada => {
+        // ////console.log("Paciente eliminado");
+        // ////console.log(pac);
+        yo.obraEliminada.next(obraEliminada);
+
+
+        //Cerramos el modal y limpiamos variables
+        // this.modeloPaciente = null;
+        // this.obraSelected = null;
+        yo.closeFormEditarObra.nativeElement.click();
+
+      }).catch(err => console.error(err))
+    }).catch(swal.noop);
   }
 
 
