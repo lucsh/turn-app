@@ -256,7 +256,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
         */
         this.intervalos.forEach(function(elem,index){
 
-          if(!elem.horaInicialReal){
+          if(!elem.horaInicialReal && (elem.horaInicialReal != 0)){
             elem.horaInicialReal = elem.horaInicial;
 
             let horasAux = (Math.floor(elem.horaInicial / 60)).toString();
@@ -273,7 +273,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
             elem.horaInicial = horasAux +":"+ minutosAux;
           }
 
-          if(!elem.horaFinReal){
+          if(!elem.horaFinReal && (elem.horaFinReal != 0)){
             elem.horaFinReal = elem.horaFin;
 
             let horasAux = (Math.floor(elem.horaFin / 60)).toString();
