@@ -8,6 +8,8 @@ import { ObrasService } from '../../obras/obras.service';
 
 import {default as swal} from 'sweetalert2';
 
+import {IMyDpOptions} from 'mydatepicker';
+
 @Component({
   selector: 'editar-paciente',
   templateUrl: './editarPaciente.html',
@@ -27,6 +29,8 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
 
   public modeloPaciente = null;
 
+  public fechaNacimiento: any = null;
+
   constructor(
     private pacientesService: PacientesService,
     private obrasService: ObrasService
@@ -34,9 +38,23 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
     this.modeloPaciente = new Paciente();
   }
 
+  //Configuraciones del DatePicker
+  private myDatePickerOptions: IMyDpOptions = {
+      todayBtnTxt: 'Hoy',
+      openSelectorOnInputClick: true,
+      editableDateField: false,
+      dateFormat: 'dd/mm/yyyy',
+      dayLabels: {su: 'Dom', mo: 'Lun', tu: 'Mar', we: 'Mie', th: 'Jue', fr: 'Vie', sa: 'Sab'},
+      monthLabels: { 1: 'Ene', 2: 'Feb', 3: 'Mar', 4: 'Abr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Ago', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dic' }
+  };
+
   /*
   */
   ngOnInit() {
+    //Seteo la fecha de necimiento al datepicker
+    let fechaParcial = new Date(this.paciente.fechaNacimiento);
+    this.fechaNacimiento = { date: { year: fechaParcial.getFullYear(), month: fechaParcial.getMonth()+ 1, day: fechaParcial.getDate() } };
+
     this.obrasService.getObras().then(
       obras =>{
         console.log('Tengo las obras!!');
@@ -88,7 +106,7 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
     if(this.obraSelected){
       this.modeloPaciente.obra = this.obraSelected._id;
     }
-
+    this.modeloPaciente.fechaNacimiento = this.fechaNacimiento.jsdate;
     this.pacientesService.actualizarPaciente(this.modeloPaciente._id, this.modeloPaciente)
     .then(pacienteEdit => {
       // console.log("VUELTA DEL PACIENTE");

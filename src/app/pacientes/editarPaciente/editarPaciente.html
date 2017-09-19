@@ -49,8 +49,8 @@
 
         <div class="form-group">
           <label>Fecha de Nacimiento</label>
-          <div class="input-group">
-            <input  [(ngModel)]='modeloPaciente.fechaNacimiento'  #nacimientoPaciente type="text" class="form-control">
+          <div class="input-group col-sm-5">
+            <my-date-picker name="fechaPaciente" [options]="myDatePickerOptions" [(ngModel)]="fechaNacimiento" ></my-date-picker>
           </div>
         </div>
 
