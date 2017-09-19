@@ -69,6 +69,12 @@ export class TablaPacientesComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(window.screen.width);
+    if(window.screen.width > 1000){
+      this.displayedColumns = ['dni', 'email', 'nombre', 'apellido','telefono'];
+    }else{
+      this.displayedColumns = ['dni', 'nombre', 'apellido','telefono'];
+    }
 
 
     this.seleccionado = {
