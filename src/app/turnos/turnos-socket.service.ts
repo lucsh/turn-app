@@ -86,18 +86,14 @@ export class TurnoSocketService {
         console.log("ANTES DE CARGAR");
         this.dataStore = { turnos: [] };
         var thisLocal = this;
-        setTimeout(function() {
-            
-            thisLocal.autenticar().then((param)=>{
-              // console.log("PARAMS");
-              // console.log(param);
-              thisLocal.find();
+
+        thisLocal.autenticar().then((param)=>{
+          // console.log("PARAMS");
+          // console.log(param);
+          thisLocal.find();
 
 
-            });
-
-        }, 4000);
-        
+        });
 
         //Quizas este no iria aca
         return true;

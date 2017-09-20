@@ -70,7 +70,7 @@ export class SolicitudesComponent implements OnInit, OnDestroy  {
 
         this.solicitudesService.aprobarSolicitud(pacienteEnSolicitud);
         this.solicitudAbierta = null;
-
+        this.cantidadSolicitudes = this.cantidadSolicitudes - 1;
         //Cerramos el modal
         this.closeFormSolicitud.nativeElement.click();
     }
@@ -80,7 +80,7 @@ export class SolicitudesComponent implements OnInit, OnDestroy  {
 
         this.solicitudesService.rechazarSolicitud(pacienteEnSolicitud);
         this.solicitudAbierta = null;
-
+        this.cantidadSolicitudes = this.cantidadSolicitudes - 1;
         //Cerramos el modal
         this.closeFormSolicitud.nativeElement.click();
     }
