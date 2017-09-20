@@ -15,7 +15,7 @@
           <div (click)="abrirSolicitud(solicitud)">
           <!-- <div data-dismiss="modal" data-toggle="modal" data-target="#formularioSolicitud"> -->
             <small class="pull-right text-navy">hace {{aDate(solicitud?.createdAt) | amTimeAgo:true }}</small>
-            <strong>{{solicitud.nombre}}</strong>
+            <strong>{{solicitud.nombre}} {{solicitud.apellido}}</strong>
             <div>DNI: {{solicitud.dni}}</div>
             <small class="text-muted">{{solicitud.createdAt | amDateFormat:'DD-mm HH:mm'}}</small>
           </div>
