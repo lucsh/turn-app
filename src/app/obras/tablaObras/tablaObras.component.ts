@@ -24,6 +24,9 @@ import {MdPaginator} from '@angular/material';
 import { ObrasService } from '../obras.service';
 import { Obra } from '../obra.tipo';
 
+import { ObrasCompartidasService } from '../../routerService/obras.sistema';
+import { Subscription } from 'rxjs/Subscription';
+
 //
 import {default as swal} from 'sweetalert2';
 declare var $: any;
@@ -47,8 +50,8 @@ export class TablaObrasComponent implements OnInit {
     'id' : ''
   };
 
-  constructor(private obrasService: ObrasService){
-    this.exampleDatabase = new ExampleDatabase(obrasService);
+  constructor(private obrasService: ObrasService, private obrasCompartidasService: ObrasCompartidasService){
+    this.exampleDatabase = new ExampleDatabase(obrasService, obrasCompartidasService);
   }
 
   @ViewChild('filter') filter: ElementRef;
@@ -148,14 +151,30 @@ export class TablaObrasComponent implements OnInit {
     /** Stream that emits whenever the data has been modified. */
     dataChange: BehaviorSubject<Obra[]> = new BehaviorSubject<Obra[]>([]);
     get data(): Obra[] { return this.dataChange.value; }
+    private obrasSubscription: Subscription;
 
+    constructor(private obrasService: ObrasService, private obrasCompartidasService: ObrasCompartidasService) {
+      this.observarObras();
+    }
 
-    constructor(private obrasService: ObrasService) {
-      this.obrasService.getObras().then(
-        obras =>{
+    observarObras(){
+      /*
+        Subscribimos a los obras, para que tengan una correspondencia
+        con los obras del navigator
+      */
+      if(this.obrasCompartidasService.obras$){
+        this.obrasSubscription = this.obrasCompartidasService.obras$.subscribe((obras) => {
+
           this.setObras(obras);
-        }
-      ).catch(err => {console.log(err)})
+          // this.ref.markForCheck();
+        }, (err) => {
+          console.log('Error en observarObras de tablaObras');
+          console.error(err);
+        });
+
+        // Obtenemos los pacientes compartidos
+        this.obrasCompartidasService.getObras();
+      }
     }
 
 
@@ -170,39 +189,47 @@ export class TablaObrasComponent implements OnInit {
 
 
     addObra(obra) {
-      const copiedData = this.data.slice();
-      copiedData.push(obra);
-      this.dataChange.next(copiedData);
+
+      this.obrasCompartidasService.addObra(obra);
+
+      // const copiedData = this.data.slice();
+      // copiedData.push(obra);
+      // this.dataChange.next(copiedData);
     }
 
     editObra(obraEditada){
-      let encontrado = -1;
-      const copiedData = this.data.slice();
+      this.obrasCompartidasService.updateObra(obraEditada);
 
-      copiedData.forEach(function(elem, index){
-        if(elem._id === obraEditada._id){
-          encontrado = index;
-        }
-      });
-      if(encontrado >= 0){
-        copiedData[encontrado] = Object.assign({}, obraEditada);
-        this.dataChange.next(copiedData);
-      }
+      // let encontrado = -1;
+      // const copiedData = this.data.slice();
+      //
+      // copiedData.forEach(function(elem, index){
+      //   if(elem._id === obraEditada._id){
+      //     encontrado = index;
+      //   }
+      // });
+      // if(encontrado >= 0){
+      //   copiedData[encontrado] = Object.assign({}, obraEditada);
+      //   this.dataChange.next(copiedData);
+      // }
     }
 
     removeObra(obra){
-      const copiedData = this.data.slice();
 
-      let indice = -1;
-      copiedData.forEach(function(elem,index){
-        if(elem._id == obra._id){
-          indice = index;
-        }
-      });
-      if (indice > -1) {
-        copiedData.splice(indice, 1);
-        this.dataChange.next(copiedData);
-      }
+      this.obrasCompartidasService.deleteObra(obra);
+
+      // const copiedData = this.data.slice();
+      //
+      // let indice = -1;
+      // copiedData.forEach(function(elem,index){
+      //   if(elem._id == obra._id){
+      //     indice = index;
+      //   }
+      // });
+      // if (indice > -1) {
+      //   copiedData.splice(indice, 1);
+      //   this.dataChange.next(copiedData);
+      // }
     }
 
 

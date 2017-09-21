@@ -7,6 +7,7 @@ import { Medico } from '../medico/medico.tipo';
 
 import { Obra } from '../obras/obra.tipo';
 import { ObrasService } from '../obras/obras.service';
+import { ObrasCompartidasService } from '../routerService/obras.sistema';
 
 import {default as swal} from 'sweetalert2';
 declare var $: any;
@@ -14,7 +15,7 @@ declare var $: any;
 
 import { Select2OptionData } from 'ng2-select2';
 
-import { NodeService } from '../routerService/medicos.sistema';
+import { MedicosCompartidosService } from '../routerService/medicos.sistema';
 import { Subscription } from 'rxjs/Subscription';
 
 
@@ -52,9 +53,11 @@ export class ConfiguracionMedicoComponent implements OnInit {
   public value: any[] = [];
   public current: string;
   private subscription: Subscription;
+  private obrasSubscription: Subscription;
   constructor(
     route: ActivatedRoute,
-    private medicosCompartidos: NodeService,
+    private medicosCompartidos: MedicosCompartidosService,
+    private obrasCompartidas: ObrasCompartidasService,
     private http: Http, private configuracionMedicoService: ConfiguracionMedicoService, private obraService: ObrasService) {
       this.modeloMedico = {
         nombre: '',
@@ -62,20 +65,7 @@ export class ConfiguracionMedicoComponent implements OnInit {
         duracion: 0
       }
 
-      /*
-        Subscribimos a los medicos, para que tengan una correspondencia
-        con los medicos del navigator
-      */
-      if(this.medicosCompartidos.medicos$){
-        this.subscription = this.medicosCompartidos.medicos$.subscribe((medicos) => {
-
-          console.log('ENTRE A LA SUBSCRIPCION desde configuracion medico');
-          this.medicos = medicos;
-          // this.ref.markForCheck();
-        }, (err) => {
-          console.error(err);
-        });
-      }
+      this.observarMedicos();
 
       /*
         Vemos si el usuario logueado es un DOCTOR => no tenemos que buscar todo
@@ -106,6 +96,44 @@ export class ConfiguracionMedicoComponent implements OnInit {
       this.formDatosBasicos = $('#formDatosBasicos');
     }
 
+    observarMedicos(){
+      /*
+        Subscribimos a los medicos, para que tengan una correspondencia
+        con los medicos del navigator
+      */
+      if(this.medicosCompartidos.medicos$){
+        this.subscription = this.medicosCompartidos.medicos$.subscribe((medicos) => {
+
+          console.log('ENTRE A LA SUBSCRIPCION desde configuracion medico');
+          this.medicos = medicos;
+          // this.ref.markForCheck();
+        }, (err) => {
+          console.error(err);
+        });
+      }
+    }
+
+    observarObras(){
+      /*
+        Subscribimos a los obras, para que tengan una correspondencia
+        con los obras del navigator
+      */
+      if(this.obrasCompartidas.obras$){
+        this.obrasSubscription = this.obrasCompartidas.obras$.subscribe((obras) => {
+
+            this.obras = obras;
+            this.actualizarSelector();
+          // this.ref.markForCheck();
+        }, (err) => {
+          console.log('Error en observarObras de tablaObras');
+          console.error(err);
+        });
+
+        // Obtenemos los pacientes compartidos
+        this.obrasCompartidas.getObras();
+      }
+    }
+
     submitForm(form){
       console.log('ESTE ES EL FORM');
       console.log(form);
@@ -119,12 +147,15 @@ export class ConfiguracionMedicoComponent implements OnInit {
       }
 
       let yo = this;
-      this.obraService.getObras().then(obras => {
-        this.obras = obras;
-        yo.actualizarSelector();
 
+      this.observarObras();
 
-      }).catch(error => {console.log(error)})
+      // this.obraService.getObras().then(obras => {
+      //   this.obras = obras;
+      //   yo.actualizarSelector();
+      //
+      //
+      // }).catch(error => {console.log(error)})
     }
 
     public actualizarSelector(){

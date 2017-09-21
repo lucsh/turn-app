@@ -32,7 +32,7 @@ export class ObrasComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllObras();
+    // this.getAllObras();
   }
 
   /* Este metodo se encarga de reiniciar el formulario, asi evita errores en las validaciones que quedan guardads.*/

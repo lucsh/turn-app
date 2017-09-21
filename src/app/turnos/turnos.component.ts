@@ -16,12 +16,12 @@ import { MedicosService } from '../medico/medicos.service';
 import * as moment from 'moment';
 
 
-
 import { Medico } from '../medico/medico.tipo';
 import { Turno } from './turno.tipo';
 import { TurnoSocketService } from './turnos-socket.service';
 import { PacientesService } from '../pacientes/pacientes.service';
 
+import { PacientesCompartidosService } from '../routerService/pacientes.sistema';
 import { Subscription } from 'rxjs/Subscription';
 import {default as swal} from 'sweetalert2';
 //Declaramos esta variable para hacer uso de Jquery con los modals de Boostrap
@@ -52,6 +52,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
   private cambio: boolean = false;
 
   private subscription: Subscription;
+  private pacientesSubscription: Subscription;
 
   private cargandoTurnos: boolean = true;
 
@@ -61,6 +62,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
     private doctoresService: MedicosService,
     private pacientesService: PacientesService,
     private turnosSocketService : TurnoSocketService,
+    private pacientesCompartidosService : PacientesCompartidosService,
     private router: Router,
     private ref: ChangeDetectorRef
   ) {
@@ -121,6 +123,26 @@ export class TurnosComponent implements OnInit, OnDestroy {
     });
   }
 
+  observarPacientes(){
+    /*
+      Subscribimos a los pacientes, para que tengan una correspondencia
+      con los pacientes del navigator
+    */
+    if(this.pacientesCompartidosService.pacientes$){
+      this.subscription = this.pacientesCompartidosService.pacientes$.subscribe((pacientes) => {
+
+        this.pacientes = pacientes;
+        // this.ref.markForCheck();
+      }, (err) => {
+        console.log('Error en observarPacientes de tablaPacientes');
+        console.error(err);
+      });
+
+      // Obtenemos los pacientes compartidos
+      this.pacientesCompartidosService.getPacientes();
+    }
+  }
+
   iniciarServicio(){
     ////console.log('*******************************************');
     ////console.log('Entre a INICIAR SERVICIO de TURNO COMPONENT');
@@ -129,12 +151,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
   loadCalendar(idDoctor: string){
 
-    //console.log('LLEGUE A LOAD CALENDAR');
-    
-    ////console.log(matricula);
-    console.log(this.doctores);
     this.setDoctorSeleccionado(idDoctor);
-
 
     //VARIABLE PARA EL LOADING
     this.cargandoTurnos = true;
@@ -549,18 +566,14 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
     let yo = this;
 
-    this.pacientesService.getPacientes().then(pacientes => {
+    // this.observarPacientes();
+    this.getAllDoctores();
+
+    this.pacientesService.getPacientesActivos().then(pacientes => {
 
       yo.pacientes = pacientes;
 
-      // ////console.log('pacientes');
-      // ////console.log(pacientes);
-      yo.getAllDoctores();
-
-      
-
     }).catch(err =>  console.log(err))
-    //alert(this.url);
 
   }
 

@@ -38,7 +38,7 @@ export class PacientesComponent implements OnInit {
       //         }, 1000);
       //     });
       // this.getAllPacientes();
-      this.getAllPacientesActivados();
+      // this.getAllPacientesActivados();
   }
 
   public toInt(num: string) {

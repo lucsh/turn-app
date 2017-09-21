@@ -19,14 +19,11 @@ import { Subject }           from 'rxjs/Subject';
 
 import * as Rx from 'rxjs';
 @Injectable()
-export class NodeService {
+export class MedicosCompartidosService {
 
   private medicos: any[];
   public observer: Observer<any[]>;
   medicos$: Observable<any[]>;
-
-  // public medicos$: Observable<any[]>;
-  // public medicos$: Observable<Medico[]>;
 
   constructor(
     private medicosService: MedicosService
@@ -57,6 +54,13 @@ export class NodeService {
     this.getMedicos();
     // this.medicos$ = this.medicos.asObservable();
 
+  }
+
+  public addMedico(medico){
+    if(medico){
+      this.medicos.push(medico);
+      this.observer.next(this.medicos);
+    }
   }
 
   public getMedicos(){

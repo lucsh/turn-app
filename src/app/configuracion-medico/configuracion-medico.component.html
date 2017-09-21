@@ -159,4 +159,6 @@
 (semenaCambiada)='onIntervalosGuardados($event)'
 ></app-modal-semana>
 
-<agregar-medico></agregar-medico>
+<agregar-medico  *ngIf="obras && obras.length > 0" 
+[obras]='obras'
+></agregar-medico>

@@ -16,11 +16,12 @@ export class AgregarMedicoComponent implements OnInit, OnChanges{
 
   // @Input() fechaNuevoTurno: any;
   // @Input() pacientes: Array<any>;
+  @Input() obras: Obra[];
   @Output() medicoAgregado = new EventEmitter();
 
   @ViewChild('closeFormAgregarMedico') closeFormAgregarMedico: ElementRef;
 
-  private obras: Obra[];
+  // private obras: Obra[];
   private obrasSelected: Obra[] = null;
 
   //Para el selector de obras
@@ -40,12 +41,13 @@ export class AgregarMedicoComponent implements OnInit, OnChanges{
   /*
   */
   ngOnInit() {
-    this.obrasService.getObras().then(
-      obras =>{
-        this.obras = obras;
-        this.actualizarSelector();
-      }
-    ).catch(error=>{console.log(error)})
+    this.actualizarSelector();
+    // this.obrasService.getObras().then(
+    //   obras =>{
+    //     this.obras = obras;
+    //     this.actualizarSelector();
+    //   }
+    // ).catch(error=>{console.log(error)})
   }
 
   /*

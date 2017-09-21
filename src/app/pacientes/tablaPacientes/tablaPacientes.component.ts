@@ -20,6 +20,8 @@ import {MdSort} from '@angular/material';
 //Para paginar la tabla
 import {MdPaginator} from '@angular/material';
 
+import { PacientesCompartidosService } from '../../routerService/pacientes.sistema';
+import { Subscription } from 'rxjs/Subscription';
 
 import { PacientesService } from '../pacientes.service';
 import { Paciente } from '../paciente.tipo';
@@ -46,9 +48,9 @@ export class TablaPacientesComponent implements OnInit {
   seleccionado = {
     'id' : ''
   };
-
-  constructor(private pacientesService: PacientesService){
-    this.exampleDatabase = new ExampleDatabase(pacientesService);
+  private subscription: Subscription;
+  constructor(private pacientesService: PacientesService, private pacientesCompartidosService: PacientesCompartidosService){
+    this.exampleDatabase = new ExampleDatabase(pacientesService, pacientesCompartidosService);
   }
 
   @ViewChild('filter') filter: ElementRef;
@@ -69,6 +71,7 @@ export class TablaPacientesComponent implements OnInit {
   }
 
   ngOnInit() {
+
 
 
     this.seleccionado = {
@@ -93,15 +96,6 @@ export class TablaPacientesComponent implements OnInit {
 
           let valorFiltro = this.filter.nativeElement.value;
 
-          //Si empieza con 0, debemos quitarselo
-          // if(valorFiltro){
-          //   // console.log(valorFiltro[0]);
-          //   if(valorFiltro[0] == '0'){
-          //     valorFiltro = valorFiltro.slice(1);
-          //     console.log(valorFiltro);
-          //   }
-          // }
-
           if(this.dataSource.filter){
             // console.log('Tengo Filtro!')
           }
@@ -109,13 +103,6 @@ export class TablaPacientesComponent implements OnInit {
         }
       });
     }
-
-    // formAgregarPaciente(){
-    //   setTimeout(()=> {
-    //     $('#formAgregarPaciente').modal('show');
-    //   },
-    //   200);
-    // }
 
     onPacienteAgregado(paciente){
       this.exampleDatabase.addPaciente(paciente);
@@ -175,14 +162,36 @@ export class TablaPacientesComponent implements OnInit {
     /** Stream that emits whenever the data has been modified. */
     dataChange: BehaviorSubject<Paciente[]> = new BehaviorSubject<Paciente[]>([]);
     get data(): Paciente[] { return this.dataChange.value; }
+    private subscription: Subscription;
 
+    constructor(private pacientesService: PacientesService, private pacientesCompartidosService: PacientesCompartidosService) {
 
-    constructor(private pacientesService: PacientesService) {
-      this.pacientesService.getPacientesActivos().then(
-        pacientes =>{
+      this.observarPacientes();
+      // this.pacientesService.getPacientesActivos().then(
+      //   pacientes =>{
+      //     this.setPacientes(pacientes);
+      //   }
+      // ).catch(err => {console.log(err)})
+    }
+
+    observarPacientes(){
+      /*
+        Subscribimos a los pacientes, para que tengan una correspondencia
+        con los pacientes del navigator
+      */
+      if(this.pacientesCompartidosService.pacientes$){
+        this.subscription = this.pacientesCompartidosService.pacientes$.subscribe((pacientes) => {
+
           this.setPacientes(pacientes);
-        }
-      ).catch(err => {console.log(err)})
+          // this.ref.markForCheck();
+        }, (err) => {
+          console.log('Error en observarPacientes de tablaPacientes');
+          console.error(err);
+        });
+
+        // Obtenemos los pacientes compartidos
+        this.pacientesCompartidosService.getPacientes();
+      }
     }
 
 
@@ -198,23 +207,27 @@ export class TablaPacientesComponent implements OnInit {
 
     addPaciente(paciente) {
       const copiedData = this.data.slice();
-      copiedData.push(paciente);
-      this.dataChange.next(copiedData);
+
+      this.pacientesCompartidosService.addPaciente(paciente);
+
+      // copiedData.push(paciente);
+      // this.dataChange.next(copiedData);
     }
 
     editPaciente(pacienteEditado){
-      let encontrado = -1;
-      const copiedData = this.data.slice();
-
-      copiedData.forEach(function(elem, index){
-        if(elem._id === pacienteEditado._id){
-          encontrado = index;
-        }
-      });
-      if(encontrado >= 0){
-        copiedData[encontrado] = Object.assign({}, pacienteEditado);
-        this.dataChange.next(copiedData);
-      }
+        this.pacientesCompartidosService.updatePaciente(pacienteEditado);
+      // let encontrado = -1;
+      // const copiedData = this.data.slice();
+      //
+      // copiedData.forEach(function(elem, index){
+      //   if(elem._id === pacienteEditado._id){
+      //     encontrado = index;
+      //   }
+      // });
+      // if(encontrado >= 0){
+      //   copiedData[encontrado] = Object.assign({}, pacienteEditado);
+      //   this.dataChange.next(copiedData);
+      // }
     }
 
     removePaciente(paciente){

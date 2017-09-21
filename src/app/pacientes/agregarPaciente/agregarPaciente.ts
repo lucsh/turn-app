@@ -6,6 +6,10 @@ import { PacientesService } from '../pacientes.service';
 import { Obra } from '../../obras/obra.tipo';
 import { ObrasService } from '../../obras/obras.service';
 
+import { ObrasCompartidasService } from '../../routerService/obras.sistema';
+import { Subscription } from 'rxjs/Subscription';
+
+
 import {default as swal} from 'sweetalert2';
 import { NgForm } from '@angular/forms';
 
@@ -30,6 +34,8 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
   public pacienteNuevo: Paciente;
   public fechaNacimiento: any = null;
 
+  private obrasSubscription: Subscription;
+
   //Configuraciones del DatePicker
   private myDatePickerOptions: IMyDpOptions = {
       todayBtnTxt: 'Hoy',
@@ -42,6 +48,7 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
 
   constructor(
     private pacientesService: PacientesService,
+    private obrasCompartidasService: ObrasCompartidasService,
     private obrasService: ObrasService
   ){
     this.pacienteNuevo = new Paciente();
@@ -50,12 +57,33 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
   /*
   */
   ngOnInit() {
-    this.obrasService.getObras().then(
-      obras =>{
+    this.observarObras();
+    // this.obrasService.getObras().then(
+    //   obras =>{
+    //     this.obras = obras;
+    //     // this.pacienteNuevo = new Paciente();
+    //   }
+    // ).catch(error=>{console.log(error)})
+  }
+
+  observarObras(){
+    /*
+      Subscribimos a los obras, para que tengan una correspondencia
+      con los obras del navigator
+    */
+    if(this.obrasCompartidasService.obras$){
+      this.obrasSubscription = this.obrasCompartidasService.obras$.subscribe((obras) => {
+
         this.obras = obras;
-        // this.pacienteNuevo = new Paciente();
-      }
-    ).catch(error=>{console.log(error)})
+        // this.ref.markForCheck();
+      }, (err) => {
+        console.log('Error en observarObras de agregarPaciente');
+        console.error(err);
+      });
+
+      // Obtenemos los pacientes compartidos
+      this.obrasCompartidasService.getObras();
+    }
   }
 
   /*

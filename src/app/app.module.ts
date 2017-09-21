@@ -111,7 +111,9 @@ import { AgePipe } from './pacientes/edad.pipe';
 
 import { AgregarMedicoComponent } from './medico/agregarMedico/agregarMedico';
 
-import { NodeService } from './routerService/medicos.sistema';
+import { MedicosCompartidosService } from './routerService/medicos.sistema';
+import { PacientesCompartidosService } from './routerService/pacientes.sistema';
+import { ObrasCompartidasService } from './routerService/obras.sistema';
 
 import { TablaPacientesComponent } from './pacientes/tablaPacientes/tablaPacientes.component';
 
@@ -205,6 +207,7 @@ import { TablaObrasComponent } from './obras/tablaObras/tablaObras.component';
   providers: [
     DashboardService,
     TurnosService,
+    PacientesService,
     MedicosService,
     NavigationService,
     TurnoSocketService,
@@ -216,7 +219,9 @@ import { TablaObrasComponent } from './obras/tablaObras/tablaObras.component';
     AppComponent,
     AdministrativoGuard,
     MedicoGuard,
-    NodeService
+    MedicosCompartidosService,
+    PacientesCompartidosService,
+    ObrasCompartidasService
 
   ],
   bootstrap: [AppComponent]

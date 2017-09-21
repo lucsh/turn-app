@@ -3,6 +3,9 @@ import { Component, OnInit, Input, Output,EventEmitter,OnChanges, ElementRef, Vi
 import { Paciente } from '../paciente.tipo';
 import { PacientesService } from '../pacientes.service';
 
+import { PacientesCompartidosService } from '../../routerService/pacientes.sistema';
+import { Subscription } from 'rxjs/Subscription';
+
 import { Obra } from '../../obras/obra.tipo';
 import { ObrasService } from '../../obras/obras.service';
 
