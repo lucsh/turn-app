@@ -12,6 +12,7 @@ import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'dashboard',
+  providers:[NotificationsService],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })

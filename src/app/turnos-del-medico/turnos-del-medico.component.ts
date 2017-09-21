@@ -12,7 +12,7 @@ import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-turnos-del-medico',
-  providers:[TurnosDelMedicoService],
+  providers:[TurnosDelMedicoService, NotificationsService],
   templateUrl: './turnos-del-medico.component.html',
   styleUrls: ['./turnos-del-medico.component.css']
 })
