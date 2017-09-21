@@ -35,8 +35,8 @@
 }
 
 md-cell {
-  /* 20%  =  5 columnas ; 16 = 6 columnas */
-  max-width: 16%;
+  /* 50%  =  2 columnas ; */
+  max-width: 50%;
    white-space: nowrap;
    overflow: hidden;
    text-overflow: ellipsis;
