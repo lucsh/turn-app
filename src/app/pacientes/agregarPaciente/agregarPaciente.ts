@@ -75,10 +75,12 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
   */
   public agregarPaciente(nombrePaciente,apellidoPaciente, dniPaciente,
     emailPaciente, telefonoPaciente, ocupacion, observaciones){
+
+      let emailPacienteLower = emailPaciente.toLowerCase();
       ////console.log('Entre a agregar Paciente');
       let obraId = this.obraSelected._id;
       this.pacientesService.createPaciente(nombrePaciente,apellidoPaciente, dniPaciente,
-        emailPaciente, this.fechaNacimiento.jsdate, telefonoPaciente, obraId, ocupacion, observaciones)
+        emailPacienteLower, this.fechaNacimiento.jsdate, telefonoPaciente, obraId, ocupacion, observaciones)
         .then(pacienteNuevo => {
 
           ////console.log('Se creo el paciente con exito');
@@ -92,9 +94,9 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
           this.fechaNacimiento = null;
           this.closeFormAgregarPaciente.nativeElement.click();
 
-          
+
             //EL SWAL aparace debajo del modal anterior!! Solucionarlo!!!
-          
+
 
           swal({
             title: 'Éxito!',
@@ -112,7 +114,7 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
           )
         });
 
-         
+
 
   }
 

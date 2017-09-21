@@ -96,17 +96,15 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
 
   */
   public editarPaciente(){
-    ////console.log('Entre a agregar Paciente');
     //  let obraId = this.obraSelected._id;
-
-    // console.log('this.modeloPaciente');
-    // console.log(this.modeloPaciente);
 
     //Actualizamos la obra seleccionada
     if(this.obraSelected){
       this.modeloPaciente.obra = this.obraSelected._id;
     }
     this.modeloPaciente.fechaNacimiento = this.fechaNacimiento.jsdate;
+
+    this.modeloPaciente.email = this.modeloPaciente.email.toLowerCase();
     this.pacientesService.actualizarPaciente(this.modeloPaciente._id, this.modeloPaciente)
     .then(pacienteEdit => {
       // console.log("VUELTA DEL PACIENTE");
