@@ -183,15 +183,24 @@ export class PacientesDelDiaService {
 
     let indexTurno = this.buscarIndexTurno(turno);
 
-    let turnoAnterior:any = this.dataStore.turnos[indexTurno];
+    if(indexTurno > -1){
 
-    //El medico esta llamando un nuevo paciente
-    if(turnoAnterior.estado=='en espera' && turno.estado == 'activo'){
-      console.log('Estaba en espera y ahora lo llamo el medico');
-      this.notificarLlamado(turno.medico, turno.paciente);
+      let turnoAnterior:any = this.dataStore.turnos[indexTurno];
+      //El medico esta llamando un nuevo paciente
+      if(turnoAnterior.estado=='en espera' && turno.estado == 'activo'){
+        console.log('Estaba en espera y ahora lo llamo el medico');
+        this.notificarLlamado(turno.medico, turno.paciente);
+      }else{
+        // Esta puesto en otro IF por si queremos cambiar el mensaje que se usa de la notificacion
+        if(turnoAnterior.estado=='en estudio' && turno.estado == 'activo'){
+          this.notificarLlamado(turno.medico, turno.paciente);
+        }
+      }
+      this.dataStore.turnos[indexTurno] = turno;
     }
 
-    this.dataStore.turnos[indexTurno] = turno;
+
+
 
 
   }
