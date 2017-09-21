@@ -18,6 +18,9 @@ export class LoginComponent {
       return;
     }
 
+
+    email = email.toLowerCase();
+
     // try to authenticate with feathers
     this.feathers.authenticate({
       strategy: 'local',
@@ -59,6 +62,7 @@ export class LoginComponent {
   }
 
   signup(email: string, password: string) {
+    email = email.toLowerCase();
     this.feathers.service('users')
       .create({email, password})
       .take(1)
