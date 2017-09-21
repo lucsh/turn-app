@@ -51,8 +51,8 @@ export class ConfiguracionMedicoService {
 		.catch(this.handleError);
 	}
 
-	actualizarMedico(id,nombre,apellido,duracion,obras, idUsuario): Promise<any>{
-		return this.http.patch(this.medicosURL+'/'+id,{nombre: nombre, apellido: apellido, duracion:duracion,obras:obras, _idUsuario:idUsuario},this.authService.jwt())
+	actualizarMedico(id,nombre,apellido,emailMedico, duracion,obras, idUsuario): Promise<any>{
+		return this.http.patch(this.medicosURL+'/'+id,{nombre: nombre, apellido: apellido, email:emailMedico, duracion:duracion,obras:obras, _idUsuario:idUsuario},this.authService.jwt())
 		.toPromise()
 		.then(response => {
 			return response.json() as any;

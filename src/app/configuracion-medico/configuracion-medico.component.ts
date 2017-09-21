@@ -180,26 +180,24 @@ export class ConfiguracionMedicoComponent implements OnInit {
       // });
     }
 
-    actualizarDatos(nombre,apellido,duracionTurno){
+    actualizarDatos(nombre,apellido,email,duracionTurno){
       let id = this.medicoSeleccionado._id;
       let idUsuario = this.medicoSeleccionado._idUsuario;
-
+      let emailMedico = email.toLowerCase();
 
       let yo = this;
 
       let obrasAsignadas = this.asignarObras();
 
-      // console.log('#############342423423');
-      // console.log(obrasAsignadas);
-      this.configuracionMedicoService.actualizarMedico(id,nombre,apellido,duracionTurno,obrasAsignadas, idUsuario).then(medicoNuevo =>{
-        // console.log("El medico nuevo es....");
-        // console.log(medicoNuevo);
+      this.configuracionMedicoService.actualizarMedico(id,nombre,apellido,emailMedico, duracionTurno,obrasAsignadas, idUsuario).then(medicoNuevo =>{
+
         // let id = medicoNuevo._id;
         // let index = this.getIndex();
 
         yo.medicoSeleccionado.nombre = nombre;
         yo.medicoSeleccionado.apellido = apellido;
         yo.medicoSeleccionado.duracion = medicoNuevo.duracion;
+        yo.medicoSeleccionado.email = medicoNuevo.email;
         // console.log(medicoNuevo.obras);
         yo.medicoSeleccionado.obras = medicoNuevo.obras;
 

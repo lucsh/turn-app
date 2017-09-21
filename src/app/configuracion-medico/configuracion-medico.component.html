@@ -30,24 +30,14 @@
           </thead>
           <tbody>
             <tr *ngFor="let medico of medicos">
-              <!--
-              {
-              "id": 12,
-              "dia": "01-06-2017",
-              "hora": "12:30",
-              "status": "Pendiente",
-              "paciente": "Raul",
-              "doctor": "Dra. Manzazno"
-            }
-          -->
-          <td>{{medico.matricula}}</td>
-          <td>{{medico.nombre}}</td>
-          <td>{{medico.apellido}}</td>
-          <td>{{medico.duracion}}</td>
+              <td>{{medico.matricula}}</td>
+              <td>{{medico.nombre}}</td>
+              <td>{{medico.apellido}}</td>
+              <td>{{medico.duracion}}</td>
 
-          <td>
+              <td>
             <!-- <button (click)="editar(turno)" class="btn btn-info"></button> -->
-            <button (click)="abrirModal(medico)" class="btn btn-success">Actualizar Datos Basicos</button>
+            <button (click)="abrirModal(medico)" class="btn btn-success">Actualizar Datos</button>
             <button (click)="configurarSemana(medico)" class="btn btn-primary">Configurar Semana</button>
           </td>
         </tr>
@@ -87,6 +77,16 @@
           </div>
           <div *ngIf="estadoApellido.invalid && (estadoApellido.dirty || estadoApellido.touched)" class="alert alert-danger">
               El apellido es obligatorio
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <div class="input-group">
+            <input #estadoEmail="ngModel" minlength="1" required #emailMedico [(ngModel)]="modeloMedico.email" placeholder="Ej: medico@gmail.com" type="text" class="form-control">
+          </div>
+          <div *ngIf="estadoEmail.invalid && (estadoEmail.dirty || estadoEmail.touched)" class="alert alert-danger">
+              El email es obligatorio
           </div>
         </div>
 
@@ -141,8 +141,8 @@
         Cancelar
       </button>
 
-      <button class="btn btn-primary"  [disabled]="estadoNombre.invalid || estadoApellido.invalid" (click)='actualizarDatos(modeloMedico.nombre,modeloMedico.apellido,modeloMedico.duracion)'>
-        Editar
+      <button class="btn btn-primary"  [disabled]="estadoNombre.invalid || estadoApellido.invalid" (click)='actualizarDatos(modeloMedico.nombre,modeloMedico.apellido,modeloMedico.email,modeloMedico.duracion)'>
+        Guardar
       </button>
 
     </div>
