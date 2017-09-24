@@ -42,8 +42,8 @@
 
   <!-- Email Column -->
   <ng-container mdColumnDef="email">
-    <md-header-cell *mdHeaderCellDef md-sort-header> Email </md-header-cell>
-    <md-cell *mdCellDef="let row"> {{row.email}} </md-cell>
+    <md-header-cell class="hidden-sm hidden-xs col-md-2" *mdHeaderCellDef md-sort-header> Email </md-header-cell>
+    <md-cell class="hidden-sm hidden-xs col-md-2" *mdCellDef="let row"> {{row.email}} </md-cell>
   </ng-container>
 
   <!-- Nombre Column -->
@@ -60,8 +60,8 @@
 
   <!-- Teléfono Column -->
   <ng-container mdColumnDef="telefono">
-    <md-header-cell *mdHeaderCellDef md-sort-header> Teléfono </md-header-cell>
-    <md-cell *mdCellDef="let row"> {{row.telefono}} </md-cell>
+    <md-header-cell class="hidden-sm hidden-xs" *mdHeaderCellDef md-sort-header> Teléfono </md-header-cell>
+    <md-cell class="hidden-sm hidden-xs" *mdCellDef="let row"> {{row.telefono}} </md-cell>
   </ng-container>
 
   <!-- Acciones  -->
