@@ -8,7 +8,9 @@ import * as moment from 'moment';
 import {Paciente} from '../pacientes/paciente.tipo';
 import {VariablesGlobales} from '../variablesGlobales';
 import { Feathers } from '../authentication/feathers.service'
+import { PacientesCompartidosService } from '../routerService/pacientes.sistema';
 
+import { Subscription } from 'rxjs/Subscription';
 
 declare var feathers:any;
 
@@ -23,6 +25,9 @@ export class SolicitudesSocketService implements OnDestroy  {
 
   private solicitudesSocketService: any;
 
+  private pacientesSubscription: Subscription;
+  private pacientesSistema: any[];
+
   private dataStore: {
     solicitudes: Paciente[]
   };
@@ -31,7 +36,7 @@ export class SolicitudesSocketService implements OnDestroy  {
   // private socket;
   private feathersService;
 
-  constructor(private FeathersCambiarNombre: Feathers) {
+  constructor(private FeathersCambiarNombre: Feathers, private pacientesCompartidos : PacientesCompartidosService,) {
 
     //Estamos usando el Service de Feathers, pues el que tiene la autenticacion del login
     this.feathersService = FeathersCambiarNombre.devolverFeathers();
@@ -117,10 +122,6 @@ export class SolicitudesSocketService implements OnDestroy  {
 
 
   aprobarSolicitud(pacienteEnSolicitud){
-    ////console.log('Entre a aprobar solicutd en el Service');
-
-    ////console.log(pacienteEnSolicitud);
-
     let indexPaciente = this.buscarSolicitud(pacienteEnSolicitud);
 
     if(indexPaciente > -1){
@@ -128,7 +129,6 @@ export class SolicitudesSocketService implements OnDestroy  {
       let idUsuario = pacienteEnSolicitud._idUsuario;
       this.solicitudesSocketService.patch(id,{"aprobado":true,"_idUsuario":idUsuario,"aprobando":true}).then(
         pacienteAprobado => {
-          ////console.log('Se aprobo el paciente que estaba en solicitud!!');
           if(pacienteAprobado.aprobado){
 
             /*
@@ -159,10 +159,6 @@ export class SolicitudesSocketService implements OnDestroy  {
   }
 
   rechazarSolicitud(pacienteEnSolicitud){
-    //console.log('Entre a rechazar solicutd en el Service');
-
-    //console.log(pacienteEnSolicitud);
-
     let indexPaciente = this.buscarSolicitud(pacienteEnSolicitud);
 
     if(indexPaciente > -1){
@@ -186,6 +182,26 @@ export class SolicitudesSocketService implements OnDestroy  {
           )
         }
       )
+    }
+  }
+
+  observarPacientes(){
+    /*
+    Subscribimos a los pacientes, para que tengan una correspondencia
+    con los pacientes del navigator
+    */
+    if(this.pacientesCompartidos.pacientes$){
+      this.pacientesSubscription = this.pacientesCompartidos.pacientes$.subscribe((pacientes) => {
+
+        this.pacientesSistema = pacientes;
+        // this.ref.markForCheck();
+      }, (err) => {
+        console.log('Error en observarPacientes de tablaPacientes');
+        console.error(err);
+      });
+
+      // Obtenemos los pacientes compartidos
+      this.pacientesCompartidos.getPacientes();
     }
   }
 
@@ -232,16 +248,15 @@ export class SolicitudesSocketService implements OnDestroy  {
   Al hacer un patch sobre un paciente existente en el server (rest o socket), se invoca este evento.
   */
   private onPatched(pacienteAprobado){
-    //console.log('On patched de Paciente (solicitud aprobada) de Angular con Socket de Feathers');
-    //console.log(pacienteAprobado);
 
-    //Nos aseguramos que el paciente haya sido aprobado correctamente
+    // Nos aseguramos que el paciente haya sido aprobado correctamente
     if(pacienteAprobado.aprobado){
       this.quitarSolicitud(pacienteAprobado);
+
+      // Agregamos el paciente aprobado al sistema
+      this.pacientesCompartidos.addPaciente(pacienteAprobado);
+
     }
-    // else{
-    //   ////console.log("El paciente NO fue aprobado");
-    // }
 
   }
 
