@@ -29,9 +29,7 @@ export class SolicitudesComponent implements OnInit, OnDestroy  {
     public haySolicitudes = false;
     public cantidadSolicitudes : number = 0;
 
-    //@ViewChild('closeBtn') closeBtn: ElementRef;
     @ViewChild('closeFormSolicitud') closeFormSolicitud: ElementRef;
-    //@ViewChild('formularioSolicitud') formularioSolicitud: ElementRef;
 
     constructor(
         private solicitudesService : SolicitudesSocketService,
@@ -53,8 +51,6 @@ export class SolicitudesComponent implements OnInit, OnDestroy  {
 
     ngOnDestroy() {
         //this.subscription.unsubscribe();
-        //console.log('####*****////########//////###');
-
         this.solicitudesService = null;
     }
 
