@@ -4,22 +4,11 @@
   <!-- <h2 class="col-lg-6">Pacientes</h2> -->
 
 
-  <div class="">
-    <h2 class="col-lg-8">Pacientes</h2>
-    <div class="col-lg-4">
-          <style media="screen">
-          #agregarPaciente{
-              margin-top: 5%;
-              margin-bottom: 2%;
-            }
-          </style>
-           <div id='agregarPaciente' class="row">
-               <button class="btn btn-s btn-primary pull-right"  data-toggle="modal" data-target="#formAgregarPaciente" ><i class="fa fa-plus"></i></button>
-           </div>
+  <div class="row m-b-sm">
+    <div class="col-md-12">
+      <h2>Pacientes<button class="btn btn-s btn-primary pull-right"  data-toggle="modal" data-target="#formAgregarPaciente" ><i class="fa fa-plus"></i></button></h2>
     </div>
   </div>
-
-  <br>
 
   <div class="example-header">
 
@@ -29,43 +18,40 @@
 
 
   </div>
-  <md-table class='hoverTable col-lg-12'
-  selectable-rows="true"
-  table-card="{title: Nutrition, actionIcons: true}"
-  #table [dataSource]="dataSource" mdSort>
+  <md-table class='hoverTable col-lg-12' selectable-rows="true" table-card="{title: Nutrition, actionIcons: true}" #table [dataSource]="dataSource" mdSort>
 
-  <!-- DNI Column -->
-  <ng-container mdColumnDef="dni">
-    <md-header-cell *mdHeaderCellDef md-sort-header> DNI </md-header-cell>
-    <md-cell *mdCellDef="let row"> {{row.dni}} </md-cell>
-  </ng-container>
+    <!-- DNI Column -->
+    <ng-container mdColumnDef="dni">
+      <md-header-cell *mdHeaderCellDef md-sort-header> DNI </md-header-cell>
+      <md-cell *mdCellDef="let row"> {{row.dni}} </md-cell>
+    </ng-container>
 
-  <!-- Email Column -->
-  <ng-container mdColumnDef="email">
-    <md-header-cell class="hidden-sm hidden-xs col-md-2" *mdHeaderCellDef md-sort-header> Email </md-header-cell>
-    <md-cell class="hidden-sm hidden-xs col-md-2" *mdCellDef="let row"> {{row.email}} </md-cell>
-  </ng-container>
+    <!-- Email Column -->
+    <ng-container mdColumnDef="email">
+      <md-header-cell class="hidden-sm hidden-xs col-md-2" *mdHeaderCellDef md-sort-header> Email </md-header-cell>
+      <md-cell class="hidden-sm hidden-xs col-md-2" *mdCellDef="let row"> {{row.email}} </md-cell>
+    </ng-container>
 
-  <!-- Nombre Column -->
-  <ng-container mdColumnDef="nombre">
-    <md-header-cell *mdHeaderCellDef md-sort-header> Nombre </md-header-cell>
-    <md-cell *mdCellDef="let row"> {{row.nombre}} </md-cell>
-  </ng-container>
+    <!-- Nombre Column -->
+    <ng-container mdColumnDef="nombre">
+      <md-header-cell *mdHeaderCellDef md-sort-header> Nombre </md-header-cell>
+      <md-cell *mdCellDef="let row"> {{row.nombre}} </md-cell>
+    </ng-container>
 
-  <!-- Apellido Column -->
-  <ng-container mdColumnDef="apellido">
-    <md-header-cell *mdHeaderCellDef md-sort-header> Apellido </md-header-cell>
-    <md-cell *mdCellDef="let row"> {{row.apellido}} </md-cell>
-  </ng-container>
+    <!-- Apellido Column -->
+    <ng-container mdColumnDef="apellido">
+      <md-header-cell *mdHeaderCellDef md-sort-header> Apellido </md-header-cell>
+      <md-cell *mdCellDef="let row"> {{row.apellido}} </md-cell>
+    </ng-container>
 
-  <!-- Teléfono Column -->
-  <ng-container mdColumnDef="telefono">
-    <md-header-cell class="hidden-sm hidden-xs" *mdHeaderCellDef md-sort-header> Teléfono </md-header-cell>
-    <md-cell class="hidden-sm hidden-xs" *mdCellDef="let row"> {{row.telefono}} </md-cell>
-  </ng-container>
+    <!-- Teléfono Column -->
+    <ng-container mdColumnDef="telefono">
+      <md-header-cell class="hidden-sm hidden-xs" *mdHeaderCellDef md-sort-header> Teléfono </md-header-cell>
+      <md-cell class="hidden-sm hidden-xs" *mdCellDef="let row"> {{row.telefono}} </md-cell>
+    </ng-container>
 
-  <!-- Acciones  -->
-  <!-- <ng-container mdColumnDef="acciones">
+    <!-- Acciones  -->
+    <!-- <ng-container mdColumnDef="acciones">
     <md-header-cell *mdHeaderCellDef> Acciones </md-header-cell>
     <md-cell *mdCellDef="let row">
 
@@ -78,33 +64,22 @@
   </ng-container> -->
 
 
-  <md-header-row  *mdHeaderRowDef="displayedColumns"></md-header-row>
-  <md-row (click)="editar(row)" [ngClass]="{'isSpecial':  row._id == seleccionado._id}" *mdRowDef="let row; columns: displayedColumns;" (click)="rowClick(row)"></md-row>
+    <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
+    <md-row (click)="editar(row)" [ngClass]="{'isSpecial':  row._id == seleccionado._id}" *mdRowDef="let row; columns: displayedColumns;" (click)="rowClick(row)"></md-row>
 
-</md-table>
+  </md-table>
 
-<div class="example-no-results"
-[style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
-No se encuentran pacientes que coincidan con la búsqueda!
-</div>
+  <div class="example-no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+    No se encuentran pacientes que coincidan con la búsqueda!
+  </div>
 
-<md-paginator #paginator
-[length]="exampleDatabase.data.length"
-[pageIndex]="0"
-[pageSize]="5"
-[pageSizeOptions]="[5, 10, 25, 100]">
-</md-paginator>
+  <md-paginator #paginator [length]="exampleDatabase.data.length" [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]">
+  </md-paginator>
 
 </div>
 <br>
 
-<editar-paciente *ngIf = 'seleccionado._id'
-  [paciente]='seleccionado'
-  (pacienteEditado)='onPacienteEditado($event)'
-  (pacienteEliminado)='onPacienteEliminado($event)'
-></editar-paciente>
-<agregar-paciente
-  (pacienteAgregado)='onPacienteAgregado($event)'
-></agregar-paciente>
+<editar-paciente *ngIf='seleccionado._id' [paciente]='seleccionado' (pacienteEditado)='onPacienteEditado($event)' (pacienteEliminado)='onPacienteEliminado($event)'></editar-paciente>
+<agregar-paciente (pacienteAgregado)='onPacienteAgregado($event)'></agregar-paciente>
 
 <!-- <button type="button" class="btn btn-lg btn-success pull-right" (click)='siguiente()'[disabled]="seleccionado._id =='' " >Siguiente</button> -->
