@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'footer',
   template:`
-	    <section class="footer" style="z-index:999;">
+	    <section class="footer hidden-sm hidden-xs" style="z-index:999;">
             <div class="pull-right">
                 Clínica de la Visión - <strong>Neuquén</strong>.
             </div>

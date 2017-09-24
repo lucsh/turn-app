@@ -28,10 +28,12 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
 
   @ViewChild('closeFormAgregarPaciente') closeFormAgregarPaciente: ElementRef;
   @ViewChild('fechaPaciente') fechaPaciente:ElementRef;
+  @ViewChild('formulario') formulario:NgForm;
 
   public obras: Obra[];
   public obraSelected: Obra = null;
   public pacienteNuevo: Paciente;
+  public pacienteCopia: Paciente;
   public fechaNacimiento: any = null;
 
   private obrasSubscription: Subscription;
@@ -104,9 +106,23 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
   public agregarPaciente(nombrePaciente,apellidoPaciente, dniPaciente,
     emailPaciente, telefonoPaciente, ocupacion, observaciones){
 
+      this.pacienteCopia = new Paciente();
+      this.pacienteCopia.nombre = nombrePaciente;
+      this.pacienteCopia.apellido = apellidoPaciente;
+      this.pacienteCopia.dni = dniPaciente;
+      this.pacienteCopia.email = emailPaciente;
+      this.pacienteCopia.telefono = telefonoPaciente;
+      this.pacienteCopia.ocupacion = ocupacion;
+      this.pacienteCopia.observaciones = observaciones;
+      this.pacienteCopia.fechaNacimiento = this.fechaNacimiento.jsdate;
+
+
       let emailPacienteLower = emailPaciente.toLowerCase();
       ////console.log('Entre a agregar Paciente');
       let obraId = this.obraSelected._id;
+      this.pacienteCopia.obra = obraId;
+
+
       this.pacientesService.createPaciente(nombrePaciente,apellidoPaciente, dniPaciente,
         emailPacienteLower, this.fechaNacimiento.jsdate, telefonoPaciente, obraId, ocupacion, observaciones)
         .then(pacienteNuevo => {
@@ -120,6 +136,7 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
           //Cerramos el modal
           this.obraSelected = null;
           this.fechaNacimiento = null;
+          this.pacienteCopia = null;
           this.closeFormAgregarPaciente.nativeElement.click();
 
 
@@ -139,7 +156,59 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
 
               }
             }
-          )
+          );
+        }).catch(err =>{
+          if(err.status === 500){
+            let yo = this;
+            swal({
+              title: 'Error al crear paciente!',
+              text: 'Ocurrio un error a la hora de crear el paciente, compruebe que el email ingresado no este siendo utilizado por otro paciente',
+              type: 'error'
+            }).then(
+              function () {
+                yo.reiniciarFormulario(yo.formulario);
+
+                /* Volvemos a dejar todos los campos como estaban antes de ser enviados en el formulario */
+
+                // yo.pacienteNuevo.nombre = yo.pacienteCopia.nombre.toString();
+                // yo.pacienteNuevo.apellido = yo.pacienteCopia.apellido;
+                // yo.pacienteNuevo.dni = yo.pacienteCopia.dni;
+                // yo.pacienteNuevo.email = yo.pacienteCopia.email;
+                // yo.pacienteNuevo.telefono = yo.pacienteCopia.telefono;
+                // yo.pacienteNuevo.ocupacion = yo.pacienteCopia.ocupacion;
+                // yo.pacienteNuevo.observaciones = yo.pacienteCopia.observaciones;
+                yo.pacienteNuevo = yo.pacienteCopia;
+
+
+                // console.log("el apciente nuevo es...");
+                // console.log(yo.pacienteNuevo);
+
+
+                //REVISAR EL TEMA DE FECHA NACIMIENTO Y OBRA ELEGIDA:
+                yo.formulario.setValue({
+                  nombrePaciente:yo.pacienteCopia.nombre,
+                  apellidoPaciente: yo.pacienteCopia.apellido,
+                  documentoPaciente: yo.pacienteCopia.dni,
+                  emailPaciente: yo.pacienteCopia.email,
+                  fechaPaciente: yo.pacienteCopia.fechaNacimiento,
+                  telefonoPaciente: yo.pacienteCopia.telefono,
+                  ocupacionPaciente: yo.pacienteCopia.ocupacion,
+                  observacionesPaciente: yo.pacienteCopia.observaciones,
+                  obrasPaciente: yo.pacienteCopia.obra
+                });
+
+                yo.pacienteCopia = null;
+
+
+              },
+              // handling the promise rejection
+              function (dismiss) {
+                if (dismiss === 'timer') {
+
+                }
+              }
+            )
+          }
         });
 
 

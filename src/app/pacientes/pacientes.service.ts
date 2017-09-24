@@ -51,7 +51,7 @@ export class PacientesService {
 		 .toPromise()
 		.then(res => {
 			return res.json() as Paciente;
-		})
+		});
 	}
 
 	private handleError(error: any): Promise<any> {

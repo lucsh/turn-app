@@ -4,7 +4,7 @@
       <li class="nav-header" style="padding: 10px 25px">
 
         <div class="profile-element">
-          
+
           <a >
             <span class="block m-t-xs"> <strong class="font-bold">{{profile?.nombre}}</strong> </span>
             <span class="text-muted text-xs block">{{profile?.cargo}}</span>
@@ -60,7 +60,7 @@
         </li>
 
         <li [ngClass]="{active: activeRoute('obras')}" *ngIf="!esMedico()">
-          <a [routerLink]="['/obras']"><i class="fa fa-university"></i> <span class="nav-label">Obras</span></a>
+          <a [routerLink]="['/obras']"><i class="fa fa-university"></i> <span class="nav-label">Obras Sociales</span></a>
         </li>
 
         <li [ngClass]="{active: activeRoute('configuracion')}" *ngIf="!esMedico()">
