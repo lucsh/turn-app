@@ -129,7 +129,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
       con los pacientes del navigator
     */
     if(this.pacientesCompartidosService.pacientes$){
-      this.subscription = this.pacientesCompartidosService.pacientes$.subscribe((pacientes) => {
+      this.pacientesSubscription = this.pacientesCompartidosService.pacientes$.subscribe((pacientes) => {
 
         this.pacientes = pacientes;
         // this.ref.markForCheck();
@@ -487,8 +487,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
   metodoLimpieza(idDoctor){
 
-    // ////console.log('*****///****');
-     ////console.log('Entre a metodo limpieza');
+    //   console.log('*****///****');
+    //  console.log('Entre a metodo limpieza');
     //Limpiamos el calendario
     // calendario.fullCalendar( 'destroy' );
     let yo = this;
@@ -496,20 +496,20 @@ export class TurnosComponent implements OnInit, OnDestroy {
     this.setDoctorSeleccionado(idDoctor);
 
 
-    this.pacientesService.getPacientes().then(pacientes => {
-
+    this.pacientesService.getPacientesActivos().then(pacientes => {
+      // console.log('Pacientes');
       yo.pacientes = pacientes;
 
       let calendario = $('#calendar');
       calendario.fullCalendar( 'removeEvents' );
 
-
+      // console.log('Voy a limpiar el service');
       //Limpiamos el service
       if(this.turnosSocketService){
 
         this.turnosSocketService.cambiarMedico(idDoctor);
       }
-    }).catch(err => console.log(err));
+    }).catch(err => console.error(err));
 
 
   }
