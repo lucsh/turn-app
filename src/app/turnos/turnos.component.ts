@@ -173,7 +173,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
       eventOverlap: false, //Previene que se sobrepongan 2 eventos!!!
       slotDuration:'00:15:00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
       minTime:'08:00:00',
-      maxTime:'18:00:00',
+      maxTime:'24:00:00',
       // businessHours: [
       //
       //   {

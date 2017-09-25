@@ -1,7 +1,7 @@
 <!-- Modal Formulario Configuracion Semana -->
 <!-- tabindex="-1" seria para que cierre con escape  -->
 <div class="modal fade" id="formConfigSemana" tabindex="-1" #formConfigSemana role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeFormConfigSemana (click)='cancelar()'>&times;</button>
@@ -21,20 +21,20 @@
 
               </div> -->
 
-                        <div class="row m-md">
-                            <div class="col-sm-8">
-                                <h4>Intervalos Semanales</h4></div>
-                            <div class="col-sm-4 pull-right">
-                                <button (click)="agregarIntervalo()" class="btn btn-xs btn-primary pull-right"><i class="fa fa-plus"></i></button>
+                        <div class="row m-sm">
+                            <div class="col-xs-8">
+                                <h3>Intervalos Semanales</h3></div>
+                            <div class="col-xs-4 pull-right">
+                                <button (click)="agregarIntervalo()" class="btn btn-sm btn-primary pull-right"><i class="fa fa-plus"></i></button>
                             </div>
 
                         </div>
                         <hr>
-                        <div class="row" *ngFor="let intervalo of intervalos; let intervaloIndex = index; trackBy: trackByIndex">
-                            <div class="col-lg-5 col-xs-12">
-                                <p>
-                                    Días
-                                </p>
+                        <div class="row m-l-none m-r-none no-paddings m-t-sm border-bottom" *ngFor="let intervalo of intervalos; let intervaloIndex = index; trackBy: trackByIndex">
+                          <div class="col-xs-10">
+
+
+                            <div class="col-lg-6 col-xs-12">
                                 <div class="col-xs-1">
                                     L
                                     <div class="checkbox">
@@ -88,12 +88,12 @@
 
                             <div class="col-md-3 col-xs-5">
                                 <!--  TIME PICKER -->
-                                <p>
-                                    Hora Inicial
+                                <p class="small no-margins">
+                                    Desde
                                 </p>
 
                                     <input #inputHoraInicial id='input-horaInicial'
-                                     style="width:100%" class='p-xxs m-xs claseHoraInicial' type="text" [(ngModel)]="intervalos[intervaloIndex].horaInicial"
+                                     style="width:100%" class='p-xxs m-xs claseHoraInicial form-control' type="text" [(ngModel)]="intervalos[intervaloIndex].horaInicial"
                                      (click)='horaInicial(intervalo)'
                                      >
 
@@ -103,36 +103,39 @@
                             </div>
                             <div class="col-md-3 col-xs-5">
                                 <!-- TIME PICKER -->
-                                <p>
-                                    Hora Final
+                                <p class="small no-margins">
+                                    Hasta
                                 </p>
                                 <input #inputHoraFin id='input-horaFin'
-                                 style="width:100%" class='p-xxs m-xs claseHoraFin' type="text" [(ngModel)]="intervalos[intervaloIndex].horaFin"
+                                 style="width:100%" class='p-xxs m-xs claseHoraFin form-control' type="text" [(ngModel)]="intervalos[intervaloIndex].horaFin"
                                  (click)='horaFin(intervalo)'
                                  >
                             </div>
+                          </div>
+                          <div class="col-xs-1">
                             <div class="col-md-1 col-xs-2 m-t-md ">
                                 <!-- VACIOOOO  -->
                                 <!-- AGREGAR X ROJA PARA ELIMINAR EL INTERVALO -->
                                 <button (click)="eliminarIntervalo(intervaloIndex)" class="btn btn-xs btn-danger"><i class="fa fa-minus"></i></button>
                             </div>
 
+                          </div>
+
                             <!-- <button (click)="abrirModal(medico)" class="btn btn-success">Actualizar Datos Basicos</button>
   <button (click)="configurarSemana(medico)" class="btn btn-primary">Configurar Semana</button> -->
-
                         </div>
 
                     </div>
-                    <div class="m-b-l"></div>
-                    <div class="row m-md">
-                        <div class="col-sm-8">
-                            <h4>Turnos por obra social</h4></div>
-                        <div class="col-sm-4 pull-right">
-                            <button (click)="agregarObra()" class="btn btn-xs btn-primary pull-right"><i class="fa fa-plus"></i></button>
+                    <div class="m-b-lg"></div>
+                    <div class="row m-sm">
+                        <div class="col-xs-8">
+                            <h3>Turnos por obra social</h3></div>
+                        <div class="col-xs-4 pull-right">
+                            <button (click)="agregarObra()" class="btn btn-sm btn-primary pull-right"><i class="fa fa-plus"></i></button>
                         </div>
 
                     </div>
-                    <div class="row">
+                    <div class="row m-sm">
 
                         <div class="col-lg-12">
                             <div>
@@ -140,32 +143,22 @@
                             </div>
                             <hr>
                             <br>
-                            <div *ngFor="let parObra of turnosPorObra; let parObraIndex = index; trackBy: trackByIndex">
+                            <div class="row" *ngFor="let parObra of turnosPorObra; let parObraIndex = index; trackBy: trackByIndex">
                                 <!-- Selector de obra -->
                                 <div>
-                                    <style>
-                                        #cant {
-                                            display: inline;
-                                            min-width: 30%;
-                                        }
-
-                                        #divSelector {
-                                            float: left;
-                                            margin-right: 1%;
-                                            min-width: 50%;
-                                        }
-                                    </style>
-                                    <div id="divSelector" class="">
-                                        <label>Obra social permitida</label>
+                                    <div class="col-sm-8 m-b-sm ">
                                         <ng-select #selector *ngIf='actualizado == true' [allowClear]="true" [items]="obrasSelector" [disabled]="disabled" (data)="refreshValue($event)" (selected)="selected($event,parObraIndex)" (removed)="removed($event)" (typed)="typed($event)" placeholder="buscar">
                                         </ng-select>
                                     </div>
                                     <!-- input de cantidad -->
-                                    <div id="cant">
-                                        <label>Cantidad de turnos</label>
-                                        <input type="number" [(ngModel)]="turnosPorObra[parObraIndex].cantDisponible">
+                                    <div class="col-sm-3 col-xs-8 m-b-sm ">
+                                        <input class="form-control" style="width:100px" type="number" [(ngModel)]="turnosPorObra[parObraIndex].cantDisponible">
+
                                     </div>
-                                    <button (click)="eliminarSelectorObra(parObraIndex)" class="btn btn-xs btn-danger pull-right "><i class="fa fa-minus"></i></button>
+                                    <div class="col-sm-1 col-xs-4 h-60-vcenter">
+                                      <button (click)="eliminarSelectorObra(parObraIndex)" class="btn btn-xs btn-danger pull-right "><i class="fa fa-minus"></i></button>
+
+                                    </div>
 
                                 </div>
                                 <div class="m-b-l"></div>
