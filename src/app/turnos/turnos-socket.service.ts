@@ -151,7 +151,7 @@ export class TurnoSocketService {
         let horaFin = turno.horaFin;
         //Le agregue el ID al final del nuevo turno para asi poder saber a que objeto corresponde cada evento grafico
 
-        let newTurno = {"title":turno.paciente.nombre+' '+turno.paciente.apellido,"allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59","_id":turno._id};
+        let newTurno = {"title":turno.paciente.nombre+' '+turno.paciente.apellido,"allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59","_id":turno._id, "id":turno._id};
 
 
         $('#calendar').fullCalendar('renderEvent', newTurno, true)
@@ -178,10 +178,10 @@ export class TurnoSocketService {
         //*************************************************
 
         //Windows: descomentar la linea de abajo
-        var temp = moment(fecha).utc().add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+         var temp = moment(fecha).utc().add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
 
         //LINUX: descomentar la linea de abajo
-        //var temp = moment(fecha,'YYYY-MM-DDTHH:mm:ss Z').add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+        // var temp = moment(fecha,'YYYY-MM-DDTHH:mm:ss Z').add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
 
 
         //*************************************************
@@ -316,11 +316,11 @@ export class TurnoSocketService {
     private onRemoved(turno: Turno) {
         const index = this.getIndex(turno._id);
 
+        let eventosCalendario = $('#calendar').fullCalendar('clientEvents');
+
         this.dataStore.turnos.splice(index, 1);
-
         this.turnosObserver.next(this.dataStore.turnos);
-
-        $('#calendar').fullCalendar('removeEvents',turno._id); // Esto elimina el evento (grafico) con el id = turno._id
+        $('#calendar').fullCalendar('removeEvents',eventosCalendario[index].id); // Esto elimina el evento (grafico) con el id = turno._id
     }
 
     /*
