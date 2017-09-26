@@ -39,7 +39,7 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
   private obrasSubscription: Subscription;
 
   //Configuraciones del DatePicker
-  private myDatePickerOptions: IMyDpOptions = {
+  public myDatePickerOptions: IMyDpOptions = {
       todayBtnTxt: 'Hoy',
       openSelectorOnInputClick: true,
       editableDateField: false,

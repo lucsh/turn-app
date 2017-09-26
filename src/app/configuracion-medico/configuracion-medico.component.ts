@@ -41,7 +41,7 @@ export class ConfiguracionMedicoComponent implements OnInit {
   private _disabledV:string = '0';
   private disabled:boolean = false;
 
-  private obras: Obra[];
+  public obras: Obra[];
   private obraSelected: Obra = null;
 
   // public modeloMedico = {};

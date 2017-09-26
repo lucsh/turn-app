@@ -47,7 +47,8 @@ export class TablaObrasComponent implements OnInit {
   selection = new SelectionModel<string>(true, []);
 
   seleccionado = {
-    'id' : ''
+    'id' : '',
+    '_id' : ''
   };
 
   constructor(private obrasService: ObrasService, private obrasCompartidasService: ObrasCompartidasService){
@@ -71,7 +72,8 @@ export class TablaObrasComponent implements OnInit {
 
 
     this.seleccionado = {
-      'id' : ''
+      'id' : '',
+      '_id' : ''
     };
 
     // LABEL de items per page de la tabla

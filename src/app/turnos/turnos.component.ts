@@ -54,7 +54,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   private pacientesSubscription: Subscription;
 
-  private cargandoTurnos: boolean = true;
+  public cargandoTurnos: boolean = true;
 
   constructor(
     route: ActivatedRoute,

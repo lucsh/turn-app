@@ -46,7 +46,8 @@ export class TablaPacientesComponent implements OnInit {
   selection = new SelectionModel<string>(true, []);
 
   seleccionado = {
-    'id' : ''
+    'id' : '',
+    '_id' : ''
   };
   private subscription: Subscription;
   constructor(private pacientesService: PacientesService, private pacientesCompartidosService: PacientesCompartidosService){
@@ -75,7 +76,8 @@ export class TablaPacientesComponent implements OnInit {
 
 
     this.seleccionado = {
-      'id' : ''
+      'id' : '',
+      '_id' : ''
     };
     // console.log(this.seleccionado);
 

@@ -42,7 +42,7 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
   }
 
   //Configuraciones del DatePicker
-  private myDatePickerOptions: IMyDpOptions = {
+  public myDatePickerOptions: IMyDpOptions = {
       todayBtnTxt: 'Hoy',
       openSelectorOnInputClick: true,
       editableDateField: false,
