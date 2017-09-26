@@ -53,7 +53,7 @@ export class TareasService {
 
   private handleError(error: any): Promise<any> {
 		console.error('Ocurrio un error en servicio de Tareas: ', error);
-		alert(error.json().error);
+		// alert(error.json().error);
 		return Promise.reject(error.message || error);
 	}
 }
