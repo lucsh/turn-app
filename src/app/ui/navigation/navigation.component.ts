@@ -70,7 +70,7 @@ export class NavigationComponent {
     this.medicosService.getDoctores().then((docs)=>{
       this.medicosSubscription = this.medicosCompartidos.medicos$.subscribe((medicos) => {
 
-        console.log('ENTRE A LA SUBSCRIPCION de medicos');
+        // console.log('ENTRE A LA SUBSCRIPCION de medicos');
         this.medicos = medicos;
         // this.ref.markForCheck();
       }, (err) => {
@@ -83,8 +83,8 @@ export class NavigationComponent {
   obtenerSubscripcionPacientes(){
     this.pacientesService.getPacientesActivos().then((pacientes)=>{
       this.pacientesSubscription = this.pacientesCompartidos.pacientes$.subscribe((pacientes) => {
-        console.log(pacientes);
-        console.log('ENTRE A LA SUBSCRIPCION de pacientes');
+        // console.log(pacientes);
+        // console.log('ENTRE A LA SUBSCRIPCION de pacientes');
         // this.ref.markForCheck();
       }, (err) => {
         console.error(err);
@@ -96,8 +96,8 @@ export class NavigationComponent {
   obtenerSubscripcionObras(){
     this.obrasService.getObras().then((obras)=>{
       this.obrasSubscription = this.obrasCompartidas.obras$.subscribe((obras) => {
-        console.log(obras);
-        console.log('ENTRE A LA SUBSCRIPCION de obras');
+        // console.log(obras);
+        // console.log('ENTRE A LA SUBSCRIPCION de obras');
         // this.ref.markForCheck();
       }, (err) => {
         console.error(err);

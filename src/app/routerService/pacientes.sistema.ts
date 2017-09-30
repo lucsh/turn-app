@@ -33,9 +33,9 @@ export class PacientesCompartidosService {
     });
   }
   public iniciarPacientes(pacientes){
-    console.log('INICIAR PACIENTES COMPARTIDO');
+    // console.log('INICIAR PACIENTES COMPARTIDO');
     this.pacientes = pacientes;
-    console.log(this.pacientes);
+    // console.log(this.pacientes);
     this.getPacientes();
   }
 

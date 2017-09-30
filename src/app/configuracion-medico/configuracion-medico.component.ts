@@ -104,7 +104,7 @@ export class ConfiguracionMedicoComponent implements OnInit {
       if(this.medicosCompartidos.medicos$){
         this.subscription = this.medicosCompartidos.medicos$.subscribe((medicos) => {
 
-          console.log('ENTRE A LA SUBSCRIPCION desde configuracion medico');
+          // console.log('ENTRE A LA SUBSCRIPCION desde configuracion medico');
           this.medicos = medicos;
           // this.ref.markForCheck();
         }, (err) => {

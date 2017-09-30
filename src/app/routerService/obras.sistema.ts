@@ -33,9 +33,9 @@ export class ObrasCompartidasService {
     });
   }
   public iniciarObras(obras){
-    console.log('INICIAR PACIENTES COMPARTIDO');
+    // console.log('INICIAR PACIENTES COMPARTIDO');
     this.obras = obras;
-    console.log(this.obras);
+    // console.log(this.obras);
     this.getObras();
   }
 

@@ -80,6 +80,8 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
     }
 
+
+
     if(this.medico != null){
       //this.obras = this.medico.obras;
       this.iniciarTurnosPorObras();
@@ -87,6 +89,16 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
       this.obras = this.obrasDispTotales;
       this.actualizarSelector();
 
+    }
+
+    if(!(this.obrasSelector.length > 0)){
+      //Este if es para que si existia una asignacion de cantidad de turnos por obra social, y
+      // se eliminaron todas las obras por las cuales el medico trabaja, tambien se elimienn los intervalos
+      // ya que sino queda un selector bugeado con un input numerico colgado del aire.
+
+
+      // Ver metodo iniciarTurnosPorObras() , que tiene un if que hace esto mismo en algunas situaciones particulares.
+      this.turnosPorObra = [];
     }
   }
 
@@ -125,6 +137,10 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
       if(this.medico.semanaEsquema && this.medico.semanaEsquema.obrasDisponibles){
 
         this.turnosPorObra = this.medico.semanaEsquema.obrasDisponibles;
+        if(this.obrasSelector.length <= 0){
+          /* Metodo auxiliar de comprobacion para no mostrar intervalos de obras socailes q ya no son trabajadas. */
+          this.turnosPorObra = [];
+        }
       }else{
 
         this.turnosPorObra = [];
@@ -291,7 +307,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
           }
 
         });
-        console.log('FIN FOR EACH');
+        // console.log('FIN FOR EACH');
       }else{
         this.intervalos = [];
       }
