@@ -29,25 +29,33 @@ export class LoginComponent {
     })
       // navigate to base URL on success
       .then((token) => {
-        ////console.log("####################");
-        ////console.log(token);
+        // console.log("#################### TOKEN");
+        // console.log(token);
 
-        var gilada = this.feathers.devolverFeathers().passport.verifyJWT(token.accessToken);
+        let gilada = this.feathers.devolverFeathers().passport.verifyJWT(token.accessToken);
         gilada.then((payload)=>{
-          ////console.log("QUE MIERDA ES PAYLOAD");
-          ////console.log(payload);
-          var gilada2 = this.feathers.service("users").get(payload.userId);
+          let gilada2 = this.feathers.service("users").get(payload.userId);
 
           gilada2.then((user)=>{
             ////console.log("USUARIO:");
-            ////console.log(user);
+            // console.log(user);
             // localStorage.setItem('user',user);
-            localStorage.setItem('user',JSON.stringify(user));
             if(user.clase === 'medico'){
+              localStorage.setItem('user',JSON.stringify(user));
               this.router.navigate(['/medico']);
             }
             else{
-              this.router.navigate(['/']);
+              if(user.clase === 'administrativo'){
+                localStorage.setItem('user',JSON.stringify(user));
+                this.router.navigate(['/']);
+              }else{
+                // console.log('LA CLASE');
+                // console.log(user.clase );
+                localStorage.removeItem('feathers-jwt');
+                this.messages = 'Error en el usuario o contraseña!';
+                // throw new Error("No existe esa cuenta en el sistema!");
+              }
+
             }
           })
         })
