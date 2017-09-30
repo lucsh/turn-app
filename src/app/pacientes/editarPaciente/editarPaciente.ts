@@ -176,7 +176,7 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
   eliminar(paciente){
     let yo = this;
     swal({
-      title: '¿Estas seguro que queres habilitar al paciente?',
+      title: '¿Estas seguro que queres eliminar al paciente?',
       //text: "No seras capaz de revertir esta accion!",
       type: 'warning',
       showCancelButton: true,
