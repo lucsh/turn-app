@@ -332,7 +332,7 @@ export class TurnoSocketService {
         let id = turno._id;
 
         $('#calendar').fullCalendar('removeEvents',turno._id); // Esto elimina el evento (grafico) con el id = turno._id
-        // this.actualizarVisual(turno); //
+        this.actualizarVisual(turno); //
     }
 
 
