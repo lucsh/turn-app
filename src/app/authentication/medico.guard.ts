@@ -15,15 +15,17 @@ export class MedicoGuard implements CanActivate {
               state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
                 let token = JSON.parse(localStorage.getItem('user'));
-                let clase = token.clase;
-                console.log("la clase es... ",clase);
-                if(clase === 'administrativo'){
-                  console.log('Soy administrativo');
-                  this.router.navigate(['']);
-                  return false;
-                }
+                if(token && token.clase){
+                  let clase = token.clase;
+                  console.log("la clase es... ",clase);
+                  if(clase === 'administrativo'){
+                    console.log('Soy administrativo');
+                    this.router.navigate(['']);
+                    return false;
+                  }
 
-                console.log("No soy administrativo");
-                return true;
+                  console.log("No soy administrativo");
+                  return true;
+                }
   }
 }

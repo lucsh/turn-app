@@ -15,16 +15,21 @@ export class AdministrativoGuard implements CanActivate {
               state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
                 let token = JSON.parse(localStorage.getItem('user'));
-                let clase = token.clase;
-                // console.log("la clase es... ",clase);
-                if(clase === 'medico'){
-                  // console.log("Soy medico!");
-                  let doctor = token.nombre;
-                  let id = token._idMedico;
-                  this.router.navigate(['turnos/'+doctor+'/'+id]);
-                  return false;
+                if(token){
+                  if(token.clase){
+                    let clase = token.clase;
+                    // console.log("la clase es... ",clase);
+                    if(clase === 'medico'){
+                      // console.log("Soy medico!");
+                      let doctor = token.nombre;
+                      let id = token._idMedico;
+                      this.router.navigate(['turnos/'+doctor+'/'+id]);
+                      return false;
+                    }
+                    // console.log("No soy medico!");
+                    return true;
+                  }
                 }
-                // console.log("No soy medico!");
-                return true;
+
   }
 }
