@@ -49,10 +49,10 @@
             </div>
           </div>
 
-          
+
           <div class="form-group ">
             <label>Fecha de Nacimiento</label>
-            
+
               <my-date-picker name="fechaPaciente" [options]="myDatePickerOptions" [(ngModel)]="fechaNacimiento" ></my-date-picker>
 
           </div>
@@ -80,7 +80,7 @@
           <div class="form-group">
             <label>Obra Social</label>
 
-            <select class="form-control" required [(ngModel)] = "obraSelected" name="obraSelected" name="obrasPaciente" >
+            <select class="form-control" required [(ngModel)] = "obraSelected" name="obraSelected" >
               <option *ngFor="let obra of obras" [ngValue]="obra" >{{obra.nombre}}</option>
             </select>
           </div>

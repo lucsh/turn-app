@@ -166,7 +166,7 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
               type: 'error'
             }).then(
               function () {
-                yo.reiniciarFormulario(yo.formulario);
+                // yo.reiniciarFormulario(yo.formulario);
 
                 /* Volvemos a dejar todos los campos como estaban antes de ser enviados en el formulario */
 
@@ -194,7 +194,7 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
                   telefonoPaciente: yo.pacienteCopia.telefono,
                   ocupacionPaciente: yo.pacienteCopia.ocupacion,
                   observacionesPaciente: yo.pacienteCopia.observaciones,
-                  obrasPaciente: yo.pacienteCopia.obra
+                  obraSelected: yo.obraSelected,
                 });
 
                 yo.pacienteCopia = null;
