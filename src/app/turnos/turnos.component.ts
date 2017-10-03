@@ -584,7 +584,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
       this.doctores.forEach(function(elem,index){
         if(elem._id == idDoctor){
            thisLocal.doctorSeleccionado = elem;
-           console.log(thisLocal.doctorSeleccionado);
+          //  console.log(thisLocal.doctorSeleccionado);
         }
       });
     }

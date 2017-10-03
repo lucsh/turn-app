@@ -266,7 +266,10 @@ export class TurnoSocketService {
             }
 
             this.turnosObserver.next(this.dataStore.turnos);
-        }).catch(err => console.error(err));
+        }).catch(err => {
+            // console.error(err);
+            console.log("ocurrio un error en el find de turnos");
+        });
     }
 
     private getIndex(id: string): number {

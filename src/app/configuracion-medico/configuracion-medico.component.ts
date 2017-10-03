@@ -55,7 +55,7 @@ export class ConfiguracionMedicoComponent implements OnInit {
   private subscription: Subscription;
   private obrasSubscription: Subscription;
   constructor(
-    route: ActivatedRoute,
+    private route: ActivatedRoute,
     private medicosCompartidos: MedicosCompartidosService,
     private obrasCompartidas: ObrasCompartidasService,
     private http: Http, private configuracionMedicoService: ConfiguracionMedicoService, private obraService: ObrasService) {
@@ -101,11 +101,25 @@ export class ConfiguracionMedicoComponent implements OnInit {
         Subscribimos a los medicos, para que tengan una correspondencia
         con los medicos del navigator
       */
+      let idMedico = this.route.snapshot.params['idDoctor'];
+
       if(this.medicosCompartidos.medicos$){
         this.subscription = this.medicosCompartidos.medicos$.subscribe((medicos) => {
 
           // console.log('ENTRE A LA SUBSCRIPCION desde configuracion medico');
-          this.medicos = medicos;
+          if(idMedico != null){
+            //Este if controla que si yo soy un medico, y estoy en mi vista, no vea todos los medicos.
+            for (let i = 0; i < medicos.length; i++) {
+                if(medicos[i]._id === idMedico){
+                  this.medicos = []; //Limpio el medico viejo sin editar;
+                  this.medicos.push(medicos[i]); //Agregamos el medico editado a la lista.
+                }
+            }
+          }
+          else{
+            this.medicos = medicos;
+          }
+
           // this.ref.markForCheck();
         }, (err) => {
           console.error(err);
