@@ -87,9 +87,9 @@
         <div class="form-group">
           <label>Acciones</label>
           <div class="input-group">
-            <button *ngIf="!modeloPaciente.sancion" (click)="sancionar(modeloPaciente)" class="btn btn-warning">Sancionar</button>
-            <button *ngIf="modeloPaciente.sancion" (click)="habilitar(modeloPaciente)" class="btn btn-primary">Habilitar</button>
-            <button (click)="eliminar(modeloPaciente)" class="btn btn-danger">Eliminar</button>
+            <button *ngIf="!modeloPaciente.sancion" (click)="sancionar(modeloPaciente)" class="btn btn-warning m-xs">Sancionar</button>
+            <button *ngIf="modeloPaciente.sancion" (click)="habilitar(modeloPaciente)" class="btn btn-primary m-xs">Habilitar</button>
+            <button (click)="eliminar(modeloPaciente)" class="btn btn-danger m-xs">Eliminar</button>
 
           </div>
         </div>
