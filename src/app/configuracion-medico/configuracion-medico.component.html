@@ -8,6 +8,9 @@
           #agregarMedico{
             margin-right: 1%;
           }
+          .mouse-pointer{
+            cursor: pointer;
+          }
         </style>
          <div id='agregarMedico' class="row">
            <button (click)="formAgregarMedico()" class="btn btn-s btn-primary pull-right" ><i class="fa fa-plus"></i></button>
@@ -16,7 +19,7 @@
         <!--<iboxtools></iboxtools>  {{whatTime | async | amDateFormat:'hh:mm'}}  -->
       </div>
       <div class="ibox-content">
-        <table class="table table-hover no-margins">
+        <table class="table table-hover no-margins mouse-pointer">
           <thead>
             <tr>
               <th>Matricula</th>
@@ -30,15 +33,15 @@
           </thead>
           <tbody>
             <tr *ngFor="let medico of medicos">
-              <td>{{medico.matricula}}</td>
-              <td>{{medico.nombre}}</td>
-              <td>{{medico.apellido}}</td>
-              <td>{{medico.duracion}}</td>
+              <td (click)="abrirModal(medico)">{{medico.matricula}}</td>
+              <td (click)="abrirModal(medico)">{{medico.nombre}}</td>
+              <td (click)="abrirModal(medico)">{{medico.apellido}}</td>
+              <td (click)="abrirModal(medico)">{{medico.duracion}}</td>
 
               <td>
             <!-- <button (click)="editar(turno)" class="btn btn-info"></button> -->
-            <button (click)="abrirModal(medico)" class="btn btn-success">Actualizar Datos</button>
-            <button (click)="configurarSemana(medico)" class="btn btn-primary">Configurar Semana</button>
+            <!-- <button (click)="abrirModal(medico)" class="btn btn-success">Actualizar Datos</button> -->
+            <button (click)="configurarSemana(medico)" class="btn btn-primary"><i class="fa fa-cog" aria-hidden="true"></i></button>
           </td>
         </tr>
       </tbody>
@@ -159,6 +162,6 @@
 (semenaCambiada)='onIntervalosGuardados($event)'
 ></app-modal-semana>
 
-<agregar-medico  *ngIf="obras && obras.length > 0" 
+<agregar-medico  *ngIf="obras && obras.length > 0"
 [obras]='obras'
 ></agregar-medico>
