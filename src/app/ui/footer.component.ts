@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   template:`
 	    <section class="footer hidden-sm hidden-xs" style="z-index:999;">
             <div class="pull-right">
-                Clínica de la Visión - <strong>Neuquén</strong>.
+                Centro de la Visión - <strong>Neuquén</strong>.
             </div>
             <div>
                 <strong>Copyright</strong> Codetry &copy; 2017
