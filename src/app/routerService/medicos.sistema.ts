@@ -83,6 +83,22 @@ export class MedicosCompartidosService {
     }
   }
 
+  public deleteMedico(medico){
+    if(this.medicos.length > 0 && medico){
+      let encontrado = -1;
+      this.medicos.forEach(function(elem,index){
+        if(elem._id == medico._id){
+          console.log('Lo encontre!!');
+          encontrado = index;
+        }
+      });
+      if(encontrado > -1){
+        this.medicos.splice(encontrado, 1);
+      }
+      this.observer.next(this.medicos);
+    }
+  }
+
   // updateMedico(medico){
   //   // this.medicos.
   //

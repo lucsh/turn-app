@@ -122,6 +122,8 @@ import { MyDatePickerModule } from 'mydatepicker';
 
 import { AgregarObraComponent } from './obras/agregarObra/agregarObra';
 import { TablaObrasComponent } from './obras/tablaObras/tablaObras.component';
+import { TablaMedicosComponent } from './medico/tablaMedicos/tablaMedicos.component';
+import { EditarMedicoComponent } from './medico/editarMedico/editarMedico';
 
 @NgModule({
   declarations: [
@@ -156,7 +158,9 @@ import { TablaObrasComponent } from './obras/tablaObras/tablaObras.component';
     AgregarMedicoComponent,
     TablaPacientesComponent,
     AgregarObraComponent,
-    TablaObrasComponent
+    TablaObrasComponent,
+    TablaMedicosComponent,
+    EditarMedicoComponent
 
   ],
   imports: [
