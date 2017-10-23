@@ -12,6 +12,13 @@ export class LoginComponent {
 
   constructor(private feathers: Feathers, private router: Router) {}
 
+  public ngOnInit():any {
+      let token = localStorage.getItem('user');
+      if(token){
+          this.router.navigateByUrl('/');
+      }
+  }
+
   login(email: string, password: string) {
     if (!email || !password) {
       this.messages='Falta usuario o contraseña!';

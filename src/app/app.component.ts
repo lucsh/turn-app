@@ -66,24 +66,28 @@ navigationInterceptor(event: RouterEvent): void {
 	}
 
 	estaLogueado(){
-		////console.log(localStorage);
+		//console.log('localStorage');
+		//console.log(localStorage);
+		//console.log('estaLogueado');
 		let token = localStorage.getItem('user');
 		return token;
 		// return this.logueadoCache;
 	}
 
 	public logueado(){
+		//console.log("#################################################");
 		//console.log("logueado method");
 
 		this.auth
 		.logIn()
 		.then(() => {
 			//console.log('TODO OK');
+			//this.router.navigateByUrl('/');
 			this.logueadoCache = true;
 		})
 		.catch(() => {
 			//console.log('No logueado');
-
+            localStorage.clear();
 			this.logueadoCache = false;
 		});
 	}
