@@ -64,11 +64,11 @@
         </li>
 
         <li [ngClass]="{active: activeRoute('configuracion')}" *ngIf="!esMedico()">
-          <a [routerLink]="['/configuracion']"><i class="fa fa-cog"></i> <span class="nav-label">Configuracion</span></a>
+          <a [routerLink]="['/configuracion']"><i class="fa fa-cog"></i> <span class="nav-label">Configuración</span></a>
         </li>
 
         <li [ngClass]="{active: activeRoute('configuracion')}" *ngIf="esMedico()">
-          <a [routerLink]="['/configuracion/' + medico._idMedico]"><i class="fa fa-cog"></i> <span class="nav-label">Configuracion</span></a>
+          <a [routerLink]="['/configuracion/' + medico._idMedico]"><i class="fa fa-cog"></i> <span class="nav-label">Configuración</span></a>
         </li>
 
 
