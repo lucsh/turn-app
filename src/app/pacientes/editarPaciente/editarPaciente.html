@@ -90,6 +90,7 @@
             <button *ngIf="!modeloPaciente.sancion" (click)="sancionar(modeloPaciente)" class="btn btn-warning m-xs">Sancionar</button>
             <button *ngIf="modeloPaciente.sancion" (click)="habilitar(modeloPaciente)" class="btn btn-primary m-xs">Habilitar</button>
             <button (click)="eliminar(modeloPaciente)" class="btn btn-danger m-xs">Eliminar</button>
+            <button (click)="generarPass(modeloPaciente)" class="btn btn-primary m-xs">Generar Contraseña</button>
 
           </div>
         </div>

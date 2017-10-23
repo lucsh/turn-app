@@ -29,7 +29,7 @@
     <!-- Email Column -->
     <ng-container mdColumnDef="email">
       <md-header-cell class="hidden-sm hidden-xs col-md-2" *mdHeaderCellDef md-sort-header> Email </md-header-cell>
-      <md-cell class="hidden-sm hidden-xs col-md-2" *mdCellDef="let row"> {{row.email}} </md-cell>
+      <md-cell class="hidden-sm hidden-xs col-md-2" *mdCellDef="let row"> <div *ngIf="row.email.substr((row.email.length-10),row.email.length) == '@email.com'">Sin email - {{row.email.substr(0,row.email.length-10)}}</div><div *ngIf="row.email.substr((row.email.length-10),row.email.length) != '@email.com'">{{row.email}}</div> </md-cell>
     </ng-container>
 
     <!-- Nombre Column -->

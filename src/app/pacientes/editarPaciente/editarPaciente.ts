@@ -198,6 +198,31 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
     }).catch(swal.noop);
   }
 
+  generarPass(paciente){
+    let yo = this;
+    yo.modeloPaciente.password = yo.modeloPaciente.nombre.charAt(0).toLowerCase() + yo.modeloPaciente.apellido.charAt(0).toLowerCase() + yo.modeloPaciente.dni;
+    swal.queue([{
+      title: 'Desea reinciar la contraseña?',
+      confirmButtonText: 'Reiniciar',
+      text:
+        'Your public IP will be received ' +
+        'via AJAX request',
+      showLoaderOnConfirm: true,
+      preConfirm: function () {
+        return new Promise(function (resolve) {
+
+            yo.pacientesService.actualizarPaciente(yo.modeloPaciente._id, yo.modeloPaciente)
+            .then(pacienteEdit => {
+                swal.insertQueueStep(yo.modeloPaciente.password)
+                resolve()
+            }).catch(err => {console.log(err);})
+
+        })
+      }
+    }]);
+
+  }
+
 
   /*
 
