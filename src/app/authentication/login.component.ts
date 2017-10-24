@@ -27,11 +27,13 @@ export class LoginComponent {
 
 
     email = email.toLowerCase();
+    //FIX CAMBIO EL username por el email
+    var username = email;
 
     // try to authenticate with feathers
     this.feathers.authenticate({
       strategy: 'local',
-      email,
+      username,
       password
     })
       // navigate to base URL on success
