@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Feathers } from './feathers.service';
 
+import { AuthService } from './auth.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html'
@@ -10,7 +12,10 @@ import { Feathers } from './feathers.service';
 export class LoginComponent {
   messages: string = "";
 
-  constructor(private feathers: Feathers, private router: Router) {}
+  constructor(
+      private feathers: Feathers,
+      private router: Router,
+      private authService: AuthService) {}
 
   public ngOnInit():any {
       let token = localStorage.getItem('user');
@@ -24,12 +29,11 @@ export class LoginComponent {
       this.messages='Falta usuario o contraseña!';
       return;
     }
-
+    //localStorage.clear();
 
     email = email.toLowerCase();
     //FIX CAMBIO EL username por el email
     var username = email;
-
     // try to authenticate with feathers
     this.feathers.authenticate({
       strategy: 'local',
@@ -58,10 +62,12 @@ export class LoginComponent {
                 localStorage.setItem('user',JSON.stringify(user));
                 this.router.navigate(['/']);
               }else{
-                // console.log('LA CLASE');
-                // console.log(user.clase );
-                localStorage.removeItem('feathers-jwt');
+                //console.log('LA CLASE');
+                //console.log(user.clase );
+                //localStorage.removeItem('feathers-jwt');
+                localStorage.clear();
                 this.messages = 'Error en el usuario o contraseña!';
+                this.authService.logOut();
                 // throw new Error("No existe esa cuenta en el sistema!");
               }
 
