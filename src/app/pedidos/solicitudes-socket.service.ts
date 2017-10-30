@@ -20,8 +20,8 @@ import {default as swal} from 'sweetalert2';
 export class SolicitudesSocketService implements OnDestroy  {
   private urlServidor = VariablesGlobales.BASE_API_URL;
 
-  public solicitudes$: Observable<Paciente[]>;
-  private solicitudesObserver: Observer<Paciente[]>;
+  public solicitudes$: Observable<any[]>;
+  private solicitudesObserver: Observer<any[]>;
 
   private solicitudesSocketService: any;
 
@@ -33,11 +33,13 @@ export class SolicitudesSocketService implements OnDestroy  {
   };
 
   private matricula: string;
-  // private socket;
+  private socket;
   private feathersService;
 
   constructor(private FeathersCambiarNombre: Feathers, private pacientesCompartidos : PacientesCompartidosService,) {
+    // console.log('############################### NUEVO CONSTRUCTOR !!!!!!');
 
+    this.socket = io(this.urlServidor);
     //Estamos usando el Service de Feathers, pues el que tiene la autenticacion del login
     this.feathersService = FeathersCambiarNombre.devolverFeathers();
     //Obtenemos el service que queremos
@@ -73,6 +75,9 @@ export class SolicitudesSocketService implements OnDestroy  {
 
   ngOnDestroy(){
 
+    // console.log('############################### ENTRE AL NG ON DSTROY!!!!!!');
+    this.socket.disconnect();
+    this.solicitudesSocketService = null;
     //this.socket.close();
     // this.solicitudesSocketService = null;
     //
@@ -216,6 +221,7 @@ export class SolicitudesSocketService implements OnDestroy  {
   private onCreated(pacienteAprobado){
     //console.log('On created de Paciente (solicitud aprobada) de Angular con Socket de Feathers');
     //console.log(pacienteAprobado);
+    console.log('## ENTRE EN EL ON CREATED');
 
     //Si el nuevo paciente NO esta aprobado => entro una nueva solicitud
     if(!pacienteAprobado.aprobado){
@@ -251,10 +257,14 @@ export class SolicitudesSocketService implements OnDestroy  {
 
     // Nos aseguramos que el paciente haya sido aprobado correctamente
     if(pacienteAprobado.aprobado){
-      this.quitarSolicitud(pacienteAprobado);
+      let quitado = this.quitarSolicitud(pacienteAprobado);
 
       // Agregamos el paciente aprobado al sistema
-      this.pacientesCompartidos.addPaciente(pacienteAprobado);
+      if(quitado){
+        if(!this.pacientesCompartidos.existePaciente(pacienteAprobado)){
+          this.pacientesCompartidos.addPaciente(pacienteAprobado);
+        }
+      }
 
     }
 
@@ -296,8 +306,17 @@ export class SolicitudesSocketService implements OnDestroy  {
 
     let indexQuitar = this.buscarSolicitud(pacienteQuitar);
 
-    if(indexQuitar > -1){
-      solicitudes.splice(indexQuitar, 1);
+    if(indexQuitar > -1 && solicitudes[indexQuitar].aprobado == false){
+      // console.log('VOY A QUITAR A : ');
+      // console.log(solicitudes[indexQuitar]);
+      // console.log(solicitudes[indexQuitar].aprobado);
+      //
+      // console.log(this.dataStore.solicitudes);
+
+      this.dataStore.solicitudes = solicitudes.splice(indexQuitar, 1);
+
+      // console.log(this.dataStore.solicitudes);
+      // console.log('----------------------------');
 
       //console.log(solicitudes);
 

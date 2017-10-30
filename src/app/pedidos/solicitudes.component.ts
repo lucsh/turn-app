@@ -15,7 +15,7 @@ declare var $: any;
 
 @Component({
     selector: 'app-solicitudes',
-    providers: [SolicitudesSocketService],
+    providers: [ SolicitudesSocketService ],
     templateUrl: './solicitudes.component.html',
     styleUrls: ['./solicitudes.component.css']
 })
@@ -50,6 +50,8 @@ export class SolicitudesComponent implements OnInit, OnDestroy  {
     }
 
     ngOnDestroy() {
+      // console.log('###### FIN Solicitudes component');
+
         //this.subscription.unsubscribe();
         this.solicitudesService = null;
     }

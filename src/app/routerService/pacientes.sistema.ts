@@ -71,7 +71,6 @@ export class PacientesCompartidosService {
       let encontrado = -1;
       this.pacientes.forEach(function(elem,index){
         if(elem._id == paciente._id){
-          console.log('Lo encontre!!');
           encontrado = index;
         }
       });
@@ -80,5 +79,29 @@ export class PacientesCompartidosService {
       }
       this.observer.next(this.pacientes);
     }
+  }
+
+  public existePaciente(paciente){
+
+    let indice = this.buscarPaciente(paciente);
+
+    if(indice > -1){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+  private buscarPaciente(paciente){
+    let indice = -1;
+    this.pacientes.forEach(function(elem,index){
+      if(elem._id == paciente._id){
+        indice = index;
+      }
+    });
+
+    return indice;
+
   }
 }
