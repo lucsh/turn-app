@@ -76,17 +76,33 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
     this.obraSelected = null;
     let yo = this;
 
-    if(this.obras && yo.paciente!= null){
+    if(yo.paciente.obra != null){
+      if(this.obras && yo.paciente!= null){
+        this.obras.forEach(function(obra,index){
+          if(obra._id == yo.paciente.obra._id){
+            yo.obraSelected = obra;
+          }
+        });
+      }
+    }
+    else{
+      this.obraSelected = this.devolverParticular();
+    }
+  }
+
+
+  private devolverParticular(){
+    let obraRes:Obra;
+    if(this.obras){
       this.obras.forEach(function(obra,index){
-        if(obra._id == yo.paciente.obra._id){
-          yo.obraSelected = obra;
+        if(obra.nombre == 'Particular' ){
+          obraRes = obra;
         }
       });
     }
 
-
+    return obraRes;
   }
-
   /*
   */
   ngOnChanges(changes) {
@@ -102,9 +118,18 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
     //  let obraId = this.obraSelected._id;
 
     //Actualizamos la obra seleccionada
-    if(this.obraSelected){
-      this.modeloPaciente.obra = this.obraSelected._id;
+    console.log("Entre a editar paciente y tengo de id... ",this.obraSelected._id);
+    if(this.obraSelected && this.obraSelected.nombre == 'Particular'){
+      this.modeloPaciente.obra = null;
+      console.log('Entre al if de Particular');
     }
+    else{
+      if(this.obraSelected){
+        this.modeloPaciente.obra = this.obraSelected._id;
+        console.log('Entre al else, y tengo... ',this.modeloPaciente.obra);
+      }
+    }
+
     this.modeloPaciente.fechaNacimiento = this.fechaNacimiento.jsdate;
 
     this.modeloPaciente.email = this.modeloPaciente.email.toLowerCase();

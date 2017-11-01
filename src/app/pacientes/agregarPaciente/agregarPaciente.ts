@@ -77,6 +77,17 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
       this.obrasSubscription = this.obrasCompartidasService.obras$.subscribe((obras) => {
 
         this.obras = obras;
+
+        if(this.devolverParticular()==null){
+
+          let particular = {
+          	_id: 'Particular',
+          	nombre: 'Particular',
+          	iniciales: 'Particular'
+          };
+          this.obras.push(particular);
+        }
+
         // this.ref.markForCheck();
       }, (err) => {
         console.log('Error en observarObras de agregarPaciente');
@@ -86,6 +97,22 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
       // Obtenemos los pacientes compartidos
       this.obrasCompartidasService.getObras();
     }
+  }
+
+
+  private devolverParticular(){
+    let obraRes:Obra;
+    if(this.obras){
+      this.obras.forEach(function(obra,index){
+        if(obra.nombre == 'Particular' ){
+          obraRes = obra;
+        }
+      });
+    }
+
+    // console.log("El resultado de devolver particular es.. ", obraRes);
+
+    return obraRes;
   }
 
   /*
@@ -120,8 +147,13 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
       let emailPacienteLower = emailPaciente.toLowerCase();
       ////console.log('Entre a agregar Paciente');
       let obraId = this.obraSelected._id;
-      this.pacienteCopia.obra = obraId;
 
+      if(obraId === 'Particular'){
+        obraId = null;
+      }
+      else{
+        this.pacienteCopia.obra = obraId;
+      }
 
       this.pacientesService.createPaciente(nombrePaciente,apellidoPaciente, dniPaciente,
         emailPacienteLower, this.fechaNacimiento.jsdate, telefonoPaciente, obraId, ocupacion, observaciones)
