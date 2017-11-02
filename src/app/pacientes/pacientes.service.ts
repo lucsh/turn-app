@@ -6,7 +6,7 @@ import { Paciente } from './paciente.tipo';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import {VariablesGlobales} from '../variablesGlobales';
+import { environment } from '../../environments/environment';
 
 
 import { AuthService } from '../authentication/auth.service';
@@ -15,7 +15,7 @@ import { AuthService } from '../authentication/auth.service';
 export class PacientesService {
 
 	private headers = new Headers({'Content-Type': 'application/json'});
-	private pacientesURL = VariablesGlobales.BASE_API_URL+'/pacientes';  // URL to web api
+	private pacientesURL = environment.apiUrl + '/pacientes';  // URL to web api
 
 	constructor(private http: Http, private authService: AuthService) {
 

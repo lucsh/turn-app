@@ -7,7 +7,7 @@ import { Medico } from './medico.tipo';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-import {VariablesGlobales} from '../variablesGlobales';
+import { environment } from '../../environments/environment';
 
 import { AuthService } from '../authentication/auth.service';
 
@@ -15,7 +15,7 @@ import { AuthService } from '../authentication/auth.service';
 export class MedicosService {
 
 	private headers = new Headers({'Content-Type': 'application/json'});
-    private medicosURL = VariablesGlobales.BASE_API_URL +'/medicos';  // URL to web api
+    private medicosURL = environment.apiUrl +'/medicos';  // URL to web api
 
 	constructor(private http: Http, private authService: AuthService) {
 

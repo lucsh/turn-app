@@ -14,7 +14,7 @@ declare var feathersClient:any;
 import { Turno } from './turno.tipo';
 
 import { PacientesService } from '../pacientes/pacientes.service';
-import {VariablesGlobales} from '../variablesGlobales';
+import { environment } from '../../environments/environment';
 
 
 import { AuthService } from "../authentication/auth.service";
@@ -32,7 +32,7 @@ import { Feathers } from '../authentication/feathers.service'
 @Injectable()
 export class TurnoSocketService {
 
-    private urlServidor = VariablesGlobales.BASE_API_URL;
+    private urlServidor = environment.apiUrl;
 
     public turnos$: Observable<Turno[]>;
     private turnosObserver: Observer<Turno[]>;
