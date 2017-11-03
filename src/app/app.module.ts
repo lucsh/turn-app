@@ -96,6 +96,8 @@ import { ConfiguracionMedicoComponent } from './configuracion-medico/configuraci
 import { ModalSemanaComponent } from './configuracion-medico/modal-semana/modal-semana.component';
 import { EditarPacienteComponent } from './pacientes/editarPaciente/editarPaciente';
 import { EditarObraComponent } from './obras/editarObra/editarObra';
+import { TablaMedicosComponent } from './medico/tablaMedicos/tablaMedicos.component';
+import { EditarMedicoComponent } from './medico/editarMedico/editarMedico';
 
 
 import { AuthService } from './authentication/auth.service';
@@ -143,7 +145,8 @@ import { TablaObrasComponent } from './obras/tablaObras/tablaObras.component';
     TurnosDelMedicoComponent,
     EditarPacienteComponent,
     EditarObraComponent,
-
+    TablaMedicosComponent,
+    EditarMedicoComponent,
 
     LoginComponent,
     RegisterComponent,

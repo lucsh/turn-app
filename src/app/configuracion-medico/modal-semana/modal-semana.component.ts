@@ -73,7 +73,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     this.reiniciarConfiguracion();
 
     if(!this.primeraVez){
-      this.obrasSelector = [];
+      // this.obrasSelector = [];
       this.turnosPorObra = [];
       this.resetearSelectoresObras();
       this.resetearCheckBoxs();

@@ -82,6 +82,39 @@ export class MedicosCompartidosService {
     }
   }
 
+  public actualizarSemana(medicoCambiado){
+
+
+    let i = -1;
+    this.medicos.forEach(function(med,index){
+      if(med._id.toString() == medicoCambiado._id){
+        i = index;
+      }
+    });
+    if(i > -1){
+      this.medicos[i].semanaEsquema = medicoCambiado.semanaEsquema;
+    }
+
+    this.observer.next(this.medicos);
+
+  }
+
+  public deleteMedico(medico){
+    if(this.medicos.length > 0 && medico){
+      let encontrado = -1;
+      this.medicos.forEach(function(elem,index){
+        if(elem._id == medico._id){
+          console.log('Lo encontre!!');
+          encontrado = index;
+        }
+      });
+      if(encontrado > -1){
+        this.medicos.splice(encontrado, 1);
+      }
+      this.observer.next(this.medicos);
+    }
+  }
+
   // updateMedico(medico){
   //   // this.medicos.
   //
