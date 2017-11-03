@@ -84,7 +84,7 @@ export class TablaMedicosComponent implements OnInit {
     };
 
     // LABEL de items per page de la tabla
-    this.paginator._intl.itemsPerPageLabel = 'Obras por página';
+    this.paginator._intl.itemsPerPageLabel = 'Médicos por página';
 
     this.dataSource = new ExampleDataSource(this.exampleDatabase, this.sort, this.paginator);
 
