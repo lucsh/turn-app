@@ -63,6 +63,16 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
         console.log('Tengo las obras!!');
         this.obras = obras;
 
+        if(this.devolverParticular()==null){
+
+          let particular = {
+          	_id: 'Particular',
+          	nombre: 'Particular',
+          	iniciales: 'Particular'
+          };
+          this.obras.push(particular);
+        }
+
         this.iniciarObraSeleccionada();
         this.modeloPaciente = null;
         this.modeloPaciente = Object.assign({}, this.paciente); //clonamos el paciente
