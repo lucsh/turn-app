@@ -50,7 +50,9 @@ export class TablaMedicosComponent implements OnInit {
   private obrasSubscription: Subscription;
 
   medicoSeleccionado = {
-    'id' : ''
+    'id' : '',
+    '_id' : '',
+    'obras':[]
   };
 
   constructor(
@@ -80,7 +82,10 @@ export class TablaMedicosComponent implements OnInit {
     this.observarObras();
 
     this.medicoSeleccionado = {
-      'id' : ''
+      'id' : '',
+      '_id' : '',
+      'obras':[]
+
     };
 
     // LABEL de items per page de la tabla
@@ -180,7 +185,9 @@ export class TablaMedicosComponent implements OnInit {
 
       //Sacamos la seleccion del medico, para que dsps no haya inconsistencias
       this.medicoSeleccionado = {
-        'id' : ''
+        'id' : '',
+        '_id' : '',
+        'obras':[]
       };
 
 
