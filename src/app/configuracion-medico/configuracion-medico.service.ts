@@ -52,6 +52,11 @@ export class ConfiguracionMedicoService {
 	}
 
 	actualizarMedico(id,nombre,apellido,emailMedico, duracion,obras, idUsuario): Promise<any>{
+		
+		if(obras != null){
+			obras = this.limpiarParticular(obras);
+			console.log("Las obras quedaron de la siguiente manera ", obras);
+		}
 		return this.http.patch(this.medicosURL+'/'+id,{nombre: nombre, apellido: apellido, email:emailMedico, duracion:duracion,obras:obras, _idUsuario:idUsuario},this.authService.jwt())
 		.toPromise()
 		.then(response => {
@@ -84,35 +89,22 @@ export class ConfiguracionMedicoService {
 			return medico.semanaEsquema;
 		})
 		.catch(this.handleError);
-
-
-    // return this.http.get(urlSemanas+'?medico='+id)
-		// .toPromise()
-		// .then(response => {
-		// 	console.log('ENTRE ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-    //   //Filtramos....
-    //    var arr = response.json();
-		//
-		// 	 //console.log(arr);
-		//
-    //    var result = [];
-    //    for (var i = 0; i < arr.length; i++) {
-		// 		 //console.log(arr[i]);
-    //      if(arr[i].medico._id === id){
-    //        result.push(arr[i]);
-    //        ////console.log("LALALA");
-    //      }
-    //    }
-		//
-		// 	return result as any[];
-		// })
-		// .catch(this.handleError);
-
-
-
-
   }
 
+	/** Este metodo es creado para quitar la obra Particular (que en realidad fue agregada a este arreglo para crear una sensacion visual, y no es una obra real en el BACKEND) */
+	private limpiarParticular(obras){
+		let resultado =  [];
+		if(obras != null ){
+			for (var index = 0; index < obras.length; index++) {
+				var element = obras[index];
+				if(element.nombre !='Particular'){
+					resultado.push(element);
+				}
+				
+			}
+		}
+		return resultado;
+	}
 
 
 }

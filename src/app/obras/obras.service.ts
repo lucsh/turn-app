@@ -23,7 +23,8 @@ export class ObrasService {
     return this.http.get(this.obrasURL,this.authService.jwt())
     .toPromise()
     .then(response => {
-      ////console.log(response.json());
+      console.log("Me llegaron las siguientes obras!");
+      console.log(response.json());
       return response.json() as Obra[];
     })
     .catch(this.handleError);

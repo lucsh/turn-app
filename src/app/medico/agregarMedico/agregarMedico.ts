@@ -126,11 +126,25 @@ export class AgregarMedicoComponent implements OnInit, OnChanges{
   //****************************************************************************
   //Metodos del selector
 
+  /** Este metodo es creado para quitar la obra Particular (que en realidad fue agregada a este arreglo para crear una sensacion visual, y no es una obra real en el BACKEND) */
+  private limpiarParticular(obras){
+    let resultado =  [];
+    if(obras != null ){
+      for (var index = 0; index < obras.length; index++) {
+        var element = obras[index];
+        if(element.nombre !='Particular'){
+          resultado.push(element);
+        }
+        
+      }
+    }
+    return resultado;
+  }
 
   public actualizarSelector(){
     if(this.obras!=null){
       ////console.log('Entre a Ng on Changes del modal configurar semana');
-
+      this.obras = this.limpiarParticular(this.obras);
 
       let yo = this;
       this.obras.forEach(function(elem,index){

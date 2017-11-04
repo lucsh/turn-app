@@ -159,14 +159,18 @@ export class TablaObrasComponent implements OnInit {
       this.observarObras();
     }
 
-    observarObras(){
-      /*
+     /*
         Subscribimos a los obras, para que tengan una correspondencia
         con los obras del navigator
       */
+    observarObras(){
       if(this.obrasCompartidasService.obras$){
         this.obrasSubscription = this.obrasCompartidasService.obras$.subscribe((obras) => {
 
+          // console.log("Obras subscriptas...", obras);
+          if(obras != null ){
+            obras = this.limpiarParticular(obras);
+          }
           this.setObras(obras);
           // this.ref.markForCheck();
         }, (err) => {
@@ -177,6 +181,21 @@ export class TablaObrasComponent implements OnInit {
         // Obtenemos los pacientes compartidos
         this.obrasCompartidasService.getObras();
       }
+    }
+
+    /** Este metodo es creado para quitar la obra Particular (que en realidad fue agregada a este arreglo para crear una sensacion visual, y no es una obra real en el BACKEND) */
+    private limpiarParticular(obras){
+      let resultado =  [];
+      if(obras != null ){
+        for (var index = 0; index < obras.length; index++) {
+          var element = obras[index];
+          if(element.nombre !='Particular'){
+            resultado.push(element);
+          }
+          
+        }
+      }
+      return resultado;
     }
 
 
