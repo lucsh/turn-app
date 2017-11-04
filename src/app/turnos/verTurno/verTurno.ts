@@ -37,6 +37,8 @@ export class VerTurnoComponent implements OnInit, OnChanges{
 
   public pacienteDelTurno: any = null;
 
+  public turnoModificable: boolean = true;
+
 
   constructor(
     private obrasService: ObrasService,private turnosSocketService : TurnoSocketService
@@ -79,6 +81,16 @@ export class VerTurnoComponent implements OnInit, OnChanges{
       this.pacienteDelTurno = this.turno.paciente;
       // let fechaNuevoTurno = this.turno.horaInicial;
       let fechaNuevoTurno = moment(this.turno.horaInicial).utc();
+      var today = moment().utc();
+
+      //Verificamos que la fecha del turno, para conocer si lo podra eliminar o no.
+      if(fechaNuevoTurno < today){
+        this.turnoModificable = false;
+      }
+      else{
+        this.turnoModificable = true;
+      }
+
       // console.log(fechaNuevoTurno);
       this.horaNuevoTurno = fechaNuevoTurno.format('HH:mm');
       this.diaNuevoTurno = fechaNuevoTurno.format('DD [de] MMMM');

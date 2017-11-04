@@ -65,11 +65,11 @@
 
       <div class="modal-footer">
 
-        <button class="btn btn-info" (click)='editarPaciente()'>
+        <button class="btn btn-info" *ngIf='turnoModificable' (click)='editarPaciente()'>
           Editar paciente
         </button>
 
-        <button class="btn btn-danger" (click)='cancelarTurno()'>
+        <button class="btn btn-danger" *ngIf='turnoModificable' (click)='cancelarTurno()'>
           Cancelar Turno
         </button>
 
