@@ -247,57 +247,71 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
 
         },
-        
         eventDrop: function (event, delta, revertFunc) {
 
 
           var startUtc = moment(event.start).utc();
           var endUtc = moment(event.end).utc();
+          var today = moment().utc();
+          
+          if(startUtc < today){
+            // console.log(event);
+            //TODO: hacer funcionalidad de copiar un turno para crear uno nuevo.
+            revertFunc();
+          }
+          else{
+            swal({
+              title: '¿Estas seguro que queres cambiar el turno?',
+              //text: 'You will not be able to recover this imaginary file!',
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Si, modificar!',
+              cancelButtonText: 'Cancelar'
+            }).then(function () {
+              // yo.turnosSocketService.actualizarTurno(event);
+              yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
+            }, function (dismiss) {
+              // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+              if (dismiss === 'cancel') {
+                revertFunc();
+              }
+            });
+          }
 
-          swal({
-            title: '¿Estas seguro que queres cambiar el turno?',
-            //text: 'You will not be able to recover this imaginary file!',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, modificar!',
-            cancelButtonText: 'Cancelar'
-          }).then(function () {
-            // yo.turnosSocketService.actualizarTurno(event);
-            yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
-          }, function (dismiss) {
-            // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
-            if (dismiss === 'cancel') {
-              revertFunc();
-            }
-          });
+          
         },
         eventResize: function (event, delta, revertFunc) {
 
           var startUtc = moment(event.start).utc();
           var endUtc = moment(event.end).utc();
 
-          swal({
-            title: '¿Estas seguro que queres agrandar el turno?',
-            //text: 'You will not be able to recover this imaginary file!',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, agrandar!',
-            cancelButtonText: 'Cancelar'
-          }).then(function () {
-            // yo.turnosSocketService.actualizarTurno(event);
-            yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
-          }, function (dismiss) {
-            // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
-            if (dismiss === 'cancel') {
-              revertFunc();
-            }
-          });
+          var today = moment().utc();
 
-
+          if(startUtc < today){
+            revertFunc();
+          }
+          else{
+            swal({
+              title: '¿Estas seguro que queres agrandar el turno?',
+              //text: 'You will not be able to recover this imaginary file!',
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Si, agrandar!',
+              cancelButtonText: 'Cancelar'
+            }).then(function () {
+              // yo.turnosSocketService.actualizarTurno(event);
+              yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
+            }, function (dismiss) {
+              // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+              if (dismiss === 'cancel') {
+                revertFunc();
+              }
+            });
+          }
           //actualizar el turno en la db (tenemos el event.id)
           //???
         },
