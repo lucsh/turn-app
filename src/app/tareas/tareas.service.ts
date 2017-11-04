@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import {VariablesGlobales} from '../variablesGlobales';
+import { environment } from '../../environments/environment';
 import {Tarea} from './tarea.tipo';
 import { AuthService } from '../authentication/auth.service';
 
@@ -14,7 +14,7 @@ export class TareasService {
 
 
   private headers = new Headers({'Content-Type': 'application/json'});
-	private tareasURL = VariablesGlobales.BASE_API_URL+'/tareas';  // URL to web api
+	private tareasURL = environment.apiUrl+'/tareas';  // URL to web api
 
   constructor(private http: Http, private authService: AuthService) {
 

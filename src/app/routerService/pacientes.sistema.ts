@@ -9,7 +9,6 @@ import { AuthService } from '../authentication/auth.service';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-import {VariablesGlobales} from '../variablesGlobales';
 
 
 import { Observer } from 'rxjs/Observer';

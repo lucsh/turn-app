@@ -1,0 +1,132 @@
+<div class=" example-container ">
+  <!-- <h4>Seleccione el trabajo deseado</h4> -->
+  <!-- <h2 class="col-xs-6">Pacientes</h2> -->
+  <!-- <h2 class="col-lg-6">Pacientes</h2> -->
+
+
+  <div class="">
+    <h2 class="col-lg-8">Medicos</h2>
+    <div class="col-lg-4">
+          <style media="screen">
+          #agregarObra{
+              margin-top: 5%;
+              margin-bottom: 2%;
+            }
+	.mouse-pointer{
+
+            cursor: pointer;
+          }
+          </style>
+          <!--
+           <div id='agregarObra' class="row">
+               <button class="btn btn-s btn-primary pull-right"  data-toggle="modal" data-target="#formAgregarMedico" ><i class="fa fa-plus"></i></button>
+           </div>
+       -->
+    </div>
+  </div>
+
+  <br>
+
+  <div class="example-header">
+
+    <md-form-field floatPlaceholder="never">
+      <input mdInput #filter placeholder="Buscar Medicos">
+    </md-form-field>
+
+
+  </div>
+  <md-table class='hoverTable col-lg-12 mouse-pointer'
+  selectable-rows="true"
+  table-card="{title: Nutrition, actionIcons: true}"
+  #table [dataSource]="dataSource" mdSort>
+
+  <!-- Matricula Column -->
+  <ng-container mdColumnDef="matricula">
+    <md-header-cell *mdHeaderCellDef md-sort-header> Matricula </md-header-cell>
+    <md-cell  (click)="editarMedico(row)" *mdCellDef="let row"> {{row.matricula}} </md-cell>
+  </ng-container>
+
+  <!-- Nombre Column -->
+  <ng-container mdColumnDef="nombre">
+    <md-header-cell *mdHeaderCellDef md-sort-header> Nombre </md-header-cell>
+    <md-cell (click)="editarMedico(row)" *mdCellDef="let row"> {{row.nombre}} </md-cell>
+  </ng-container>
+
+  <!-- Apellido Column -->
+  <ng-container mdColumnDef="apellido">
+    <md-header-cell *mdHeaderCellDef md-sort-header> Apellido </md-header-cell>
+    <md-cell (click)="editarMedico(row)" *mdCellDef="let row"> {{row.apellido}} </md-cell>
+  </ng-container>
+
+  <!-- Duracion Turnos Column -->
+  <ng-container mdColumnDef="duracion">
+    <md-header-cell *mdHeaderCellDef md-sort-header> Duracion Turnos </md-header-cell>
+    <md-cell (click)="editarMedico(row)" *mdCellDef="let row"> {{row.duracion}} </md-cell>
+  </ng-container>
+
+  <!-- Duracion Turnos Column -->
+  <ng-container mdColumnDef="acciones">
+    <md-header-cell *mdHeaderCellDef md-sort-header> Semana </md-header-cell>
+    <md-cell *mdCellDef="let row">
+      <button (click)="configurarSemana(row)" class="btn btn-primary"><i class="fa fa-cog" aria-hidden="true"></i></button>
+    </md-cell>
+  </ng-container>
+
+
+  <!-- Acciones  -->
+  <!-- <ng-container mdColumnDef="acciones">
+    <md-header-cell *mdHeaderCellDef> Acciones </md-header-cell>
+    <md-cell *mdCellDef="let row">
+
+
+      <button *ngIf="!row.sancion" (click)="sancionar(row)" class="btn btn-warning">Sancionar</button>
+      <button *ngIf="row.sancion" (click)="habilitar(row)" class="btn btn-primary">Habilitar</button>
+      <button (click)="eliminar(row)" class="btn btn-danger">Eliminar</button>
+
+    </md-cell>
+  </ng-container> -->
+
+
+  <md-header-row  *mdHeaderRowDef="displayedColumns"></md-header-row>
+  <md-row  [ngClass]="{'isSpecial':  row._id == medicoSeleccionado._id}" *mdRowDef="let row; columns: displayedColumns;" (click)="rowClick(row)"></md-row>
+
+</md-table>
+
+<div class="example-no-results"
+[style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+No se encuentran medicos que coincidan con la búsqueda!
+</div>
+
+<md-paginator #paginator
+[length]="exampleDatabase.data.length"
+[pageIndex]="0"
+[pageSize]="5"
+[pageSizeOptions]="[5, 10, 25, 100]">
+</md-paginator>
+
+</div>
+<br>
+
+
+<editar-medico *ngIf = 'medicoSeleccionado._id'
+[medicoSeleccionado]='medicoSeleccionado'
+(medicoEditado)='onMedicoEditado($event)'
+>
+</editar-medico>
+
+<app-modal-semana *ngIf="medicoSeleccionado != null && medicoSeleccionado.obras" [obrasDispTotales]="medicoSeleccionado.obras" [medico]="medicoSeleccionado"
+(semenaCambiada)='onIntervalosGuardados($event)'
+></app-modal-semana>
+
+<agregar-medico  *ngIf="obras && obras.length > 0"
+[obras]='obras'
+(medicoAgregado)='onMedicoAgregado($event)'
+></agregar-medico>
+<!-- <editar-obra *ngIf = 'medicoSeleccionado._id'
+  [obra]='medicoSeleccionado'
+  (obraEditada)='onObraEditada($event)'
+  (obraEliminada)='onObraEliminada($event)'
+></editar-obra>
+<agregar-obra
+  (obraAgregada)='onObraAgregada($event)'
+></agregar-obra> -->
