@@ -336,6 +336,8 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
   public actualizarSelector(){
     if(this.obras!=null){
       let yo = this;
+      yo.obrasSelector = []; // reseteamos el selector visual
+
       this.obras.forEach(function(elem,index){
         /*
         Dado que estamos usando el componente ng2-select,
