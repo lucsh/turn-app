@@ -112,7 +112,7 @@ No se encuentran medicos que coincidan con la búsqueda!
 >
 </editar-medico>
 
-<app-modal-semana *ngIf="medicoSeleccionado != null && medicoSeleccionado.obras" [obrasDispTotales]="medicoSeleccionado.obras" [medico]="medicoSeleccionado"
+<app-modal-semana *ngIf="medicoSeleccionado != null && medicoSeleccionado.obras && medicoSeleccionado.obras.length > 0" [obrasDispTotales]="medicoSeleccionado.obras" [medico]="medicoSeleccionado"
 (semenaCambiada)='onIntervalosGuardados($event)'
 ></app-modal-semana>
 
