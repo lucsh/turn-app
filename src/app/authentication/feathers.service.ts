@@ -6,7 +6,7 @@ import * as io from 'socket.io-client';
 import * as hooks from 'feathers-hooks';
 import * as socketio from 'feathers-socketio/client';
 import * as authentication from 'feathers-authentication-client';
-import {VariablesGlobales} from '../variablesGlobales';
+import { environment } from '../../environments/environment';
 
 // TS Lint will complain here. Unfortunately feathers-reactive needs the entire Rx object passed on creation.
 import * as Rx from 'rxjs';
@@ -21,7 +21,7 @@ export class Feathers {
   private _socket: any;
 
   constructor() {
-    this._socket = io(VariablesGlobales.BASE_API_URL);       // init socket.io
+    this._socket = io(environment.apiUrl);       // init socket.io
 
     this._feathers = feathers();                      // init Feathers
     this._feathers.configure(hooks());                // add hooks plugin

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import * as io from 'socket.io-client';
 import * as moment from 'moment';
-import {VariablesGlobales} from '../variablesGlobales';
+import { environment } from '../../environments/environment';
 import { Feathers } from '../authentication/feathers.service'
 //import * as feathers from 'feathers-client';
 
@@ -20,7 +20,7 @@ import { NotificationsService } from 'angular2-notifications';
 @Injectable()
 export class PacientesDelDiaService {
 
-  private urlServidor = VariablesGlobales.BASE_API_URL;
+  private urlServidor = environment.apiUrl;
 
   public turnos$: Observable<Turno[]>;
   private turnosObserver: Observer<Turno[]>;

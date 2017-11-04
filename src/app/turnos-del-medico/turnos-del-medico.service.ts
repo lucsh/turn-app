@@ -9,7 +9,7 @@ declare var feathers:any;
 
 
 import { Turno } from '../turnos/turno.tipo';
-import {VariablesGlobales} from '../variablesGlobales';
+import { environment } from '../../environments/environment';
 import { Feathers } from '../authentication/feathers.service'
 
 declare var $: any;
@@ -18,7 +18,7 @@ declare var $: any;
 @Injectable()
 export class TurnosDelMedicoService {
 
-    private urlServidor = VariablesGlobales.BASE_API_URL;
+    private urlServidor = environment.apiUrl;
 
     public turnos$: Observable<Turno[]>;
     private turnosObserver: Observer<Turno[]>;

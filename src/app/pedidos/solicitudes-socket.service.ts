@@ -6,7 +6,7 @@ import * as moment from 'moment';
 //import * as feathers from 'feathers-client';
 
 import {Paciente} from '../pacientes/paciente.tipo';
-import {VariablesGlobales} from '../variablesGlobales';
+import { environment } from '../../environments/environment';
 import { Feathers } from '../authentication/feathers.service'
 import { PacientesCompartidosService } from '../routerService/pacientes.sistema';
 
@@ -18,7 +18,7 @@ import {default as swal} from 'sweetalert2';
 
 @Injectable()
 export class SolicitudesSocketService implements OnDestroy  {
-  private urlServidor = VariablesGlobales.BASE_API_URL;
+  private urlServidor = environment.apiUrl;
 
   public solicitudes$: Observable<any[]>;
   private solicitudesObserver: Observer<any[]>;

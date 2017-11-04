@@ -240,8 +240,7 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
       title: 'Desea reinciar la contraseña?',
       confirmButtonText: 'Reiniciar',
       text:
-        'Your public IP will be received ' +
-        'via AJAX request',
+        'A continuación se le mostrará la nueva contraseña. (Primera letra nombre) + (Primera letra apellido) + dni',
       showLoaderOnConfirm: true,
       preConfirm: function () {
         return new Promise(function (resolve) {

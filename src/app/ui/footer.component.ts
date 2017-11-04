@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
                 Centro de la Visión - <strong>Neuquén</strong>.
             </div>
             <div>
-                <strong>Copyright</strong> Codetry &copy; 2017
+                <strong>Copyright</strong> Codetry &copy; 2017 &nbsp;  | &nbsp;  <a target="_blank"  href="http://manual.centrodelavisionnqn.com.ar/">Manual Online</a>
             </div>
         </section>
   `

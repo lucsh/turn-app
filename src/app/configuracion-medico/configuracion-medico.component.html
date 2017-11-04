@@ -1,22 +1,10 @@
-<div class="row">
-  <div class="col-lg-12">
-    <div class="ibox float-e-margins">
-      <div class="ibox-title">
-        <h5>Medicos</h5>
 
-        <style media="screen">
-          #agregarMedico{
-            margin-right: 1%;
-          }
-          .mouse-pointer{
-            cursor: pointer;
-          }
-        </style>
-         <div id='agregarMedico' class="row">
-           <button (click)="formAgregarMedico()" class="btn btn-s btn-primary pull-right" ><i class="fa fa-plus"></i></button>
-         </div>
-
-        <!--<iboxtools></iboxtools>  {{whatTime | async | amDateFormat:'hh:mm'}}  -->
+<div class="col-lg-12">
+  <div class="row ">
+    <div class="panel panel-default">
+      <div class="panel-body">
+          <app-tabla-medicos>
+          </app-tabla-medicos>
       </div>
       <div class="ibox-content">
         <table class="table table-hover no-margins mouse-pointer">
@@ -114,35 +102,28 @@
 
             (valueChanged)="changed($event)"
             ></select2>
+
+
+
+            <!--
+            [cssImport]="false"
+
+            <ng-select  *ngIf = 'actualizado == true'
+            [multiple]="true"
+            [allowClear]="true"
+            [items]="obrasSelector"
+            [disabled]="disabled"
+            (data)="refreshValue($event)"
+            (selected)="selected($event)"
+            (removed)="removed($event)"
+            (typed)="typed($event)"
+            placeholder="Obras sociales">
+          </ng-select> -->
+
+
         </div>
       </div>
 
     </div>
-
-    <div class="modal-footer">
-
-      <button class="btn btn-danger" (click)='cancelar()'>
-        Cancelar
-      </button>
-
-      <button class="btn btn-primary"  [disabled]="estadoNombre.invalid || estadoApellido.invalid" (click)='actualizarDatos(modeloMedico.nombre,modeloMedico.apellido,modeloMedico.email,modeloMedico.duracion)'>
-        Guardar
-      </button>
-
-    </div>
   </div>
-  <!-- /.modal-content -->
 </div>
-<!-- /.modal-dialog -->
-
-</div>
-<!-- /.modal -->
-
-
-<app-modal-semana *ngIf="medicoSeleccionado != null && medicoSeleccionado.obras" [obrasDispTotales]="medicoSeleccionado.obras" [medico]="medicoSeleccionado"
-(semenaCambiada)='onIntervalosGuardados($event)'
-></app-modal-semana>
-
-<agregar-medico  *ngIf="obras && obras.length > 0"
-[obras]='obras'
-></agregar-medico>

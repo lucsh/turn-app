@@ -41,6 +41,7 @@ export class AgregarMedicoComponent implements OnInit, OnChanges{
   /*
   */
   ngOnInit() {
+    console.log(' $$$$  ENTRE!!!!!!!!');
     this.actualizarSelector();
     // this.obrasService.getObras().then(
     //   obras =>{
