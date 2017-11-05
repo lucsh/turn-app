@@ -168,7 +168,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
         // timezone:'UTC',
         defaultView: 'agendaWeek',
         height: 'auto',
-        //weekends: false, //COMENTADO SOLAMENTE COMO PRUEBA. PONER DE NUEVO PARA DEPLOY!
+        weekends: false, //COMENTADO SOLAMENTE COMO PRUEBA. PONER DE NUEVO PARA DEPLOY!
         allDaySlot: false,
         eventOverlap: true, //Previene que se sobrepongan 2 eventos!!!
         slotDuration: '00:15:00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
@@ -203,47 +203,53 @@ export class TurnosComponent implements OnInit, OnDestroy {
             $('#calendar').fullCalendar('changeView', 'agendaDay'/* aca podemos cambiar a lo que queramos! ej:  'basicDay' */);
             $('#calendar').fullCalendar('gotoDate', date);
           }
-
-
-          //Verificamos que la fecha sea mayor a la actual:
-          // var check = $.fullCalendar.formatDate(date, 'yyyy-MM-dd');
-          // var today = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd');
-
-          var today = moment().utc();
-
-          // console.log("DATE ES....", date);
-          // console.log("TODAY ES....", today);
-          if (date < today) {
-            // Previous Day. show message if you want otherwise do nothing.
-            // So it will be unselectable
-            swal(
-              'Error',
-              'No se puede crear un turno en una fecha pasada!',
-              'error'
-            ).catch(err=>{
-              console.log("error en swal",err);
-            })
-
-          }
           else {
-            // Its a right date
-            // Do something
+            //Verificamos que la fecha sea mayor a la actual:
+            // var check = $.fullCalendar.formatDate(date, 'yyyy-MM-dd');
+            // var today = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd');
 
-            // CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
-            let duracionTurno = parseInt($('#calendar').fullCalendar('option', 'slotDuration').split(':')[1]); //CAMBIARRRRRRRR
-            ////console.log($('#calendar').fullCalendar('option','slotDuration').split(':')[2]);
-            ////console.log("duracion");
-            ////console.log(duracionTurno);
-            // CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+            if (view.name == "agendaWeek" || view.name == "agendaDay") {
+              var today = moment().utc();
+
+              // console.log("DATE ES....", date);
+              // console.log("TODAY ES....", today);
+              if (date < today) {
+                // Previous Day. show message if you want otherwise do nothing.
+                // So it will be unselectable
+                swal(
+                  'Error',
+                  'No se puede crear un turno en una fecha pasada!',
+                  'error'
+                ).catch(err => {
+                  console.log("error en swal", err);
+                })
+
+              }
+              else {
+                // Its a right date
+                // Do something
+
+                // CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+                let duracionTurno = parseInt($('#calendar').fullCalendar('option', 'slotDuration').split(':')[1]); //CAMBIARRRRRRRR
+                ////console.log($('#calendar').fullCalendar('option','slotDuration').split(':')[2]);
+                ////console.log("duracion");
+                ////console.log(duracionTurno);
+                // CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 
 
-            //*************************************************
+                //*************************************************
 
-            //Windows: descomentar la linea de abajo
-            var temp = moment(date).utc(); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
-            //*************************************************
-            yo.asignarPaciente(temp);
+                //Windows: descomentar la linea de abajo
+                var temp = moment(date).utc(); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+                //*************************************************
+                yo.asignarPaciente(temp);
+              }
+
+            }
           }
+
+
+
 
 
         },
@@ -254,12 +260,12 @@ export class TurnosComponent implements OnInit, OnDestroy {
           var endUtc = moment(event.end).utc();
           var today = moment().utc();
 
-          if(startUtc < today){
+          if (startUtc < today) {
             // console.log(event);
             //TODO: hacer funcionalidad de copiar un turno para crear uno nuevo.
             revertFunc();
           }
-          else{
+          else {
             swal({
               title: '¿Estas seguro que queres cambiar el turno?',
               //text: 'You will not be able to recover this imaginary file!',
@@ -289,10 +295,10 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
           var today = moment().utc();
 
-          if(startUtc < today){
+          if (startUtc < today) {
             revertFunc();
           }
-          else{
+          else {
             swal({
               title: '¿Estas seguro que queres agrandar el turno?',
               //text: 'You will not be able to recover this imaginary file!',
