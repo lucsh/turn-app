@@ -8,6 +8,8 @@ import { EditarPacienteComponent } from '../../pacientes/editarPaciente/editarPa
 import { AgePipe } from '../../pacientes/edad.pipe';
 import { TurnoSocketService } from '../turnos-socket.service';
 
+import { PacientesCompartidosService } from '../../routerService/pacientes.sistema';
+
 import {default as swal} from 'sweetalert2';
 import * as moment from 'moment';
 declare var $: any;
@@ -41,7 +43,7 @@ export class VerTurnoComponent implements OnInit, OnChanges{
 
 
   constructor(
-    private obrasService: ObrasService,private turnosSocketService : TurnoSocketService
+    private obrasService: ObrasService,private turnosSocketService : TurnoSocketService, private pacientesCompartidosService: PacientesCompartidosService
   ){
 
   }
@@ -108,6 +110,7 @@ export class VerTurnoComponent implements OnInit, OnChanges{
   public onEditarPaciente(pacienteEditado){
     if(pacienteEditado != null && pacienteEditado != undefined){
       this.pacienteDelTurno = pacienteEditado;
+      this.pacientesCompartidosService.updatePaciente(pacienteEditado);
     }
   }
   /*
