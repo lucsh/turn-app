@@ -121,31 +121,32 @@ export class PacientesDelDiaService {
 
     /*
       IMPORTANTE:
-      Por el momento, la variable hoy es la correcta, pero la pasamos a local para
-      poder compararla con diaTurno. Es decir, ambos horarios estan en -3 horas.
+      Si hay algun problema, posiblemente haya que sumar +3horas a turnoDate O restar -3horas a diaHoy
     */
 
-    let hoy = new Date();
+    let hoy = moment(new Date());
+    let momentHoy = hoy.format('YYYY-MM-DD');
+    let diaHoy = (momentHoy.split('-'))[2]; // DD
 
-    hoy.setUTCDate(hoy.getDate());
-    hoy.setUTCHours(hoy.getHours());
-
-
-    let diaTurno = new Date(turno.horaInicial);
+    let turnoDate = moment(new Date(turno.horaInicial));
+    let momentTurno = turnoDate.format('YYYY-MM-DD');
+    let diaTurno = (momentTurno.split('-'))[2]; // DD
     // diaTurno.setUTCDate(diaTurno.getDate());
     // diaTurno.setUTCHours(diaTurno.getHours());
 
-    if( diaTurno.getTime() >= hoy.getTime()){
+
+    // NO BORRAR: if( turnoDate.valueOf() >= hoy.valueOf()){
+      
 
       // No aseguramos que SI O SI pertenezca a hoy
-      if(hoy.getDate() == diaTurno.getDate() && hoy.getMonth() == diaTurno.getMonth()){
+      if(diaTurno == diaHoy && hoy.month() == turnoDate.month()) {
         // console.log('Esto es lo que queriamos!');
 
         this.dataStore.turnos.push(turno);
         // Lo pusheo al componente
         this.turnosObserver.next(this.dataStore.turnos);
       }
-    }
+    // }
 
 
 
