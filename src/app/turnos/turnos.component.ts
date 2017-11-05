@@ -170,7 +170,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
         height: 'auto',
         //weekends: false, //COMENTADO SOLAMENTE COMO PRUEBA. PONER DE NUEVO PARA DEPLOY!
         allDaySlot: false,
-        eventOverlap: false, //Previene que se sobrepongan 2 eventos!!!
+        eventOverlap: true, //Previene que se sobrepongan 2 eventos!!!
         slotDuration: '00:15:00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
         minTime: '08:00:00',
         maxTime: '24:00:00',
@@ -223,7 +223,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
             ).catch(err=>{
               console.log("error en swal",err);
             })
-            
+
           }
           else {
             // Its a right date
@@ -253,7 +253,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
           var startUtc = moment(event.start).utc();
           var endUtc = moment(event.end).utc();
           var today = moment().utc();
-          
+
           if(startUtc < today){
             // console.log(event);
             //TODO: hacer funcionalidad de copiar un turno para crear uno nuevo.
@@ -280,7 +280,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
             });
           }
 
-          
+
         },
         eventResize: function (event, delta, revertFunc) {
 
