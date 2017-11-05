@@ -125,6 +125,8 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { AgregarObraComponent } from './obras/agregarObra/agregarObra';
 import { TablaObrasComponent } from './obras/tablaObras/tablaObras.component';
 
+import {ConfiguracionMedicoService} from './configuracion-medico/configuracion-medico.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -224,7 +226,8 @@ import { TablaObrasComponent } from './obras/tablaObras/tablaObras.component';
     MedicoGuard,
     MedicosCompartidosService,
     PacientesCompartidosService,
-    ObrasCompartidasService
+    ObrasCompartidasService,
+    ConfiguracionMedicoService
 
   ],
   bootstrap: [AppComponent]

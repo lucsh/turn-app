@@ -210,6 +210,7 @@ export class TablaMedicosComponent implements OnInit {
     private medicosSubscription: Subscription;
 
     constructor(private medicosCompartidos: MedicosCompartidosService) {
+      console.log('########### medicoscompartidos tabla medicos')
       this.observarMedicos();
     }
 
@@ -228,6 +229,8 @@ export class TablaMedicosComponent implements OnInit {
           console.error(err);
         });
       }
+
+      this.medicosCompartidos.getMedicos();
     }
 
 
@@ -235,6 +238,8 @@ export class TablaMedicosComponent implements OnInit {
     Pasamos nuestros medicos al observer
     */
     setMedicos(medicos: any[]) {
+      console.log('########### setMedicos tabla medicos')
+
       let copiedData = medicos;
       this.dataChange.next(medicos);
     }

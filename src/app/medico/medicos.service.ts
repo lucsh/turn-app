@@ -20,6 +20,18 @@ export class MedicosService {
 	constructor(private http: Http, private authService: AuthService) {
 
 	}//Al ser promise (y no Observable), no le quita reactividad?
+
+	buscarMedico(id): Promise<any>{
+		return this.http.get(this.medicosURL+'/'+id,this.authService.jwt())
+		.toPromise()
+		.then(response => {
+			//console.log(response.json());
+			return response.json() as any;
+		})
+		.catch(this.handleError);
+	}
+
+
 	getDoctores(): Promise<Medico[]>{
         return this.http.get(this.medicosURL,this.authService.jwt())
         .toPromise()

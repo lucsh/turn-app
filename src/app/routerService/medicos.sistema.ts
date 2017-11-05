@@ -63,6 +63,8 @@ export class MedicosCompartidosService {
   }
 
   public getMedicos(){
+    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
+    console.log(this.medicos);
       this.observer.next(this.medicos);
   }
 

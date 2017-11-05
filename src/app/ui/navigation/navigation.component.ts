@@ -67,17 +67,61 @@ export class NavigationComponent {
   }
 
   obtenerSubscripcionMedicos(){
-    this.medicosService.getDoctores().then((docs)=>{
-      this.medicosSubscription = this.medicosCompartidos.medicos$.subscribe((medicos) => {
 
-        // console.log('ENTRE A LA SUBSCRIPCION de medicos');
-        this.medicos = medicos;
-        // this.ref.markForCheck();
-      }, (err) => {
-        console.error(err);
+    let token = JSON.parse(localStorage.getItem('user'));
+
+    if(token && token.clase == 'medico'){
+      // Logueado como medico
+
+
+      this.medicosService.buscarMedico(token._idMedico).then(medico =>{
+
+
+
+        //****************************************************************
+        //FIX TEMPORAL para cuando viene 1 OBRA, por lo que (por algun motivo), no lo entiende como lista
+        //feathers al volverlo, posiblemente con un populate
+        //****************************************************************
+
+        if(!medico.obras.length){
+            let aux = Object.assign({}, medico.obras);
+            medico.obras = [];
+            medico.obras.push(aux);
+        }
+
+        let medicos = []; // necesitamos la lista para trabajar con medicosCompartidos
+        medicos.push(medico);
+
+        this.medicosSubscription = this.medicosCompartidos.medicos$.subscribe((medicos) => {
+
+          // console.log('ENTRE A LA SUBSCRIPCION de medicos');
+          this.medicos = medicos;
+          // this.ref.markForCheck();
+        }, (err) => {
+          console.error(err);
+        });
+        this.medicosCompartidos.iniciar(medicos);
+
+
+      })
+    }
+    else{
+      // Logueado como admin
+
+      this.medicosService.getDoctores().then((docs)=>{
+        this.medicosSubscription = this.medicosCompartidos.medicos$.subscribe((medicos) => {
+
+          // console.log('ENTRE A LA SUBSCRIPCION de medicos');
+          this.medicos = medicos;
+          // this.ref.markForCheck();
+        }, (err) => {
+          console.error(err);
+        });
+        this.medicosCompartidos.iniciar(docs);
       });
-      this.medicosCompartidos.iniciar(docs);
-    });
+    }
+
+
   }
 
   obtenerSubscripcionPacientes(){
