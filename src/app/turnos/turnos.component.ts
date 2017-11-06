@@ -209,11 +209,14 @@ export class TurnosComponent implements OnInit, OnDestroy {
             // var today = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd');
 
             if (view.name == "agendaWeek" || view.name == "agendaDay") {
-              var today = moment().utc();
-
+              var today = moment();
+              // console.log(today);
+              var date2 = moment(date).add(3,'hours'); //Le sume 3 horas porque fullcalendar me devuelve 3 horas menos de donde hice click
+              // console.log(date.utc());
+              // console.log(date2);
               // console.log("DATE ES....", date);
               // console.log("TODAY ES....", today);
-              if (date < today) {
+              if (date2 < today) {
                 // Previous Day. show message if you want otherwise do nothing.
                 // So it will be unselectable
                 swal(
