@@ -212,6 +212,35 @@ export class TurnoSocketService {
         });
     }
 
+    public crearTurnoConFin(fechaIni,fechaFin, pacienteAsignado){
+
+        let paciente = pacienteAsignado;
+
+        var color = '#f8ac59';
+         //var temp = moment(fecha).utc().add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+
+        let nuevaFechaIni = fechaIni.format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
+        let nuevaFechaFin = fechaFin.format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
+        let nuevoTurno = {
+          horaInicial: nuevaFechaIni,
+          horaFin: nuevaFechaFin,
+          medico:this.idDoctor,
+          estado:'pendiente',
+          paciente: paciente._id
+        }
+
+        this.turnosSocketService.create(nuevoTurno).then((turnoNuevo)=>{
+          ////console.log('turnoNuevo');
+          ////console.log(turnoNuevo);
+          //******************************************************************
+          /**
+          IMPORTANTE:
+          Todavia NO ACTUALIZAMOS, pues eso se va a hacer en el EVENTO 'onCreated'.
+          */
+          //******************************************************************
+        });
+    }
+
     public actualizarTurno(turno){
 
         let newHoraInicial = turno.start.format();

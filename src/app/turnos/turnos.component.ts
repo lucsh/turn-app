@@ -56,6 +56,10 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
   public cargandoTurnos: boolean = true;
 
+  fechaAntigua: any[] = [];
+
+
+
   constructor(
     route: ActivatedRoute,
     private turnosService: TurnosService,
@@ -255,7 +259,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
         },
         eventDrop: function (event, delta, revertFunc) {
 
-
+            console.log(event);
+            console.log(delta);
           var startUtc = moment(event.start).utc();
           var endUtc = moment(event.end).utc();
           var today = moment().utc();
@@ -266,6 +271,10 @@ export class TurnosComponent implements OnInit, OnDestroy {
             revertFunc();
           }
           else {
+              var duplicar = false;
+              if(this.fechaAntigua < today){
+                  duplicar = true;
+              }
             swal({
               title: '¿Estas seguro que queres cambiar el turno?',
               //text: 'You will not be able to recover this imaginary file!',
@@ -276,8 +285,15 @@ export class TurnosComponent implements OnInit, OnDestroy {
               confirmButtonText: 'Si, modificar!',
               cancelButtonText: 'Cancelar'
             }).then(function () {
-              // yo.turnosSocketService.actualizarTurno(event);
-              yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
+
+              if(duplicar){
+                  yo.turnosSocketService.crearTurnoConFin(startUtc, endUtc, yo.obtenerTurno(event._id).paciente);
+                  revertFunc();
+              }else{
+                  yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
+              }
+
+
             }, function (dismiss) {
               // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
               if (dismiss === 'cancel') {
@@ -288,6 +304,19 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
 
         },
+        eventDragStart: function (event) {
+            console.log('event');
+            console.log('event');
+            console.log(event);
+        },
+        eventDragStop: function (event) {
+            console.log('#########################################');
+            console.log('event');
+            console.log(event);
+            this.fechaAntigua = moment(event.start).utc();
+        },
+
+
         eventResize: function (event, delta, revertFunc) {
 
           var startUtc = moment(event.start).utc();
