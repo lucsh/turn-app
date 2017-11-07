@@ -217,7 +217,8 @@ export class TurnoSocketService {
         let paciente = pacienteAsignado;
 
         var color = '#f8ac59';
-         //var temp = moment(fecha).utc().add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+         fechaIni = moment(fechaIni).utc().subtract(3, 'h'); //Lo que estoy haciendo aca es homogenizar a UTC y sacarle 3 horas
+         fechaFin = moment(fechaFin).utc().subtract(3, 'h'); //Lo que estoy haciendo aca es homogenizar a UTC y sacarle 3 horas
 
         let nuevaFechaIni = fechaIni.format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
         let nuevaFechaFin = fechaFin.format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
