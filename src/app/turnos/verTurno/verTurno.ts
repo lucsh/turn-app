@@ -82,8 +82,8 @@ export class VerTurnoComponent implements OnInit, OnChanges{
       }
       this.pacienteDelTurno = this.turno.paciente;
       // let fechaNuevoTurno = this.turno.horaInicial;
-      let fechaNuevoTurno = moment(this.turno.horaInicial).utc();
-      var today = moment().utc();
+      let fechaNuevoTurno = moment(this.turno.horaInicial).utc().add(3,'h');
+      var today = moment();
 
       //Verificamos que la fecha del turno, para conocer si lo podra eliminar o no.
       if(fechaNuevoTurno < today){

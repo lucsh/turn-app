@@ -175,9 +175,11 @@ export class TurnosComponent implements OnInit, OnDestroy {
         weekends: false, //COMENTADO SOLAMENTE COMO PRUEBA. PONER DE NUEVO PARA DEPLOY!
         allDaySlot: false,
         eventOverlap: true, //Previene que se sobrepongan 2 eventos!!!
-        slotDuration: '00:15:00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
+        //slotDuration: '00:15:00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
+        slotDuration: '00:'+10+':00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
         minTime: '08:00:00',
         maxTime: '24:00:00',
+        nowIndicator: true,
         // businessHours: [
         //
         //   {
@@ -264,13 +266,17 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
             console.log(event);
             console.log(delta);
+          var startUtcAux = moment(event.start).utc().add(3,'h');
+          var endUtcAux = moment(event.end).utc().add(3,'h');
           var startUtc = moment(event.start).utc();
           var endUtc = moment(event.end).utc();
           var today = moment().utc();
 
-          if (startUtc < today) {
+          if (startUtcAux < today) {
             // console.log(event);
             //TODO: hacer funcionalidad de copiar un turno para crear uno nuevo.
+            console.log(startUtc);
+            console.log(today);
             revertFunc();
           }
           else {
@@ -291,6 +297,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
               if(duplicar){
                   yo.turnosSocketService.crearTurnoConFin(startUtc, endUtc, yo.obtenerTurno(event._id).paciente);
+                  console.log("revert");
                   revertFunc();
               }else{
                   yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
@@ -300,6 +307,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
             }, function (dismiss) {
               // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
               if (dismiss === 'cancel') {
+                  console.log("revert");
                 revertFunc();
               }
             });
@@ -316,18 +324,24 @@ export class TurnosComponent implements OnInit, OnDestroy {
             console.log('#########################################');
             console.log('event');
             console.log(event);
-            this.fechaAntigua = moment(event.start).utc();
+            this.fechaAntigua = moment(event.start).utc().add(3,'h');
         },
 
 
         eventResize: function (event, delta, revertFunc) {
 
-          var startUtc = moment(event.start).utc();
-          var endUtc = moment(event.end).utc();
+            var startUtcAux = moment(event.start).utc().add(3,'h');
+            var endUtcAux = moment(event.end).utc().add(3,'h');
+            var startUtc = moment(event.start).utc();
+            var endUtc = moment(event.end).utc();
+            var today = moment().utc();
 
-          var today = moment().utc();
+          var today = moment();
 
-          if (startUtc < today) {
+          if (startUtcAux < today) {
+              console.log('REVERTEO');
+              console.log(startUtc);
+              console.log(today);
             revertFunc();
           }
           else {
@@ -346,6 +360,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
             }, function (dismiss) {
               // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
               if (dismiss === 'cancel') {
+                  console.log("revert");
                 revertFunc();
               }
             });
