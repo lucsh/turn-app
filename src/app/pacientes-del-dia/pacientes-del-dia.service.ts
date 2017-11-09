@@ -136,7 +136,7 @@ export class PacientesDelDiaService {
 
 
     // NO BORRAR: if( turnoDate.valueOf() >= hoy.valueOf()){
-      
+
 
       // No aseguramos que SI O SI pertenezca a hoy
       if(diaTurno == diaHoy && hoy.month() == turnoDate.month()) {
@@ -214,7 +214,7 @@ export class PacientesDelDiaService {
   notificarLlamado(medico, paciente) {
     this.notificaciones.info(
       'Llamar al paciente',
-      'El doctor ' + medico.nombre + ' llama a ' + paciente.nombre + ' ' + paciente.apellido
+      '' + medico.nombre + ' llama a ' + paciente.nombre + ' ' + paciente.apellido
     )
   }
 
