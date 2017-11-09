@@ -43,6 +43,7 @@ export class TareasComponent implements OnInit {
         this.todos.push(data.json());
         // this.getAllTodos();
       });
+      this.todoActual.algo = '';
   }
   updateTodo(todoId:string, todo:string, newStatus:boolean){
     this.tareasService.updateTodo(todoId,todo,newStatus).subscribe(

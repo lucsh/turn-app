@@ -22,7 +22,7 @@
         [(ngModel)]="todoActual.algo" #algo="ngModel" name="algo"
         type="text" class="form-control">
         <span class="input-group-btn">
-          <button (click)="createTodo(todoActual.algo); algo.value=''" [disabled]='!todoActual.algo'
+          <button (click)="createTodo(todoActual.algo);" [disabled]='!todoActual.algo'
           type="button" class="btn btn-primary">Agregar
         </button>
       </span></div>
