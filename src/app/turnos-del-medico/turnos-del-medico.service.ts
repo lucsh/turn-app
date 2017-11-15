@@ -74,10 +74,6 @@ export class TurnosDelMedicoService {
     let temp2 = moment(temp, "YYYY-MM-DD").add(1, 'days');
     let temp3 = (moment(temp2).format('YYYY-MM-DD'));
 
-    // console.log(temp);
-    // console.log(temp2);
-    // console.log(temp3);
-
     this.turnosService.find({
       query: {
         horaInicial: {
@@ -89,13 +85,10 @@ export class TurnosDelMedicoService {
       }
     }).then((turnos) => {
 
-      // ////console.log("ENTRE AL BUSCAR TURNOS DEL PACIENTES DEL DIA");
-      // ////console.log(turnos);
+      // Protegemos que sean turnos y no turnos-reservas de los medicos
+      let consultasMedicas = turnos.filter((t) => { return !t.esReserva });
 
-      ////console.log('ENTRE A PEDIR TURNOS');
-      ////console.log(turnos);
-
-      this.dataStore.turnos = turnos;
+      this.dataStore.turnos = consultasMedicas;
       this.turnosObserver.next(this.dataStore.turnos);
     }).catch(err => console.error(err));
   }
@@ -103,17 +96,10 @@ export class TurnosDelMedicoService {
 
   public updateTurno(turno, nuevoEstado){
     var now = new Date();
-    // console.log("################");
-    // console.log(now);
-
     var nueva = moment(now).utc();
-    // console.log(nueva);
-    // var momentDate = moment(now).utc();
-    // console.log("HORA...");
-    // console.log(momentDate);
+
     this.turnosService.patch(turno._id,{"estado": nuevoEstado, "horaUltimoCambio": nueva }).then((turnoActualizado) => {
-      // console.log("Turno actualizado correctamente");
-      // console.log(turnoActualizado);
+
     }).catch(err => console.error(err));
   }
 
@@ -127,7 +113,6 @@ export class TurnosDelMedicoService {
     }
 
     return foundIndex;
-    // return 0;
   }
 
   /*
@@ -135,7 +120,7 @@ export class TurnosDelMedicoService {
   */
   private onCreated(turno: any) { //REMPLAZR EL ANY CON TURNO!
 
-    if(this.miMatricula === turno.medico.matricula){
+    if(this.miMatricula === turno.medico.matricula && !turno.esReserva){
       /*
       IMPORTANTE:
       Si hay algun problema, posiblemente haya que sumar +3horas a turnoDate O restar -3horas a diaHoy
@@ -173,7 +158,7 @@ export class TurnosDelMedicoService {
   private onUpdated(turno: Turno) {
     const index = this.getIndex(turno._id);
 
-    if(index != -1){
+    if(index > -1){
       this.dataStore.turnos[index] = turno;
 
       this.turnosObserver.next(this.dataStore.turnos);
@@ -189,7 +174,7 @@ export class TurnosDelMedicoService {
   private onRemoved(turno: Turno) {
     const index = this.getIndex(turno._id);
 
-    if(index != -1){
+    if(index > -1){
       this.dataStore.turnos.splice(index, 1);
 
       this.turnosObserver.next(this.dataStore.turnos);
@@ -205,13 +190,12 @@ export class TurnosDelMedicoService {
 
     let indexTurno = this.buscarIndexTurno(turno);
 
-    if(indexTurno != -1){
+    if(indexTurno > -1){
 
       let turnoAnterior:any = this.dataStore.turnos[indexTurno];
 
       //El medico esta llamando un nuevo paciente
       if(turnoAnterior.estado !='en espera' && turno.estado == 'en espera'){
-        // console.log('Estaba pendiente y ahora el paciente llego al consultorio.');
         this.notificarPacienteEspera(turno.paciente);
       }
       this.dataStore.turnos[indexTurno] = turno;
@@ -231,7 +215,6 @@ export class TurnosDelMedicoService {
     //this.socket.close();
     //this.socket.disconnect();
     //this.turnosObserver = null;
-    // ////console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
   }
 
 

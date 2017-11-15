@@ -100,6 +100,22 @@ export class AsignarPacienteComponent implements OnChanges{
   }
 
   /*
+    Este metodo reserva un turno SIN paciente para un medico
+  */
+  public reservar(){
+
+    let turnoReserva = {
+      esReserva: true
+    };
+
+    //Cerramos el modal
+    this.closeFormCrearTurno.nativeElement.click();
+
+    //Enviamos la eleccion al componente padre
+    this.nuevaAsignacion.next(turnoReserva);
+  }
+
+  /*
 
   */
   public agregarPaciente(){

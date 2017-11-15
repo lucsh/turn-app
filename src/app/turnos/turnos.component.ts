@@ -85,52 +85,52 @@ export class TurnosComponent implements OnInit, OnDestroy {
     // RoutesRecognized
 
     router.events
-      //.filter(event => event instanceof NavigationStart)
-      .forEach((event) => {
+    //.filter(event => event instanceof NavigationStart)
+    .forEach((event) => {
 
-        while (!yo.iniciado) {
-          ////console.log('Adentro');
-          setTimeout(function () { }, 5000);
-        }
+      while (!yo.iniciado) {
+        ////console.log('Adentro');
+        setTimeout(function () { }, 5000);
+      }
 
-        // ////console.log("En router events");
-        ////console.log(event);
+      // ////console.log("En router events");
+      ////console.log(event);
 
-        if (event instanceof NavigationEnd) {
-          let tempUrl = event.url.split('/', 4)[1];
-          if (tempUrl == 'turnos') {
-            let idDoctor = event.url.split('/', 4)[3];
-            ////console.log(matricula);
+      if (event instanceof NavigationEnd) {
+        let tempUrl = event.url.split('/', 4)[1];
+        if (tempUrl == 'turnos') {
+          let idDoctor = event.url.split('/', 4)[3];
+          ////console.log(matricula);
 
-            if (yo.turnosSocketService) {
-              if (yo.cambio) {
-                yo.metodoLimpieza(idDoctor);
-                yo.loadCalendar(idDoctor);
-              }
-              else {
-                yo.loadCalendar(idDoctor);
-              }
-
+          if (yo.turnosSocketService) {
+            if (yo.cambio) {
+              yo.metodoLimpieza(idDoctor);
+              yo.loadCalendar(idDoctor);
             }
-            // if(yo.turnosSocketService ){
-            //
-            //         yo.metodoLimpieza(matricula);
-            //         yo.loadCalendar(matricula);
-            //
-            //
-            // }
-
-            yo.cambio = true;
+            else {
+              yo.loadCalendar(idDoctor);
+            }
 
           }
+          // if(yo.turnosSocketService ){
+          //
+          //         yo.metodoLimpieza(matricula);
+          //         yo.loadCalendar(matricula);
+          //
+          //
+          // }
+
+          yo.cambio = true;
+
         }
-      });
+      }
+    });
   }
 
   observarPacientes() {
     /*
-      Subscribimos a los pacientes, para que tengan una correspondencia
-      con los pacientes del navigator
+    Subscribimos a los pacientes, para que tengan una correspondencia
+    con los pacientes del navigator
     */
     if (this.pacientesCompartidosService.pacientes$) {
       this.pacientesSubscription = this.pacientesCompartidosService.pacientes$.subscribe((pacientes) => {
@@ -162,228 +162,255 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
     var yo = this;
     $('#calendar')
-      .fullCalendar({
-        header: {
-          locale: 'es',
-          left: 'prev,next today',
-          center: 'title',
-          right: 'month,agendaWeek,agendaDay,listWeek'
-        },
-        // timezone:'UTC',
-        defaultView: 'agendaWeek',
-        height: 'auto',
-        weekends: false, //COMENTADO SOLAMENTE COMO PRUEBA. PONER DE NUEVO PARA DEPLOY!
-        allDaySlot: false,
-        eventOverlap: true, //Previene que se sobrepongan 2 eventos!!!
-        //slotDuration: '00:15:00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
-        slotDuration: '00:'+10+':00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
-        minTime: '08:00:00',
-        maxTime: '24:00:00',
-        nowIndicator: true,
-        // businessHours: [
-        //
-        //   {
-        //    dow: [0, 1, 2, 3, 4, 5, 6], // Maybe not 0,6? Sunday,Saturday
-        //    start: '08:00',
-        //    end: '11:00'
-        //  },
-        //  {
-        //     dow: [1, 2], // Maybe not 0,6? Sunday,Saturday
-        //     start: '11:30',
-        //     end: '12:00'
-        //   }, {
-        //    dow: [0, 1, 2, 3, 4, 5, 6], // Maybe not 0,6? Sunday,Saturday
-        //    start: '15:00',
-        //    end: '18:00'
-        //  }],
-        //defaultDate: new Date(), // Esto esta de mas. Si no especificamos la fecha, por defecto es la acutal.
-        navLinks: true, // can click day/week names to navigate views
-        editable: true, //falso para la vista de clientes
-        eventLimit: true, // allow "more" link when too many events
-        events: this.turnos,
-        dayClick: function (date, jsEvent, view) { //date es un moment
-          ////console.log('Clicked on: ' + date.format());
-          //PRUEBA DE CAMBIO DE VISUAL:
-          if (view.name == "month") {
-            // Si la vista acutal es la del mes...
-            $('#calendar').fullCalendar('changeView', 'agendaDay'/* aca podemos cambiar a lo que queramos! ej:  'basicDay' */);
-            $('#calendar').fullCalendar('gotoDate', date);
-          }
-          else {
-            //Verificamos que la fecha sea mayor a la actual:
-            // var check = $.fullCalendar.formatDate(date, 'yyyy-MM-dd');
-            // var today = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd');
+    .fullCalendar({
+      header: {
+        locale: 'es',
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay,listWeek'
+      },
+      // timezone:'UTC',
+      defaultView: 'agendaWeek',
+      height: 'auto',
+      weekends: false, //COMENTADO SOLAMENTE COMO PRUEBA. PONER DE NUEVO PARA DEPLOY!
+      allDaySlot: false,
+      eventOverlap: true, //Previene que se sobrepongan 2 eventos!!!
+      //slotDuration: '00:15:00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
+      slotDuration: '00:'+10+':00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
+      minTime: '08:00:00',
+      maxTime: '24:00:00',
+      nowIndicator: true,
+      // businessHours: [
+      //
+      //   {
+      //    dow: [0, 1, 2, 3, 4, 5, 6], // Maybe not 0,6? Sunday,Saturday
+      //    start: '08:00',
+      //    end: '11:00'
+      //  },
+      //  {
+      //     dow: [1, 2], // Maybe not 0,6? Sunday,Saturday
+      //     start: '11:30',
+      //     end: '12:00'
+      //   }, {
+      //    dow: [0, 1, 2, 3, 4, 5, 6], // Maybe not 0,6? Sunday,Saturday
+      //    start: '15:00',
+      //    end: '18:00'
+      //  }],
+      //defaultDate: new Date(), // Esto esta de mas. Si no especificamos la fecha, por defecto es la acutal.
+      navLinks: true, // can click day/week names to navigate views
+      editable: true, //falso para la vista de clientes
+      eventLimit: true, // allow "more" link when too many events
+      events: this.turnos,
+      dayClick: function (date, jsEvent, view) { //date es un moment
+        ////console.log('Clicked on: ' + date.format());
+        //PRUEBA DE CAMBIO DE VISUAL:
+        if (view.name == "month") {
+          // Si la vista acutal es la del mes...
+          $('#calendar').fullCalendar('changeView', 'agendaDay'/* aca podemos cambiar a lo que queramos! ej:  'basicDay' */);
+          $('#calendar').fullCalendar('gotoDate', date);
+        }
+        else {
+          //Verificamos que la fecha sea mayor a la actual:
+          // var check = $.fullCalendar.formatDate(date, 'yyyy-MM-dd');
+          // var today = $.fullCalendar.formatDate(new Date(), 'yyyy-MM-dd');
 
-            if (view.name == "agendaWeek" || view.name == "agendaDay") {
-              var today = moment();
-              // console.log(today);
-              var date2 = moment(date).add(3,'hours'); //Le sume 3 horas porque fullcalendar me devuelve 3 horas menos de donde hice click
-              // console.log(date.utc());
-              // console.log(date2);
-              // console.log("DATE ES....", date);
-              // console.log("TODAY ES....", today);
-              if (date2 < today) {
-                // Previous Day. show message if you want otherwise do nothing.
-                // So it will be unselectable
-                swal(
-                  'Error',
-                  'No se puede crear un turno en una fecha pasada!',
-                  'error'
-                ).catch(err => {
-                  console.log("error en swal", err);
-                })
-
-              }
-              else {
-                // Its a right date
-                // Do something
-
-                // CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
-                let duracionTurno = parseInt($('#calendar').fullCalendar('option', 'slotDuration').split(':')[1]); //CAMBIARRRRRRRR
-                ////console.log($('#calendar').fullCalendar('option','slotDuration').split(':')[2]);
-                ////console.log("duracion");
-                ////console.log(duracionTurno);
-                // CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
-
-
-                //*************************************************
-
-                //Windows: descomentar la linea de abajo
-                var temp = moment(date).utc(); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
-                //*************************************************
-                yo.asignarPaciente(temp);
-              }
+          if (view.name == "agendaWeek" || view.name == "agendaDay") {
+            var today = moment();
+            // console.log(today);
+            var date2 = moment(date).add(3,'hours'); //Le sume 3 horas porque fullcalendar me devuelve 3 horas menos de donde hice click
+            // console.log(date.utc());
+            // console.log(date2);
+            // console.log("DATE ES....", date);
+            // console.log("TODAY ES....", today);
+            if (date2 < today) {
+              // Previous Day. show message if you want otherwise do nothing.
+              // So it will be unselectable
+              swal(
+                'Error',
+                'No se puede crear un turno en una fecha pasada!',
+                'error'
+              ).catch(err => {
+                console.log("error en swal", err);
+              })
 
             }
+            else {
+              // Its a right date
+              // Do something
+
+              // CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+              let duracionTurno = parseInt($('#calendar').fullCalendar('option', 'slotDuration').split(':')[1]); //CAMBIARRRRRRRR
+              ////console.log($('#calendar').fullCalendar('option','slotDuration').split(':')[2]);
+              ////console.log("duracion");
+              ////console.log(duracionTurno);
+              // CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+
+
+              //*************************************************
+
+              //Windows: descomentar la linea de abajo
+              var temp = moment(date).utc(); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+              //*************************************************
+              yo.asignarPaciente(temp);
+            }
+
           }
+        }
 
 
 
 
 
-        },
-        eventDrop: function (event, delta, revertFunc) {
+      },
+      eventDrop: function (event, delta, revertFunc) {
 
-            console.log(event);
-            console.log(delta);
-          var startUtcAux = moment(event.start).utc().add(3,'h');
-          var endUtcAux = moment(event.end).utc().add(3,'h');
-          var startUtc = moment(event.start).utc();
-          var endUtc = moment(event.end).utc();
-          var today = moment().utc();
+        console.log(event);
+        console.log(delta);
+        var startUtcAux = moment(event.start).utc().add(3,'h');
+        var endUtcAux = moment(event.end).utc().add(3,'h');
+        var startUtc = moment(event.start).utc();
+        var endUtc = moment(event.end).utc();
+        var today = moment().utc();
 
-          if (startUtcAux < today) {
-            // console.log(event);
-            //TODO: hacer funcionalidad de copiar un turno para crear uno nuevo.
-            console.log(startUtc);
-            console.log(today);
-            revertFunc();
+        if (startUtcAux < today) {
+          // console.log(event);
+          //TODO: hacer funcionalidad de copiar un turno para crear uno nuevo.
+          console.log(startUtc);
+          console.log(today);
+          revertFunc();
+        }
+        else {
+          var duplicar = false;
+          if(this.fechaAntigua < today){
+            duplicar = true;
           }
-          else {
-              var duplicar = false;
-              if(this.fechaAntigua < today){
-                  duplicar = true;
-              }
-            swal({
-              title: '¿Estas seguro que queres cambiar el turno?',
-              //text: 'You will not be able to recover this imaginary file!',
-              type: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Si, modificar!',
-              cancelButtonText: 'Cancelar'
-            }).then(function () {
+          swal({
+            title: '¿Estas seguro que queres cambiar el turno?',
+            //text: 'You will not be able to recover this imaginary file!',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, modificar!',
+            cancelButtonText: 'Cancelar'
+          }).then(function () {
 
-              if(duplicar){
-                  yo.turnosSocketService.crearTurnoConFin(startUtc, endUtc, yo.obtenerTurno(event._id).paciente);
-                  console.log("revert");
-                  revertFunc();
-              }else{
-                  yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
-              }
-
-
-            }, function (dismiss) {
-              // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
-              if (dismiss === 'cancel') {
-                  console.log("revert");
-                revertFunc();
-              }
-            });
-          }
-
-
-        },
-        eventDragStart: function (event) {
-            console.log('event');
-            console.log('event');
-            console.log(event);
-        },
-        eventDragStop: function (event) {
-            console.log('#########################################');
-            console.log('event');
-            console.log(event);
-            this.fechaAntigua = moment(event.start).utc().add(3,'h');
-        },
-
-
-        eventResize: function (event, delta, revertFunc) {
-
-            var startUtcAux = moment(event.start).utc().add(3,'h');
-            var endUtcAux = moment(event.end).utc().add(3,'h');
-            var startUtc = moment(event.start).utc();
-            var endUtc = moment(event.end).utc();
-            var today = moment().utc();
-
-          var today = moment();
-
-          if (startUtcAux < today) {
-              console.log('REVERTEO');
-              console.log(startUtc);
-              console.log(today);
-            revertFunc();
-          }
-          else {
-            swal({
-              title: '¿Estas seguro que queres agrandar el turno?',
-              //text: 'You will not be able to recover this imaginary file!',
-              type: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Si, agrandar!',
-              cancelButtonText: 'Cancelar'
-            }).then(function () {
-              // yo.turnosSocketService.actualizarTurno(event);
+            if(duplicar){
+              yo.turnosSocketService.crearTurnoConFin(startUtc, endUtc, yo.obtenerTurno(event._id).paciente);
+              console.log("revert");
+              revertFunc();
+            }else{
               yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
-            }, function (dismiss) {
-              // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
-              if (dismiss === 'cancel') {
-                  console.log("revert");
-                revertFunc();
-              }
-            });
-          }
-          //actualizar el turno en la db (tenemos el event.id)
-          //???
-        },
-        eventClick: function (calEvent, delta, view) {
+            }
 
-          yo.turnoSeleccionado = calEvent;
-          yo.turnoSeleccionado = yo.obtenerTurno(calEvent._id);
+
+          }, function (dismiss) {
+            // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+            if (dismiss === 'cancel') {
+              console.log("revert");
+              revertFunc();
+            }
+          });
+        }
+
+
+      },
+      eventDragStart: function (event) {
+        console.log('event');
+        console.log('event');
+        console.log(event);
+      },
+      eventDragStop: function (event) {
+        console.log('#########################################');
+        console.log('event');
+        console.log(event);
+        this.fechaAntigua = moment(event.start).utc().add(3,'h');
+      },
+
+
+      eventResize: function (event, delta, revertFunc) {
+
+        var startUtcAux = moment(event.start).utc().add(3,'h');
+        var endUtcAux = moment(event.end).utc().add(3,'h');
+        var startUtc = moment(event.start).utc();
+        var endUtc = moment(event.end).utc();
+        var today = moment().utc();
+
+        var today = moment();
+
+        if (startUtcAux < today) {
+          console.log('REVERTEO');
+          console.log(startUtc);
+          console.log(today);
+          revertFunc();
+        }
+        else {
+          swal({
+            title: '¿Estas seguro que queres agrandar el turno?',
+            //text: 'You will not be able to recover this imaginary file!',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, agrandar!',
+            cancelButtonText: 'Cancelar'
+          }).then(function () {
+            // yo.turnosSocketService.actualizarTurno(event);
+            yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
+          }, function (dismiss) {
+            // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+            if (dismiss === 'cancel') {
+              console.log("revert");
+              revertFunc();
+            }
+          });
+        }
+        //actualizar el turno en la db (tenemos el event.id)
+        //???
+      },
+      eventClick: function (calEvent, delta, view) {
+
+        // yo.turnoSeleccionado = calEvent;
+        let turno_seleccionado = yo.obtenerTurno(calEvent._id);
+
+        if(turno_seleccionado.esReserva){
+          swal({
+            title: '¿Desea eliminar este evento?',
+            //text: 'You will not be able to recover this imaginary file!',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, eliminar!',
+            cancelButtonText: 'Cancelar'
+          })
+          .then(function () {
+            swal(
+              'Evento eliminado!',
+              'El evento fue eliminado correctamente',
+              'success'
+            );
+            yo.cancelarReserva(turno_seleccionado);
+
+          }, function (dismiss) {
+            // dismiss can be 'cancel', 'overlay',
+            // 'close', and 'timer'
+            if (dismiss === 'cancel') {
+            }
+          })
+        }
+        else{
+          yo.turnoSeleccionado = turno_seleccionado;
           $('#formVerTurno').modal('show');
         }
-      });
+
+      }
+    });
   }
 
 
   //TESTEAR ESTO! VERIFICAR SI ESTA BIEN LA LOGICA!
   comprobarValidezHora(arregloHorasValidas, horaInicialEvento, horaFinalEvento, numDia): Boolean {
-    ////console.log("comprobando validez");
-    ////console.log(arregloHorasValidas);
-
-
 
     let validez = false;
     let horaInicialE = parseInt(horaInicialEvento.split(':')[0]);
@@ -409,13 +436,6 @@ export class TurnosComponent implements OnInit, OnDestroy {
         // ////console.log("----------");
         // ////console.log(arregloHorasValidas[i].dow[j]);
         if (arregloHorasValidas[i].dow[j] == numDia) {
-          // ////console.log("ENTRE Nº1");
-          // ////console.log(temp);
-          // ////console.log(horaInicialEvento);
-          // ////console.log(temp <= horaInicialEvento);
-          // ////console.log(temp2);
-          // ////console.log(horaFinalEvento);
-          // ////console.log("----------");
 
           let horaValidaInicio = parseInt(temp.split(':')[0]);
           let horaValidaFin = parseInt(temp2.split(':')[0]);
@@ -425,24 +445,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
           if ((horaInicialE > horaValidaInicio) && ((horaFinalE < horaValidaFin) || (horaFinalE == horaValidaFin && minFinalE <= minValidaFin))) {
             validez = true;
-
-            // ////console.log("IF");
-            // ////console.log(minFinalE);
-            // ////console.log(minValidaFin);
-            // ////console.log(minFinalE <= minValidaFin);
           }
           else {
-            // ////console.log("ELSE");
-            // ////console.log(horaInicialE == horaValidaInicio);
-            // ////console.log("-");
-            // ////console.log(minInicialE >= minValidaInicio);
-            // ////console.log("-");
-            // ////console.log(horaFinalE < horaValidaFin);
-            // ////console.log("-");
-            // ////console.log(horaFinalE == horaValidaFin);
-            // ////console.log("-");
-            // ////console.log(minFinalE <= minValidaFin);
-            // ////console.log("-");
             if ((horaInicialE == horaValidaInicio) && (minInicialE >= minValidaInicio)) {
               if ((horaFinalE < horaValidaFin) || (horaFinalE == horaValidaFin && minFinalE <= minValidaFin)) {
                 validez = true;
@@ -471,12 +475,80 @@ export class TurnosComponent implements OnInit, OnDestroy {
       // console.log("Fecha");
       // console.log(this.fechaNuevoTurno);
       // console.log(asignacion);
+
       let yo = this;
+
+      if( asignacion.esReserva ){
+        // Es decir, es una reserva de espacio SIN paciente
+        let fechaString = this.fechaNuevoTurno.format("DD/MM [a las] HH:mm [hs]");
+
+        swal({
+          title: `Descrición Reserva para el dia ${fechaString}`,
+          input: 'text',
+          inputPlaceholder: 'Breve descripción',
+          showCancelButton: true,
+          inputValidator: function (value) {
+
+            return new Promise<void>(function (resolve, reject) {
+              if (value) {
+                resolve()
+              } else {
+                reject('No puede estar vacía!')
+              }
+            })
+          }
+        }).then(function (descripcionReserva) {
+
+          swal(
+              'Reserva realizada!',
+              'La reserva fue realizada correctamente',
+              'success'
+            );
+
+          yo.reservarHorario(yo.fechaNuevoTurno, descripcionReserva);
+
+        })
+
+
+
+      //   swal({
+      //     title: 'Confirmación de reserva',
+      //     text: `¿Está seguro de reservar el horario para el dia ${fecha}?`,
+      //     type: 'warning',
+      //     showCancelButton: true,
+      //     confirmButtonColor: '#3085d6',
+      //     cancelButtonColor: '#d33',
+      //     confirmButtonText: 'Si, Reservar!',
+      //     cancelButtonText: 'No, Cancelar!',
+      //     confirmButtonClass: 'btn btn-success',
+      //     cancelButtonClass: 'btn btn-danger',
+      //   })
+      //   .then( () => {
+      //     swal(
+      //       'Reserva realizada!',
+      //       'La reserva fue realizada correctamente',
+      //       'success'
+      //     );
+      //     yo.reservarHorario(fecha, asignacion);
+      //   },
+      //   (dismiss) => {
+      //     if (dismiss === 'cancel') {
+      //       swal(
+      //         'Cancelado',
+      //         'La reserva fue descartada',
+      //         'error'
+      //       )
+      //     }
+      //   }
+      // );
+    }
+    else{
+      // Es decir, es una asignacion de un paciente
       let paciente = "" + asignacion.nombre + " " + asignacion.apellido;
       let fecha = this.fechaNuevoTurno.format("DD-MM-YYYY HH:mm")
       swal({
         title: 'Confirmacion de creacion de turno',
-        text: "¿Estas seguro de crear un turno para el dia " + fecha + " para el paciente " + paciente + " ?",
+        text: "¿Está seguro de crear un turno para el dia " + fecha + " para el paciente " + paciente + " ?",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -492,7 +564,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
           'El turno fue creado correctamente',
           'success'
         ),
-          yo.crearTurno(yo.fechaNuevoTurno, asignacion);
+        yo.crearTurno(yo.fechaNuevoTurno, asignacion);
       }, function (dismiss) {
         // dismiss can be 'cancel', 'overlay',
         // 'close', and 'timer'
@@ -504,141 +576,155 @@ export class TurnosComponent implements OnInit, OnDestroy {
           )
         }
       })
-
     }
-  }
-
-  crearTurno(date, pacienteAsignado) {
-
-    let paciente = pacienteAsignado;
-
-    this.turnosSocketService.crearTurno(date.format(), paciente);
-
-    //Restablecemos las variables
-    this.fechaNuevoTurno = null;
-  }
-
-  metodoLimpieza(idDoctor) {
-
-    //   console.log('*****///****');
-    //  console.log('Entre a metodo limpieza');
-    //Limpiamos el calendario
-    // calendario.fullCalendar( 'destroy' );
-    let yo = this;
-
-    this.setDoctorSeleccionado(idDoctor);
-
-
-    this.pacientesService.getPacientesActivos().then(pacientes => {
-      // console.log('Pacientes');
-      yo.pacientes = pacientes;
-
-      let calendario = $('#calendar');
-      calendario.fullCalendar('removeEvents');
-
-      // console.log('Voy a limpiar el service');
-      //Limpiamos el service
-      if (this.turnosSocketService) {
-
-        this.turnosSocketService.cambiarMedico(idDoctor);
-      }
-    }).catch(err => console.error(err));
 
 
   }
+}
 
-  verificarUrl() {
+crearTurno(date, pacienteAsignado) {
 
-    // ////console.log(this.url);
-    // console.log (this.doctores.find(doctor => doctor.url == "this.url"));
-    // //^^ no lo encuentra
-    // ////console.log(this.doctores);
+  let paciente = pacienteAsignado;
 
-  }
+  this.turnosSocketService.crearTurno(date.format(), paciente);
+
+  //Restablecemos las variables
+  this.fechaNuevoTurno = null;
+}
+
+reservarHorario(fecha, descripcion){
+  console.log('## Reservar horario de turnos.component');
+
+  this.turnosSocketService.reservarHorario(fecha.format(), descripcion);
+
+  //Restablecemos las variables
+  this.fechaNuevoTurno = null;
+
+}
+
+cancelarReserva(reserva){
+  this.turnosSocketService.cancelarReserva(reserva);
+}
+
+metodoLimpieza(idDoctor) {
+
+  //Limpiamos el calendario
+  // calendario.fullCalendar( 'destroy' );
+  let yo = this;
+
+  this.setDoctorSeleccionado(idDoctor);
 
 
-  obtenerTurno(id) {
-    let turnoEncontrado = null;
+  this.pacientesService.getPacientesActivos().then(pacientes => {
+    // console.log('Pacientes');
+    yo.pacientes = pacientes;
 
-    for (let i = 0; i < this.turnos.length; i++) {
+    let calendario = $('#calendar');
+    calendario.fullCalendar('removeEvents');
 
-      if (id === this.turnos[i]._id) {
-        turnoEncontrado = this.turnos[i];
-        // console.log("Turno encontrado!");
-      }
+    // console.log('Voy a limpiar el service');
+    //Limpiamos el service
+    if (this.turnosSocketService) {
 
+      this.turnosSocketService.cambiarMedico(idDoctor);
     }
-    return turnoEncontrado;
-  }
-
-  getAllDoctores(): void {
-    this.doctoresService
-      .getDoctores()
-      .then(docs => {
-        this.doctores = docs;
-        this.verificarUrl();
-        this.getAllTurnos(this.url, this.idDoctor)
-      });
-  }
-  getAllTurnos(url, idDoctor): void {
-    ////console.log(url)//parametro para la consulta
-    this.loadCalendar(idDoctor)
-  }
+  }).catch(err => console.error(err));
 
 
-  ngOnInit() {
-    this.cargandoTurnos = true;
-    this.subscription = this.turnosSocketService.turnos$.subscribe((turnos: Turno[]) => {
-      this.cargandoTurnos = false;
-      this.turnos = turnos;
-      this.ref.markForCheck();
-    }, (err) => {
-      console.error(err);
+}
+
+verificarUrl() {
+
+  // ////console.log(this.url);
+  // console.log (this.doctores.find(doctor => doctor.url == "this.url"));
+  // //^^ no lo encuentra
+  // ////console.log(this.doctores);
+
+}
+
+
+obtenerTurno(id) {
+  let turnoEncontrado = null;
+
+  for (let i = 0; i < this.turnos.length; i++) {
+
+    if (id === this.turnos[i]._id) {
+      turnoEncontrado = this.turnos[i];
+      // console.log("Turno encontrado!");
+    }
+
+  }
+  return turnoEncontrado;
+}
+
+getAllDoctores(): void {
+  this.doctoresService
+  .getDoctores()
+  .then(docs => {
+    this.doctores = docs;
+    this.verificarUrl();
+    this.getAllTurnos(this.url, this.idDoctor)
+  });
+}
+getAllTurnos(url, idDoctor): void {
+  ////console.log(url)//parametro para la consulta
+  this.loadCalendar(idDoctor)
+}
+
+
+ngOnInit() {
+  this.cargandoTurnos = true;
+  this.subscription = this.turnosSocketService.turnos$.subscribe((turnos: Turno[]) => {
+    this.cargandoTurnos = false;
+    this.turnos = turnos;
+    this.ref.markForCheck();
+  }, (err) => {
+    console.error(err);
+  });
+  //this.turnosSocketService.find();
+
+  let yo = this;
+
+  // this.observarPacientes();
+  this.getAllDoctores();
+
+  this.pacientesService.getPacientesActivos().then(pacientes => {
+
+    yo.pacientes = pacientes;
+
+  }).catch(err => console.log(err))
+
+}
+
+setDoctorSeleccionado(idDoctor) {
+  //Seteo el doctor seleccionado
+  if (this.doctores != undefined) {
+    var thisLocal = this;
+    this.doctores.forEach(function (elem, index) {
+      if (elem._id == idDoctor) {
+        thisLocal.doctorSeleccionado = elem;
+        //  console.log(thisLocal.doctorSeleccionado);
+      }
     });
-    //this.turnosSocketService.find();
-
-    let yo = this;
-
-    // this.observarPacientes();
-    this.getAllDoctores();
-
-    this.pacientesService.getPacientesActivos().then(pacientes => {
-
-      yo.pacientes = pacientes;
-
-    }).catch(err => console.log(err))
-
   }
+}
 
-  setDoctorSeleccionado(idDoctor) {
-    //Seteo el doctor seleccionado
-    if (this.doctores != undefined) {
-      var thisLocal = this;
-      this.doctores.forEach(function (elem, index) {
-        if (elem._id == idDoctor) {
-          thisLocal.doctorSeleccionado = elem;
-          //  console.log(thisLocal.doctorSeleccionado);
-        }
-      });
-    }
-  }
+ngOnDestroy() {
+  // ////console.log("ME DESTRUIIIIIII ####@#|@##~#@");
+  // //this.subscription.unsubscribe();
+  // ////console.log('####*****////########//////###');
+  ////console.log('OBSERVERS');
+  var observers = (<any>(this.router.events)).observers;
+  ////console.log(observers);
+  ////console.log(observers[observers.length-1].unsubscribe());
+  ////console.log(observers);
+  ////console.log('####*****////########//////###');
+  ////console.log();
 
-  ngOnDestroy() {
-    // ////console.log("ME DESTRUIIIIIII ####@#|@##~#@");
-    // //this.subscription.unsubscribe();
-    // ////console.log('####*****////########//////###');
-    ////console.log('OBSERVERS');
-    var observers = (<any>(this.router.events)).observers;
-    ////console.log(observers);
-    ////console.log(observers[observers.length-1].unsubscribe());
-    ////console.log(observers);
-    ////console.log('####*****////########//////###');
-    ////console.log();
-
-    ////console.log(this.router);
-    this.router.dispose();
-    this.turnosSocketService = null;
-    this.pacientesService = null;
-  }
+  ////console.log(this.router);
+  this.router.dispose();
+  this.turnosSocketService = null;
+  this.pacientesService = null;
+}
 
 }

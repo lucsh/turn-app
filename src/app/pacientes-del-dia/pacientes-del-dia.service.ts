@@ -64,8 +64,6 @@ export class PacientesDelDiaService {
     //let m = this.matricula;
     let fechaHoy = new Date();
     let temp = moment(fechaHoy).format('YYYY-MM-DD');
-    // ////console.log("########################### FECHAS ####################");
-    // ////console.log(temp);
     let temp2 = moment(temp, "YYYY-MM-DD").add(1, 'days');
     let temp3 = (moment(temp2).format('YYYY-MM-DD'));
     this.pacientesDelDiaService.find({
@@ -78,13 +76,10 @@ export class PacientesDelDiaService {
       }
     }).then((turnos) => {
 
-      // ////console.log("ENTRE AL BUSCAR TURNOS DEL PACIENTES DEL DIA");
-      // ////console.log(turnos);
+      // Protegemos que sean turnos y no turnos-reservas de los medicos
+      let consultasMedicas = turnos.filter((t) => { return !t.esReserva });
 
-      ////console.log('ENTRE ACA');
-      ////console.log(turnos);
-
-      this.dataStore.turnos = turnos;
+      this.dataStore.turnos = consultasMedicas;
       this.turnosObserver.next(this.dataStore.turnos);
     }).catch(err => console.error(err));
   }
@@ -116,37 +111,34 @@ export class PacientesDelDiaService {
   Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onCreated'
   */
   private onCreated(turno: any) { //REMPLAZR EL ANY CON TURNO!
-    ////console.log('On created de Angular con Socket de Feathers');
-    ////console.log(turno);
 
-    /*
-      IMPORTANTE:
-      Si hay algun problema, posiblemente haya que sumar +3horas a turnoDate O restar -3horas a diaHoy
-    */
+    if(!turno.esReserva){
 
-    let hoy = moment(new Date());
-    let momentHoy = hoy.format('YYYY-MM-DD');
-    let diaHoy = (momentHoy.split('-'))[2]; // DD
+      let hoy = moment(new Date());
+      let momentHoy = hoy.format('YYYY-MM-DD');
+      let diaHoy = (momentHoy.split('-'))[2]; // DD
 
-    let turnoDate = moment(new Date(turno.horaInicial));
-    let momentTurno = turnoDate.format('YYYY-MM-DD');
-    let diaTurno = (momentTurno.split('-'))[2]; // DD
-    // diaTurno.setUTCDate(diaTurno.getDate());
-    // diaTurno.setUTCHours(diaTurno.getHours());
+      let turnoDate = moment(new Date(turno.horaInicial));
+      let momentTurno = turnoDate.format('YYYY-MM-DD');
+      let diaTurno = (momentTurno.split('-'))[2]; // DD
+      // diaTurno.setUTCDate(diaTurno.getDate());
+      // diaTurno.setUTCHours(diaTurno.getHours());
 
 
-    // NO BORRAR: if( turnoDate.valueOf() >= hoy.valueOf()){
+      // NO BORRAR: if( turnoDate.valueOf() >= hoy.valueOf()){
 
 
-      // No aseguramos que SI O SI pertenezca a hoy
-      if(diaTurno == diaHoy && hoy.month() == turnoDate.month()) {
-        // console.log('Esto es lo que queriamos!');
+        // No aseguramos que SI O SI pertenezca a hoy
+        if(diaTurno == diaHoy && hoy.month() == turnoDate.month()) {
+          // console.log('Esto es lo que queriamos!');
 
-        this.dataStore.turnos.push(turno);
-        // Lo pusheo al componente
-        this.turnosObserver.next(this.dataStore.turnos);
-      }
-    // }
+          this.dataStore.turnos.push(turno);
+          // Lo pusheo al componente
+          this.turnosObserver.next(this.dataStore.turnos);
+        }
+      // }
+    }
+
 
 
 
@@ -171,7 +163,9 @@ export class PacientesDelDiaService {
   private onRemoved(turno: Turno) {
     const index = this.getIndex(turno._id);
 
-    this.dataStore.turnos.splice(index, 1);
+    if(index > -1){
+      this.dataStore.turnos.splice(index, 1);
+    }
 
     this.turnosObserver.next(this.dataStore.turnos);
   }
