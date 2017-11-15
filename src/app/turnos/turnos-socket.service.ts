@@ -392,7 +392,7 @@ export class TurnoSocketService {
 
     this.dataStore.turnos.splice(index, 1);
     this.turnosObserver.next(this.dataStore.turnos);
-    $('#calendar').fullCalendar('removeEvents',eventosCalendario[index].id); // Esto elimina el evento (grafico) con el id = turno._id
+    $('#calendar').fullCalendar('removeEvents',turno._id); // Esto elimina el evento (grafico) con el id = turno._id
   }
 
   /*
