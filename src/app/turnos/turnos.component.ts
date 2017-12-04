@@ -78,29 +78,23 @@ export class TurnosComponent implements OnInit, OnDestroy {
     ////console.log("ENTRE X VECES: ");
 
     // Eventos que se pueden capturar:
-    // NavigationStart
-    // NavigationEnd
-    // NavigationCancel
-    // NavigationError
-    // RoutesRecognized
+    // NavigationStart, NavigationEnd, NavigationCancel, NavigationError, RoutesRecognized
 
     router.events
-    //.filter(event => event instanceof NavigationStart)
+    //.filter(event => event instanceof NavigationStart) // Ejemplo de filtrar por evento
     .forEach((event) => {
 
       while (!yo.iniciado) {
-        ////console.log('Adentro');
         setTimeout(function () { }, 5000);
       }
 
-      // ////console.log("En router events");
-      ////console.log(event);
-
       if (event instanceof NavigationEnd) {
+
         let tempUrl = event.url.split('/', 4)[1];
+
         if (tempUrl == 'turnos') {
+
           let idDoctor = event.url.split('/', 4)[3];
-          ////console.log(matricula);
 
           if (yo.turnosSocketService) {
             if (yo.cambio) {
@@ -112,14 +106,6 @@ export class TurnosComponent implements OnInit, OnDestroy {
             }
 
           }
-          // if(yo.turnosSocketService ){
-          //
-          //         yo.metodoLimpieza(matricula);
-          //         yo.loadCalendar(matricula);
-          //
-          //
-          // }
-
           yo.cambio = true;
 
         }
@@ -148,8 +134,6 @@ export class TurnosComponent implements OnInit, OnDestroy {
   }
 
   iniciarServicio() {
-    ////console.log('*******************************************');
-    ////console.log('Entre a INICIAR SERVICIO de TURNO COMPONENT');
     this.iniciado = this.turnosSocketService.iniciar(this.idDoctor);
   }
 
@@ -172,7 +156,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
       // timezone:'UTC',
       defaultView: 'agendaWeek',
       height: 'auto',
-      weekends: false, //COMENTADO SOLAMENTE COMO PRUEBA. PONER DE NUEVO PARA DEPLOY!
+      weekends: true, //COMENTADO SOLAMENTE COMO PRUEBA. PONER DE NUEVO PARA DEPLOY!
+      hiddenDays: [ 0 ], // Ocultamos el domingo
       allDaySlot: false,
       eventOverlap: true, //Previene que se sobrepongan 2 eventos!!!
       //slotDuration: '00:15:00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
@@ -202,7 +187,6 @@ export class TurnosComponent implements OnInit, OnDestroy {
       eventLimit: true, // allow "more" link when too many events
       events: this.turnos,
       dayClick: function (date, jsEvent, view) { //date es un moment
-        ////console.log('Clicked on: ' + date.format());
         //PRUEBA DE CAMBIO DE VISUAL:
         if (view.name == "month") {
           // Si la vista acutal es la del mes...
@@ -216,12 +200,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
           if (view.name == "agendaWeek" || view.name == "agendaDay") {
             var today = moment();
-            // console.log(today);
             var date2 = moment(date).add(3,'hours'); //Le sume 3 horas porque fullcalendar me devuelve 3 horas menos de donde hice click
-            // console.log(date.utc());
-            // console.log(date2);
-            // console.log("DATE ES....", date);
-            // console.log("TODAY ES....", today);
             if (date2 < today) {
               // Previous Day. show message if you want otherwise do nothing.
               // So it will be unselectable
@@ -235,14 +214,9 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
             }
             else {
-              // Its a right date
-              // Do something
 
               // CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
               let duracionTurno = parseInt($('#calendar').fullCalendar('option', 'slotDuration').split(':')[1]); //CAMBIARRRRRRRR
-              ////console.log($('#calendar').fullCalendar('option','slotDuration').split(':')[2]);
-              ////console.log("duracion");
-              ////console.log(duracionTurno);
               // CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 
 
@@ -263,9 +237,6 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
       },
       eventDrop: function (event, delta, revertFunc) {
-
-        console.log(event);
-        console.log(delta);
         var startUtcAux = moment(event.start).utc().add(3,'h');
         var endUtcAux = moment(event.end).utc().add(3,'h');
         var startUtc = moment(event.start).utc();
@@ -275,8 +246,6 @@ export class TurnosComponent implements OnInit, OnDestroy {
         if (startUtcAux < today) {
           // console.log(event);
           //TODO: hacer funcionalidad de copiar un turno para crear uno nuevo.
-          console.log(startUtc);
-          console.log(today);
           revertFunc();
         }
         else {
@@ -316,14 +285,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
       },
       eventDragStart: function (event) {
-        console.log('event');
-        console.log('event');
-        console.log(event);
       },
       eventDragStop: function (event) {
-        console.log('#########################################');
-        console.log('event');
-        console.log(event);
         this.fechaAntigua = moment(event.start).utc().add(3,'h');
       },
 
@@ -339,9 +302,6 @@ export class TurnosComponent implements OnInit, OnDestroy {
         var today = moment();
 
         if (startUtcAux < today) {
-          console.log('REVERTEO');
-          console.log(startUtc);
-          console.log(today);
           revertFunc();
         }
         else {
@@ -355,12 +315,10 @@ export class TurnosComponent implements OnInit, OnDestroy {
             confirmButtonText: 'Si, agrandar!',
             cancelButtonText: 'Cancelar'
           }).then(function () {
-            // yo.turnosSocketService.actualizarTurno(event);
             yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
           }, function (dismiss) {
             // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
             if (dismiss === 'cancel') {
-              console.log("revert");
               revertFunc();
             }
           });
@@ -370,7 +328,6 @@ export class TurnosComponent implements OnInit, OnDestroy {
       },
       eventClick: function (calEvent, delta, view) {
 
-        // yo.turnoSeleccionado = calEvent;
         let turno_seleccionado = yo.obtenerTurno(calEvent._id);
 
         if(turno_seleccionado.esReserva){
@@ -467,14 +424,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
   }
 
   onAsignacionPaciente(asignacion) {
-    // ////console.log('On Asignacion de Paciente');
-    // ////console.log(asignacion);
 
     if (asignacion != null) {
-
-      // console.log("Fecha");
-      // console.log(this.fechaNuevoTurno);
-      // console.log(asignacion);
 
       let yo = this;
 
@@ -509,38 +460,6 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
         })
 
-
-
-      //   swal({
-      //     title: 'Confirmación de reserva',
-      //     text: `¿Está seguro de reservar el horario para el dia ${fecha}?`,
-      //     type: 'warning',
-      //     showCancelButton: true,
-      //     confirmButtonColor: '#3085d6',
-      //     cancelButtonColor: '#d33',
-      //     confirmButtonText: 'Si, Reservar!',
-      //     cancelButtonText: 'No, Cancelar!',
-      //     confirmButtonClass: 'btn btn-success',
-      //     cancelButtonClass: 'btn btn-danger',
-      //   })
-      //   .then( () => {
-      //     swal(
-      //       'Reserva realizada!',
-      //       'La reserva fue realizada correctamente',
-      //       'success'
-      //     );
-      //     yo.reservarHorario(fecha, asignacion);
-      //   },
-      //   (dismiss) => {
-      //     if (dismiss === 'cancel') {
-      //       swal(
-      //         'Cancelado',
-      //         'La reserva fue descartada',
-      //         'error'
-      //       )
-      //     }
-      //   }
-      // );
     }
     else{
       // Es decir, es una asignacion de un paciente
@@ -622,7 +541,6 @@ metodoLimpieza(idDoctor) {
     let calendario = $('#calendar');
     calendario.fullCalendar('removeEvents');
 
-    // console.log('Voy a limpiar el service');
     //Limpiamos el service
     if (this.turnosSocketService) {
 
@@ -632,16 +550,6 @@ metodoLimpieza(idDoctor) {
 
 
 }
-
-verificarUrl() {
-
-  // ////console.log(this.url);
-  // console.log (this.doctores.find(doctor => doctor.url == "this.url"));
-  // //^^ no lo encuentra
-  // ////console.log(this.doctores);
-
-}
-
 
 obtenerTurno(id) {
   let turnoEncontrado = null;
@@ -662,12 +570,10 @@ getAllDoctores(): void {
   .getDoctores()
   .then(docs => {
     this.doctores = docs;
-    this.verificarUrl();
     this.getAllTurnos(this.url, this.idDoctor)
   });
 }
 getAllTurnos(url, idDoctor): void {
-  ////console.log(url)//parametro para la consulta
   this.loadCalendar(idDoctor)
 }
 
@@ -710,18 +616,12 @@ setDoctorSeleccionado(idDoctor) {
 }
 
 ngOnDestroy() {
-  // ////console.log("ME DESTRUIIIIIII ####@#|@##~#@");
-  // //this.subscription.unsubscribe();
-  // ////console.log('####*****////########//////###');
-  ////console.log('OBSERVERS');
+  //this.subscription.unsubscribe();
   var observers = (<any>(this.router.events)).observers;
-  ////console.log(observers);
-  ////console.log(observers[observers.length-1].unsubscribe());
-  ////console.log(observers);
-  ////console.log('####*****////########//////###');
-  ////console.log();
+  //console.log(observers);
+  //console.log(observers[observers.length-1].unsubscribe());
+  //console.log(observers);
 
-  ////console.log(this.router);
   this.router.dispose();
   this.turnosSocketService = null;
   this.pacientesService = null;
