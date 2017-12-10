@@ -156,6 +156,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
       // timezone:'UTC',
       defaultView: 'agendaWeek',
       height: 'auto',
+      eventTextColor: 'black',
       weekends: true, //COMENTADO SOLAMENTE COMO PRUEBA. PONER DE NUEVO PARA DEPLOY!
       hiddenDays: [ 0 ], // Ocultamos el domingo
       allDaySlot: false,
