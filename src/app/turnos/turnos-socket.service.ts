@@ -151,6 +151,11 @@ export class TurnoSocketService {
     let horaFin = turno.horaFin;
     //Le agregue el ID al final del nuevo turno para asi poder saber a que objeto corresponde cada evento grafico
 
+    let descripcion = '';
+
+    if(turno.descripcion){
+      descripcion = ' , ' + turno.descripcion;
+    }
 
     if(turno.esReserva){
       // Es una reserva de horario SIN paciente
@@ -162,7 +167,7 @@ export class TurnoSocketService {
     else{
       // Es una consulta medica
 
-      let newTurno = {"title":turno.paciente.nombre+' '+turno.paciente.apellido,"allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59","_id":turno._id, "id":turno._id};
+      let newTurno = {"title":turno.paciente.nombre+' '+turno.paciente.apellido +  descripcion,"allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59","_id":turno._id, "id":turno._id};
 
       $('#calendar').fullCalendar('renderEvent', newTurno, true)
     }
@@ -210,7 +215,8 @@ export class TurnoSocketService {
       horaFin: nuevaFecha,
       medico:this.idDoctor,
       estado:'pendiente',
-      paciente: paciente._id
+      paciente: paciente._id,
+      descripcion: paciente.descripcion
     }
 
     this.turnosSocketService.create(nuevoTurno).then((turnoNuevo)=>{

@@ -18,6 +18,8 @@ export class AsignarPacienteComponent implements OnChanges{
   public horaNuevoTurno: any;
   public diaNuevoTurno: any;
 
+  public descripcion = "";
+
   public pacientesSelector: Array<any> = [];
 
   public actualizado: boolean = false;
@@ -69,12 +71,21 @@ export class AsignarPacienteComponent implements OnChanges{
     let pacienteAsignado = null;
     let yo = this;
 
+    // console.log("El comentario es...");
+    // console.log(this.descripcion);
+
+    let desc = this.descripcion;
+
     this.pacientesSelector.forEach(function(elem,index){
       if(elem.id == yo.value.id){
         ////console.log('encontre!');
         pacienteAsignado = Object.assign({}, elem); //clonamos el elemento
+        pacienteAsignado.descripcion = desc;
       }
     });
+
+    // console.log("El paciente asignado queda....");
+    // console.log(pacienteAsignado);
 
     //Quitamos los atributos agregados para el selector del clone
     // delete pacienteAsignado['id'];

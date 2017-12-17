@@ -27,6 +27,10 @@
                         placeholder="buscar">
             </ng-select>
           </div>
+          <div style="width: 60%; margin-bottom: 1%;">
+            <h4>Descripcion del turno:</h4>
+            <input #desc type="text" name="desc" [(ngModel)]="descripcion">
+          </div>
           <button class="btn btn-sm btn-primary pull-right" (click)='agregarPaciente()'>
             <strong>Agregar paciente</strong>
           </button>
