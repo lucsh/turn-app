@@ -362,6 +362,17 @@ export class TurnosComponent implements OnInit, OnDestroy {
           $('#formVerTurno').modal('show');
         }
 
+      },
+      eventMouseover: function(event, jsEvent, view){
+        // Al hacer hover sobre el evento, mostramos el tittle que incluye la descripcion
+        let startUtc = moment(event.start).utc();
+        let endUtc = moment(event.end).utc();
+
+
+        console.log(startUtc)
+        console.log(endUtc)
+        $(this).tooltip({title: startUtc.format("DD/MM [:] HH:mm")
+        +' - '+ endUtc.format("HH:mm [hs]")+ "\n" + event.title});
       }
     });
   }
