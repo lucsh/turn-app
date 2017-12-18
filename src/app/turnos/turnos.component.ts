@@ -267,7 +267,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
             if(duplicar){
               yo.turnosSocketService.crearTurnoConFin(startUtc, endUtc, yo.obtenerTurno(event._id).paciente);
-              console.log("revert");
+              // console.log("revert");
               revertFunc();
             }else{
               yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
@@ -277,7 +277,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
           }, function (dismiss) {
             // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
             if (dismiss === 'cancel') {
-              console.log("revert");
+              // console.log("revert");
               revertFunc();
             }
           });
@@ -368,9 +368,6 @@ export class TurnosComponent implements OnInit, OnDestroy {
         let startUtc = moment(event.start).utc();
         let endUtc = moment(event.end).utc();
 
-
-        console.log(startUtc)
-        console.log(endUtc)
         $(this).tooltip({title: startUtc.format("DD/MM [:] HH:mm")
         +' - '+ endUtc.format("HH:mm [hs]")+ "\n" + event.title});
       }
