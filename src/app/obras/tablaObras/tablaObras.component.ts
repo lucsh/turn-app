@@ -96,11 +96,11 @@ export class TablaObrasComponent implements OnInit {
     }
 
     onObraAgregada(obra){
-      this.exampleDatabase.addObra(obra);
+      // this.exampleDatabase.addObra(obra);
     }
 
     onObraEditada(obra){
-      this.exampleDatabase.editObra(obra);
+      // this.exampleDatabase.editObra(obra);
     }
 
 
@@ -115,24 +115,6 @@ export class TablaObrasComponent implements OnInit {
         $('#formEditarObra').modal('show');
       },
       200);
-
-      // let yo = this;
-      // swal({
-      //   title: '¿Estas seguro que queres editar al paciente?',
-      //   text: "No seras capaz de revertir esta accion!",
-      //   type: 'warning',
-      //   showCancelButton: true,
-      //   confirmButtonColor: '#3085d6',
-      //   cancelButtonColor: '#d33',
-      //   confirmButtonText: 'Si, Editar!',
-      //   cancelButtonText: 'Cancelar',
-      // }).then(function () {
-      //   yo.pacientesService.actualizarPaciente(paciente._id,paciente).then(pac => {
-      //       // ////console.log("el nuevo paciente quedo..");
-      //       // ////console.log(pac);
-      //       paciente = pac;
-      //     }).catch(err => console.error(err))
-      // }).catch(swal.noop);
 
     }
 
@@ -192,7 +174,7 @@ export class TablaObrasComponent implements OnInit {
           if(element.nombre !='Particular'){
             resultado.push(element);
           }
-          
+
         }
       }
       return resultado;

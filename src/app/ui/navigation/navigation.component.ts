@@ -130,37 +130,9 @@ export class NavigationComponent {
         console.error(err);
       });
 
-      let obrasSinParticular = this.removerObraParticularVista(obras);
-
-      this.obrasCompartidas.iniciarObras(obrasSinParticular);
     });
   }
-
-  /*
-    Quitamos la obra 'Particular' de la lista de obras elegibles por los administrativos / medicos.
-  */
-  private removerObraParticularVista(obras){
-
-    let obrasSinParticular = [];
-    let indexParticular = -1;
-
-    obras.forEach(function(elem, index){
-      if(elem.nombre == 'Particular'){
-        indexParticular = index;
-      }
-    });
-
-    obrasSinParticular = obras;
-
-    // Removemos la obra 'Particular'
-    if(indexParticular > -1){
-      obrasSinParticular.splice(indexParticular, 1);
-    }
-
-    return obrasSinParticular;
-
-  }
-
+  
   activeRoute(routename: string): boolean{
     return this.router.url.indexOf(routename) > -1;
   }
