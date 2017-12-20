@@ -90,7 +90,6 @@ export class PacientesDelDiaService {
     var now = new Date();
     // var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
     this.pacientesDelDiaService.patch(turno._id,{"estado": nuevoEstado}).then((turnoActualizado) => {
-      ////console.log("Turno actualizado correctamente");
     }).catch(err => console.error(err));
   }
 
@@ -104,7 +103,6 @@ export class PacientesDelDiaService {
     }
 
     return foundIndex;
-    // return 0;
   }
 
   /*
@@ -130,7 +128,6 @@ export class PacientesDelDiaService {
 
         // No aseguramos que SI O SI pertenezca a hoy
         if(diaTurno == diaHoy && hoy.month() == turnoDate.month()) {
-          // console.log('Esto es lo que queriamos!');
 
           this.dataStore.turnos.push(turno);
           // Lo pusheo al componente
@@ -193,11 +190,6 @@ export class PacientesDelDiaService {
       }
       this.dataStore.turnos[indexTurno] = turno;
     }
-
-
-
-
-
   }
 
   public asignarNotificaciones(notificaciones){
@@ -212,9 +204,6 @@ export class PacientesDelDiaService {
     )
   }
 
-
-
-
   /*
   Al destruirse el servicio, se debe cerrar el socket y borrar el observable del mismo.
   */
@@ -223,7 +212,6 @@ export class PacientesDelDiaService {
     //this.socket.close();
     // this.socket.disconnect();
     //this.turnosObserver = null;
-    // ////console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
   }
 
 
@@ -235,7 +223,6 @@ export class PacientesDelDiaService {
     let indexTurno = -1;
 
     let turnos = this.dataStore.turnos;
-    // ////console.log(turnos);
 
     turnos.forEach(function(elem,index){
       if(elem._id.toString() == turno._id.toString()){

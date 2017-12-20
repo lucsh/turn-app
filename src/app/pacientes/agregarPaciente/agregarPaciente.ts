@@ -22,8 +22,6 @@ import {IMyDpOptions} from 'mydatepicker';
 })
 export class AgregarPacienteComponent implements OnInit, OnChanges{
 
-  // @Input() fechaNuevoTurno: any;
-  // @Input() pacientes: Array<any>;
   @Output() pacienteAgregado = new EventEmitter();
 
   @ViewChild('closeFormAgregarPaciente') closeFormAgregarPaciente: ElementRef;
@@ -60,12 +58,6 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
   */
   ngOnInit() {
     this.observarObras();
-    // this.obrasService.getObras().then(
-    //   obras =>{
-    //     this.obras = obras;
-    //     // this.pacienteNuevo = new Paciente();
-    //   }
-    // ).catch(error=>{console.log(error)})
   }
 
   observarObras(){
@@ -98,7 +90,6 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
       this.obrasCompartidasService.getObras();
     }
   }
-
 
   private devolverParticular(){
     let obraRes:Obra;
@@ -143,9 +134,7 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
       this.pacienteCopia.observaciones = observaciones;
       this.pacienteCopia.fechaNacimiento = this.fechaNacimiento.jsdate;
 
-
       let emailPacienteLower = emailPaciente.toLowerCase();
-      ////console.log('Entre a agregar Paciente');
       let obraId = this.obraSelected._id;
 
       if(obraId === 'Particular'){
@@ -159,9 +148,6 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
         emailPacienteLower, this.fechaNacimiento.jsdate, telefonoPaciente, obraId, ocupacion, observaciones)
         .then(pacienteNuevo => {
 
-          ////console.log('Se creo el paciente con exito');
-          ////console.log(paciente);
-
           //Enviamos la eleccion al componente padre
           this.pacienteAgregado.next(pacienteNuevo);
 
@@ -170,10 +156,6 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
           this.fechaNacimiento = null;
           this.pacienteCopia = null;
           this.closeFormAgregarPaciente.nativeElement.click();
-
-
-            //EL SWAL aparace debajo del modal anterior!! Solucionarlo!!!
-
 
           swal({
             title: 'Éxito!',
@@ -198,23 +180,8 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
               type: 'error'
             }).then(
               function () {
-                // yo.reiniciarFormulario(yo.formulario);
 
-                /* Volvemos a dejar todos los campos como estaban antes de ser enviados en el formulario */
-
-                // yo.pacienteNuevo.nombre = yo.pacienteCopia.nombre.toString();
-                // yo.pacienteNuevo.apellido = yo.pacienteCopia.apellido;
-                // yo.pacienteNuevo.dni = yo.pacienteCopia.dni;
-                // yo.pacienteNuevo.email = yo.pacienteCopia.email;
-                // yo.pacienteNuevo.telefono = yo.pacienteCopia.telefono;
-                // yo.pacienteNuevo.ocupacion = yo.pacienteCopia.ocupacion;
-                // yo.pacienteNuevo.observaciones = yo.pacienteCopia.observaciones;
                 yo.pacienteNuevo = yo.pacienteCopia;
-
-
-                // console.log("el apciente nuevo es...");
-                // console.log(yo.pacienteNuevo);
-
 
                 //REVISAR EL TEMA DE FECHA NACIMIENTO Y OBRA ELEGIDA:
                 yo.formulario.setValue({
@@ -228,10 +195,7 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
                   observacionesPaciente: yo.pacienteCopia.observaciones,
                   obraSelected: yo.obraSelected,
                 });
-
                 yo.pacienteCopia = null;
-
-
               },
               // handling the promise rejection
               function (dismiss) {
@@ -242,27 +206,18 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
             )
           }
         });
-
-
-
   }
 
   /*
     La fecha entrante tiene el formato 2017-08-23T03:00:00.000Z
   */
   datePickerChanged(nuevaFecha){
-
     this.fechaNacimiento = nuevaFecha;
-
-
-    // console.log(nuevaFecha);
-    // console.log('ENTRO');
   }
 
+  /*
 
-      /*
-
-      */
+  */
   public cancelar(){
     //Limpiamos variables
     //this.value = {};
@@ -271,7 +226,5 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
     this.obraSelected = null;
     this.closeFormAgregarPaciente.nativeElement.click();
   }
-
-
 
 }

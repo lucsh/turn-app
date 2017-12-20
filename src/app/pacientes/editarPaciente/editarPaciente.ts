@@ -20,7 +20,6 @@ import {IMyDpOptions} from 'mydatepicker';
 })
 export class EditarPacienteComponent implements OnInit, OnChanges{
 
-  // @Input() fechaNuevoTurno: any;
   @Input() paciente: any;
   @Output() pacienteEditado = new EventEmitter();
   @Output() pacienteEliminado = new EventEmitter();
@@ -60,7 +59,6 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
 
     this.obrasService.getObras().then(
       obras =>{
-        console.log('Tengo las obras!!');
         this.obras = obras;
 
         if(this.devolverParticular()==null){
@@ -76,8 +74,6 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
         this.iniciarObraSeleccionada();
         this.modeloPaciente = null;
         this.modeloPaciente = Object.assign({}, this.paciente); //clonamos el paciente
-
-        // console.log(this.paciente);
       }
     ).catch(error=>{console.log(error)})
   }
@@ -125,7 +121,6 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
 
   */
   public editarPaciente(){
-    //  let obraId = this.obraSelected._id;
 
     //Actualizamos la obra seleccionada
     console.log("Entre a editar paciente y tengo de id... ",this.obraSelected._id);
@@ -145,10 +140,8 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
     this.modeloPaciente.email = this.modeloPaciente.email.toLowerCase();
     this.pacientesService.actualizarPaciente(this.modeloPaciente._id, this.modeloPaciente)
     .then(pacienteEdit => {
-      // console.log("VUELTA DEL PACIENTE");
-      // console.log(pacienteEdit);
-      this.pacienteEditado.next(pacienteEdit);
 
+      this.pacienteEditado.next(pacienteEdit);
 
       //Cerramos el modal y limpiamos variables
       //this.modeloPaciente = null;
@@ -156,12 +149,6 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
       this.closeFormEditarPaciente.nativeElement.click();
 
     }).catch(err => {console.log(err);})
-
-
-
-
-
-
   }
 
   sancionar(paciente){
@@ -178,8 +165,6 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
       cancelButtonText: 'Cancelar',
     }).then(function () {
       yo.pacientesService.sancionarPaciente(paciente._id).then(pac => {
-        // ////console.log("Paciente sancionado");
-        // ////console.log(pac);
         paciente.sancion = true;
       }).catch(err => console.error(err))
     }).catch(swal.noop);
@@ -189,7 +174,6 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
     let yo = this;
     swal({
       title: '¿Estas seguro que queres habilitar al paciente?',
-      //text: "No seras capaz de revertir esta accion!",
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -198,21 +182,15 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
       cancelButtonText: 'Cancelar',
     }).then(function () {
       yo.pacientesService.habilitarPaciente(paciente._id).then(pac => {
-        // ////console.log("Paciente habilitado");
-        // ////console.log(pac);
         paciente.sancion = false;
       }).catch(err => console.error(err))
     }).catch(swal.noop);
-
-
-
   }
 
   eliminar(paciente){
     let yo = this;
     swal({
       title: '¿Estas seguro que queres eliminar al paciente?',
-      //text: "No seras capaz de revertir esta accion!",
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -220,13 +198,8 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
       confirmButtonText: 'Si, Eliminar!',
       cancelButtonText: 'Cancelar',
     }).then(function () {
-      console.log('paciente');
-      console.log(paciente);
       yo.pacientesService.eliminarPaciente(paciente._id).then(pac => {
-        // ////console.log("Paciente eliminado");
-        // ////console.log(pac);
         yo.pacienteEliminado.next(pac);
-
         yo.obraSelected = null;
         yo.closeFormEditarPaciente.nativeElement.click();
       }).catch(err => console.error(err))
@@ -257,7 +230,6 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
 
   }
 
-
   /*
 
   */
@@ -269,7 +241,5 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
     this.obraSelected = null;
     this.closeFormEditarPaciente.nativeElement.click();
   }
-
-
 
 }

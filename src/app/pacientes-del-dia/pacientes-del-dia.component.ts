@@ -81,16 +81,9 @@ export class PacientesDelDiaComponent implements OnInit {
   }
 
   updateTurno(turno,estado){
-    // ////console.log(turno);
-    // ////console.log(estado);
     turno.estado=estado;
 
     this.pacienteDelDiaService.updateTurno(turno,estado);
-    // this.dashboardService.updateCita(cita).subscribe(
-    //   data => {
-    //     this.getAllTodos();
-    // });
-
   }
 
   ngOnInit() {

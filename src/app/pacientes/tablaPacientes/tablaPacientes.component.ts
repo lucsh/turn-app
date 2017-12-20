@@ -59,28 +59,20 @@ export class TablaPacientesComponent implements OnInit {
   @ViewChild(MdPaginator) paginator: MdPaginator;
 
   rowClick(row){
-    // console.log('Tocaron!!!');
-    // console.log(row);
     row.seleccionada = !row.seleccionada;
-
     this.seleccionado = row;
   }
 
   siguiente(){
-    // console.log(this.seleccionado);
     this.pacienteSeleccionado.next(this.seleccionado);
   }
 
   ngOnInit() {
 
-
-
     this.seleccionado = {
       'id' : '',
       '_id' : ''
     };
-    // console.log(this.seleccionado);
-
     // LABEL de items per page de la tabla
     this.paginator._intl.itemsPerPageLabel = 'Pacientes por página';
 
@@ -90,16 +82,13 @@ export class TablaPacientesComponent implements OnInit {
     .debounceTime(150)
     .distinctUntilChanged()
     .subscribe(() => {
-      // console.log('Entre aca');
       if (!this.dataSource) {
-        // console.log('No tengo dataSource!!');
         return; }
         else{
 
           let valorFiltro = this.filter.nativeElement.value;
 
           if(this.dataSource.filter){
-            // console.log('Tengo Filtro!')
           }
           this.dataSource.filter = valorFiltro;
         }
@@ -126,25 +115,6 @@ export class TablaPacientesComponent implements OnInit {
         $('#formEditarPaciente').modal('show');
       },
       200);
-
-      // let yo = this;
-      // swal({
-      //   title: '¿Estas seguro que queres editar al paciente?',
-      //   text: "No seras capaz de revertir esta accion!",
-      //   type: 'warning',
-      //   showCancelButton: true,
-      //   confirmButtonColor: '#3085d6',
-      //   cancelButtonColor: '#d33',
-      //   confirmButtonText: 'Si, Editar!',
-      //   cancelButtonText: 'Cancelar',
-      // }).then(function () {
-      //   yo.pacientesService.actualizarPaciente(paciente._id,paciente).then(pac => {
-      //       // ////console.log("el nuevo paciente quedo..");
-      //       // ////console.log(pac);
-      //       paciente = pac;
-      //     }).catch(err => console.error(err))
-      // }).catch(swal.noop);
-
     }
 
 
@@ -167,13 +137,7 @@ export class TablaPacientesComponent implements OnInit {
     private subscription: Subscription;
 
     constructor(private pacientesService: PacientesService, private pacientesCompartidosService: PacientesCompartidosService) {
-
       this.observarPacientes();
-      // this.pacientesService.getPacientesActivos().then(
-      //   pacientes =>{
-      //     this.setPacientes(pacientes);
-      //   }
-      // ).catch(err => {console.log(err)})
     }
 
     observarPacientes(){
@@ -211,25 +175,10 @@ export class TablaPacientesComponent implements OnInit {
       const copiedData = this.data.slice();
 
       this.pacientesCompartidosService.addPaciente(paciente);
-
-      // copiedData.push(paciente);
-      // this.dataChange.next(copiedData);
     }
 
     editPaciente(pacienteEditado){
         this.pacientesCompartidosService.updatePaciente(pacienteEditado);
-      // let encontrado = -1;
-      // const copiedData = this.data.slice();
-      //
-      // copiedData.forEach(function(elem, index){
-      //   if(elem._id === pacienteEditado._id){
-      //     encontrado = index;
-      //   }
-      // });
-      // if(encontrado >= 0){
-      //   copiedData[encontrado] = Object.assign({}, pacienteEditado);
-      //   this.dataChange.next(copiedData);
-      // }
     }
 
     removePaciente(paciente){
@@ -248,8 +197,6 @@ export class TablaPacientesComponent implements OnInit {
         this.dataChange.next(copiedData);
       }
     }
-
-
 
   }
 
@@ -289,20 +236,6 @@ export class TablaPacientesComponent implements OnInit {
 
         //Preparamos el FILTRO de la tabla
         this.filteredData =   this._exampleDatabase.data.slice().filter((item: Paciente) => {
-
-          // Filtro de la fecha
-          // let dia = item.fechaRealizacion.getDate();
-          // let diaString = dia.toString();
-          // if(dia < 10){
-          //   diaString = '0'+ dia.toString();
-          // }
-          // let mes = item.fechaRealizacion.getMonth()+1;
-          // let mesString = mes.toString();
-          // if(mes < 10){
-          //   mesString = '0'+ mes.toString();
-          // }
-          //
-          // let filtroFecha = diaString + '/' + mesString +  '/' + item.fechaRealizacion.getFullYear();
 
           // Concatenamos los filtros para armar el string de busqueda
           let searchStr = (item.dni + item.email + item.nombre + item.apellido + item.telefono).toLowerCase();

@@ -24,17 +24,15 @@ export class PacientesService {
 		return this.http.get(this.pacientesURL,this.authService.jwt())
 		.toPromise()
 		.then(response => {
-			////console.log(response.json());
 			return response.json() as Paciente[];
 		})
 		.catch(this.handleError);
 	}
-	// GET /messages?status=read&user=10
+
 	getPacientesActivos(): Promise<Paciente[]>{
 		return this.http.get(this.pacientesURL+"?eliminado=false&aprobado=true",this.authService.jwt())
 		.toPromise()
 		.then(response => {
-			////console.log(response.json());
 			return response.json() as Paciente[];
 		})
 		.catch(this.handleError);
@@ -56,7 +54,6 @@ export class PacientesService {
 
 	private handleError(error: any): Promise<any> {
 		console.error('Ocurrio un error en servicio de Pacientes: ', error);
-		// alert(error.json().error);
 		return Promise.reject(error.message || error);
 	}
 
@@ -64,7 +61,6 @@ export class PacientesService {
 		return this.http.get(this.pacientesURL+'/'+id,this.authService.jwt())
 		.toPromise()
 		.then(response => {
-			////console.log(response.json());
 			return response.json() as Paciente[];
 		})
 		.catch(this.handleError);
@@ -74,8 +70,6 @@ export class PacientesService {
 		return this.http.put(this.pacientesURL+'/'+id,datos,this.authService.jwt())
 		.toPromise()
 		.then(response => {
-			// ////console.log("RESPUESTA DESDE EL PUT");
-			// ////console.log(response.json());
 			return response.json() as Paciente[];
 		})
 		.catch(this.handleError);
@@ -85,8 +79,6 @@ export class PacientesService {
 		return this.http.patch(this.pacientesURL+'/'+id,{sancion:true},this.authService.jwt())
 		.toPromise()
 		.then(response => {
-			// ////console.log("RESPUESTA DESDE EL PATCH");
-			// ////console.log(response.json());
 			return response.json() as Paciente[];
 		})
 		.catch(this.handleError);
@@ -96,8 +88,6 @@ export class PacientesService {
 		return this.http.patch(this.pacientesURL+'/'+id,{eliminado:true},this.authService.jwt())
 		.toPromise()
 		.then(response => {
-			//console.log("RESPUESTA DESDE EL PATCH");
-			//console.log(response.json());
 			return response.json() as Paciente[];
 		})
 		.catch(this.handleError);
@@ -107,8 +97,6 @@ export class PacientesService {
 		return this.http.patch(this.pacientesURL+'/'+id,{sancion:false},this.authService.jwt())
 		.toPromise()
 		.then(response => {
-			// ////console.log("RESPUESTA DESDE EL PATCH");
-			// ////console.log(response.json());
 			return response.json() as Paciente[];
 		})
 		.catch(this.handleError);

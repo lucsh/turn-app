@@ -25,7 +25,6 @@ export class MedicosService {
 		return this.http.get(this.medicosURL+'/'+id,this.authService.jwt())
 		.toPromise()
 		.then(response => {
-			//console.log(response.json());
 			return response.json() as any;
 		})
 		.catch(this.handleError);
@@ -36,7 +35,6 @@ export class MedicosService {
         return this.http.get(this.medicosURL,this.authService.jwt())
         .toPromise()
         .then(response => {
-			// ////console.log(response.json());
 			return response.json() as Medico[];
 		})
         .catch(this.handleError);
@@ -45,9 +43,6 @@ export class MedicosService {
 		public createMedico(nuevoMedico): Promise <any>{
 			return this.http.post(this.medicosURL, nuevoMedico, this.authService.jwtContentType()).toPromise().
 			then(res => {
-				// console.log('Se ha creado el siguiente medico:');
-				// console.log(res.json());
-
 				return res.json();
 			})
 			.catch(err => this.handleError);
@@ -55,15 +50,12 @@ export class MedicosService {
 
 	public actualizarSemana(id,semana): Promise<any[]>{
 		return this.http.patch(this.medicosURL+'/'+id,{semanaEsquema:semana},this.authService.jwt()).toPromise().then(respuesta => {
-			//console.log("Semana actualizada");
-			//console.log(respuesta);
 			return respuesta.json();
 		}).catch(err => this.handleError);
 	}
 
 	private handleError(error: any): Promise<any> {
         console.error('Ocurrio un error en servicio de Medicos: ', error);
-        // alert(error.json().error);
         return Promise.reject(error.message || error);
   }
 

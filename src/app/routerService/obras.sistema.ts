@@ -54,7 +54,6 @@ export class ObrasCompartidasService {
       let encontrado = -1;
       this.obras.forEach(function(elem,index){
         if(elem._id == paciente._id){
-          console.log('Lo encontre!!');
           encontrado = index;
         }
       });
@@ -70,7 +69,6 @@ export class ObrasCompartidasService {
       let encontrado = -1;
       this.obras.forEach(function(elem,index){
         if(elem._id == obra._id){
-          console.log('Lo encontre!!');
           encontrado = index;
         }
       });

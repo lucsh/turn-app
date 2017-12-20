@@ -16,31 +16,21 @@ declare var $: any;
 
 @Component({
   selector: 'ver-turno',
-  // providers:[TurnoSocketService],
   templateUrl: './verTurno.html'
 })
 export class VerTurnoComponent implements OnInit, OnChanges{
 
-  // @Input() fechaNuevoTurno: any;
   @Input() obra: any;
   @Input() turno: any;
   @Output() obraEditado = new EventEmitter();
 
   @ViewChild('closeformVerTurno') closeformVerTurno: ElementRef;
 
-  // private obras: Obra[];
-  // private obraSelected: Obra = null;
-
   public modeloObra = null;
-
-
   public horaNuevoTurno: any;
   public diaNuevoTurno: any;
-
   public pacienteDelTurno: any = null;
-
   public turnoModificable: boolean = true;
-
 
   constructor(
     private obrasService: ObrasService,private turnosSocketService : TurnoSocketService, private pacientesCompartidosService: PacientesCompartidosService
@@ -51,29 +41,17 @@ export class VerTurnoComponent implements OnInit, OnChanges{
   /*
   */
   ngOnInit() {
-    // this.obrasService.getObras().then(
-    //   obras =>{
-    //     console.log('Tengo las obras!!');
-    //     this.obras = obras;
-    //     this.modeloPaciente = Object.assign({}, this.paciente); //clonamos el paciente
-    //
-    //     console.log(this.paciente);
-    //   }
-    // ).catch(error=>{console.log(error)})
-    // console.log("Entre al modal");
+
   }
 
   /*
   */
   ngOnChanges(changes) {
     // changes.prop contains the old and the new value...
-    // console.log("Entre al modal22222");
-    // console.log(this.turno);
 
     //Asignamos las fechas para el modal
     if(this.turno != null){
       if(this.turno.paciente.obra == null){
-        // console.log('La obra es nullllll');
         this.turno.paciente.obra = {
           _id: 'Particular',
           nombre: 'Particular',
@@ -93,7 +71,6 @@ export class VerTurnoComponent implements OnInit, OnChanges{
         this.turnoModificable = true;
       }
 
-      // console.log(fechaNuevoTurno);
       this.horaNuevoTurno = fechaNuevoTurno.format('HH:mm');
       this.diaNuevoTurno = fechaNuevoTurno.format('DD [de] MMMM');
     }
@@ -117,12 +94,6 @@ export class VerTurnoComponent implements OnInit, OnChanges{
 
   */
   public editarObra(){
-    ////console.log('Entre a agregar Paciente');
-    //  let obraId = this.obraSelected._id;
-
-    // console.log('this.modeloObra');
-    // console.log(this.modeloObra);
-
     this.obrasService.actualizarObra(this.modeloObra._id, this.modeloObra)
     .then(obraEdit => {
       this.obraEditado.next(obraEdit);
@@ -153,7 +124,6 @@ export class VerTurnoComponent implements OnInit, OnChanges{
       // $('#calendar').fullCalendar('removeEvents', function (event) {
       //   return event == calEvent; //Esto remueve solamente el evento "clickeado" que entra por parametro del evento del calendario 'calEvent'
       // });
-      console.log("Entre al THEN de la funcion de SWAL y mi tuno id es el de: ", yo.turno._id);
       yo.turnosSocketService.eliminarTurno(yo.turno._id);
     }, function(dismiss){
       //Aca entra si se arrepiente de eliminar el turno!!!!
@@ -173,7 +143,5 @@ export class VerTurnoComponent implements OnInit, OnChanges{
     // this.obraSelected = null;
     this.closeformVerTurno.nativeElement.click();
   }
-
-
 
 }

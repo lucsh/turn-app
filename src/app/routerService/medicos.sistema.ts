@@ -29,7 +29,6 @@ export class MedicosCompartidosService {
   ){
 
     this.medicos$ = new Observable((observer) => {
-      // console.log('ENTRE ACA');
       this.observer = observer;
     });
     // this.medicosService.getDoctores()
@@ -42,7 +41,6 @@ export class MedicosCompartidosService {
   }
 
   public iniciar(medicos){
-    // console.log('ME ESTOY ?INICIANDO');
     this.medicos = medicos;
     // this.medicos$ = new Observable((observer) => {
     //   // console.log('ENTRE ACA');
@@ -63,8 +61,6 @@ export class MedicosCompartidosService {
   }
 
   public getMedicos(){
-    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
-    console.log(this.medicos);
       this.observer.next(this.medicos);
   }
 
@@ -73,7 +69,6 @@ export class MedicosCompartidosService {
       let encontrado = -1;
       this.medicos.forEach(function(elem,index){
         if(elem._id == medico._id){
-          console.log('Lo encontre!!');
           encontrado = index;
         }
       });
@@ -106,7 +101,6 @@ export class MedicosCompartidosService {
       let encontrado = -1;
       this.medicos.forEach(function(elem,index){
         if(elem._id == medico._id){
-          console.log('Lo encontre!!');
           encontrado = index;
         }
       });

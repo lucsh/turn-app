@@ -54,13 +54,8 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
   ngOnInit() {
     if(this.medico != null){
-      //this.obras = this.medico.obras;
       this.reiniciarConfiguracion();
 
-      // this.intervalos = this.medico.semanaEsquema.intervalos;
-      // if(this.intervalos == undefined || this.intervalos == null){
-      //   this.agregarIntervalo();
-      // }
       this.iniciarTurnosPorObras();
       this.iniciarIntervalos();
       this.obras = this.obrasDispTotales;
@@ -79,10 +74,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
     }
 
-
-
     if(this.medico != null){
-      //this.obras = this.medico.obras;
       this.iniciarTurnosPorObras();
       this.iniciarIntervalos();
       this.obras = this.obrasDispTotales;

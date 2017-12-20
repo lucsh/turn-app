@@ -32,9 +32,7 @@ export class PacientesCompartidosService {
     });
   }
   public iniciarPacientes(pacientes){
-    // console.log('INICIAR PACIENTES COMPARTIDO');
     this.pacientes = pacientes;
-    // console.log(this.pacientes);
     this.getPacientes();
   }
 
@@ -54,7 +52,6 @@ export class PacientesCompartidosService {
       let encontrado = -1;
       this.pacientes.forEach(function(elem,index){
         if(elem._id == paciente._id){
-          console.log('Lo encontre!!');
           encontrado = index;
         }
       });
