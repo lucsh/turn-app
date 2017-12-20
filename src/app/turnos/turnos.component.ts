@@ -390,17 +390,12 @@ export class TurnosComponent implements OnInit, OnDestroy {
       let temp = arregloHorasValidas[i].start;
       if (arregloHorasValidas[i].start[0] === '0') {
         temp = arregloHorasValidas[i].start.substring(1, arregloHorasValidas[i].start.length);
-        // ////console.log(temp);
-        // ////console.log(horaInicialEvento>=temp);
       }
       let temp2 = arregloHorasValidas[i].end;
       if (arregloHorasValidas[i].end[0] === '0') {
         temp2 = arregloHorasValidas[i].end.substring(1, arregloHorasValidas[i].end.length);
-        ////console.log(horaFinalEvento <= temp2);
       }
       for (let j = 0; j < arregloHorasValidas[i].dow.length; j++) {
-        // ////console.log("----------");
-        // ////console.log(arregloHorasValidas[i].dow[j]);
         if (arregloHorasValidas[i].dow[j] == numDia) {
 
           let horaValidaInicio = parseInt(temp.split(':')[0]);

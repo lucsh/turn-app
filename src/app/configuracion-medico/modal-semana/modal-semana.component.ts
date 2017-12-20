@@ -9,7 +9,7 @@ import {default as swal} from 'sweetalert2';
 import {MedicosService} from '../../medico/medicos.service';
 
 
-
+import * as moment from 'moment';
 declare var $: any;
 
 @Component({
@@ -73,7 +73,6 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     this.reiniciarConfiguracion();
 
     if(!this.primeraVez){
-      // this.obrasSelector = [];
       this.turnosPorObra = [];
       this.resetearSelectoresObras();
       this.resetearCheckBoxs();
@@ -118,10 +117,6 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     */
 
     this.cd.detectChanges();
-
-    // if(!this.primeraVez){
-    //    this.actualizarCheckBoxs();
-    // }
   }
 
   public reiniciarConfiguracion(){
@@ -243,7 +238,6 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
           if(yo.obras[i]._id.toString() == elem.obraSocial.toString()){
 
             var aux = yo.obras[i]; //Este es el que tiene el id y el text
-            // console.log(selectoresAux[index]);
             // selectoresAux[index].active.push(aux);
             selectoresAux[index].active = [aux];
           }
@@ -307,13 +301,11 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
           }
 
         });
-        // console.log('FIN FOR EACH');
       }else{
         this.intervalos = [];
       }
     }
-    // console.log("INTERVALOS");
-    // console.log(this.intervalos);
+
     if(this.intervalos == undefined || this.intervalos == null){
 
       let inter = {
@@ -324,11 +316,6 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
       };
       this.intervalos.push(inter);
     }
-    else{
-      // console.log("dias");
-      // console.log(this.diaLunes.nativeElement.value);
-    }
-    // this.actualizarCheckBoxs();
   }
 
 
@@ -351,8 +338,6 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
         yo.obrasSelector[index].text = elem.nombre;
         yo.obrasSelector[index]._id = elem._id;
 
-        // yo.selectoresObras[0].nativeElement;
-
       });
       if(yo.obrasSelector.length > 0){
         this.actualizado = true;
@@ -368,7 +353,6 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
   public agregarIntervalo(){
 
-    console.log('ENTRE ACA');
     let inter = {
       dias : [],
       horaInicial: "",
@@ -404,7 +388,6 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
       intervalo.dias.splice(index,1);
     }
     intervalo.dias.sort(function(a, b){return a - b});
-    // console.log(intervalo);
   }
 
   public eliminarIntervalo(index){
@@ -434,7 +417,6 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     let yo = this;
     swal({
       title: '¿Estas seguro que queres actualizar el intervalo?',
-      //text: 'You will not be able to recover this imaginary file!',
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -477,26 +459,26 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
   }
   public cancelar(){
-    //Limpiamos variables
-    //this.value = {};
-    // this.intervalos = [];
-    // this.turnosPorObra = [];
-
-
 
     //Cerramos el modal
     // this.obraSelected = null;
     this.closeFormConfigSemana.nativeElement.click();
+  }
 
-    // this.agregarIntervalo();
-    // this.agregarObra();
+  public semanaSiguiente(){
+
+    let semanaQueViene = moment().add(1, 'weeks').startOf('isoWeek');
+    let finSemanaQueViene = moment(semanaQueViene.toDate(), "DD-MM-YYYY").add(5, 'days');
+
+    return semanaQueViene.format('DD/MM') + ' al '+ finSemanaQueViene.format('DD/MM')
   }
 
 
-
+  // ***************************************************************************
+  // Metodos para obtener el horario del timePicker
   // ***************************************************************************
 
-  // Metodos para obtener el horario del timePicker
+
   public horaInicial(intervalo){
 
     /*
