@@ -55,7 +55,10 @@ export class ObrasCompartidasService {
 
       let obrasSinParticular = this.removerObraParticularVista(obras);
       this.obras = obrasSinParticular;
-      this.observer.next(this.obras);
+
+      if(this.observer){
+        this.observer.next(this.obras);
+      }
     })
   }
 
@@ -180,7 +183,7 @@ private onPatched(obra){
 
 
 /*
-  NO BORRAR Refresh manual 
+  NO BORRAR Refresh manual
 */
   // public refreshData(){
   //   this.obrasService.getObras()

@@ -61,7 +61,7 @@ export class NavigationComponent {
     }
 
     this.obtenerSubscripcionMedicos();
-    this.obtenerSubscripcionObras();
+    // this.obtenerSubscripcionObras();
     this.obtenerSubscripcionPacientes();
 
   }
@@ -132,7 +132,7 @@ export class NavigationComponent {
 
     });
   }
-  
+
   activeRoute(routename: string): boolean{
     return this.router.url.indexOf(routename) > -1;
   }
