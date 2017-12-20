@@ -1,16 +1,9 @@
 import { Component, OnInit, Input, Output,EventEmitter,OnChanges, ElementRef, ViewChild } from '@angular/core';
-
-// import { Paciente } from '../paciente.tipo';
-// import { PacientesService } from '../pacientes.service';
-
 import { Obra } from '../../obras/obra.tipo';
 import {ConfiguracionMedicoService} from '../../configuracion-medico/configuracion-medico.service';
 
-import { ObrasCompartidasService } from '../../routerService/obras.sistema';
 import { MedicosCompartidosService } from '../../routerService/medicos.sistema';
 import { Subscription } from 'rxjs/Subscription';
-
-// import { ObrasService } from '../../obras/obras.service';
 
 import {default as swal} from 'sweetalert2';
 declare var $: any;
@@ -23,6 +16,7 @@ export class EditarMedicoComponent implements OnInit, OnChanges{
 
   // @Input() fechaNuevoTurno: any;
   @Input() medicoSeleccionado: any;
+  @Input() obrasRecibidas: any[];
   @Output() medicoEditado = new EventEmitter();
   @Output() medicoEliminado = new EventEmitter();
 
@@ -34,7 +28,6 @@ export class EditarMedicoComponent implements OnInit, OnChanges{
   public modeloMedico = null;
 
   private medicosSubscription: Subscription;
-  private obrasSubscription: Subscription;
 
   public actualizado: boolean = false;
   public obrasSelector: Array<any> = [];
@@ -46,8 +39,7 @@ export class EditarMedicoComponent implements OnInit, OnChanges{
   private disabled:boolean = false;
   constructor(
     private configuracionMedicoService: ConfiguracionMedicoService,
-    private medicosCompartidos: MedicosCompartidosService,
-    private obrasCompartidas: ObrasCompartidasService
+    private medicosCompartidos: MedicosCompartidosService
   ){
     this.modeloMedico = {};
   }
@@ -57,34 +49,14 @@ export class EditarMedicoComponent implements OnInit, OnChanges{
   */
   ngOnInit() {
     this.modeloMedico = Object.assign({}, this.medicoSeleccionado); //clonamos el medico
-    this.observarObras();
-  }
-
-  observarObras(){
-    /*
-      Subscribimos a los obras, para que tengan una correspondencia
-      con los obras del navigator
-    */
-    if(this.obrasCompartidas.obras$){
-      this.obrasSubscription = this.obrasCompartidas.obras$.subscribe((obras) => {
-
-          this.obras = obras;
-          this.actualizarSelector();
-        // this.ref.markForCheck();
-      }, (err) => {
-        console.log('Error en observarObras de tablaObras');
-        console.error(err);
-      });
-
-      // Obtenemos los pacientes compartidos
-      this.obrasCompartidas.getObras();
-    }
+    this.obras = this.obrasRecibidas;
+    this.actualizarSelector();
   }
 
   public actualizarSelector(){
     if(this.obras!=null){
       let yo = this;
-
+      this.obrasSelector = []; // IMPORTANTE: tenemos que inicializarlo, sino no se re-inicia el selector
       // Actualizamos las obras posibles
       this.obras.forEach(function(elem,index){
         /*
@@ -182,7 +154,8 @@ export class EditarMedicoComponent implements OnInit, OnChanges{
   */
   ngOnChanges(changes) {
     // changes.prop contains the old and the new value...
-    this.iniciarSelectorObras();
+    this.obras = this.obrasRecibidas;
+    this.actualizarSelector();
     this.modeloMedico = Object.assign({}, this.medicoSeleccionado); //clonamos el medico
   }
 

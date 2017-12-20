@@ -11,7 +11,7 @@ import { NgForm } from '@angular/forms';
 declare var $: any;
 @Component({
   selector: 'app-obras',
-  providers:[ObrasService],
+  providers:[],
   templateUrl: './obras.component.html',
   styleUrls: ['./obras.component.css']
 })

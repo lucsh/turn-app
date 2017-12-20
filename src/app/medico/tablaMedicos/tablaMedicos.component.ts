@@ -114,8 +114,7 @@ export class TablaMedicosComponent implements OnInit {
       */
       if(this.obrasCompartidas.obras$){
         this.obrasSubscription = this.obrasCompartidas.obras$.subscribe((obras) => {
-
-            this.obras = obras;
+          this.obras = obras.slice();
           // this.ref.markForCheck();
         }, (err) => {
           console.log('Error en observarObras de tablaMedicos');
