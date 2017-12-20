@@ -4,29 +4,21 @@ import { Observer } from 'rxjs/Observer';
 import * as io from 'socket.io-client';
 import * as moment from 'moment';
 //import * as feathers from 'feathers-client';
-
+import { environment } from '../../environments/environment';
 
 declare var feathers:any;
 declare var feathersClient:any;
-
-
-
-import { Turno } from './turno.tipo';
-
-import { PacientesService } from '../pacientes/pacientes.service';
-import { environment } from '../../environments/environment';
-
-
-import { AuthService } from "../authentication/auth.service";
-
-declare var $: any;
-
 import * as feathersRx from 'feathers-reactive';
-
 import * as hooks from 'feathers-hooks';
 import * as Rx from 'rxjs';
 import * as authentication from 'feathers-authentication-client';
+
+import { Turno } from './turno.tipo';
+import { PacientesService } from '../pacientes/pacientes.service';
+import { AuthService } from "../authentication/auth.service";
 import { Feathers } from '../authentication/feathers.service'
+
+declare var $: any;
 
 
 @Injectable()
@@ -55,13 +47,8 @@ export class TurnoSocketService {
   // Metodos particulares
 
   public iniciar(id : string){
-
-    ////console.log('Entre en Iniciar del TURNO SOCKET SERVICE');
-
     this.idDoctor = id;
-
     this.socket = io(this.urlServidor);
-
     this.feathersApp = feathers().configure(feathers.socketio(this.socket));
     this.feathersApp.configure(hooks());
     this.feathersApp.configure(feathersRx(Rx));
@@ -83,16 +70,11 @@ export class TurnoSocketService {
     this.turnos$ = new Observable((observer) => {
       this.turnosObserver = observer;
     });
-    console.log("ANTES DE CARGAR");
     this.dataStore = { turnos: [] };
     var thisLocal = this;
 
     thisLocal.autenticar().then((param)=>{
-      // console.log("PARAMS");
-      // console.log(param);
       thisLocal.find();
-
-
     });
 
     //Quizas este no iria aca
@@ -106,7 +88,6 @@ export class TurnoSocketService {
   */
   private autenticar(): Promise<any>{
 
-    // console.log("ENTRE AL AUTHENTICAR");
     let token = localStorage.getItem('feathers-jwt');
 
     return this.feathersApp.authenticate({
@@ -121,21 +102,13 @@ export class TurnoSocketService {
 
   public cambiarMedico(id){
     this.cleanService();
-    // ////console.log("CAMBIO DE MEDICO");
     this.iniciar(id);
   }
 
   public cleanService(){
-    //this.turnosSocketService = null;
-    //Obtenemos el service que queremos
-    ////console.log("ENTRE AL CLEAN SERVICE");
     this.socket.disconnect();
     this.turnosSocketService = null;
-
-
-
     this.turnos$ = null;
-
     this.dataStore = { turnos: [] };
   }
 
@@ -269,16 +242,11 @@ export class TurnoSocketService {
 
     this.turnosSocketService.create(reserva).then((nuevaReserva)=>{
 
-      // console.log('#### Se creo la nueva reserva');
-      // console.log(nuevaReserva);
-
     });
   }
 
   public cancelarReserva(reserva){
     this.turnosSocketService.remove(reserva._id).then((reservaEliminada)=>{
-
-      console.log("Reserva cancelada!!");
     });
   }
 
@@ -300,12 +268,9 @@ export class TurnoSocketService {
   }
 
   public eliminarTurno(idTurno){
-    console.log("Entre al eliminar Turno con el id de : ", idTurno);
     let id = idTurno;
     this.turnosSocketService.remove(idTurno).then((turnoEliminado)=>{
-      console.log("Turno eliminado!!");
     });
-    console.log("despues del eliminar");
   }
 
 
@@ -326,8 +291,6 @@ export class TurnoSocketService {
       A veces es necesario hacer el .data. Es cuando, por ej, usas pagination
       */
       //******************************************************************
-      // ////console.log("#### FIND ###");
-      // ////console.log(turnos);
       this.dataStore.turnos = turnos;
 
       //Aca vamos a renderizar el calendario de nuevo despues de obtener todos los turnos de ese medico.
@@ -362,14 +325,16 @@ export class TurnoSocketService {
   /*
   Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onCreated'
   */
-  private onCreated(turno: any) { //REMPLAZR EL ANY CON TURNO!
-    // ////console.log('On created de Angular con Socket de Feathers');
-    // ////console.log(turno);
+  private onCreated(turno: any) {
 
-    this.dataStore.turnos.push(turno);
-    //lo pusheo al calendar
-    this.actualizarVisual(turno);
-    this.turnosObserver.next(this.dataStore.turnos);
+    // El nuevo turno es del DOCTOR actual
+    if(turno.medico._id.toString() == this.idDoctor){
+
+      this.dataStore.turnos.push(turno);
+      //lo pusheo al calendar
+      this.actualizarVisual(turno);
+      this.turnosObserver.next(this.dataStore.turnos);
+    }
   }
 
   /*
@@ -387,12 +352,8 @@ export class TurnoSocketService {
   Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onRemoved'
   */
   private onRemoved(turno: Turno) {
-    console.log('on Removed de turnos-socket');
-    console.log(turno);
 
     const index = this.getIndex(turno._id);
-
-    console.log(index)
 
     let eventosCalendario = $('#calendar').fullCalendar('clientEvents');
 
@@ -422,6 +383,5 @@ export class TurnoSocketService {
     //this.socket.close();
     this.socket.disconnect();
     //this.turnosObserver = null;
-    ////console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
   }
 }
