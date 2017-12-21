@@ -114,8 +114,7 @@ export class TablaMedicosComponent implements OnInit {
       */
       if(this.obrasCompartidas.obras$){
         this.obrasSubscription = this.obrasCompartidas.obras$.subscribe((obras) => {
-
-            this.obras = obras;
+          this.obras = obras.slice();
           // this.ref.markForCheck();
         }, (err) => {
           console.log('Error en observarObras de tablaMedicos');
@@ -156,18 +155,15 @@ export class TablaMedicosComponent implements OnInit {
 
     // Metodos de configurar semana
     configurarSemana(medico){
-      console.log('########################## Configurar Semana');
-      console.log(medico);
+
       this.medicoSeleccionado = medico;
       let semanaGuardada;
       this.configuracionMedicoService.getSemanaModelo(medico).then(semana =>{
         //Abrimos el modal...
         semanaGuardada = semana;
 
-        console.log('########################## Configurar Semana');
         $('#formConfigSemana').modal('show');
-        ////console.log("LA SEMANA Q LE LLEGA AL COMPONENT ES....");
-        ////console.log(semana);
+
       });
     }
 
@@ -189,10 +185,6 @@ export class TablaMedicosComponent implements OnInit {
         '_id' : '',
         'obras':[]
       };
-
-
-
-
     }
 
   }
@@ -210,7 +202,6 @@ export class TablaMedicosComponent implements OnInit {
     private medicosSubscription: Subscription;
 
     constructor(private medicosCompartidos: MedicosCompartidosService) {
-      console.log('########### medicoscompartidos tabla medicos')
       this.observarMedicos();
     }
 
@@ -222,7 +213,6 @@ export class TablaMedicosComponent implements OnInit {
       if(this.medicosCompartidos.medicos$){
         this.medicosSubscription = this.medicosCompartidos.medicos$.subscribe((medicos) => {
 
-          console.log('ENTRE A LA SUBSCRIPCION desde tabla Medicos');
           this.setMedicos(medicos);
           // this.ref.markForCheck();
         }, (err) => {
@@ -238,17 +228,13 @@ export class TablaMedicosComponent implements OnInit {
     Pasamos nuestros medicos al observer
     */
     setMedicos(medicos: any[]) {
-      console.log('########### setMedicos tabla medicos')
-
       let copiedData = medicos;
       this.dataChange.next(medicos);
     }
 
 
     addMedico(medico) {
-
       this.medicosCompartidos.addMedico(medico);
-
     }
 
     editMedico(medicoEditado){
@@ -256,16 +242,11 @@ export class TablaMedicosComponent implements OnInit {
     }
 
     removeMedico(medico){
-
       this.medicosCompartidos.deleteMedico(medico);
-
     }
 
     actualizarSemana(medicoCambiado){
-
-
       this.medicosCompartidos.actualizarSemana(medicoCambiado);
-
     }
 
 
@@ -304,7 +285,6 @@ export class TablaMedicosComponent implements OnInit {
       ];
 
       return Observable.merge(...displayDataChanges).map(() => {
-        // console.log(displayDataChanges);
 
         //Preparamos el FILTRO de la tabla
         this.filteredData =   this._exampleDatabase.data.slice().filter((item: any) => {

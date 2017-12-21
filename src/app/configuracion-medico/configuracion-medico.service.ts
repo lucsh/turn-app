@@ -52,10 +52,9 @@ export class ConfiguracionMedicoService {
 	}
 
 	actualizarMedico(id,nombre,apellido,emailMedico, duracion,obras, idUsuario): Promise<any>{
-		
+
 		if(obras != null){
 			obras = this.limpiarParticular(obras);
-			console.log("Las obras quedaron de la siguiente manera ", obras);
 		}
 		return this.http.patch(this.medicosURL+'/'+id,{nombre: nombre, apellido: apellido, email:emailMedico, duracion:duracion,obras:obras, _idUsuario:idUsuario},this.authService.jwt())
 		.toPromise()
@@ -100,7 +99,7 @@ export class ConfiguracionMedicoService {
 				if(element.nombre !='Particular'){
 					resultado.push(element);
 				}
-				
+
 			}
 		}
 		return resultado;

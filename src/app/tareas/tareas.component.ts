@@ -35,13 +35,10 @@ export class TareasComponent implements OnInit {
 
     this.tareasService.createTodo(descripcion).subscribe(
       data => {
-        // console.log(data);
-        // console.log(data.json());
         this.todoActual = {
           algo: null
         };;
         this.todos.push(data.json());
-        // this.getAllTodos();
       });
       this.todoActual.algo = '';
   }

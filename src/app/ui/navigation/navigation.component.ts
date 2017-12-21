@@ -61,7 +61,7 @@ export class NavigationComponent {
     }
 
     this.obtenerSubscripcionMedicos();
-    this.obtenerSubscripcionObras();
+    // this.obtenerSubscripcionObras();
     this.obtenerSubscripcionPacientes();
 
   }
@@ -73,16 +73,7 @@ export class NavigationComponent {
     if(token && token.clase == 'medico'){
       // Logueado como medico
 
-
       this.medicosService.buscarMedico(token._idMedico).then(medico =>{
-
-
-
-        //****************************************************************
-        //FIX TEMPORAL para cuando viene 1 OBRA, por lo que (por algun motivo), no lo entiende como lista
-        //feathers al volverlo, posiblemente con un populate
-        //****************************************************************
-
         if(!medico.obras.length){
             let aux = Object.assign({}, medico.obras);
             medico.obras = [];
@@ -93,8 +84,6 @@ export class NavigationComponent {
         medicos.push(medico);
 
         this.medicosSubscription = this.medicosCompartidos.medicos$.subscribe((medicos) => {
-
-          // console.log('ENTRE A LA SUBSCRIPCION de medicos');
           this.medicos = medicos;
           // this.ref.markForCheck();
         }, (err) => {
@@ -110,8 +99,6 @@ export class NavigationComponent {
 
       this.medicosService.getDoctores().then((docs)=>{
         this.medicosSubscription = this.medicosCompartidos.medicos$.subscribe((medicos) => {
-
-          // console.log('ENTRE A LA SUBSCRIPCION de medicos');
           this.medicos = medicos;
           // this.ref.markForCheck();
         }, (err) => {
@@ -127,8 +114,6 @@ export class NavigationComponent {
   obtenerSubscripcionPacientes(){
     this.pacientesService.getPacientesActivos().then((pacientes)=>{
       this.pacientesSubscription = this.pacientesCompartidos.pacientes$.subscribe((pacientes) => {
-        // console.log(pacientes);
-        // console.log('ENTRE A LA SUBSCRIPCION de pacientes');
         // this.ref.markForCheck();
       }, (err) => {
         console.error(err);
@@ -140,43 +125,12 @@ export class NavigationComponent {
   obtenerSubscripcionObras(){
     this.obrasService.getObras().then((obras)=>{
       this.obrasSubscription = this.obrasCompartidas.obras$.subscribe((obras) => {
-        // console.log(obras);
-        // console.log('ENTRE A LA SUBSCRIPCION de obras');
         // this.ref.markForCheck();
       }, (err) => {
         console.error(err);
       });
 
-      let obrasSinParticular = this.removerObraParticularVista(obras);
-
-      this.obrasCompartidas.iniciarObras(obrasSinParticular);
     });
-  }
-
-  /*
-    Quitamos la obra 'Particular' de la lista de obras elegibles por los administrativos / medicos.
-  */
-  private removerObraParticularVista(obras){
-
-    let obrasSinParticular = [];
-    let indexParticular = -1;
-
-    obras.forEach(function(elem, index){
-      if(elem.nombre == 'Particular'){
-        console.log('Lo encontre!!!');
-        indexParticular = index;
-      }
-    });
-
-    obrasSinParticular = obras;
-
-    // Removemos la obra 'Particular'
-    if(indexParticular > -1){
-      obrasSinParticular.splice(indexParticular, 1);
-    }
-
-    return obrasSinParticular;
-
   }
 
   activeRoute(routename: string): boolean{
@@ -190,14 +144,7 @@ export class NavigationComponent {
 
   getUsuario(){
 
-    // console.log(localStorage);
-    // var p = localStorage.getItem('user');
-    // console.log(p);
     var usuario: any = JSON.parse(localStorage.getItem('user'));
-    // console.log('usuario');
-    // console.log(usuario);
-    ////console.log('ENTRE A GET USUARIO');
-    // ////console.log(usuario);
     if(usuario!=undefined && usuario != null){
 
       this.profile = {};
@@ -207,25 +154,15 @@ export class NavigationComponent {
       //Aca debeiramos preguntar el cargo para ver si es medico
       this.medico = usuario;
     }
-
-    // this.navigationService.getUsuario()
-    // .subscribe(
-    //   data => this.profile = data,
-    //   error => ////console.log('Server Error')
-    // );
   }
 
   public actualizarListaMedicos(){
     const yo = this;
     this.medicosService.getDoctores().then((docs)=>{
-      // console.log('ENTRE ACA!!!');
-      // console.log(docs);
-      // yo.medicos = docs;
     });
   }
 
   mostrarTurnosMedicos(){
-    //  return this.medicosCargados() && !this.esMedico();
     return  !this.esMedico();
   }
   medicosCargados(){
@@ -236,14 +173,9 @@ export class NavigationComponent {
   public esMedico(){
 
     var usuario: any = JSON.parse(localStorage.getItem('user'));
-    // ////console.log(usuario);
     if(usuario!=undefined && usuario != null){
 
-      //this.getUsuario();
       var clase = usuario.clase;
-      // ////console.log("CLASEEEEEEEEEEE");
-      // ////console.log(usuario.toString());
-
       return clase === "medico";
 
     }
@@ -251,16 +183,7 @@ export class NavigationComponent {
   }
 
   public ngOnInit():any {
-
-
     this.getUsuario();
-
-    // setTimeout(()=>{
-    //   console.log('Se cumplio el timeout')
-    //   this.getUsuario();
-    // },1000)
-
-
   }
 
 }

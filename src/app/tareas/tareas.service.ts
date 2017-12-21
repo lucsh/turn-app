@@ -25,7 +25,6 @@ export class TareasService {
     return this.http.get(this.tareasURL,this.authService.jwt())
 		.toPromise()
 		.then(response => {
-			console.log(response.json());
 			return response.json() as Tarea[];
 		})
 		.catch(this.handleError);

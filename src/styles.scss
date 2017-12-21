@@ -37,3 +37,11 @@
   .clockpicker-popover{
     z-index: 5000 !important;
   }
+
+  //Estos stylos son para agregar el bold a las letras de los eventos de fullcalendar
+  .fc-time-grid-event.fc-short .fc-title {
+    font-weight: bold !important;
+  }
+  .fc-time-grid-event.fc-short .fc-time, .fc-time-grid-event.fc-short .fc-title {
+    font-weight: bold !important;
+  }

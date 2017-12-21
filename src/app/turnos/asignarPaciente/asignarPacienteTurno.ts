@@ -18,6 +18,8 @@ export class AsignarPacienteComponent implements OnChanges{
   public horaNuevoTurno: any;
   public diaNuevoTurno: any;
 
+  public descripcion = "";
+
   public pacientesSelector: Array<any> = [];
 
   public actualizado: boolean = false;
@@ -35,7 +37,6 @@ export class AsignarPacienteComponent implements OnChanges{
     // changes.prop contains the old and the new value...
 
     if(this.pacientes!=null && this.fechaNuevoTurno != null){
-      ////console.log('Entre a Ng on Changes de Asignar PacientesServiceiente a un Turno');
 
       //Asignamos las fechas para el modal
       this.horaNuevoTurno = this.fechaNuevoTurno.format('HH:mm');
@@ -69,10 +70,12 @@ export class AsignarPacienteComponent implements OnChanges{
     let pacienteAsignado = null;
     let yo = this;
 
+    let desc = this.descripcion;
+
     this.pacientesSelector.forEach(function(elem,index){
       if(elem.id == yo.value.id){
-        ////console.log('encontre!');
         pacienteAsignado = Object.assign({}, elem); //clonamos el elemento
+        pacienteAsignado.descripcion = desc;
       }
     });
 
@@ -100,6 +103,22 @@ export class AsignarPacienteComponent implements OnChanges{
   }
 
   /*
+    Este metodo reserva un turno SIN paciente para un medico
+  */
+  public reservar(){
+
+    let turnoReserva = {
+      esReserva: true
+    };
+
+    //Cerramos el modal
+    this.closeFormCrearTurno.nativeElement.click();
+
+    //Enviamos la eleccion al componente padre
+    this.nuevaAsignacion.next(turnoReserva);
+  }
+
+  /*
 
   */
   public agregarPaciente(){
@@ -107,8 +126,6 @@ export class AsignarPacienteComponent implements OnChanges{
   }
 
   public onPacienteAgregado(pacienteNuevo){
-    ////console.log('Entre en onPacienteAgregado de Asignar Paciente Turno');
-    ////console.log(pacienteNuevo);
 
     if(this.pacientesSelector.length > 0){
       this.pacientesSelector = [];
@@ -116,8 +133,6 @@ export class AsignarPacienteComponent implements OnChanges{
 
 
     if(pacienteNuevo != null && pacienteNuevo.aprobado){
-      // console.log('ENTRE a paciente Nuevo y pase el if');
-      // console.log(pacienteNuevo);
       this.pacientes.push(pacienteNuevo); //No se si es necesario hacerlo con pacientes
 
       //Reiniciamos el selector
@@ -129,11 +144,7 @@ export class AsignarPacienteComponent implements OnChanges{
       });
     }
 
-    // console.log('ENTRE A ON PACIENTE AGREGADO');
-
     if(this.selector != undefined){
-      // console.log('Pase el selector');
-      // console.log(this.selector);
       /*
       IMPORTANTE: Workaround para que se actualice segun obrasSelector
       Sacado de:
@@ -164,15 +175,12 @@ export class AsignarPacienteComponent implements OnChanges{
     this.disabled = this._disabledV === '1';
   }
   public selected(value:any):void {
-    ////console.log('Selected value is: ', value);
   }
 
   public removed(value:any):void {
-    ////console.log('Removed value is: ', value);
   }
 
   public typed(value:any):void {
-    ////console.log('New search input: ', value);
   }
 
   public refreshValue(value:any):void {

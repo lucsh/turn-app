@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { DashboardService } from './dashboard.service';
 import * as moment from 'moment';
 
 import { Observable } from 'rxjs/Rx';
@@ -35,8 +34,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
        lastOnBottom: false,
    };
 
-  constructor(private dashboardService: DashboardService,
-    public _service: NotificationsService){
+  constructor(public _service: NotificationsService){
     this.nav = document.querySelector('nav.navbar');
     this.whatTime = Observable.interval(1000)
     .map(x => moment()).share();
@@ -57,20 +55,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     return clase
   }
 
-
-  // create() {
-  //         this._service.success(
-  //           'Some Title',
-  //           'Some Content'
-  //       )
-  //   }
-
-
   public ngOnInit():any {
-
-  //  this.getAllCitas();
-    //this.getAllMensajes();
-    //this.getAllEstadosCitas();
     this.nav.className += " white-bg";
   }
 

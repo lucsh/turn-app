@@ -37,8 +37,6 @@ export class SolicitudesSocketService implements OnDestroy  {
   private feathersService;
 
   constructor(private FeathersCambiarNombre: Feathers, private pacientesCompartidos : PacientesCompartidosService,) {
-    // console.log('############################### NUEVO CONSTRUCTOR !!!!!!');
-
     this.socket = io(this.urlServidor);
     //Estamos usando el Service de Feathers, pues el que tiene la autenticacion del login
     this.feathersService = FeathersCambiarNombre.devolverFeathers();
@@ -51,46 +49,20 @@ export class SolicitudesSocketService implements OnDestroy  {
     this.solicitudesSocketService.on('removed', (paciente) => this.onRemoved(paciente));
     this.solicitudesSocketService.on('patched', (paciente) => this.onPatched(paciente));
 
-
     this.solicitudes$ = new Observable((observer) => {
       this.solicitudesObserver = observer;
     });
 
     this.dataStore = { solicitudes: [] };
     //let token = localStorage.getItem('feathers-jwt');
-
     this.findSolicitudes();
-    //BORRRRRAR
-    // this.autenticar().then((param)=>{
-    //   console.log("PARAMS");
-    //   console.log(param);
-    //   this.findSolicitudes();
-    // });
-    console.log("Pase el auth de solicitudes");
-    //BORRARRRRR
-
-    // this.findSolicitudes();
 
   }
 
   ngOnDestroy(){
 
-    // console.log('############################### ENTRE AL NG ON DSTROY!!!!!!');
     this.socket.disconnect();
     this.solicitudesSocketService = null;
-    //this.socket.close();
-    // this.solicitudesSocketService = null;
-    //
-    //
-    //
-    // this.solicitudes$ = null;
-    //
-    // this.dataStore = { solicitudes: [] };
-
-    // this.socket.disconnect();
-
-    //this.turnosObserver = null;
-    ////console.log("SE TERMINO EL SERVICIOOOOOOOOOOOOOO");
   }
 
   //---------------------------------------------------------------------------
@@ -116,11 +88,6 @@ export class SolicitudesSocketService implements OnDestroy  {
       //******************************************************************
 
       this.dataStore.solicitudes = pacientesEnSolicitud;
-
-
-      ////console.log('****************************************');
-      ////console.log(pacientesEnSolicitud);
-
       this.solicitudesObserver.next(this.dataStore.solicitudes);
     }).catch(err => console.error(err));
   }
@@ -150,7 +117,6 @@ export class SolicitudesSocketService implements OnDestroy  {
               // handling the promise rejection
               function (dismiss) {
                 if (dismiss === 'timer') {
-                  ////console.log('I was closed by the timer')
                 }
               }
             )
@@ -170,7 +136,6 @@ export class SolicitudesSocketService implements OnDestroy  {
       let id = pacienteEnSolicitud._id;
       this.solicitudesSocketService.remove(id).then(
         pacienteRechazado => {
-          //console.log('Se elimino la solicitud del paciente!!');
           swal({
             title: 'Solicitud Rechazada!',
             text: 'Se ha eliminado la solicitud correctamente!',
@@ -181,7 +146,6 @@ export class SolicitudesSocketService implements OnDestroy  {
             // handling the promise rejection
             function (dismiss) {
               if (dismiss === 'timer') {
-                ////console.log('I was closed by the timer')
               }
             }
           )
@@ -219,8 +183,6 @@ export class SolicitudesSocketService implements OnDestroy  {
   Al crear un paciente en el server (rest o socket), se invoca este evento.
   */
   private onCreated(pacienteAprobado){
-    //console.log('On created de Paciente (solicitud aprobada) de Angular con Socket de Feathers');
-    //console.log(pacienteAprobado);
     console.log('## ENTRE EN EL ON CREATED');
 
     //Si el nuevo paciente NO esta aprobado => entro una nueva solicitud
@@ -237,8 +199,6 @@ export class SolicitudesSocketService implements OnDestroy  {
   Al eliminar un paciente en el server (rest o socket), se invoca este evento.
   */
   private onRemoved(pacienteRechazado){
-    //console.log('On removed de Paciente (solicitud rechazada) de Angular con Socket de Feathers');
-    //console.log(pacienteRechazado);
 
     //Actualizamos las variables
 
@@ -286,7 +246,6 @@ export class SolicitudesSocketService implements OnDestroy  {
     let indexSolicitud = -1;
 
     let solicitudes = this.dataStore.solicitudes;
-    //console.log(solicitudes);
 
     solicitudes.forEach(function(elem,index){
       if(elem._id.toString() == pacienteEnSolicitud._id.toString()){
@@ -302,24 +261,12 @@ export class SolicitudesSocketService implements OnDestroy  {
     let borrado = false;
 
     let solicitudes = this.dataStore.solicitudes;
-    //console.log(solicitudes);
 
     let indexQuitar = this.buscarSolicitud(pacienteQuitar);
 
     if(indexQuitar > -1 && solicitudes[indexQuitar].aprobado == false){
-      // console.log('VOY A QUITAR A : ');
-      // console.log(solicitudes[indexQuitar]);
-      // console.log(solicitudes[indexQuitar].aprobado);
-      //
-      // console.log(this.dataStore.solicitudes);
 
       this.dataStore.solicitudes = solicitudes.splice(indexQuitar, 1);
-
-      // console.log(this.dataStore.solicitudes);
-      // console.log('----------------------------');
-
-      //console.log(solicitudes);
-
       borrado = true;
     }
 

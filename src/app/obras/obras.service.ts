@@ -23,8 +23,6 @@ export class ObrasService {
     return this.http.get(this.obrasURL,this.authService.jwt())
     .toPromise()
     .then(response => {
-      console.log("Me llegaron las siguientes obras!");
-      console.log(response.json());
       return response.json() as Obra[];
     })
     .catch(this.handleError);
@@ -34,8 +32,6 @@ export class ObrasService {
     return this.http.put(this.obrasURL+'/'+id,datos,this.authService.jwt())
 		.toPromise()
 		.then(response => {
-			// ////console.log("RESPUESTA DESDE EL PUT");
-			// ////console.log(response.json());
 			return response.json() as Obra[];
 		})
 		.catch(this.handleError);
@@ -45,8 +41,6 @@ export class ObrasService {
     return this.http.post(this.obrasURL,{iniciales: iniciales,nombre:nombre},this.authService.jwtContentType())
 		.toPromise()
 		.then(response => {
-			// ////console.log("RESPUESTA DESDE EL PUT");
-			// ////console.log(response.json());
 			return response.json() as Obra;
 		})
 		.catch(this.handleError);
@@ -56,8 +50,6 @@ export class ObrasService {
     return this.http.delete(this.obrasURL+'/'+_id,this.authService.jwt())
 		.toPromise()
 		.then(response => {
-			//console.log("RESPUESTA DESDE EL PATCH");
-			//console.log(response.json());
 			return response.json() as Obra[];
 		})
 		.catch(this.handleError);

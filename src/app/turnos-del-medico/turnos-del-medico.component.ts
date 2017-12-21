@@ -82,7 +82,6 @@ export class TurnosDelMedicoComponent implements OnInit {
 
   /* Metodo para armar un objeto fechas. tiene las alternativas de ambos SO trabajados en el desarrollo */
   aDate(turno){
-    ////console.log(turno);
 
     //En Windows:
     //var momentDate = moment(turno);
@@ -95,18 +94,11 @@ export class TurnosDelMedicoComponent implements OnInit {
 
 
   updateTurno(turno,estado){
-    // ////console.log(turno);
-    // ////console.log(estado);
     turno.estado=estado;
 
     this.turnosDelMedicoService.updateTurno(turno,estado);
-    // this.dashboardService.updateCita(cita).subscribe(
-    //   data => {
-    //     this.getAllTodos();
-    // });
 
   }
-
 
   public llamarPaciente(turno){
     this.turnosDelMedicoService.updateTurno(turno,"activo");
@@ -129,9 +121,6 @@ export class TurnosDelMedicoComponent implements OnInit {
   }
 
   ngOnInit() {
-    //Aca debemos buscar la matricula del medico que queremos. En el caso de prueba, se pone MANUAL.
-    //CAMBIAR!
-
 
     var medico: any = JSON.parse(localStorage.getItem('user'));
     this.ordenados = false;
@@ -143,8 +132,6 @@ export class TurnosDelMedicoComponent implements OnInit {
 
       this.subscription = this.turnosDelMedicoService.turnos$.subscribe((turnos: Turno[]) => {
           this.turnos = turnos;
-          // console.log('ACAACACA CACA ');
-          // console.log(this.turnos);
           this.ref.markForCheck();
           this.turnos.sort(function(a, b){
 

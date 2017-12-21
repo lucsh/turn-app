@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output,EventEmitter,OnChanges, ElementRef, Vi
 
 import { Obra } from '../obra.tipo';
 import { ObrasService } from '../obras.service';
+import { ObrasCompartidasService } from '../../routerService/obras.sistema';
 
 import {default as swal} from 'sweetalert2';
 import { NgForm } from '@angular/forms';
@@ -26,7 +27,8 @@ export class AgregarObraComponent implements OnInit, OnChanges{
   public obraNueva: Obra;
 
   constructor(
-    private obrasService: ObrasService
+    private obrasService: ObrasService,
+    private obrasCompartidas: ObrasCompartidasService
   ){
     this.obraNueva = new Obra();
   }
@@ -60,33 +62,32 @@ export class AgregarObraComponent implements OnInit, OnChanges{
   }
 
   crearObra(iniciales,nombre){
-    this.obrasService.crearObra(iniciales,nombre).then((obraCreada)=>{
-    //   console.log("OBRA CREADAAAAAAAAAAAAAAAAAA");
-    //   console.log(obraCreada);
 
-    // Limpiamos variables
-    this.obraNueva = new Obra();
+    this.obrasCompartidas.createObra(iniciales, nombre)
+    .then(obraCreada => {
+      // Limpiamos variables
+      this.obraNueva = new Obra();
 
-    // Enviamos la eleccion al componente padre
-    this.obraAgregada.next(obraCreada);
-    this.closeformCrearObra.nativeElement.click();
+      // Enviamos la eleccion al componente padre
+      this.obraAgregada.next(obraCreada);
+      this.closeformCrearObra.nativeElement.click();
 
+      swal({
+        title: 'Éxito!',
+        text: 'Nueva obra registrada!',
+        type: 'success',
+        timer: 2000
+      }).then(
+        function () {},
+        // handling the promise rejection
+        function (dismiss) {
+          if (dismiss === 'timer') {
 
-    swal({
-      title: 'Éxito!',
-      text: 'Nueva obra registrada!',
-      type: 'success',
-      timer: 2000
-    }).then(
-      function () {},
-      // handling the promise rejection
-      function (dismiss) {
-        if (dismiss === 'timer') {
-
+          }
         }
-      }
-    )
-    })
+      )
+    });
+
   }
 
   abrirFormularioCrear(){
