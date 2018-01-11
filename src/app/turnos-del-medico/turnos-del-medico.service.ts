@@ -7,10 +7,13 @@ import * as moment from 'moment';
 
 declare var feathers:any;
 
+import { NativeNotificationService } from 'angular-notice/lib/native-notification.service';
 
 import { Turno } from '../turnos/turno.tipo';
 import { environment } from '../../environments/environment';
 import { Feathers } from '../authentication/feathers.service'
+
+
 
 declare var $: any;
 
@@ -30,7 +33,7 @@ export class TurnosDelMedicoService {
   };
 
   private notificaciones:any;
-
+  private notificacionesNativas:any;
 
   //private matricula: string;
   private feathersService;
@@ -214,6 +217,9 @@ export class TurnosDelMedicoService {
 
   public asignarNotificaciones(notificaciones){
     this.notificaciones = notificaciones;
+  }  
+  public asignarNotificacionesNativas(notificacionesNativas){
+    this.notificacionesNativas = notificacionesNativas;
   }
 
 
@@ -221,6 +227,17 @@ export class TurnosDelMedicoService {
     this.notificaciones.info(
       'El paciente ' + paciente.nombre + ' ' + paciente.apellido + ' se encuentra en sala de espera'
     )
+      const opcionesNN =  { 
+                  title: 'Paciente en espera',
+                  body : paciente.nombre + ' ' + paciente.apellido,
+                  icon: '../assets/imagenes/notif.png',
+                  tag: 'notice',
+                  renotify:true,
+                  requireInteraction :true,
+                  vibrate: [200, 100, 200],
+                  closeDelay: 10000
+              };
+  this.notificacionesNativas.notify(opcionesNN);
   }
 
   //Metodos auxiliares

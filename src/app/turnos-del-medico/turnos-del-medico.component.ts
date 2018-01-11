@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import * as moment from 'moment';
 import { NotificationsService } from 'angular2-notifications';
+import { NativeNotificationService } from 'angular-notice/lib/native-notification.service';
 
 @Component({
   selector: 'app-turnos-del-medico',
@@ -65,7 +66,8 @@ export class TurnosDelMedicoComponent implements OnInit {
        lastOnBottom: false,
    };
   constructor(private turnosDelMedicoService : TurnosDelMedicoService,private ref: ChangeDetectorRef,
-    private notificacionesService: NotificationsService) { }
+    private notificacionesService: NotificationsService,
+    private notificacionesNativasService: NativeNotificationService) { }
 
 
   /* Metodo para asignar la visual de los desplegables de la visual */
@@ -129,7 +131,8 @@ export class TurnosDelMedicoComponent implements OnInit {
       this.medicoId = medico._idMedico;
 
       this.turnosDelMedicoService.asignarNotificaciones(this.notificacionesService);
-
+      this.turnosDelMedicoService.asignarNotificacionesNativas(this.notificacionesNativasService);
+      
       this.subscription = this.turnosDelMedicoService.turnos$.subscribe((turnos: Turno[]) => {
           this.turnos = turnos;
           this.ref.markForCheck();

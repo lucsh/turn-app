@@ -24,6 +24,7 @@
     "@angular/platform-browser-dynamic": "^4.4.6",
     "@angular/router": "^4.4.6",
     "@types/moment": "^2.13.0",
+    "angular-notice": "^1.0.0",
     "angular2-datatable": "^0.6.0",
     "angular2-moment": "^1.7.0",
     "angular2-notifications": "^0.7.8",

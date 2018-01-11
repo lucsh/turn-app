@@ -9,6 +9,7 @@ import { Feathers } from '../authentication/feathers.service'
 
 declare var feathers:any;
 
+import { NativeNotificationService } from 'angular-notice/lib/native-notification.service';
 
 import { Turno } from '../turnos/turno.tipo';
 
@@ -28,6 +29,7 @@ export class PacientesDelDiaService {
   private pacientesDelDiaService: any;
 
   private notificaciones:any;
+  private notificacionesNativas:any;
 
   private dataStore: {
     turnos: Turno[]
@@ -195,6 +197,9 @@ export class PacientesDelDiaService {
   public asignarNotificaciones(notificaciones){
     this.notificaciones = notificaciones;
   }
+  public asignarNotificacionesNativas(notificacionesNativas){
+    this.notificacionesNativas = notificacionesNativas;
+  }
 
 
   notificarLlamado(medico, paciente) {
@@ -202,6 +207,17 @@ export class PacientesDelDiaService {
       'Llamar al paciente',
       '' + medico.nombre + ' llama a ' + paciente.nombre + ' ' + paciente.apellido
     )
+    const opcionesNN =  { 
+                  title: 'Llamar al paciente',
+                  body : paciente.nombre + ' ' + paciente.apellido,
+                  icon: '../assets/imagenes/notif.png',
+                  tag: 'notice',
+                  renotify:true,
+                  requireInteraction :true,
+                  vibrate: [200, 100, 200],
+                  closeDelay: 10000
+              };
+  this.notificacionesNativas.notify(opcionesNN);
   }
 
   /*
