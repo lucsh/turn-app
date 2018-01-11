@@ -9,9 +9,6 @@ import {
 } from '@angular/core';
 import * as moment from 'moment';
 
-import { NativeNotificationService } from 'angular-notice/lib/native-notification.service';
-
-
 @Component({
   selector: 'app-pacientes-del-dia',
   providers:[PacientesDelDiaService],
@@ -56,8 +53,7 @@ export class PacientesDelDiaComponent implements OnInit {
     }
   ];
   turnos: Turno[];
-  constructor(private pacienteDelDiaService : PacientesDelDiaService,private ref: ChangeDetectorRef,
-    private notificacionesNativasService: NativeNotificationService) { }
+  constructor(private pacienteDelDiaService : PacientesDelDiaService,private ref: ChangeDetectorRef) { }
 
   claseEstadoTurno(status){
     // ////console.log("### ESTADO TURNO ###")
@@ -93,7 +89,6 @@ export class PacientesDelDiaComponent implements OnInit {
   ngOnInit() {
 
     this.pacienteDelDiaService.asignarNotificaciones(this.notificaciones);
-    this.pacienteDelDiaService.asignarNotificacionesNativas(this.notificacionesNativasService);
 
     this.subscription = this.pacienteDelDiaService.turnos$.subscribe((turnos: Turno[]) => {
         this.ordenados = false;
