@@ -12,7 +12,7 @@ import { Turno } from '../turnos/turno.tipo';
 import { environment } from '../../environments/environment';
 import { Feathers } from '../authentication/feathers.service'
 
-
+import Notificacion from '../notificaciones-nativas/notificaciones';
 
 declare var $: any;
 
@@ -221,6 +221,8 @@ export class TurnosDelMedicoService {
     this.notificaciones.info(
       'El paciente ' + paciente.nombre + ' ' + paciente.apellido + ' se encuentra en sala de espera'
     )
+        const notificar = new Notificacion();
+        notificar.send(paciente.nombre + ' ' + paciente.apellido ,'se encuentra en sala de espera');
   }
 
   //Metodos auxiliares

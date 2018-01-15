@@ -14,6 +14,7 @@ import { Turno } from '../turnos/turno.tipo';
 declare var $: any;
 
 import { NotificationsService } from 'angular2-notifications';
+import Notificacion from '../notificaciones-nativas/notificaciones';
 
 
 @Injectable()
@@ -201,6 +202,9 @@ export class PacientesDelDiaService {
       'Llamar al paciente',
       '' + medico.nombre + ' llama a ' + paciente.nombre + ' ' + paciente.apellido
     )
+        const notificar = new Notificacion();
+        notificar.send(paciente.nombre + ' ' + paciente.apellido ,'fué llamado por' + ' ' + medico.nombre);
+  
   }
 
   /*
