@@ -59,7 +59,6 @@ import { Select2Module } from 'ng2-select2';
 import 'moment/locale/es';
 
 import { SimpleNotificationsModule } from 'angular2-notifications';
-import { NotificationsModule } from 'angular-notice';
 
 import { TurnosService } from './turnos/turnos.service';
 import { MedicosService } from './medico/medicos.service';
@@ -207,7 +206,6 @@ import {ConfiguracionMedicoService} from './configuracion-medico/configuracion-m
     SelectModule,
     Select2Module,
     SimpleNotificationsModule.forRoot(),
-    NotificationsModule,
     MyDatePickerModule
   ],
   providers: [
