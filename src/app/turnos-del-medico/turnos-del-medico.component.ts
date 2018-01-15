@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import * as moment from 'moment';
 import { NotificationsService } from 'angular2-notifications';
-import { NativeNotificationService } from 'angular-notice/lib/native-notification.service';
 
 @Component({
   selector: 'app-turnos-del-medico',
