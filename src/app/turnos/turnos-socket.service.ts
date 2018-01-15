@@ -139,8 +139,8 @@ export class TurnoSocketService {
     }
     else{
       // Es una consulta medica
-
-      let newTurno = {"title":turno.paciente.nombre+' '+turno.paciente.apellido +  descripcion,"allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59","_id":turno._id, "id":turno._id};
+      console.log(turno.paciente);
+      let newTurno = {"title":turno.paciente.apellido+' '+turno.paciente.nombre+' | '+turno.paciente.obra.iniciales+' | '+turno.paciente.telefono  +  descripcion,"allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59","_id":turno._id, "id":turno._id};
 
       $('#calendar').fullCalendar('renderEvent', newTurno, true)
     }
