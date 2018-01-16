@@ -99,6 +99,44 @@ export class TurnoSocketService {
   public obtenerTurno(id){
 
   }
+  public obtenerTurnosActivosPaciente(id): Promise<any>{
+    this.socket = io(this.urlServidor);
+    this.feathersApp = feathers().configure(feathers.socketio(this.socket));
+    this.feathersApp.configure(hooks());
+    this.feathersApp.configure(feathersRx(Rx));
+
+    this.feathersApp.configure(authentication({         // add authentication plugin
+      storage: window.localStorage
+    }));
+
+    //Obtenemos el service que queremos
+    this.turnosSocketService = this.feathersApp.service('turnos');
+
+    this.dataStore = { turnos: [] };
+    var thisLocal = this;
+    let horaActual = moment(new Date()).subtract(3, 'h').toISOString();
+    //let horaActual = moment(new Date()).utc().subtract(3, 'h').toISOString();
+    //console.log(horaActual);
+    //console.log(new Date().toISOString());
+    return thisLocal.autenticar().then((param)=>{
+      return this.turnosSocketService.find({
+        query: {
+          //matricula: m MOREMROE
+          paciente: id,
+          horaInicial: {
+            $gte : horaActual
+          }
+        }
+      }).then((turnos) => {
+        return turnos;
+      }).catch(err => {
+        console.error(err);
+        console.log("ocurrio un error en el find de turnos");
+      });
+    });
+
+
+  }
 
   public cambiarMedico(id){
     this.cleanService();

@@ -13,7 +13,11 @@ import {default as swal} from 'sweetalert2';
 
 import {IMyDpOptions} from 'mydatepicker';
 
+import { TurnoSocketService } from '../../turnos/turnos-socket.service';
+import * as moment from 'moment';
+
 @Component({
+  providers: [TurnoSocketService, PacientesService],
   selector: 'editar-paciente',
   templateUrl: './editarPaciente.html',
   styleUrls: ['./editarPaciente.css']
@@ -35,7 +39,8 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
 
   constructor(
     private pacientesService: PacientesService,
-    private obrasService: ObrasService
+    private obrasService: ObrasService,
+    private turnosSocketService: TurnoSocketService
   ){
     this.modeloPaciente = new Paciente();
   }
@@ -227,6 +232,45 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
         })
       }
     }]);
+
+  }
+
+  verTurnosActivos(paciente){
+    let turnos;
+    this.turnosSocketService.obtenerTurnosActivosPaciente(paciente._id).then((turnos)=>{
+      let mensaje = '';
+      console.log(turnos.length);
+      if(turnos.length != 0){
+
+        mensaje += 'El paciente tiene los siguientes turnos activos:';
+        turnos.forEach(function(elem,index){
+          console.log(elem);
+          //CAMBIAR HORA
+          var horaInicial = moment(elem.horaInicial).add(3,'h');
+          mensaje +='<hr>' + horaInicial.format('dddd D') +' de '+ horaInicial.format('MMMM')+' a las '+horaInicial.format('HH:mm')+ ' con Doc: <strong>'+elem.medico.apellido+'</strong>'
+        });
+      }else{
+        mensaje += 'El paciente no posee turnos activos'
+      }
+      swal({
+        title: 'Turnos Activos',
+        //type: 'info',
+        html:
+
+          mensaje,
+        showCloseButton: true,
+        showCancelButton: false,
+        focusConfirm: false,
+        confirmButtonText:
+          'Cerrar!',
+        confirmButtonAriaLabel: 'Cerrar!',
+
+      })
+
+    });
+
+
+
 
   }
 
