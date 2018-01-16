@@ -341,25 +341,33 @@ export class TurnoSocketService {
   Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onUpdated'
   */
   private onUpdated(turno: Turno) {
-    const index = this.getIndex(turno._id);
+    // El nuevo turno es del DOCTOR actual
+    if(turno.medico._id.toString() == this.idDoctor){
 
-    this.dataStore.turnos[index] = turno;
+      const index = this.getIndex(turno._id);
 
-    this.turnosObserver.next(this.dataStore.turnos);
+      this.dataStore.turnos[index] = turno;
+
+      this.turnosObserver.next(this.dataStore.turnos);
+    }
   }
 
   /*
   Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onRemoved'
   */
   private onRemoved(turno: Turno) {
+    // El nuevo turno es del DOCTOR actual
+    if(turno.medico._id.toString() == this.idDoctor){
 
-    const index = this.getIndex(turno._id);
 
-    let eventosCalendario = $('#calendar').fullCalendar('clientEvents');
+      const index = this.getIndex(turno._id);
 
-    this.dataStore.turnos.splice(index, 1);
-    this.turnosObserver.next(this.dataStore.turnos);
-    $('#calendar').fullCalendar('removeEvents',turno._id); // Esto elimina el evento (grafico) con el id = turno._id
+      let eventosCalendario = $('#calendar').fullCalendar('clientEvents');
+
+      this.dataStore.turnos.splice(index, 1);
+      this.turnosObserver.next(this.dataStore.turnos);
+      $('#calendar').fullCalendar('removeEvents',turno._id); // Esto elimina el evento (grafico) con el id = turno._id
+    }
   }
 
   /*
@@ -367,11 +375,14 @@ export class TurnoSocketService {
   */
 
   private onPatched(turno){
+    // El nuevo turno es del DOCTOR actual
+    if(turno.medico._id.toString() == this.idDoctor){
 
-    let id = turno._id;
+      let id = turno._id;
 
-    $('#calendar').fullCalendar('removeEvents',turno._id); // Esto elimina el evento (grafico) con el id = turno._id
-    this.actualizarVisual(turno); //
+      $('#calendar').fullCalendar('removeEvents',turno._id); // Esto elimina el evento (grafico) con el id = turno._id
+      this.actualizarVisual(turno); //
+    }
   }
 
 
