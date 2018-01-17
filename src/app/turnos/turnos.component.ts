@@ -103,12 +103,12 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
               //Nuevo, cuando cambia el doc, no renderiza el calendar entonces tengo que llamar desde aca.
               // al metodo obtenerTUrnosRango con las variables globales
-              let calendario = $('#calendar');
-              calendario.fullCalendar('removeEvents');
-              yo.cargandoTurnos = true;
-              yo.turnosSocketService.obtenerTurnosRango(yo.desdeRender,yo.hastaRender);
+              // let calendario = $('#calendar');
+              // calendario.fullCalendar('removeEvents');
+              // yo.cargandoTurnos = true;
 
               yo.loadCalendar(idDoctor);
+              // yo.turnosSocketService.obtenerTurnosRango(yo.desdeRender,yo.hastaRender);
             }
             else {
               yo.loadCalendar(idDoctor);
@@ -206,8 +206,6 @@ export class TurnosComponent implements OnInit, OnDestroy {
             yo.desdeRender = desde;
             yo.hastaRender = hasta;
 
-            //this.turnos = [];
-            console.log(this.turnos);
             let calendario = $('#calendar');
             calendario.fullCalendar('removeEvents');
             yo.cargandoTurnos = true;

@@ -39,6 +39,10 @@ export class TurnoSocketService {
   private socket;
 
   private feathersApp;
+
+  public desde = null;
+  public hasta = null;
+
   constructor(private authService: AuthService) {
 
   }
@@ -73,42 +77,24 @@ export class TurnoSocketService {
     this.dataStore = { turnos: [] };
     var thisLocal = this;
 
-    //thisLocal.autenticar().then((param)=>{
-    //  thisLocal.find();
-    //});
+    // Este es un WORKAROUND, para que funcione el CAMBIO DE MEDICO. De otra manera, el asincronismo hace que no funcione correctamente
+    if(this.desde && this.hasta){
+      thisLocal.autenticar().then((param)=>{
+        thisLocal.find(this.desde,this.hasta);
+      });
+    }
 
     //Quizas este no iria aca
     return true;
 
   }
 
-
-  public reiniciar(id : string){
-    this.idDoctor = id;
-    this.socket = io(this.urlServidor);
-    this.feathersApp = feathers().configure(feathers.socketio(this.socket));
-    this.feathersApp.configure(hooks());
-    this.feathersApp.configure(feathersRx(Rx));
-    this.feathersApp.configure(authentication({         // add authentication plugin
-      storage: window.localStorage
-    }));
-    this.turnosSocketService = this.feathersApp.service('turnos');
-    this.turnosSocketService.on('created', (turno) => this.onCreated(turno));
-    this.turnosSocketService.on('updated', (turno) => this.onUpdated(turno));
-    this.turnosSocketService.on('removed', (turno) => this.onRemoved(turno));
-    this.turnosSocketService.on('patched', (turno) => this.onPatched(turno));
-    this.turnos$ = new Observable((observer) => {
-      this.turnosObserver = observer;
-    });
-    this.dataStore = { turnos: [] };
-    //var thisLocal = this;
-    return true;
-  }
-
   public obtenerTurnosRango(desde,hasta){
-    //this.cleanService();
-    //this.reiniciar(this.idDoctor);
-    console.log('obtenerTUrnosRango');
+
+    // Este es un WORKAROUND, para que funcione el CAMBIO DE MEDICO. De otra manera, el asincronismo hace que no funcione correctamente
+    this.desde = desde;
+    this.hasta = hasta;
+
     this.autenticar().then((param)=>{
       this.find(desde,hasta);
     });
@@ -148,8 +134,7 @@ export class TurnoSocketService {
     var thisLocal = this;
     let horaActual = moment(new Date()).subtract(3, 'h').toISOString();
     //let horaActual = moment(new Date()).utc().subtract(3, 'h').toISOString();
-    //console.log(horaActual);
-    //console.log(new Date().toISOString());
+
     return thisLocal.autenticar().then((param)=>{
       return this.turnosSocketService.find({
         query: {
@@ -346,6 +331,7 @@ export class TurnoSocketService {
 
 
   public find(desde,hasta) {
+    console.log('ENTRE AL FIND!!!')
 
     let idMedico = this.idDoctor.toString();
     // ////console.log(idMedico);
