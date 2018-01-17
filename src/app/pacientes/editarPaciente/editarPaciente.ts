@@ -260,10 +260,10 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
           mensaje,
         showCloseButton: true,
         showCancelButton: false,
-        focusConfirm: false,
+
         confirmButtonText:
           'Cerrar!',
-        confirmButtonAriaLabel: 'Cerrar!',
+        //confirmButtonAriaLabel: 'Cerrar!',
 
       })
 
