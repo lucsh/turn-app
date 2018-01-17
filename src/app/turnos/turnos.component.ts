@@ -58,7 +58,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
   fechaAntigua: any[] = [];
 
-
+  private desdeRender: any = null;
+  private hastaRender: any = null;
 
   constructor(
     route: ActivatedRoute,
@@ -99,6 +100,14 @@ export class TurnosComponent implements OnInit, OnDestroy {
           if (yo.turnosSocketService) {
             if (yo.cambio) {
               yo.metodoLimpieza(idDoctor);
+
+              //Nuevo, cuando cambia el doc, no renderiza el calendar entonces tengo que llamar desde aca.
+              // al metodo obtenerTUrnosRango con las variables globales
+              let calendario = $('#calendar');
+              calendario.fullCalendar('removeEvents');
+              yo.cargandoTurnos = true;
+              yo.turnosSocketService.obtenerTurnosRango(yo.desdeRender,yo.hastaRender);
+
               yo.loadCalendar(idDoctor);
             }
             else {
@@ -187,6 +196,34 @@ export class TurnosComponent implements OnInit, OnDestroy {
       editable: true, //falso para la vista de clientes
       eventLimit: true, // allow "more" link when too many events
       events: this.turnos,
+
+
+      //PRUEBA PAGINACION
+      viewRender: function(view,element) {
+            var desde = new Date(view.start._d).toISOString();
+            var hasta = new Date(view.end._d).toISOString()
+            //Seteo variables globales para cuando cambia de doctor (no renderiza y no llama a este metodo)
+            yo.desdeRender = desde;
+            yo.hastaRender = hasta;
+
+            //this.turnos = [];
+            console.log(this.turnos);
+            let calendario = $('#calendar');
+            calendario.fullCalendar('removeEvents');
+            yo.cargandoTurnos = true;
+            yo.turnosSocketService.obtenerTurnosRango(desde,hasta);
+            console.log('#######View Render##########');
+            console.log(yo.cargandoTurnos)
+            console.log(view.start.toISOString());
+            console.log(view.end.toISOString());
+            console.log(new Date(view.start._d).toISOString());
+            console.log(new Date(view.end._d).toISOString());
+            console.log('############################');
+
+      },
+      //FIN PRUEBA PAGINACION
+
+
       dayClick: function (date, jsEvent, view) { //date es un moment
         //PRUEBA DE CAMBIO DE VISUAL:
         if (view.name == "month") {
@@ -587,6 +624,7 @@ ngOnInit() {
   this.subscription = this.turnosSocketService.turnos$.subscribe((turnos: Turno[]) => {
     this.cargandoTurnos = false;
     this.turnos = turnos;
+    console.log(this.turnos)
     this.ref.markForCheck();
   }, (err) => {
     console.error(err);

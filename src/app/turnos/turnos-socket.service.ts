@@ -73,13 +73,45 @@ export class TurnoSocketService {
     this.dataStore = { turnos: [] };
     var thisLocal = this;
 
-    thisLocal.autenticar().then((param)=>{
-      thisLocal.find();
-    });
+    //thisLocal.autenticar().then((param)=>{
+    //  thisLocal.find();
+    //});
 
     //Quizas este no iria aca
     return true;
 
+  }
+
+
+  public reiniciar(id : string){
+    this.idDoctor = id;
+    this.socket = io(this.urlServidor);
+    this.feathersApp = feathers().configure(feathers.socketio(this.socket));
+    this.feathersApp.configure(hooks());
+    this.feathersApp.configure(feathersRx(Rx));
+    this.feathersApp.configure(authentication({         // add authentication plugin
+      storage: window.localStorage
+    }));
+    this.turnosSocketService = this.feathersApp.service('turnos');
+    this.turnosSocketService.on('created', (turno) => this.onCreated(turno));
+    this.turnosSocketService.on('updated', (turno) => this.onUpdated(turno));
+    this.turnosSocketService.on('removed', (turno) => this.onRemoved(turno));
+    this.turnosSocketService.on('patched', (turno) => this.onPatched(turno));
+    this.turnos$ = new Observable((observer) => {
+      this.turnosObserver = observer;
+    });
+    this.dataStore = { turnos: [] };
+    //var thisLocal = this;
+    return true;
+  }
+
+  public obtenerTurnosRango(desde,hasta){
+    //this.cleanService();
+    //this.reiniciar(this.idDoctor);
+    console.log('obtenerTUrnosRango');
+    this.autenticar().then((param)=>{
+      this.find(desde,hasta);
+    });
   }
 
 
@@ -312,14 +344,30 @@ export class TurnoSocketService {
   }
 
 
-  public find() {
+
+  public find(desde,hasta) {
 
     let idMedico = this.idDoctor.toString();
     // ////console.log(idMedico);
+    //this.socket.disconnect();
+    //this.turnosSocketService = null;
+    //moremore
+    //this.turnos
+    //this.turnos$ = null;
+    //this.dataStore = { turnos: [] };
+    console.log(desde);
+    console.log(hasta);
     this.turnosSocketService.find({
       query: {
         //matricula: m
-        medico: idMedico
+        medico: idMedico,
+        horaInicial: {
+          $gte : desde
+        },
+        horaFin:{
+          $lte: hasta
+        }
+
       }
     }).then((turnos) => {
 
@@ -330,8 +378,9 @@ export class TurnoSocketService {
       */
       //******************************************************************
       this.dataStore.turnos = turnos;
-
+      console.log(turnos);
       //Aca vamos a renderizar el calendario de nuevo despues de obtener todos los turnos de ese medico.
+      //this.cleanService();
       for (let i = 0; i < turnos.length; i++) {
         this.actualizarVisual(turnos[i]);
       }
