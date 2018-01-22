@@ -7,9 +7,7 @@
         <h3 class="modal-title" id="myModalLabel">Turno: {{diaNuevoTurno}} a las {{horaNuevoTurno}}hs</h3>
       </div>
 
-      <div class="modal-body" *ngIf='modeloObra != null'>
-        <!-- <div class="modal-body" *ngIf = 'horaNuevoTurno != null && diaNuevoTurno != null && Obras != null' > -->
-
+      <div class="modal-body">
 
         <div class="form-group">
           <label>Paciente:</label>
@@ -21,7 +19,9 @@
         <div class="form-group">
           <label>Obra Social:</label>
           <div class="input-group">
-            <h5 *ngIf="turno != null">{{pacienteDelTurno.obra.nombre}}</h5>
+            <!--  Workaround: Esto se debe a que en la BBDD existen pacientes SIN obra social.
+                  TODO: Quitar este IF una vez solucionada la BBDD. -->
+            <h5 *ngIf="turno != null && modeloObra && turno.obra != null">{{pacienteDelTurno.obra.nombre}}</h5>
           </div>
         </div>
 

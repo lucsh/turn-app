@@ -132,7 +132,17 @@ export class TurnoSocketService {
     }
     else{
       // Es una consulta medica
-      let newTurno = {"title":turno.paciente.apellido+' '+turno.paciente.nombre+' | '+turno.paciente.obra.iniciales+' | '+turno.paciente.telefono  +  descripcion,"allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59","_id":turno._id, "id":turno._id};
+
+      let newTurno = null;
+
+      // Workaround: Esto se debe a que en la BBDD existen pacientes SIN obra social.
+      // TODO: Quitar este IF una vez solucionada la BBDD.
+      if(turno.paciente.obra && turno.paciente.obra.iniciales){
+        newTurno = {"title":turno.paciente.apellido+' '+turno.paciente.nombre+' | '+turno.paciente.obra.iniciales+' | '+turno.paciente.telefono  +  descripcion,"allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59","_id":turno._id, "id":turno._id};
+      }
+      else{
+        newTurno = {"title":turno.paciente.apellido+' '+turno.paciente.nombre+' | '+turno.paciente.telefono  +  descripcion,"allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59","_id":turno._id, "id":turno._id};
+      }
 
       $('#calendar').fullCalendar('renderEvent', newTurno, true)
     }
