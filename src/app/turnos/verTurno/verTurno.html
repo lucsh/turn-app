@@ -34,6 +34,13 @@
         </div>
 
         <div class="form-group">
+          <label>Telefono:</label>
+          <div class="input-group">
+            <h5 *ngIf="turno != null">{{pacienteDelTurno.telefono}}</h5>
+          </div>
+        </div>
+
+        <div class="form-group">
           <label>Email:</label>
           <div class="input-group">
             <h5 *ngIf="turno != null">{{pacienteDelTurno.email}}</h5>

@@ -14,8 +14,6 @@ import * as Rx from 'rxjs';
 import * as authentication from 'feathers-authentication-client';
 
 import { Turno } from './turno.tipo';
-import { PacientesService } from '../pacientes/pacientes.service';
-import { AuthService } from "../authentication/auth.service";
 import { Feathers } from '../authentication/feathers.service'
 
 declare var $: any;
@@ -39,26 +37,20 @@ export class TurnoSocketService {
   private socket;
 
   private feathersApp;
-  constructor(private authService: AuthService) {
 
-  }
+  public desde = null;
+  public hasta = null;
 
-  //-------------------------------------------------------------------------
-  // Metodos particulares
+  private feathersService;
 
-  public iniciar(id : string){
-    this.idDoctor = id;
-    this.socket = io(this.urlServidor);
-    this.feathersApp = feathers().configure(feathers.socketio(this.socket));
-    this.feathersApp.configure(hooks());
-    this.feathersApp.configure(feathersRx(Rx));
+  constructor(
+    private FeathersCambiarNombre: Feathers
+  ) {
 
-    this.feathersApp.configure(authentication({         // add authentication plugin
-      storage: window.localStorage
-    }));
-
+    //Estamos usando el Service de Feathers, pues el que tiene la autenticacion del login
+    this.feathersService = FeathersCambiarNombre.devolverFeathers();
     //Obtenemos el service que queremos
-    this.turnosSocketService = this.feathersApp.service('turnos');
+    this.turnosSocketService = this.feathersService.service('turnos');
 
     //Registramos eventos
     this.turnosSocketService.on('created', (turno) => this.onCreated(turno));
@@ -66,43 +58,44 @@ export class TurnoSocketService {
     this.turnosSocketService.on('removed', (turno) => this.onRemoved(turno));
     this.turnosSocketService.on('patched', (turno) => this.onPatched(turno));
 
-
     this.turnos$ = new Observable((observer) => {
       this.turnosObserver = observer;
     });
     this.dataStore = { turnos: [] };
-    var thisLocal = this;
-
-    thisLocal.autenticar().then((param)=>{
-      thisLocal.find();
-    });
-
-    //Quizas este no iria aca
-    return true;
 
   }
 
-
-  /*
-  Metodo para autenticar ESTE socket
-  */
-  private autenticar(): Promise<any>{
-
-    let token = localStorage.getItem('feathers-jwt');
-
-    return this.feathersApp.authenticate({
-      strategy: "jwt",
-      accessToken: token
-    });
+  public setMedico(id){
+    this.idDoctor = id;
   }
 
-  public obtenerTurno(id){
+  //-------------------------------------------------------------------------
+
+  public obtenerTurnosRango(desde,hasta){
+    this.find(desde,hasta);
+  }
+
+  public obtenerTurnosActivosPaciente(id): Promise<any>{
+
+    let horaActual = moment(new Date()).subtract(3, 'h').toISOString();
+
+    return this.turnosSocketService.find({
+      query: {
+        //matricula: m MOREMROE
+        paciente: id,
+        horaInicial: { $gte : horaActual }
+      }
+    }).then((turnos) => {
+      return turnos;
+    }).catch(err => {
+      console.error(err);
+      console.log("ocurrio un error en el find de turnos");
+    });
 
   }
 
   public cambiarMedico(id){
-    this.cleanService();
-    this.iniciar(id);
+    this.setMedico(id);
   }
 
   public cleanService(){
@@ -139,8 +132,7 @@ export class TurnoSocketService {
     }
     else{
       // Es una consulta medica
-
-      let newTurno = {"title":turno.paciente.nombre+' '+turno.paciente.apellido +  descripcion,"allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59","_id":turno._id, "id":turno._id};
+      let newTurno = {"title":turno.paciente.apellido+' '+turno.paciente.nombre+' | '+turno.paciente.obra.iniciales+' | '+turno.paciente.telefono  +  descripcion,"allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59","_id":turno._id, "id":turno._id};
 
       $('#calendar').fullCalendar('renderEvent', newTurno, true)
     }
@@ -159,29 +151,14 @@ export class TurnoSocketService {
     //El color depende del medico al que le estoy cargando el turno
     var color = '#f8ac59';
 
-
-    //*************************************************
-
-    /**
-    IMPORTANTE: Momentaneamente, al usar en windows, comentar la linea de Linux y descomentar la de Windows.
-    Para usar en Linux, hacer la vicebersa.
-    */
-    //*************************************************
-
     //Windows: descomentar la linea de abajo
     //var temp = moment(fecha).utc().add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
 
     //LINUX: descomentar la linea de abajo
     var temp = moment(fecha,'YYYY-MM-DDTHH:mm:ss Z').add(10, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
 
-
-    //*************************************************
-
-
     //let nuevaFecha = temp.utc().format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
     let nuevaFecha = temp.format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
-
-
 
     let nuevoTurno = {
       horaInicial: fecha,
@@ -192,14 +169,7 @@ export class TurnoSocketService {
       descripcion: paciente.descripcion
     }
 
-    this.turnosSocketService.create(nuevoTurno).then((turnoNuevo)=>{
-      //******************************************************************
-      /**
-      IMPORTANTE:
-      Todavia NO ACTUALIZAMOS, pues eso se va a hacer en el EVENTO 'onCreated'.
-      */
-      //******************************************************************
-    });
+    this.turnosSocketService.create(nuevoTurno).then((turnoNuevo)=>{});
   }
 
   public crearTurnoConFin(fechaIni,fechaFin, pacienteAsignado){
@@ -245,10 +215,7 @@ export class TurnoSocketService {
     });
   }
 
-  public cancelarReserva(reserva){
-    this.turnosSocketService.remove(reserva._id).then((reservaEliminada)=>{
-    });
-  }
+  public cancelarReserva(reserva){ this.turnosSocketService.remove(reserva._id).then((reservaEliminada)=>{});}
 
   public actualizarTurno(turno){
 
@@ -273,27 +240,23 @@ export class TurnoSocketService {
     });
   }
 
-
-  public find() {
+  public find(desde,hasta) {
 
     let idMedico = this.idDoctor.toString();
-    // ////console.log(idMedico);
     this.turnosSocketService.find({
       query: {
         //matricula: m
-        medico: idMedico
+        medico: idMedico,
+        horaInicial: { $gte : desde},
+        horaFin:{ $lte: hasta }
       }
     }).then((turnos) => {
-
-      //******************************************************************
-      /**
-      IMPORTANTE:
-      A veces es necesario hacer el .data. Es cuando, por ej, usas pagination
-      */
-      //******************************************************************
       this.dataStore.turnos = turnos;
 
-      //Aca vamos a renderizar el calendario de nuevo despues de obtener todos los turnos de ese medico.
+      // Limpiamos los eventos para evitar repetidos
+      let calendario = $('#calendar');
+      calendario.fullCalendar('removeEvents');
+
       for (let i = 0; i < turnos.length; i++) {
         this.actualizarVisual(turnos[i]);
       }
@@ -341,25 +304,33 @@ export class TurnoSocketService {
   Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onUpdated'
   */
   private onUpdated(turno: Turno) {
-    const index = this.getIndex(turno._id);
+    // El nuevo turno es del DOCTOR actual
+    if(turno.medico._id.toString() == this.idDoctor){
 
-    this.dataStore.turnos[index] = turno;
+      const index = this.getIndex(turno._id);
 
-    this.turnosObserver.next(this.dataStore.turnos);
+      this.dataStore.turnos[index] = turno;
+
+      this.turnosObserver.next(this.dataStore.turnos);
+    }
   }
 
   /*
   Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onRemoved'
   */
   private onRemoved(turno: Turno) {
+    // El nuevo turno es del DOCTOR actual
+    if(turno.medico._id.toString() == this.idDoctor){
 
-    const index = this.getIndex(turno._id);
 
-    let eventosCalendario = $('#calendar').fullCalendar('clientEvents');
+      const index = this.getIndex(turno._id);
 
-    this.dataStore.turnos.splice(index, 1);
-    this.turnosObserver.next(this.dataStore.turnos);
-    $('#calendar').fullCalendar('removeEvents',turno._id); // Esto elimina el evento (grafico) con el id = turno._id
+      let eventosCalendario = $('#calendar').fullCalendar('clientEvents');
+
+      this.dataStore.turnos.splice(index, 1);
+      this.turnosObserver.next(this.dataStore.turnos);
+      $('#calendar').fullCalendar('removeEvents',turno._id); // Esto elimina el evento (grafico) con el id = turno._id
+    }
   }
 
   /*
@@ -367,11 +338,14 @@ export class TurnoSocketService {
   */
 
   private onPatched(turno){
+    // El nuevo turno es del DOCTOR actual
+    if(turno.medico._id.toString() == this.idDoctor){
 
-    let id = turno._id;
+      let id = turno._id;
 
-    $('#calendar').fullCalendar('removeEvents',turno._id); // Esto elimina el evento (grafico) con el id = turno._id
-    this.actualizarVisual(turno); //
+      $('#calendar').fullCalendar('removeEvents',turno._id); // Esto elimina el evento (grafico) con el id = turno._id
+      this.actualizarVisual(turno); //
+    }
   }
 
 
@@ -379,9 +353,11 @@ export class TurnoSocketService {
   Al destruirse el servicio, se debe cerrar el socket y borrar el observable del mismo.
   */
   ngOnDestroy(){
+    // Removemos todos los eventos asociados a 'turnos' de este socket. Esto se debe a que se crean varias instancias a lo largo del sistema
+    this.turnosSocketService.removeAllListeners('created');
+    this.turnosSocketService.removeAllListeners('updated');
+    this.turnosSocketService.removeAllListeners('removed');
+    this.turnosSocketService.removeAllListeners('patched');
 
-    //this.socket.close();
-    this.socket.disconnect();
-    //this.turnosObserver = null;
   }
 }

@@ -12,6 +12,8 @@ import { Turno } from '../turnos/turno.tipo';
 import { environment } from '../../environments/environment';
 import { Feathers } from '../authentication/feathers.service'
 
+import Notificacion from '../notificaciones-nativas/notificaciones';
+
 declare var $: any;
 
 
@@ -30,7 +32,6 @@ export class TurnosDelMedicoService {
   };
 
   private notificaciones:any;
-
 
   //private matricula: string;
   private feathersService;
@@ -214,13 +215,14 @@ export class TurnosDelMedicoService {
 
   public asignarNotificaciones(notificaciones){
     this.notificaciones = notificaciones;
-  }
-
+  }  
 
   notificarPacienteEspera(paciente) {
     this.notificaciones.info(
       'El paciente ' + paciente.nombre + ' ' + paciente.apellido + ' se encuentra en sala de espera'
     )
+        const notificar = new Notificacion();
+        notificar.send(paciente.nombre + ' ' + paciente.apellido ,'se encuentra en sala de espera');
   }
 
   //Metodos auxiliares

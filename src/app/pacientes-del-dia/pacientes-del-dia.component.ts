@@ -89,6 +89,7 @@ export class PacientesDelDiaComponent implements OnInit {
   ngOnInit() {
 
     this.pacienteDelDiaService.asignarNotificaciones(this.notificaciones);
+
     this.subscription = this.pacienteDelDiaService.turnos$.subscribe((turnos: Turno[]) => {
         this.ordenados = false;
         this.turnos = turnos;

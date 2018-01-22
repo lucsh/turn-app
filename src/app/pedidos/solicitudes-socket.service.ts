@@ -263,10 +263,10 @@ export class SolicitudesSocketService implements OnDestroy  {
     let solicitudes = this.dataStore.solicitudes;
 
     let indexQuitar = this.buscarSolicitud(pacienteQuitar);
-
+    
     if(indexQuitar > -1 && solicitudes[indexQuitar].aprobado == false){
-
-      this.dataStore.solicitudes = solicitudes.splice(indexQuitar, 1);
+      solicitudes.splice(indexQuitar, 1);
+      this.dataStore.solicitudes = solicitudes;
       borrado = true;
     }
 

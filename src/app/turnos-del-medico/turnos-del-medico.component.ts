@@ -129,7 +129,7 @@ export class TurnosDelMedicoComponent implements OnInit {
       this.medicoId = medico._idMedico;
 
       this.turnosDelMedicoService.asignarNotificaciones(this.notificacionesService);
-
+      
       this.subscription = this.turnosDelMedicoService.turnos$.subscribe((turnos: Turno[]) => {
           this.turnos = turnos;
           this.ref.markForCheck();
