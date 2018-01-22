@@ -27,7 +27,7 @@ class Notificacion {
 
             const opciones = {  
             	body : contenido, 
-            	icon: '../assets/imagenes/notif.png', 
+            	//icon: '../assets/imagenes/notif.png', 
             	tag: 'notice', 
             	renotify:true, 
             	requireInteraction :true, 
