@@ -10,7 +10,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Router, NavigationStart, NavigationEnd, NavigationError, NavigationCancel, RoutesRecognized } from '@angular/router';
 
 import 'rxjs/add/operator/filter';
-import { TurnosService } from './turnos.service';
 import { MedicosService } from '../medico/medicos.service';
 
 import * as moment from 'moment';
@@ -24,7 +23,7 @@ import { PacientesService } from '../pacientes/pacientes.service';
 import { PacientesCompartidosService } from '../routerService/pacientes.sistema';
 import { Subscription } from 'rxjs/Subscription';
 import { default as swal } from 'sweetalert2';
-//Declaramos esta variable para hacer uso de Jquery con los modals de Boostrap
+// Declaramos esta variable para hacer uso de Jquery con los modals de Boostrap
 declare var $: any;
 
 @Component({
@@ -63,7 +62,6 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
   constructor(
     route: ActivatedRoute,
-    private turnosService: TurnosService,
     private doctoresService: MedicosService,
     private pacientesService: PacientesService,
     private turnosSocketService: TurnoSocketService,
@@ -96,7 +94,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
                 yo.setDoctorSeleccionado(idDoctor);
                 yo.cargandoTurnos = true;
 
-                //Nuevo, cuando cambia el doc, no renderiza el calendar entonces tengo que llamar desde aca.
+                // Nuevo, cuando cambia el doc, no renderiza el calendar entonces tengo que llamar desde aca.
                 // al metodo obtenerTUrnosRango con las variables globales
                 yo.turnosSocketService.obtenerTurnosRango(yo.desdeRender, yo.hastaRender);
               });
@@ -111,7 +109,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
     this.setDoctorSeleccionado(idDoctor);
 
-    //VARIABLE PARA EL LOADING
+    // VARIABLE PARA EL LOADING
     this.cargandoTurnos = true;
 
     const yo = this;
@@ -127,17 +125,17 @@ export class TurnosComponent implements OnInit, OnDestroy {
       defaultView: 'agendaWeek',
       height: 'auto',
       eventTextColor: 'black',
-      weekends: true, //COMENTADO SOLAMENTE COMO PRUEBA. PONER DE NUEVO PARA DEPLOY!
+      weekends: true, // COMENTADO SOLAMENTE COMO PRUEBA. PONER DE NUEVO PARA DEPLOY!
       hiddenDays: [ 0 ], // Ocultamos el domingo
       allDaySlot: false,
-      eventOverlap: true, //Previene que se sobrepongan 2 eventos!!!
-      //slotDuration: '00:15:00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
-      slotDuration: '00:' + 10 + ':00', //deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
+      eventOverlap: true, // Previene que se sobrepongan 2 eventos!!!
+      // slotDuration: '00:15:00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
+      slotDuration: '00:' + 10 + ':00', // deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
       minTime: '08:00:00',
       maxTime: '24:00:00',
       nowIndicator: true,
       navLinks: true, // can click day/week names to navigate views
-      editable: true, //falso para la vista de clientes
+      editable: true, // falso para la vista de clientes
       eventLimit: true, // allow "more" link when too many events
       events: this.turnos,
       viewRender: function(view, element) {
@@ -153,7 +151,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
         yo.turnosSocketService.obtenerTurnosRango(desde, hasta);
 
       },
-      dayClick: function (date, jsEvent, view) { //date es un moment
+      dayClick: function (date, jsEvent, view) { // date es un moment
 
         if (view.name == 'month') {
           // Si la vista acutal es la del mes...
@@ -161,10 +159,10 @@ export class TurnosComponent implements OnInit, OnDestroy {
           $('#calendar').fullCalendar('gotoDate', date);
         }
         else {
-          //Verificamos que la fecha sea mayor a la actual:
+          // Verificamos que la fecha sea mayor a la actual:
           if (view.name == 'agendaWeek' || view.name == 'agendaDay') {
-          const today = moment();
-          const date2 = moment(date).add(3, 'hours'); //Le sume 3 horas porque fullcalendar me devuelve 3 horas menos de donde hice click
+          let today = moment();
+          const date2 = moment(date).add(3, 'hours'); // Le sume 3 horas porque fullcalendar me devuelve 3 horas menos de donde hice click
           if (date2 < today) {
           // Previous Day. show message if you want otherwise do nothing.
           // So it will be unselectable
@@ -180,11 +178,11 @@ export class TurnosComponent implements OnInit, OnDestroy {
       else {
 
         // CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
-        const duracionTurno = parseInt($('#calendar').fullCalendar('option', 'slotDuration').split(':')[1]); //CAMBIARRRRRRRR
+        const duracionTurno = parseInt($('#calendar').fullCalendar('option', 'slotDuration').split(':')[1]); // CAMBIARRRRRRRR
         // CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 
-        //Windows: descomentar la linea de abajo
-        const temp = moment(date).utc(); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+        // Windows: descomentar la linea de abajo
+        const temp = moment(date).utc(); // LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
         yo.asignarPaciente(temp);
       }
 
@@ -196,10 +194,10 @@ eventDrop: function (event, delta, revertFunc) {
   const endUtcAux = moment(event.end).utc().add(3, 'h');
   const startUtc = moment(event.start).utc();
   const endUtc = moment(event.end).utc();
-  const today = moment().utc();
+  let today = moment().utc();
 
   if (startUtcAux < today) {
-    //TODO: hacer funcionalidad de copiar un turno para crear uno nuevo.
+    // TODO: hacer funcionalidad de copiar un turno para crear uno nuevo.
     revertFunc();
   }
   else {
@@ -209,7 +207,7 @@ eventDrop: function (event, delta, revertFunc) {
     }
     swal({
       title: '¿Estas seguro que queres cambiar el turno?',
-      //text: 'You will not be able to recover this imaginary file!',
+      // text: 'You will not be able to recover this imaginary file!',
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -243,9 +241,9 @@ eventResize: function (event, delta, revertFunc) {
   const endUtcAux = moment(event.end).utc().add(3, 'h');
   const startUtc = moment(event.start).utc();
   const endUtc = moment(event.end).utc();
-  const today = moment().utc();
+  let today = moment().utc();
 
-  const today = moment();
+  today = moment();
 
   if (startUtcAux < today) {
     revertFunc();
@@ -268,8 +266,8 @@ eventResize: function (event, delta, revertFunc) {
     }
   });
 }
-//actualizar el turno en la db (tenemos el event.id)
-//???
+// actualizar el turno en la db (tenemos el event.id)
+// ???
 },
 eventClick: function (calEvent, delta, view) {
 
@@ -403,7 +401,7 @@ crearTurno(date, pacienteAsignado) {
 
   this.turnosSocketService.crearTurno(date.format(), paciente);
 
-  //Restablecemos las variables
+  // Restablecemos las variables
   this.fechaNuevoTurno = null;
 }
 
@@ -412,7 +410,7 @@ reservarHorario(fecha, descripcion){
 
   this.turnosSocketService.reservarHorario(fecha.format(), descripcion);
 
-  //Restablecemos las variables
+  // Restablecemos las variables
   this.fechaNuevoTurno = null;
 
 }
@@ -431,11 +429,11 @@ cambiarMedico(idDoctor) {
     this.pacientesService.getPacientesActivos().then(pacientes => {
       yo.pacientes = pacientes;
 
-      //Limpiamos el calendario
+      // Limpiamos el calendario
       const calendario = $('#calendar');
       calendario.fullCalendar('removeEvents');
 
-      //Limpiamos el service
+      // Limpiamos el service
       if (this.turnosSocketService) {
       this.turnosSocketService.cambiarMedico(idDoctor);
       resolve(true);
@@ -489,11 +487,11 @@ ngOnInit() {
 }
 
 setDoctorSeleccionado(idDoctor) {
-  //Seteo el doctor seleccionado
-  if (this.doctores != undefined) {
+  // Seteo el doctor seleccionado
+  if (this.doctores !== undefined) {
   const thisLocal = this;
   this.doctores.forEach(function (elem, index) {
-    if (elem._id == idDoctor) {
+    if (elem._id === idDoctor) {
       thisLocal.doctorSeleccionado = elem;
     }
   });

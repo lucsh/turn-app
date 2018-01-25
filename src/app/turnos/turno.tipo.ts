@@ -1,6 +1,6 @@
 export class Turno {
 	// id:string;
-    id: string;
+    _id: string;
     title: string;
     allDay: boolean;
 	// start:Date;

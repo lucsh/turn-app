@@ -236,7 +236,7 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
   }
 
   verTurnosActivos(paciente){
-    const turnos;
+    let turnos;
     this.turnosSocketService.obtenerTurnosActivosPaciente(paciente._id).then((turnos) => {
       let mensaje = '';
       console.log(turnos.length);
