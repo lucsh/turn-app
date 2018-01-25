@@ -9,22 +9,22 @@ import { AppComponent } from '../app.component';
 
 @Injectable()
 export class MedicoGuard implements CanActivate {
-  constructor(private router: Router, private auth: AuthService,private app: AppComponent) {}
+  constructor(private router: Router, private auth: AuthService, private app: AppComponent) {}
 
   canActivate(next: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-                let token = JSON.parse(localStorage.getItem('user'));
-                if(token && token.clase){
-                  let clase = token.clase;
-                  console.log("la clase es... ",clase);
-                  if(clase === 'administrativo'){
+                const token = JSON.parse(localStorage.getItem('user'));
+                if (token && token.clase){
+                  const clase = token.clase;
+                  console.log('la clase es... ', clase);
+                  if (clase === 'administrativo'){
                     console.log('Soy administrativo');
                     this.router.navigate(['']);
                     return false;
                   }
 
-                  console.log("No soy administrativo");
+                  console.log('No soy administrativo');
                   return true;
                 }
   }

@@ -39,7 +39,7 @@ export class TablaPacientesComponent implements OnInit {
 
   @Output() pacienteSeleccionado = new EventEmitter();
 
-  displayedColumns = ['dni', 'email', 'nombre', 'apellido','telefono'];
+  displayedColumns = ['dni', 'email', 'nombre', 'apellido', 'telefono'];
   exampleDatabase : ExampleDatabase;
   dataSource: ExampleDataSource | null;
 
@@ -86,9 +86,9 @@ export class TablaPacientesComponent implements OnInit {
         return; }
         else{
 
-          let valorFiltro = this.filter.nativeElement.value;
+          const valorFiltro = this.filter.nativeElement.value;
 
-          if(this.dataSource.filter){
+          if (this.dataSource.filter){
           }
           this.dataSource.filter = valorFiltro;
         }
@@ -111,7 +111,7 @@ export class TablaPacientesComponent implements OnInit {
       FIX TEMPORAL: El timeout es para obligar a que el ngIf que proteje el modal,
       alcance a hacerse true.
       */
-      setTimeout(()=> {
+      setTimeout(() => {
         $('#formEditarPaciente').modal('show');
       },
       200);
@@ -145,7 +145,7 @@ export class TablaPacientesComponent implements OnInit {
         Subscribimos a los pacientes, para que tengan una correspondencia
         con los pacientes del navigator
       */
-      if(this.pacientesCompartidosService.pacientes$){
+      if (this.pacientesCompartidosService.pacientes$){
         this.subscription = this.pacientesCompartidosService.pacientes$.subscribe((pacientes) => {
 
           this.setPacientes(pacientes);
@@ -165,7 +165,7 @@ export class TablaPacientesComponent implements OnInit {
     Pasamos nuestros trabajos al observer
     */
     setPacientes(pacientes: Paciente[]) {
-      let copiedData = pacientes;
+      const copiedData = pacientes;
       this.dataChange.next(pacientes);
 
     }
@@ -187,8 +187,8 @@ export class TablaPacientesComponent implements OnInit {
       console.log(paciente);
 
       let indice = -1;
-      copiedData.forEach(function(elem,index){
-        if(elem._id == paciente._id){
+      copiedData.forEach(function(elem, index){
+        if (elem._id == paciente._id){
           indice = index;
         }
       });
@@ -238,7 +238,7 @@ export class TablaPacientesComponent implements OnInit {
         this.filteredData =   this._exampleDatabase.data.slice().filter((item: Paciente) => {
 
           // Concatenamos los filtros para armar el string de busqueda
-          let searchStr = (item.dni + item.email + item.nombre + item.apellido + item.telefono).toLowerCase();
+          const searchStr = (item.dni + item.email + item.nombre + item.apellido + item.telefono).toLowerCase();
 
           return searchStr.indexOf(this.filter.toLowerCase()) != -1;
         });
@@ -275,8 +275,8 @@ export class TablaPacientesComponent implements OnInit {
           case 'telefono': [propertyA, propertyB] = [a.telefono, b.telefono]; break;
         }
 
-        let valueA = isNaN(+propertyA) ? propertyA : +propertyA;
-        let valueB = isNaN(+propertyB) ? propertyB : +propertyB;
+        const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
+        const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
 
         return (valueA < valueB ? -1 : 1) * (this._sort.direction == 'asc' ? 1 : -1);
       });

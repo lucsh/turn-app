@@ -5,12 +5,12 @@ import * as io from 'socket.io-client';
 import * as moment from 'moment';
 //import * as feathers from 'feathers-client';
 
-declare var feathers:any;
+declare var feathers: any;
 
 
 import { Turno } from '../turnos/turno.tipo';
 import { environment } from '../../environments/environment';
-import { Feathers } from '../authentication/feathers.service'
+import { Feathers } from '../authentication/feathers.service';
 
 import Notificacion from '../notificaciones-nativas/notificaciones';
 
@@ -31,7 +31,7 @@ export class TurnosDelMedicoService {
     turnos: Turno[]
   };
 
-  private notificaciones:any;
+  private notificaciones: any;
 
   //private matricula: string;
   private feathersService;
@@ -66,11 +66,11 @@ export class TurnosDelMedicoService {
   public buscarTurnos(miMatricula: String, idMedico) {
     this.miMatricula = miMatricula;
 
-    let fechaHoy = new Date();
+    const fechaHoy = new Date();
     // let temp = moment(fechaHoy).subtract(1,'days').format('YYYY-MM-DD');
-    let temp = moment(fechaHoy).format('YYYY-MM-DD');
-    let temp2 = moment(temp, "YYYY-MM-DD").add(1, 'days');
-    let temp3 = (moment(temp2).format('YYYY-MM-DD'));
+    const temp = moment(fechaHoy).format('YYYY-MM-DD');
+    const temp2 = moment(temp, 'YYYY-MM-DD').add(1, 'days');
+    const temp3 = (moment(temp2).format('YYYY-MM-DD'));
 
     this.turnosService.find({
       query: {
@@ -84,7 +84,7 @@ export class TurnosDelMedicoService {
     }).then((turnos) => {
 
       // Protegemos que sean turnos y no turnos-reservas de los medicos
-      let consultasMedicas = turnos.filter((t) => { return !t.esReserva });
+      const consultasMedicas = turnos.filter((t) => { return !t.esReserva; });
 
       this.dataStore.turnos = consultasMedicas;
       this.turnosObserver.next(this.dataStore.turnos);
@@ -93,10 +93,10 @@ export class TurnosDelMedicoService {
 
 
   public updateTurno(turno, nuevoEstado){
-    var now = new Date();
-    var nueva = moment(now).utc();
+    const now = new Date();
+    const nueva = moment(now).utc();
 
-    this.turnosService.patch(turno._id,{"estado": nuevoEstado, "horaUltimoCambio": nueva }).then((turnoActualizado) => {
+    this.turnosService.patch(turno._id, {'estado': nuevoEstado, 'horaUltimoCambio': nueva }).then((turnoActualizado) => {
 
     }).catch(err => console.error(err));
   }
@@ -118,25 +118,25 @@ export class TurnosDelMedicoService {
   */
   private onCreated(turno: any) { //REMPLAZR EL ANY CON TURNO!
 
-    if(this.miMatricula === turno.medico.matricula && !turno.esReserva){
+    if (this.miMatricula === turno.medico.matricula && !turno.esReserva){
       /*
       IMPORTANTE:
       Si hay algun problema, posiblemente haya que sumar +3horas a turnoDate O restar -3horas a diaHoy
       */
 
-      let hoy = moment(new Date());
-      let momentHoy = hoy.format('YYYY-MM-DD');
-      let diaHoy = (momentHoy.split('-'))[2]; // DD
+      const hoy = moment(new Date());
+      const momentHoy = hoy.format('YYYY-MM-DD');
+      const diaHoy = (momentHoy.split('-'))[2]; // DD
 
-      let turnoDate = moment(new Date(turno.horaInicial));
-      let momentTurno = turnoDate.format('YYYY-MM-DD');
-      let diaTurno = (momentTurno.split('-'))[2]; // DD
+      const turnoDate = moment(new Date(turno.horaInicial));
+      const momentTurno = turnoDate.format('YYYY-MM-DD');
+      const diaTurno = (momentTurno.split('-'))[2]; // DD
 
 
       // NO BORRAR: if( turnoDate.valueOf() >= hoy.valueOf()){
 
       // No aseguramos que SI O SI pertenezca a hoy
-      if(diaTurno == diaHoy && hoy.month() == turnoDate.month()) {
+      if (diaTurno == diaHoy && hoy.month() == turnoDate.month()) {
         // console.log('Esto es lo que queriamos!');
 
         this.dataStore.turnos.push(turno);
@@ -156,7 +156,7 @@ export class TurnosDelMedicoService {
   private onUpdated(turno: Turno) {
     const index = this.getIndex(turno._id);
 
-    if(index > -1){
+    if (index > -1){
       this.dataStore.turnos[index] = turno;
 
       this.turnosObserver.next(this.dataStore.turnos);
@@ -171,7 +171,7 @@ export class TurnosDelMedicoService {
   private onRemoved(turno: Turno) {
     const index = this.getIndex(turno._id);
 
-    if(index > -1){
+    if (index > -1){
       this.dataStore.turnos.splice(index, 1);
 
       this.turnosObserver.next(this.dataStore.turnos);
@@ -185,14 +185,14 @@ export class TurnosDelMedicoService {
 
   private onPatched(turno){
 
-    let indexTurno = this.buscarIndexTurno(turno);
+    const indexTurno = this.buscarIndexTurno(turno);
 
-    if(indexTurno > -1){
+    if (indexTurno > -1){
 
-      let turnoAnterior:any = this.dataStore.turnos[indexTurno];
+      const turnoAnterior: any = this.dataStore.turnos[indexTurno];
 
       //El medico esta llamando un nuevo paciente
-      if(turnoAnterior.estado !='en espera' && turno.estado == 'en espera'){
+      if (turnoAnterior.estado != 'en espera' && turno.estado == 'en espera'){
         this.notificarPacienteEspera(turno.paciente);
       }
       this.dataStore.turnos[indexTurno] = turno;
@@ -215,25 +215,25 @@ export class TurnosDelMedicoService {
 
   public asignarNotificaciones(notificaciones){
     this.notificaciones = notificaciones;
-  }  
+  }
 
   notificarPacienteEspera(paciente) {
     this.notificaciones.info(
       'El paciente ' + paciente.nombre + ' ' + paciente.apellido + ' se encuentra en sala de espera'
-    )
+    );
         const notificar = new Notificacion();
-        notificar.send(paciente.nombre + ' ' + paciente.apellido ,'se encuentra en sala de espera');
+        notificar.send(paciente.nombre + ' ' + paciente.apellido , 'se encuentra en sala de espera');
   }
 
   //Metodos auxiliares
   private buscarIndexTurno(turno): number{
     let indexTurno = -1;
 
-    let turnos = this.dataStore.turnos;
+    const turnos = this.dataStore.turnos;
     // ////console.log(turnos);
 
-    turnos.forEach(function(elem,index){
-      if(elem._id.toString() == turno._id.toString()){
+    turnos.forEach(function(elem, index){
+      if (elem._id.toString() == turno._id.toString()){
 
         indexTurno = index;
       }

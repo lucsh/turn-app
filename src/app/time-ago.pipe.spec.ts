@@ -116,14 +116,14 @@ describe('TimeAgoPipe', () => {
 
   describe('on null', () => {
     it('should return empty string', () => {
-      let pipe = new TimeAgoPipe(null);
+      const pipe = new TimeAgoPipe(null);
       expect(pipe.transform(null)).toBe('');
     });
   });
 
   describe('on other types', () => {
     it('should throw', () => {
-      let pipe = new TimeAgoPipe(null);
+      const pipe = new TimeAgoPipe(null);
       expect(() => pipe.transform(<any>'some bogus object')).toThrowError();
     });
   });

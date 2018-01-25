@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild} from '@angular/core';
-import {Http} from "@angular/http";
+import {Http} from '@angular/http';
 import { ActivatedRoute } from '@angular/router';
 
 
@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-configuracion-medico',
-  providers:[],
+  providers: [],
   templateUrl: './configuracion-medico.component.html',
   styleUrls: ['./configuracion-medico.component.css']
 })

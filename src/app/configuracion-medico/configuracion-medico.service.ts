@@ -18,15 +18,15 @@ import { AuthService } from '../authentication/auth.service';
 export class ConfiguracionMedicoService {
 
 	private headers = new Headers({'Content-Type': 'application/json'});
-	private medicosURL = environment.apiUrl +'/medicos';  // URL to web api
+	private medicosURL = environment.apiUrl + '/medicos';  // URL to web api
 
 
 
-	constructor(private http: Http,private authService: AuthService) {
+	constructor(private http: Http, private authService: AuthService) {
 
 	}//Al ser promise (y no Observable), no le quita reactividad?
 	getMedicos(): Promise<any[]>{
-		return this.http.get(this.medicosURL,this.authService.jwt())
+		return this.http.get(this.medicosURL, this.authService.jwt())
 		.toPromise()
 		.then(response => {
 			return response.json() as any[];
@@ -42,7 +42,7 @@ export class ConfiguracionMedicoService {
 	}
 
 	buscarMedico(id): Promise<any>{
-		return this.http.get(this.medicosURL+'/'+id,this.authService.jwt())
+		return this.http.get(this.medicosURL + '/' + id, this.authService.jwt())
 		.toPromise()
 		.then(response => {
 			//console.log(response.json());
@@ -51,12 +51,12 @@ export class ConfiguracionMedicoService {
 		.catch(this.handleError);
 	}
 
-	actualizarMedico(id,nombre,apellido,emailMedico, duracion,obras, idUsuario): Promise<any>{
+	actualizarMedico(id, nombre, apellido, emailMedico, duracion, obras, idUsuario): Promise<any>{
 
-		if(obras != null){
+		if (obras != null){
 			obras = this.limpiarParticular(obras);
 		}
-		return this.http.patch(this.medicosURL+'/'+id,{nombre: nombre, apellido: apellido, email:emailMedico, duracion:duracion,obras:obras, _idUsuario:idUsuario},this.authService.jwt())
+		return this.http.patch(this.medicosURL + '/' + id, {nombre: nombre, apellido: apellido, email: emailMedico, duracion: duracion, obras: obras, _idUsuario: idUsuario}, this.authService.jwt())
 		.toPromise()
 		.then(response => {
 			return response.json() as any;
@@ -65,7 +65,7 @@ export class ConfiguracionMedicoService {
 	}
 
 	eliminarMedico(id): Promise<any[]>{
-		return this.http.patch(this.medicosURL+'/'+id,{eliminado:true},this.authService.jwt())
+		return this.http.patch(this.medicosURL + '/' + id, {eliminado: true}, this.authService.jwt())
 		.toPromise()
 		.then(response => {
 			//console.log("RESPUESTA DESDE EL PATCH");
@@ -76,14 +76,14 @@ export class ConfiguracionMedicoService {
 	}
 
   getSemanaModelo(medico): Promise<any[]> {
-    let id = medico._id;
+    const id = medico._id;
 
-    let medicoService = environment.apiUrl + '/medicos';
+    const medicoService = environment.apiUrl + '/medicos';
 
-		return this.http.get(medicoService+'?_id='+id,this.authService.jwt())
+		return this.http.get(medicoService + '?_id=' + id, this.authService.jwt())
 		.toPromise()
 		.then(res => {
-			let medico = res.json();
+			const medico = res.json();
 
 			return medico.semanaEsquema;
 		})
@@ -92,11 +92,11 @@ export class ConfiguracionMedicoService {
 
 	/** Este metodo es creado para quitar la obra Particular (que en realidad fue agregada a este arreglo para crear una sensacion visual, y no es una obra real en el BACKEND) */
 	private limpiarParticular(obras){
-		let resultado =  [];
-		if(obras != null ){
-			for (var index = 0; index < obras.length; index++) {
-				var element = obras[index];
-				if(element.nombre !='Particular'){
+		const resultado =  [];
+		if (obras != null ){
+			for (let index = 0; index < obras.length; index++) {
+				const element = obras[index];
+				if (element.nombre != 'Particular'){
 					resultado.push(element);
 				}
 

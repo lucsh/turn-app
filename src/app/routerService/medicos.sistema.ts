@@ -54,7 +54,7 @@ export class MedicosCompartidosService {
   }
 
   public addMedico(medico){
-    if(medico){
+    if (medico){
       this.medicos.push(medico);
       this.observer.next(this.medicos);
     }
@@ -65,14 +65,14 @@ export class MedicosCompartidosService {
   }
 
   public updateMedico(medico) {
-    if(this.medicos.length > 0 && medico){
+    if (this.medicos.length > 0 && medico){
       let encontrado = -1;
-      this.medicos.forEach(function(elem,index){
-        if(elem._id == medico._id){
+      this.medicos.forEach(function(elem, index){
+        if (elem._id == medico._id){
           encontrado = index;
         }
       });
-      if(encontrado > -1){
+      if (encontrado > -1){
         this.medicos[encontrado] = medico;
       }
       this.observer.next(this.medicos);
@@ -83,12 +83,12 @@ export class MedicosCompartidosService {
 
 
     let i = -1;
-    this.medicos.forEach(function(med,index){
-      if(med._id.toString() == medicoCambiado._id){
+    this.medicos.forEach(function(med, index){
+      if (med._id.toString() == medicoCambiado._id){
         i = index;
       }
     });
-    if(i > -1){
+    if (i > -1){
       this.medicos[i].semanaEsquema = medicoCambiado.semanaEsquema;
     }
 
@@ -97,14 +97,14 @@ export class MedicosCompartidosService {
   }
 
   public deleteMedico(medico){
-    if(this.medicos.length > 0 && medico){
+    if (this.medicos.length > 0 && medico){
       let encontrado = -1;
-      this.medicos.forEach(function(elem,index){
-        if(elem._id == medico._id){
+      this.medicos.forEach(function(elem, index){
+        if (elem._id == medico._id){
           encontrado = index;
         }
       });
-      if(encontrado > -1){
+      if (encontrado > -1){
         this.medicos.splice(encontrado, 1);
       }
       this.observer.next(this.medicos);

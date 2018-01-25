@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output,EventEmitter,OnChanges, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ElementRef, ViewChild } from '@angular/core';
 
 
 import { Obra } from '../../obras/obra.tipo';
@@ -30,10 +30,10 @@ export class VerTurnoComponent implements OnInit, OnChanges{
   public horaNuevoTurno: any;
   public diaNuevoTurno: any;
   public pacienteDelTurno: any = null;
-  public turnoModificable: boolean = true;
+  public turnoModificable = true;
 
   constructor(
-    private obrasService: ObrasService,private turnosSocketService : TurnoSocketService, private pacientesCompartidosService: PacientesCompartidosService
+    private obrasService: ObrasService, private turnosSocketService : TurnoSocketService, private pacientesCompartidosService: PacientesCompartidosService
   ){
 
   }
@@ -50,8 +50,8 @@ export class VerTurnoComponent implements OnInit, OnChanges{
     // changes.prop contains the old and the new value...
 
     //Asignamos las fechas para el modal
-    if(this.turno != null){
-      if(this.turno.paciente.obra == null){
+    if (this.turno != null){
+      if (this.turno.paciente.obra == null){
         this.turno.paciente.obra = {
           _id: 'Particular',
           nombre: 'Particular',
@@ -60,11 +60,11 @@ export class VerTurnoComponent implements OnInit, OnChanges{
       }
       this.pacienteDelTurno = this.turno.paciente;
       // let fechaNuevoTurno = this.turno.horaInicial;
-      let fechaNuevoTurno = moment(this.turno.horaInicial).utc().add(3,'h');
-      var today = moment();
+      const fechaNuevoTurno = moment(this.turno.horaInicial).utc().add(3, 'h');
+      const today = moment();
 
       //Verificamos que la fecha del turno, para conocer si lo podra eliminar o no.
-      if(fechaNuevoTurno < today){
+      if (fechaNuevoTurno < today){
         this.turnoModificable = false;
       }
       else{
@@ -85,7 +85,7 @@ export class VerTurnoComponent implements OnInit, OnChanges{
   }
 
   public onEditarPaciente(pacienteEditado){
-    if(pacienteEditado != null && pacienteEditado != undefined){
+    if (pacienteEditado != null && pacienteEditado != undefined){
       this.pacienteDelTurno = pacienteEditado;
       this.pacientesCompartidosService.updatePaciente(pacienteEditado);
     }
@@ -104,13 +104,13 @@ export class VerTurnoComponent implements OnInit, OnChanges{
       // this.obraSelected = null;
       this.closeformVerTurno.nativeElement.click();
 
-    }).catch(err => {console.log(err);})
+    }).catch(err => {console.log(err); });
   }
 
 
   public cancelarTurno(){
     $('#formVerTurno').modal('hide');
-    let yo = this;
+    const yo = this;
     swal({
       title: '¿Estas seguro que queres eliminar el turno?',
       //text: 'You will not be able to recover this imaginary file!',

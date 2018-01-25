@@ -3,7 +3,7 @@ import { smoothlyMenu } from '../../app.helpers';
 
 import { AuthService } from '../../authentication/auth.service';
 
-declare var jQuery:any; 
+declare var jQuery: any;
 
 @Component({
   selector: 'topnavbar',
@@ -12,7 +12,7 @@ declare var jQuery:any;
 export class TopnavbarComponent {
 
   toggleNavigation(): void {
-    jQuery("body").toggleClass("mini-navbar");
+    jQuery('body').toggleClass('mini-navbar');
     smoothlyMenu();
   }
   constructor(private authService: AuthService) { }

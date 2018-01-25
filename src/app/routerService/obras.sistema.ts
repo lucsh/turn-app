@@ -17,7 +17,7 @@ import { Subject }           from 'rxjs/Subject';
 import * as Rx from 'rxjs';
 
 // Librerias de feathers
-import { Feathers } from '../authentication/feathers.service'
+import { Feathers } from '../authentication/feathers.service';
 
 @Injectable()
 export class ObrasCompartidasService {
@@ -53,20 +53,20 @@ export class ObrasCompartidasService {
     this.obrasSocketService.find()
     .then(obras => {
 
-      let obrasSinParticular = this.removerObraParticularVista(obras);
+      const obrasSinParticular = this.removerObraParticularVista(obras);
       this.obras = obrasSinParticular;
 
-      if(this.observer){
+      if (this.observer){
         this.observer.next(this.obras);
       }
-    })
+    });
   }
 
   public createObra(iniciales, obra){
     return new Promise((resolve, reject) => {
-      this.obrasSocketService.create({iniciales: iniciales,nombre:obra})
-      .then(nuevaObra =>resolve(nuevaObra))
-      .catch(err => {console.error('Error al crear la obra', err); reject(err)})
+      this.obrasSocketService.create({iniciales: iniciales, nombre: obra})
+      .then(nuevaObra => resolve(nuevaObra))
+      .catch(err => {console.error('Error al crear la obra', err); reject(err); });
     });
   }
 
@@ -76,10 +76,10 @@ export class ObrasCompartidasService {
   }
 
   public addObra(obra){
-    let encontrado = this.searchObra(obra);
+    const encontrado = this.searchObra(obra);
 
     // Solo agregamos si no existia
-    if(encontrado < 0){
+    if (encontrado < 0){
       this.obras.push(obra);
       this.observer.next(this.obras);
     }
@@ -90,18 +90,18 @@ export class ObrasCompartidasService {
   }
 
   public updateObra(obra) {
-    let encontrado = this.searchObra(obra);
+    const encontrado = this.searchObra(obra);
 
-    if(encontrado > -1){
+    if (encontrado > -1){
       this.obras[encontrado] = obra;
       this.observer.next(this.obras);
     }
   }
 
   public deleteObra(obra){
-    let encontrado = this.searchObra(obra);
+    const encontrado = this.searchObra(obra);
 
-    if(encontrado > -1){
+    if (encontrado > -1){
       this.obras.splice(encontrado, 1);
       this.observer.next(this.obras);
     }
@@ -111,9 +111,9 @@ export class ObrasCompartidasService {
 
     let encontrado = -1;
 
-    if(this.obras.length > 0 && obraBuscada){
-      this.obras.forEach(function(elem,index){
-        if(elem._id == obraBuscada._id){
+    if (this.obras.length > 0 && obraBuscada){
+      this.obras.forEach(function(elem, index){
+        if (elem._id == obraBuscada._id){
           encontrado = index;
         }
       });
@@ -131,7 +131,7 @@ export class ObrasCompartidasService {
     let indexParticular = -1;
 
     obras.forEach(function(elem, index){
-      if(elem.nombre == 'Particular'){
+      if (elem.nombre == 'Particular'){
         indexParticular = index;
       }
     });
@@ -139,7 +139,7 @@ export class ObrasCompartidasService {
     obrasSinParticular = obras;
 
     // Removemos la obra 'Particular'
-    if(indexParticular > -1){
+    if (indexParticular > -1){
       obrasSinParticular.splice(indexParticular, 1);
     }
 

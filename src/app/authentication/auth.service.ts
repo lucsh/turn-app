@@ -44,17 +44,17 @@ export class AuthService {
 
   public jwt(): RequestOptions {
 
-    let currentUsuario = JSON.parse(localStorage.getItem('user'));
-    let token = localStorage.getItem('feathers-jwt');
+    const currentUsuario = JSON.parse(localStorage.getItem('user'));
+    const token = localStorage.getItem('feathers-jwt');
 
     if (currentUsuario && token) {
-      let headers2 = new Headers({ 'Authorization': token });
+      const headers2 = new Headers({ 'Authorization': token });
       return new RequestOptions({ headers: headers2 });
     }
   }
 
   public jwtContentType(){
-		let jwt = this.jwt();
+		const jwt = this.jwt();
 		jwt.headers.append('Content-Type', 'application/json');
     return jwt;
 	}

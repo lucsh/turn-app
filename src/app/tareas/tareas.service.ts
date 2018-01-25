@@ -14,7 +14,7 @@ export class TareasService {
 
 
   private headers = new Headers({'Content-Type': 'application/json'});
-	private tareasURL = environment.apiUrl+'/tareas';  // URL to web api
+	private tareasURL = environment.apiUrl + '/tareas';  // URL to web api
 
   constructor(private http: Http, private authService: AuthService) {
 
@@ -22,7 +22,7 @@ export class TareasService {
 
 
   getTodos(): Promise<Tarea[]>{
-    return this.http.get(this.tareasURL,this.authService.jwt())
+    return this.http.get(this.tareasURL, this.authService.jwt())
 		.toPromise()
 		.then(response => {
 			return response.json() as Tarea[];
@@ -36,17 +36,17 @@ export class TareasService {
 			{
 			  descripcion: descripcion,
 			  estado: false
-			},this.authService.jwtContentType());
+			}, this.authService.jwtContentType());
 	}
-	updateTodo(tareaId:string,descripcion:string,nuevoEstado:boolean) : Observable<any>{
-		return this.http.put(this.tareasURL+"/"+ tareaId,
+	updateTodo(tareaId: string, descripcion: string, nuevoEstado: boolean) : Observable<any>{
+		return this.http.put(this.tareasURL + '/' + tareaId,
 			{
 			  descripcion: descripcion,
 			  estado: nuevoEstado
-			},this.authService.jwt());
+			}, this.authService.jwt());
 	}
-	deleteTodo(tareaId:string) : Observable<any>{
-		return this.http.delete(this.tareasURL+"/"+ tareaId,this.authService.jwt());
+	deleteTodo(tareaId: string) : Observable<any>{
+		return this.http.delete(this.tareasURL + '/' + tareaId, this.authService.jwt());
 	}
 
 

@@ -7,12 +7,12 @@ import * as moment from 'moment';
 
 import {Paciente} from '../pacientes/paciente.tipo';
 import { environment } from '../../environments/environment';
-import { Feathers } from '../authentication/feathers.service'
+import { Feathers } from '../authentication/feathers.service';
 import { PacientesCompartidosService } from '../routerService/pacientes.sistema';
 
 import { Subscription } from 'rxjs/Subscription';
 
-declare var feathers:any;
+declare var feathers: any;
 
 import {default as swal} from 'sweetalert2';
 
@@ -36,7 +36,7 @@ export class SolicitudesSocketService implements OnDestroy  {
   private socket;
   private feathersService;
 
-  constructor(private FeathersCambiarNombre: Feathers, private pacientesCompartidos : PacientesCompartidosService,) {
+  constructor(private FeathersCambiarNombre: Feathers, private pacientesCompartidos : PacientesCompartidosService, ) {
     this.socket = io(this.urlServidor);
     //Estamos usando el Service de Feathers, pues el que tiene la autenticacion del login
     this.feathersService = FeathersCambiarNombre.devolverFeathers();
@@ -94,14 +94,14 @@ export class SolicitudesSocketService implements OnDestroy  {
 
 
   aprobarSolicitud(pacienteEnSolicitud){
-    let indexPaciente = this.buscarSolicitud(pacienteEnSolicitud);
+    const indexPaciente = this.buscarSolicitud(pacienteEnSolicitud);
 
-    if(indexPaciente > -1){
-      let id = pacienteEnSolicitud._id;
-      let idUsuario = pacienteEnSolicitud._idUsuario;
-      this.solicitudesSocketService.patch(id,{"aprobado":true,"_idUsuario":idUsuario,"aprobando":true}).then(
+    if (indexPaciente > -1){
+      const id = pacienteEnSolicitud._id;
+      const idUsuario = pacienteEnSolicitud._idUsuario;
+      this.solicitudesSocketService.patch(id, {'aprobado': true, '_idUsuario': idUsuario, 'aprobando': true}).then(
         pacienteAprobado => {
-          if(pacienteAprobado.aprobado){
+          if (pacienteAprobado.aprobado){
 
             /*
             ACA PODREMOS MOSTRAR el numero de paciente generado, etc.
@@ -119,21 +119,21 @@ export class SolicitudesSocketService implements OnDestroy  {
                 if (dismiss === 'timer') {
                 }
               }
-            )
+            );
 
           }
         }
-      )
+      );
     }
 
 
   }
 
   rechazarSolicitud(pacienteEnSolicitud){
-    let indexPaciente = this.buscarSolicitud(pacienteEnSolicitud);
+    const indexPaciente = this.buscarSolicitud(pacienteEnSolicitud);
 
-    if(indexPaciente > -1){
-      let id = pacienteEnSolicitud._id;
+    if (indexPaciente > -1){
+      const id = pacienteEnSolicitud._id;
       this.solicitudesSocketService.remove(id).then(
         pacienteRechazado => {
           swal({
@@ -148,9 +148,9 @@ export class SolicitudesSocketService implements OnDestroy  {
               if (dismiss === 'timer') {
               }
             }
-          )
+          );
         }
-      )
+      );
     }
   }
 
@@ -159,7 +159,7 @@ export class SolicitudesSocketService implements OnDestroy  {
     Subscribimos a los pacientes, para que tengan una correspondencia
     con los pacientes del navigator
     */
-    if(this.pacientesCompartidos.pacientes$){
+    if (this.pacientesCompartidos.pacientes$){
       this.pacientesSubscription = this.pacientesCompartidos.pacientes$.subscribe((pacientes) => {
 
         this.pacientesSistema = pacientes;
@@ -186,7 +186,7 @@ export class SolicitudesSocketService implements OnDestroy  {
     console.log('## ENTRE EN EL ON CREATED');
 
     //Si el nuevo paciente NO esta aprobado => entro una nueva solicitud
-    if(!pacienteAprobado.aprobado){
+    if (!pacienteAprobado.aprobado){
       this.dataStore.solicitudes.push(pacienteAprobado);
     }
 
@@ -203,7 +203,7 @@ export class SolicitudesSocketService implements OnDestroy  {
     //Actualizamos las variables
 
     //Nos aseguramos que el paciente haya sido rechazado correctamente
-    if(!pacienteRechazado.aprobado){
+    if (!pacienteRechazado.aprobado){
       this.quitarSolicitud(pacienteRechazado);
     }
 
@@ -216,12 +216,12 @@ export class SolicitudesSocketService implements OnDestroy  {
   private onPatched(pacienteAprobado){
 
     // Nos aseguramos que el paciente haya sido aprobado correctamente
-    if(pacienteAprobado.aprobado){
-      let quitado = this.quitarSolicitud(pacienteAprobado);
+    if (pacienteAprobado.aprobado){
+      const quitado = this.quitarSolicitud(pacienteAprobado);
 
       // Agregamos el paciente aprobado al sistema
-      if(quitado){
-        if(!this.pacientesCompartidos.existePaciente(pacienteAprobado)){
+      if (quitado){
+        if (!this.pacientesCompartidos.existePaciente(pacienteAprobado)){
           this.pacientesCompartidos.addPaciente(pacienteAprobado);
         }
       }
@@ -245,10 +245,10 @@ export class SolicitudesSocketService implements OnDestroy  {
   private buscarSolicitud(pacienteEnSolicitud): number{
     let indexSolicitud = -1;
 
-    let solicitudes = this.dataStore.solicitudes;
+    const solicitudes = this.dataStore.solicitudes;
 
-    solicitudes.forEach(function(elem,index){
-      if(elem._id.toString() == pacienteEnSolicitud._id.toString()){
+    solicitudes.forEach(function(elem, index){
+      if (elem._id.toString() == pacienteEnSolicitud._id.toString()){
 
         indexSolicitud = index;
       }
@@ -260,11 +260,11 @@ export class SolicitudesSocketService implements OnDestroy  {
   private quitarSolicitud(pacienteQuitar): boolean{
     let borrado = false;
 
-    let solicitudes = this.dataStore.solicitudes;
+    const solicitudes = this.dataStore.solicitudes;
 
-    let indexQuitar = this.buscarSolicitud(pacienteQuitar);
-    
-    if(indexQuitar > -1 && solicitudes[indexQuitar].aprobado == false){
+    const indexQuitar = this.buscarSolicitud(pacienteQuitar);
+
+    if (indexQuitar > -1 && solicitudes[indexQuitar].aprobado == false){
       solicitudes.splice(indexQuitar, 1);
       this.dataStore.solicitudes = solicitudes;
       borrado = true;

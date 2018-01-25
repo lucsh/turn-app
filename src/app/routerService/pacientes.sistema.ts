@@ -37,7 +37,7 @@ export class PacientesCompartidosService {
   }
 
   public addPaciente(paciente){
-    if(paciente){
+    if (paciente){
       this.pacientes.push(paciente);
       this.observer.next(this.pacientes);
     }
@@ -48,14 +48,14 @@ export class PacientesCompartidosService {
   }
 
   public updatePaciente(paciente) {
-    if(this.pacientes.length > 0 && paciente){
+    if (this.pacientes.length > 0 && paciente){
       let encontrado = -1;
-      this.pacientes.forEach(function(elem,index){
-        if(elem._id == paciente._id){
+      this.pacientes.forEach(function(elem, index){
+        if (elem._id == paciente._id){
           encontrado = index;
         }
       });
-      if(encontrado > -1){
+      if (encontrado > -1){
         this.pacientes[encontrado] = paciente;
       }
       this.observer.next(this.pacientes);
@@ -63,14 +63,14 @@ export class PacientesCompartidosService {
   }
 
   public deletePaciente(paciente){
-    if(this.pacientes.length > 0 && paciente){
+    if (this.pacientes.length > 0 && paciente){
       let encontrado = -1;
-      this.pacientes.forEach(function(elem,index){
-        if(elem._id == paciente._id){
+      this.pacientes.forEach(function(elem, index){
+        if (elem._id == paciente._id){
           encontrado = index;
         }
       });
-      if(encontrado > -1){
+      if (encontrado > -1){
         this.pacientes.splice(encontrado, 1);
       }
       this.observer.next(this.pacientes);
@@ -79,9 +79,9 @@ export class PacientesCompartidosService {
 
   public existePaciente(paciente){
 
-    let indice = this.buscarPaciente(paciente);
+    const indice = this.buscarPaciente(paciente);
 
-    if(indice > -1){
+    if (indice > -1){
       return true;
     }
     else{
@@ -91,8 +91,8 @@ export class PacientesCompartidosService {
 
   private buscarPaciente(paciente){
     let indice = -1;
-    this.pacientes.forEach(function(elem,index){
-      if(elem._id == paciente._id){
+    this.pacientes.forEach(function(elem, index){
+      if (elem._id == paciente._id){
         indice = index;
       }
     });

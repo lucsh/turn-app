@@ -26,7 +26,7 @@ export class AgregarMedicoComponent implements OnInit, OnChanges {
   public options: Select2Options;
   public value: any[] = [];
   public current: string;
-  public actualizado: boolean = false;
+  public actualizado = false;
 
   constructor(
     private medicosService: MedicosService,
@@ -87,7 +87,7 @@ export class AgregarMedicoComponent implements OnInit, OnChanges {
   // ****************************************************************************
   // Metodos del selector
 
-  /** Este metodo es creado para quitar la obra Particular (que en realidad fue agregada a este arreglo para crear una sensacion visual, 
+  /** Este metodo es creado para quitar la obra Particular (que en realidad fue agregada a este arreglo para crear una sensacion visual,
    * y no es una obra real en el BACKEND) */
   private limpiarParticular(obras) {
     const resultado =  [];

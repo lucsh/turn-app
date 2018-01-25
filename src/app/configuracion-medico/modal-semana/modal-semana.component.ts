@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output,EventEmitter,OnChanges, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ElementRef, ViewChild } from '@angular/core';
 
 import { ViewChildren, QueryList, ChangeDetectorRef } from '@angular/core';
 
@@ -17,7 +17,7 @@ declare var $: any;
   templateUrl: './modal-semana.component.html',
   styleUrls: ['./modal-semana.component.css']
 })
-export class ModalSemanaComponent implements OnInit,OnChanges {
+export class ModalSemanaComponent implements OnInit, OnChanges {
 
   @Output() semenaCambiada = new EventEmitter();
   @Input() medico: any;
@@ -43,17 +43,17 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
 
   public obrasSelector: Array<any> = [];
-  public actualizado: boolean = false;
-  private value:any = {};
-  private _disabledV:string = '0';
-  private disabled:boolean = false;
+  public actualizado = false;
+  private value: any = {};
+  private _disabledV = '0';
+  private disabled = false;
 
-  private primeraVez: boolean = true;
+  private primeraVez = true;
 
   constructor(private obraService: ObrasService, private medicosService: MedicosService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
-    if(this.medico != null){
+    if (this.medico != null){
       this.reiniciarConfiguracion();
 
       this.iniciarTurnosPorObras();
@@ -67,14 +67,14 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     // changes.prop contains the old and the new value...
     this.reiniciarConfiguracion();
 
-    if(!this.primeraVez){
+    if (!this.primeraVez){
       this.turnosPorObra = [];
       this.resetearSelectoresObras();
       this.resetearCheckBoxs();
 
     }
 
-    if(this.medico != null){
+    if (this.medico != null){
       this.iniciarTurnosPorObras();
       this.iniciarIntervalos();
       this.obras = this.obrasDispTotales;
@@ -82,7 +82,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
     }
 
-    if(!(this.obrasSelector.length > 0)){
+    if (!(this.obrasSelector.length > 0)){
       //Este if es para que si existia una asignacion de cantidad de turnos por obra social, y
       // se eliminaron todas las obras por las cuales el medico trabaja, tambien se elimienn los intervalos
       // ya que sino queda un selector bugeado con un input numerico colgado del aire.
@@ -115,16 +115,16 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     this.intervalos = [];
     // this.obras=[];
     this.obraSelected = null;
-    this.turnosPorObra =[];
+    this.turnosPorObra = [];
 
   }
 
   public iniciarTurnosPorObras(){
-    if(this.medico.semanaEsquema){
-      if(this.medico.semanaEsquema && this.medico.semanaEsquema.obrasDisponibles){
+    if (this.medico.semanaEsquema){
+      if (this.medico.semanaEsquema && this.medico.semanaEsquema.obrasDisponibles){
 
         this.turnosPorObra = this.medico.semanaEsquema.obrasDisponibles;
-        if(this.obrasSelector.length <= 0){
+        if (this.obrasSelector.length <= 0){
           /* Metodo auxiliar de comprobacion para no mostrar intervalos de obras socailes q ya no son trabajadas. */
           this.turnosPorObra = [];
         }
@@ -133,7 +133,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
         this.turnosPorObra = [];
       }
     }
-    if(this.turnosPorObra == undefined || this.turnosPorObra == null){
+    if (this.turnosPorObra == undefined || this.turnosPorObra == null){
       this.agregarObra();
     }
     else{
@@ -144,39 +144,39 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
   public actualizarCheckBoxs(){
 
-    let diaAux = -1;
+    const diaAux = -1;
     let diasArray = [];
-    if(this.intervalos != null && this.intervalos != undefined){
+    if (this.intervalos != null && this.intervalos != undefined){
       for (let i = 0; i < this.intervalos.length; i++) {
         for (let j = 0; j < this.intervalos[i].dias.length; j++) {
 
-          let diaAux = this.intervalos[i].dias[j];
+          const diaAux = this.intervalos[i].dias[j];
 
-          if(diaAux == 1){
+          if (diaAux == 1){
             diasArray = this.diasLunes.toArray();
             diasArray[i].nativeElement.checked = true;
           }
-          if(diaAux == 2){
+          if (diaAux == 2){
             diasArray = this.diasMartes.toArray();
             diasArray[i].nativeElement.checked = true;
             // this.diaMartes.nativeElement.checked = true;
           }
-          if(diaAux == 3){
+          if (diaAux == 3){
             diasArray = this.diasMiercoles.toArray();
             diasArray[i].nativeElement.checked = true;
             // this.diaMiercoles.nativeElement.checked = true;
           }
-          if(diaAux == 4){
+          if (diaAux == 4){
             diasArray = this.diasJueves.toArray();
             diasArray[i].nativeElement.checked = true;
             // this.diaJueves.nativeElement.checked = true;
           }
-          if(diaAux == 5){
+          if (diaAux == 5){
             diasArray = this.diasViernes.toArray();
             diasArray[i].nativeElement.checked = true;
             // this.diaViernes.nativeElement.checked = true;
           }
-          if(diaAux == 6){
+          if (diaAux == 6){
             diasArray = this.diasSabado.toArray();
             diasArray[i].nativeElement.checked = true;
             // this.diaSabado.nativeElement.checked = true;
@@ -191,28 +191,28 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
 
       let diasArray = this.diasLunes.toArray();
-      diasArray.forEach(function(elem,index){
-          elem.nativeElement.checked=false;
+      diasArray.forEach(function(elem, index){
+          elem.nativeElement.checked = false;
       });
       diasArray = this.diasMartes.toArray();
-      diasArray.forEach(function(elem,index){
-          elem.nativeElement.checked=false;
+      diasArray.forEach(function(elem, index){
+          elem.nativeElement.checked = false;
       });
        diasArray = this.diasMiercoles.toArray();
-      diasArray.forEach(function(elem,index){
-          elem.nativeElement.checked=false;
+      diasArray.forEach(function(elem, index){
+          elem.nativeElement.checked = false;
       });
        diasArray = this.diasJueves.toArray();
-      diasArray.forEach(function(elem,index){
-          elem.nativeElement.checked=false;
+      diasArray.forEach(function(elem, index){
+          elem.nativeElement.checked = false;
       });
        diasArray = this.diasViernes.toArray();
-      diasArray.forEach(function(elem,index){
-          elem.nativeElement.checked=false;
+      diasArray.forEach(function(elem, index){
+          elem.nativeElement.checked = false;
       });
        diasArray = this.diasSabado.toArray();
-      diasArray.forEach(function(elem,index){
-          elem.nativeElement.checked=false;
+      diasArray.forEach(function(elem, index){
+          elem.nativeElement.checked = false;
       });
   }
 
@@ -221,15 +221,15 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
   */
   public iniciarSelectoresObras(){
 
-    let yo = this;
-    let selectoresAux :any[] = this.selectoresObras.toArray();
+    const yo = this;
+    const selectoresAux : any[] = this.selectoresObras.toArray();
     for (let index = 0; index < this.turnosPorObra.length; index++) {
-        let elem = this.turnosPorObra[index];
+        const elem = this.turnosPorObra[index];
 
         for (let i = 0; i < yo.obras.length; i++) {
-          if(yo.obras[i]._id.toString() == elem.obraSocial.toString()){
+          if (yo.obras[i]._id.toString() == elem.obraSocial.toString()){
 
-            var aux = yo.obras[i]; //Este es el que tiene el id y el text
+            const aux = yo.obras[i]; //Este es el que tiene el id y el text
             // selectoresAux[index].active.push(aux);
             selectoresAux[index].active = [aux];
           }
@@ -239,16 +239,16 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
   public resetearSelectoresObras(){
 
-    let selectoresAux :any[] = this.selectoresObras.toArray();
-    selectoresAux.forEach(function(elem,index){
+    const selectoresAux : any[] = this.selectoresObras.toArray();
+    selectoresAux.forEach(function(elem, index){
       elem.active = [];
     });
   }
 
   public iniciarIntervalos(){
-    if(this.medico.semanaEsquema){
+    if (this.medico.semanaEsquema){
 
-      if(this.medico.semanaEsquema && this.medico.semanaEsquema.intervalos){
+      if (this.medico.semanaEsquema && this.medico.semanaEsquema.intervalos){
 
         this.intervalos = this.medico.semanaEsquema.intervalos;
 
@@ -256,40 +256,40 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
           HoraInicialReal mantendra la hora + minutos convetidos a minutos.
           HoraInical tendra un string con formato hh:mm para la visual.
         */
-        this.intervalos.forEach(function(elem,index){
+        this.intervalos.forEach(function(elem, index){
 
-          if(!elem.horaInicialReal && (elem.horaInicialReal != 0)){
+          if (!elem.horaInicialReal && (elem.horaInicialReal != 0)){
             elem.horaInicialReal = elem.horaInicial;
 
             let horasAux = (Math.floor(elem.horaInicial / 60)).toString();
             let minutosAux = (elem.horaInicial % 60).toString();
 
             // Le debemos agregar un 0 antes por si es 1 minuto o 1 hora => 01
-            if(horasAux.length == 1){
+            if (horasAux.length == 1){
               horasAux = '0' + horasAux;
             }
-            if(minutosAux.length == 1){
+            if (minutosAux.length == 1){
               minutosAux = '0' + minutosAux;
             }
             // Asignamos el string creado
-            elem.horaInicial = horasAux +":"+ minutosAux;
+            elem.horaInicial = horasAux + ':' + minutosAux;
           }
 
-          if(!elem.horaFinReal && (elem.horaFinReal != 0)){
+          if (!elem.horaFinReal && (elem.horaFinReal != 0)){
             elem.horaFinReal = elem.horaFin;
 
             let horasAux = (Math.floor(elem.horaFin / 60)).toString();
             let minutosAux = (elem.horaFin % 60).toString();
 
             // Le debemos agregar un 0 antes por si es 1 minuto o 1 hora => 01
-            if(horasAux.length == 1){
+            if (horasAux.length == 1){
               horasAux = '0' + horasAux;
             }
-            if(minutosAux.length == 1){
+            if (minutosAux.length == 1){
               minutosAux = '0' + minutosAux;
             }
             // Asignamos el string creado
-            elem.horaFin = horasAux +":"+ minutosAux;
+            elem.horaFin = horasAux + ':' + minutosAux;
           }
 
         });
@@ -298,13 +298,13 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
       }
     }
 
-    if(this.intervalos == undefined || this.intervalos == null){
+    if (this.intervalos == undefined || this.intervalos == null){
 
-      let inter = {
+      const inter = {
         dias : [],
-        horaInicial: "",
-        horaFin: "",
-        horaInicialReal: ""
+        horaInicial: '',
+        horaFin: '',
+        horaInicialReal: ''
       };
       this.intervalos.push(inter);
     }
@@ -313,11 +313,11 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
 
   public actualizarSelector(){
-    if(this.obras!=null){
-      let yo = this;
+    if (this.obras != null){
+      const yo = this;
       yo.obrasSelector = []; // reseteamos el selector visual
 
-      this.obras.forEach(function(elem,index){
+      this.obras.forEach(function(elem, index){
         /*
         Dado que estamos usando el componente ng2-select,
         debemos tener un arreglo en el que cada objeto TENGA:
@@ -331,7 +331,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
         yo.obrasSelector[index]._id = elem._id;
 
       });
-      if(yo.obrasSelector.length > 0){
+      if (yo.obrasSelector.length > 0){
         this.actualizado = true;
       }
     }
@@ -339,55 +339,55 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
 
   public agregarPaciente(){
-    let obraId = this.obraSelected._id;
+    const obraId = this.obraSelected._id;
   }
 
 
   public agregarIntervalo(){
 
-    let inter = {
+    const inter = {
       dias : [],
-      horaInicial: "",
-      horaFin: ""
+      horaInicial: '',
+      horaFin: ''
     };
 
     this.intervalos.push(inter);
   }
 
   public agregarObra(){
-    let obra = {
-      obraSocial: "",
+    const obra = {
+      obraSocial: '',
       cantDisponible: 0
-    }
+    };
     this.turnosPorObra.push(obra);
   }
 
 
 
-  public actualizarDiaIntervalo(intervalo,dia){
+  public actualizarDiaIntervalo(intervalo, dia){
     let bandera = false;
     let index = -1;
     for (let i = 0; i < intervalo.dias.length; i++) {
-      if(intervalo.dias[i] == dia){
+      if (intervalo.dias[i] == dia){
         index = i;
         bandera = true;
       }
     }
-    if(!bandera){
+    if (!bandera){
       intervalo.dias.push(dia);
     }
     else{
-      intervalo.dias.splice(index,1);
+      intervalo.dias.splice(index, 1);
     }
-    intervalo.dias.sort(function(a, b){return a - b});
+    intervalo.dias.sort(function(a, b){return a - b; });
   }
 
   public eliminarIntervalo(index){
-    this.intervalos.splice(index,1);
+    this.intervalos.splice(index, 1);
   }
 
   public eliminarSelectorObra(index){
-    this.turnosPorObra.splice(index,1);
+    this.turnosPorObra.splice(index, 1);
   }
 
   public trackByIndex(index: number, item) {
@@ -395,10 +395,10 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
   }
 
   private parsearObras(){
-    let result = [];
+    const result = [];
     for (let i = 0; i < this.turnosPorObra.length; i++) {
       this.turnosPorObra[i];
-      result[i] = {obraSocial: this.turnosPorObra[i].obraSocial, cantDisponible:this.turnosPorObra[i].cantDisponible}
+      result[i] = {obraSocial: this.turnosPorObra[i].obraSocial, cantDisponible: this.turnosPorObra[i].cantDisponible};
     }
     return result;
   }
@@ -406,7 +406,7 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
   public guardarIntervalos(){
 
     this.closeFormConfigSemana.nativeElement.click();
-    let yo = this;
+    const yo = this;
     swal({
       title: '¿Estas seguro que queres actualizar el intervalo?',
       type: 'warning',
@@ -425,20 +425,20 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
         Ahora, para guardar en la base debemos intercambiar los valores (pues necesitamos guardarlo en minutos)
       */
 
-      yo.intervalos.forEach(function(elem,index){
+      yo.intervalos.forEach(function(elem, index){
           elem.horaInicial = elem.horaInicialReal;
           elem.horaFin = elem.horaFinReal;
       });
 
 
-      let obras = yo.parsearObras();
-      let semana = {
+      const obras = yo.parsearObras();
+      const semana = {
         intervalos: yo.intervalos,
         obrasDisponibles: obras
-      }
-      yo.medicosService.actualizarSemana(yo.medico._id,semana).then(resultado => {
+      };
+      yo.medicosService.actualizarSemana(yo.medico._id, semana).then(resultado => {
         yo.semenaCambiada.next(resultado);
-      }).catch(error => {console.log(error)});
+      }).catch(error => {console.log(error); });
       yo.intervalos = [];
       yo.turnosPorObra = [];
       yo.closeFormConfigSemana.nativeElement.click();
@@ -459,10 +459,10 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
   public semanaSiguiente(){
 
-    let semanaQueViene = moment().add(1, 'weeks').startOf('isoWeek');
-    let finSemanaQueViene = moment(semanaQueViene.toDate(), "DD-MM-YYYY").add(5, 'days');
+    const semanaQueViene = moment().add(1, 'weeks').startOf('isoWeek');
+    const finSemanaQueViene = moment(semanaQueViene.toDate(), 'DD-MM-YYYY').add(5, 'days');
 
-    return semanaQueViene.format('DD/MM') + ' al '+ finSemanaQueViene.format('DD/MM')
+    return semanaQueViene.format('DD/MM') + ' al ' + finSemanaQueViene.format('DD/MM');
   }
 
 
@@ -481,13 +481,13 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     */
 
     let indexIntervalo = -1;
-    this.intervalos.forEach(function(elem,index){
-      if(elem._id == intervalo._id){
+    this.intervalos.forEach(function(elem, index){
+      if (elem._id == intervalo._id){
         indexIntervalo = index;
       }
     });
 
-    let inputsHoraInicial = $('.claseHoraInicial');
+    const inputsHoraInicial = $('.claseHoraInicial');
 
 
     inputsHoraInicial.clockpicker({
@@ -504,17 +504,17 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
         */
 
-        let nuevoValorString: String = (<any>inputsHoraInicial)[indexIntervalo].value;
-        let valores =  nuevoValorString.split(":");
+        const nuevoValorString: String = (<any>inputsHoraInicial)[indexIntervalo].value;
+        const valores =  nuevoValorString.split(':');
 
-        let horas = parseInt(valores[0]);
+        const horas = parseInt(valores[0]);
         let minutos = 0;
-        if(valores.length > 1){
+        if (valores.length > 1){
           minutos = parseInt(valores[1]);
         }
 
-        let minutosDeHora = horas * 60;
-        let horaInicialMinutos = minutos + minutosDeHora;
+        const minutosDeHora = horas * 60;
+        const horaInicialMinutos = minutos + minutosDeHora;
 
         intervalo.horaInicialReal = horaInicialMinutos;
 
@@ -536,13 +536,13 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
     */
 
     let indexIntervalo = -1;
-    this.intervalos.forEach(function(elem,index){
-      if(elem._id == intervalo._id){
+    this.intervalos.forEach(function(elem, index){
+      if (elem._id == intervalo._id){
         indexIntervalo = index;
       }
     });
 
-    let inputsHoraFin = $('.claseHoraFin');
+    const inputsHoraFin = $('.claseHoraFin');
 
     inputsHoraFin.clockpicker({
       autoclose: true,
@@ -558,17 +558,17 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
 
         */
 
-        let nuevoValorString: String = (<any>inputsHoraFin)[indexIntervalo].value;
-        let valores =  nuevoValorString.split(":");
+        const nuevoValorString: String = (<any>inputsHoraFin)[indexIntervalo].value;
+        const valores =  nuevoValorString.split(':');
 
-        let horas = parseInt(valores[0]);
+        const horas = parseInt(valores[0]);
         let minutos = 0;
-        if(valores.length > 1){
+        if (valores.length > 1){
           minutos = parseInt(valores[1]);
         }
 
-        let minutosDeHora = horas * 60;
-        let horaFinMinutos = minutos + minutosDeHora;
+        const minutosDeHora = horas * 60;
+        const horaFinMinutos = minutos + minutosDeHora;
 
 
         intervalo.horaFinReal = horaFinMinutos;
@@ -587,26 +587,26 @@ export class ModalSemanaComponent implements OnInit,OnChanges {
   //---------------------------------------------------------------------------
   //Metodos originales del componente
 
-  private get disabledV():string {
+  private get disabledV(): string {
     return this._disabledV;
   }
 
-  private set disabledV(value:string) {
+  private set disabledV(value: string) {
     this._disabledV = value;
     this.disabled = this._disabledV === '1';
   }
-  public selected(value:any,pos:number):void {
+  public selected(value: any, pos: number): void {
     this.turnosPorObra[pos].obraSocial = value.id;
 
   }
 
-  public removed(value:any):void {
+  public removed(value: any): void {
   }
 
-  public typed(value:any):void {
+  public typed(value: any): void {
   }
 
-  public refreshValue(value:any):void {
+  public refreshValue(value: any): void {
     this.value = value;
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output,EventEmitter,OnChanges, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ElementRef, ViewChild } from '@angular/core';
 
 
 import { Obra } from '../obra.tipo';
@@ -72,7 +72,7 @@ export class EditarObraComponent implements OnInit, OnChanges{
       // this.obraSelected = null;
       this.closeFormEditarObra.nativeElement.click();
 
-    }).catch(err => {console.log(err);})
+    }).catch(err => {console.log(err); });
   }
 
 
@@ -89,7 +89,7 @@ export class EditarObraComponent implements OnInit, OnChanges{
   }
 
   eliminar(obra){
-    let yo = this;
+    const yo = this;
     swal({
       title: '¿Estas seguro que queres eliminar a la obra social?',
       //text: "No seras capaz de revertir esta accion!",
@@ -111,7 +111,7 @@ export class EditarObraComponent implements OnInit, OnChanges{
         // this.obraSelected = null;
         yo.closeFormEditarObra.nativeElement.click();
 
-      }).catch(err => console.error(err))
+      }).catch(err => console.error(err));
     }).catch(swal.noop);
   }
 

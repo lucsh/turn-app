@@ -10,30 +10,30 @@ import { AuthService } from './auth.service';
   //styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  messages: string = "";
+  messages = '';
 
   constructor(
       private feathers: Feathers,
       private router: Router,
       private authService: AuthService) {}
 
-  public ngOnInit():any {
-      let token = localStorage.getItem('user');
-      if(token){
+  public ngOnInit(): any {
+      const token = localStorage.getItem('user');
+      if (token){
           this.router.navigateByUrl('/');
       }
   }
 
   login(email: string, password: string) {
     if (!email || !password) {
-      this.messages='Falta usuario o contraseña!';
+      this.messages = 'Falta usuario o contraseña!';
       return;
     }
     //localStorage.clear();
 
     email = email.toLowerCase();
     //FIX CAMBIO EL username por el email
-    var username = email;
+    const username = email;
     // try to authenticate with feathers
     this.feathers.authenticate({
       strategy: 'local',
@@ -45,21 +45,21 @@ export class LoginComponent {
         // console.log("#################### TOKEN");
         // console.log(token);
 
-        let gilada = this.feathers.devolverFeathers().passport.verifyJWT(token.accessToken);
-        gilada.then((payload)=>{
-          let gilada2 = this.feathers.service("users").get(payload.userId);
+        const gilada = this.feathers.devolverFeathers().passport.verifyJWT(token.accessToken);
+        gilada.then((payload) => {
+          const gilada2 = this.feathers.service('users').get(payload.userId);
 
-          gilada2.then((user)=>{
+          gilada2.then((user) => {
             ////console.log("USUARIO:");
             // console.log(user);
             // localStorage.setItem('user',user);
-            if(user.clase === 'medico'){
-              localStorage.setItem('user',JSON.stringify(user));
+            if (user.clase === 'medico'){
+              localStorage.setItem('user', JSON.stringify(user));
               this.router.navigate(['/medico']);
             }
             else{
-              if(user.clase === 'administrativo'){
-                localStorage.setItem('user',JSON.stringify(user));
+              if (user.clase === 'administrativo'){
+                localStorage.setItem('user', JSON.stringify(user));
                 this.router.navigate(['/']);
               }else{
                 //console.log('LA CLASE');
@@ -72,8 +72,8 @@ export class LoginComponent {
               }
 
             }
-          })
-        })
+          });
+        });
 
       }).catch(err => {
         this.messages = 'Error en el usuario o contraseña!';
@@ -90,8 +90,8 @@ export class LoginComponent {
       .create({email, password})
       .take(1)
       .toPromise()
-      .then(() => this.messages='User created.')
-      .catch(err => this.messages='Could not create user!')
+      .then(() => this.messages = 'User created.')
+      .catch(err => this.messages = 'Could not create user!')
     ;
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output,EventEmitter,OnChanges, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ElementRef, ViewChild } from '@angular/core';
 
 import { Obra } from '../obra.tipo';
 import { ObrasService } from '../obras.service';
@@ -46,7 +46,7 @@ export class AgregarObraComponent implements OnInit, OnChanges{
 
   }
 /* Este metodo se encarga de reiniciar el formulario, asi evita errores en las validaciones que quedan guardads.*/
-  public reiniciarFormulario(formulario:NgForm){
+  public reiniciarFormulario(formulario: NgForm){
     formulario.resetForm();
     //this.fechaPaciente.nativeElement.value = null; //Reinicio el input de fecha para evitar errores.
   }
@@ -61,7 +61,7 @@ export class AgregarObraComponent implements OnInit, OnChanges{
     this.closeformCrearObra.nativeElement.click();
   }
 
-  crearObra(iniciales,nombre){
+  crearObra(iniciales, nombre){
 
     this.obrasCompartidas.createObra(iniciales, nombre)
     .then(obraCreada => {
@@ -85,13 +85,13 @@ export class AgregarObraComponent implements OnInit, OnChanges{
 
           }
         }
-      )
+      );
     });
 
   }
 
   abrirFormularioCrear(){
-    setTimeout(()=> {
+    setTimeout(() => {
       $('#formCrearObra').modal('show');
     },
     200);

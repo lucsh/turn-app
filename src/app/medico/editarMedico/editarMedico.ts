@@ -29,14 +29,14 @@ export class EditarMedicoComponent implements OnInit, OnChanges {
 
   private medicosSubscription: Subscription;
 
-  public actualizado: boolean = false;
+  public actualizado = false;
   public obrasSelector: Array<any> = [];
   public options: Select2Options;
   public value: any[] = [];
   public current: string;
 
-  private _disabledV: string = '0';
-  private disabled: boolean = false;
+  private _disabledV = '0';
+  private disabled = false;
   constructor(
     private configuracionMedicoService: ConfiguracionMedicoService,
     private medicosCompartidos: MedicosCompartidosService

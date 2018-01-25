@@ -9,7 +9,7 @@ import { AppComponent } from '../app.component';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router, private auth: AuthService,private app: AppComponent) {}
+  constructor(private router: Router, private auth: AuthService, private app: AppComponent) {}
 
   canActivate(next: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {

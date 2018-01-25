@@ -11,7 +11,7 @@ import * as moment from 'moment';
 
 @Component({
   selector: 'app-pacientes-del-dia',
-  providers:[PacientesDelDiaService],
+  providers: [PacientesDelDiaService],
   templateUrl: './pacientes-del-dia.component.html',
   styleUrls: ['./pacientes-del-dia.component.css']
 })
@@ -19,53 +19,53 @@ export class PacientesDelDiaComponent implements OnInit {
 
   @Input() notificaciones: any;
   private subscription: Subscription;
-  public ordenados: boolean = false;
-  estadosTurnos:any[] =  [
+  public ordenados = false;
+  estadosTurnos: any[] =  [
     {
-      "id": 1,
-      "nombre": "en espera",
-      "clase": "warning"
+      'id': 1,
+      'nombre': 'en espera',
+      'clase': 'warning'
     },
     {
-      "id": 2,
-      "nombre": "pendiente",
-      "clase": "default"
+      'id': 2,
+      'nombre': 'pendiente',
+      'clase': 'default'
     },
     {
-      "id": 3,
-      "nombre": "finalizado",
-      "clase": "danger"
+      'id': 3,
+      'nombre': 'finalizado',
+      'clase': 'danger'
     },
     {
-      "id": 4,
-      "nombre": "activo",
-      "clase": "success"
+      'id': 4,
+      'nombre': 'activo',
+      'clase': 'success'
     },
     {
-      "id": 5,
-      "nombre": "otro",
-      "clase": "info"
+      'id': 5,
+      'nombre': 'otro',
+      'clase': 'info'
     },
     {
-        "id": 6,
-        "nombre": "en estudio",
-        "clase": "info"
+        'id': 6,
+        'nombre': 'en estudio',
+        'clase': 'info'
     }
   ];
   turnos: Turno[];
-  constructor(private pacienteDelDiaService : PacientesDelDiaService,private ref: ChangeDetectorRef) { }
+  constructor(private pacienteDelDiaService : PacientesDelDiaService, private ref: ChangeDetectorRef) { }
 
   claseEstadoTurno(status){
     // ////console.log("### ESTADO TURNO ###")
     // ////console.log(status);
-    var clase = "btn-default";
-    for (var i in this.estadosTurnos) {
+    let clase = 'btn-default';
+    for (const i in this.estadosTurnos) {
       if (status == this.estadosTurnos[i].nombre){
-        clase = "btn-" + this.estadosTurnos[i].clase;
+        clase = 'btn-' + this.estadosTurnos[i].clase;
       }
     }
 
-    return clase
+    return clase;
   }
 
   aDate(turno){
@@ -75,15 +75,15 @@ export class PacientesDelDiaComponent implements OnInit {
     //var momentDate = moment(turno);
 
     //En Linux: UTC
-    var momentDate = moment(turno,'YYYY-MM-DDTHH:mm:ss');
-    var fecha = momentDate.toDate();
-    return fecha
+    const momentDate = moment(turno, 'YYYY-MM-DDTHH:mm:ss');
+    const fecha = momentDate.toDate();
+    return fecha;
   }
 
-  updateTurno(turno,estado){
-    turno.estado=estado;
+  updateTurno(turno, estado){
+    turno.estado = estado;
 
-    this.pacienteDelDiaService.updateTurno(turno,estado);
+    this.pacienteDelDiaService.updateTurno(turno, estado);
   }
 
   ngOnInit() {
@@ -96,11 +96,11 @@ export class PacientesDelDiaComponent implements OnInit {
         this.ref.markForCheck();
         this.turnos.sort(function(a, b){
 
-          let c = new Date(a.horaInicial);
-          let d = new Date(b.horaInicial)
-          let comparacion = c.getTime() - d.getTime();
+          const c = new Date(a.horaInicial);
+          const d = new Date(b.horaInicial);
+          const comparacion = c.getTime() - d.getTime();
 
-          return (comparacion)
+          return (comparacion);
 
         });
         this.ordenados = true;
