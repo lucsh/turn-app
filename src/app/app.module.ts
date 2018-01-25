@@ -60,7 +60,6 @@ import 'moment/locale/es';
 
 import { SimpleNotificationsModule } from 'angular2-notifications';
 
-import { TurnosService } from './turnos/turnos.service';
 import { MedicosService } from './medico/medicos.service';
 import { NavigationService } from './ui/navigation/navigation.service';
 import { PacientesService } from './pacientes/pacientes.service';
@@ -209,7 +208,6 @@ import {ConfiguracionMedicoService} from './configuracion-medico/configuracion-m
     MyDatePickerModule
   ],
   providers: [
-    TurnosService,
     PacientesService,
     MedicosService,
     NavigationService,
