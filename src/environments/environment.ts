@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://app.centrodelavisionnqn.com.ar/api'
+  apiUrl: 'https://app.centrodelavisionnqn.com.ar/api'
 };
