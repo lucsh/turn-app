@@ -50,8 +50,8 @@ export class LoginComponent {
           let gilada2 = this.feathers.service("users").get(payload.userId);
 
           gilada2.then((user)=>{
-            ////console.log("USUARIO:");
-            // console.log(user);
+            console.log("USUARIO:");
+            console.log(user);
             // localStorage.setItem('user',user);
             if(user.clase === 'medico'){
               localStorage.setItem('user',JSON.stringify(user));
@@ -76,6 +76,8 @@ export class LoginComponent {
         })
 
       }).catch(err => {
+        console.log('ESTO ES EL ERROR QUE TENEMOS');
+        console.log(err);
         this.messages = 'Error en el usuario o contraseña!';
       });
   }
