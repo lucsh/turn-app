@@ -37,7 +37,7 @@ const appRoutes: Routes =  [
 {
 	path:'pacientes',
 	component: PacientesComponent,
-    canActivate: [AuthGuard]
+//    canActivate: [AuthGuard]
 },
 {
 	path:'medico',
