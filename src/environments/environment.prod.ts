@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://api.centrodelavisionnqn.com.ar'
+  apiUrl: 'https://api.centrodelavisionnqn.com.ar'
 };
