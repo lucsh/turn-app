@@ -68,7 +68,7 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
     if (this.obrasCompartidasService.obras$){
       this.obrasSubscription = this.obrasCompartidasService.obras$.subscribe((obras) => {
 
-        this.obras = obras;
+        this.obras = obras.slice();
 
         if (this.devolverParticular() == null){
 

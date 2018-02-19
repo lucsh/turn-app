@@ -71,7 +71,7 @@ export class ObrasCompartidasService {
   }
 
   public iniciarObras(obras){
-    this.obras = obras;
+    this.obras = this.removerObraParticularVista(obras);
     this.getObras();
   }
 

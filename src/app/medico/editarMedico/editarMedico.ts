@@ -131,9 +131,12 @@ export class EditarMedicoComponent implements OnInit, OnChanges {
     const obrasAsignadas = [];
     const yo = this;
 
+    console.log(yo.value);
+
     this.obrasSelector.forEach(function (elem, index) {
       for (let i = 0; i < yo.value.length; i++) {
-
+        console.log('elem> ', elem);
+        console.log('yo.value> ', yo.value[i]);
         if (elem.id.toString() == yo.value[i]) {
           obrasAsignadas.push(elem._id); // clonamos el elemento
         }
