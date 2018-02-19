@@ -48,7 +48,7 @@
             <td>{{turno.paciente.nombre}} {{turno.paciente.apellido}}</td>
 
             <td><i class="centro fa fa-check" aria-hidden="true" *ngIf="turno.paciente.primeraVez"></i><i class="centro fa fa-times" aria-hidden="true" *ngIf="!turno.paciente.primeraVez"></i></td>
-            <td>{{turno.paciente.obra.iniciales}}</td>
+            <td>{{turno.paciente.obra?.iniciales}}</td>
             <td>{{turno.descripcion}}</td>
             <td><span *ngIf="turno.estado === 'en espera' || turno.estado === 'en estudio'" class="text-warning"><i class="fa fa-clock-o"></i> Hace {{ aDate(turno.horaUltimoCambio)  | timeAgo }}</span></td>
             <!-- <td>{{turno.medico.apellido}}</td> -->
