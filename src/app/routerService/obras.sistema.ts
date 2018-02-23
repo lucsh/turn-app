@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers} from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
-import { Obra } from '../obras/obra.tipo';
-import { ObrasService } from '../obras/obras.service';
+import { Obra } from '../shared/models/obra.tipo';
+import { ObrasService } from 'app/shared/services/obras.service';
 import { AuthService } from '../authentication/auth.service';
 
 import 'rxjs/add/operator/map';

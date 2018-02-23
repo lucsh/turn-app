@@ -21,7 +21,7 @@ import { MdSort } from '@angular/material';
 import { MdPaginator } from '@angular/material';
 
 import { ConfiguracionMedicoService } from '../../configuracion-medico/configuracion-medico.service';
-import { Obra } from '../../obras/obra.tipo';
+import { Obra } from '../../shared/models/obra.tipo';
 
 import { MedicosCompartidosService } from '../../routerService/medicos.sistema';
 import { ObrasCompartidasService } from '../../routerService/obras.sistema';

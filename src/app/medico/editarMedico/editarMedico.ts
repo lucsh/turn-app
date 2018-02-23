@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ElementRef, ViewChild } from '@angular/core';
-import { Obra } from '../../obras/obra.tipo';
+import { Obra } from '../../shared/models/obra.tipo';
 import { ConfiguracionMedicoService } from '../../configuracion-medico/configuracion-medico.service';
 
 import { MedicosCompartidosService } from '../../routerService/medicos.sistema';

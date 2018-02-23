@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ElementRef, ViewChild } from '@angular/core';
 
-import { Obra } from '../obra.tipo';
-import { ObrasService } from '../obras.service';
+import { Obra } from '../../shared/models/obra.tipo';
+import { ObrasService } from 'app/shared/services/obras.service';
 import { ObrasCompartidasService } from '../../routerService/obras.sistema';
 
 import {default as swal} from 'sweetalert2';

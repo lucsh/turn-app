@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NavigationService } from './navigation.service';
 
 import { PacientesService } from '../../pacientes/pacientes.service';
-import { ObrasService } from '../../obras/obras.service';
+import { ObrasService } from '../../shared/services/obras.service';
 import { MedicosService } from '../../medico/medicos.service';
 import { Medico } from '../../medico/medico.tipo';
 

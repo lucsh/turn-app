@@ -80,20 +80,15 @@ import { SolicitudesComponent } from './pedidos/solicitudes.component';
 import { SolicitudesSocketService } from './pedidos/solicitudes-socket.service';
 import { PacientesDelDiaComponent } from './pacientes-del-dia/pacientes-del-dia.component';
 
-import { DataFilterPipe2 }   from './obras/obras-filter.pipe';
-
 
 import {AsignarPacienteComponent} from './turnos/asignarPaciente/asignarPacienteTurno';
 import {AgregarPacienteComponent} from './pacientes/agregarPaciente/agregarPaciente';
 import {SelectModule} from 'ng2-select';
-import { ObrasComponent } from './obras/obras.component';
 
-import { ObrasService } from './obras/obras.service';
 import { TurnosDelMedicoComponent } from './turnos-del-medico/turnos-del-medico.component';
 import { ConfiguracionMedicoComponent } from './configuracion-medico/configuracion-medico.component';
 import { ModalSemanaComponent } from './configuracion-medico/modal-semana/modal-semana.component';
 import { EditarPacienteComponent } from './pacientes/editarPaciente/editarPaciente';
-import { EditarObraComponent } from './obras/editarObra/editarObra';
 import { TablaMedicosComponent } from './medico/tablaMedicos/tablaMedicos.component';
 import { EditarMedicoComponent } from './medico/editarMedico/editarMedico';
 
@@ -120,10 +115,8 @@ import { TablaPacientesComponent } from './pacientes/tablaPacientes/tablaPacient
 
 import { MyDatePickerModule } from 'mydatepicker';
 
-import { AgregarObraComponent } from './obras/agregarObra/agregarObra';
-import { TablaObrasComponent } from './obras/tablaObras/tablaObras.component';
-
 import {ConfiguracionMedicoService} from './configuracion-medico/configuracion-medico.service';
+import { ObrasModule } from 'app/obras/obras.module';
 
 @NgModule({
   declarations: [
@@ -136,15 +129,12 @@ import {ConfiguracionMedicoService} from './configuracion-medico/configuracion-m
     TurnosComponent,
     PacientesComponent,
     DataFilterPipe,
-    DataFilterPipe2,
     SolicitudesComponent,
     PacientesDelDiaComponent,
     AsignarPacienteComponent,
     AgregarPacienteComponent,
-    ObrasComponent,
     TurnosDelMedicoComponent,
     EditarPacienteComponent,
-    EditarObraComponent,
     TablaMedicosComponent,
     EditarMedicoComponent,
 
@@ -157,9 +147,7 @@ import {ConfiguracionMedicoService} from './configuracion-medico/configuracion-m
     VerTurnoComponent,
     AgePipe,
     AgregarMedicoComponent,
-    TablaPacientesComponent,
-    AgregarObraComponent,
-    TablaObrasComponent
+    TablaPacientesComponent
 
   ],
   imports: [
@@ -205,7 +193,8 @@ import {ConfiguracionMedicoService} from './configuracion-medico/configuracion-m
     SelectModule,
     Select2Module,
     SimpleNotificationsModule.forRoot(),
-    MyDatePickerModule
+    MyDatePickerModule,
+    ObrasModule
   ],
   providers: [
     PacientesService,
@@ -213,7 +202,6 @@ import {ConfiguracionMedicoService} from './configuracion-medico/configuracion-m
     NavigationService,
     TurnoSocketService,
     SolicitudesSocketService,
-    ObrasService,
     Feathers,
     AuthService,
     AuthGuard,

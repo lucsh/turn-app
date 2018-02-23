@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ElementRef, ViewChild } from '@angular/core';
 
 
-import { Obra } from '../../obras/obra.tipo';
-import { ObrasService } from '../../obras/obras.service';
+import { Obra } from '../../shared/models/obra.tipo';
+import { ObrasService } from 'app/shared/services/obras.service';
 import { Turno } from '../turno.tipo';
 import { EditarPacienteComponent } from '../../pacientes/editarPaciente/editarPaciente';
 import { AgePipe } from '../../pacientes/edad.pipe';

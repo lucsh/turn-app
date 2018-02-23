@@ -5,8 +5,8 @@ import {
 
 import { ViewChildren, QueryList, ChangeDetectorRef } from '@angular/core';
 
-import { Obra } from '../../obras/obra.tipo';
-import { ObrasService } from '../../obras/obras.service';
+import { Obra } from '../../shared/models/obra.tipo';
+import { ObrasService } from 'app/shared/services/obras.service';
 import { MedicosService } from '../../medico/medicos.service';
 
 import { default as swal } from 'sweetalert2';

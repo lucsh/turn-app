@@ -5,7 +5,7 @@ import {Routes, RouterModule} from '@angular/router';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {TurnosComponent} from './turnos/turnos.component';
 import {PacientesComponent} from './pacientes/pacientes.component';
-import {ObrasComponent} from './obras/obras.component';
+import {ObrasComponent} from './obras/obras-main/obras.component';
 import {TurnosDelMedicoComponent} from './turnos-del-medico/turnos-del-medico.component';
 
 import { AuthGuard } from './authentication/auth.guard';

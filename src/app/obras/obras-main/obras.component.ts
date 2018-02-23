@@ -1,9 +1,9 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import {Http} from '@angular/http';
-import {DataFilterPipe2} from './obras-filter.pipe';
-import {ObrasService} from './obras.service';
+import { Http } from '@angular/http';
+import {DataFilterPipe2 } from './obras-filter.pipe';
+import { ObrasService } from '../../shared/services/obras.service';
 
-import { Obra } from './obra.tipo';
+import { Obra } from '../../shared/models/obra.tipo';
 import {default as swal} from 'sweetalert2';
 import { NgForm } from '@angular/forms';
 
@@ -102,8 +102,6 @@ export class ObrasComponent implements OnInit {
 
   crearObra(iniciales, nombre){
     this.obrasService.crearObra(iniciales, nombre).then((obraCreada) => {
-      console.log('OBRA CREADAAAAAAAAAAAAAAAAAA');
-      console.log(obraCreada);
       this.obras.push(obraCreada);
       // this.data.push(obraCreada);
       this.closeformCrearObra.nativeElement.click();
@@ -111,12 +109,9 @@ export class ObrasComponent implements OnInit {
   }
 
   onObraEditado(obraEditado){
-    console.log('on obra Editado');
-    console.log(obraEditado);
 
     let encontrado = -1;
     this.obras.forEach(function(elem, index){
-      //console.log(elem);
       if (elem._id == obraEditado._id){
         encontrado = index;
       }

@@ -3,8 +3,8 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ElementRef, 
 import { Paciente } from '../paciente.tipo';
 import { PacientesService } from '../pacientes.service';
 
-import { Obra } from '../../obras/obra.tipo';
-import { ObrasService } from '../../obras/obras.service';
+import { Obra } from '../../shared/models/obra.tipo';
+import { ObrasService } from 'app/shared/services/obras.service';
 
 import { ObrasCompartidasService } from '../../routerService/obras.sistema';
 import { Subscription } from 'rxjs/Subscription';

@@ -3,8 +3,8 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ElementRef, 
 import { Medico } from '../medico.tipo';
 import { MedicosService } from '../medicos.service';
 
-import { Obra } from '../../obras/obra.tipo';
-import { ObrasService } from '../../obras/obras.service';
+import { Obra } from '../../shared/models/obra.tipo';
+import { ObrasService } from 'app/shared/services/obras.service';
 
 import {default as swal} from 'sweetalert2';
 
