@@ -3,63 +3,97 @@
     <div class="ibox float-e-margins">
       <div class="ibox-title">
         <h5>Turnos del día</h5>
-         <!--<iboxtools></iboxtools>  {{whatTime | async | amDateFormat:'hh:mm'}}  -->
+        <!--<iboxtools></iboxtools>  {{whatTime | async | amDateFormat:'hh:mm'}}  -->
       </div>
       <div class="ibox-content">
         <table class="table table-hover no-margins">
           <thead>
-          <tr>
-            <th>Estado</th>
-            <th>Horario</th>
-            <th>Paciente</th>
-            <th class="centro2">1ºVez</th>
-            <th>O.S.</th>
-            <th>Observación</th>
-            <th>Tiempo de espera</th>
-            <!-- <th>Doctor<th> -->
-            <th>Acciones</th>
-          </tr>
+            <tr>
+              <th>Estado</th>
+              <th>Horario</th>
+              <th>Paciente</th>
+              <th class="centro2">1ºVez</th>
+              <th>O.S.</th>
+              <th>Observación</th>
+              <th>Tiempo de espera</th>
+              <!-- <th>Doctor<th> -->
+              <th>Acciones</th>
+            </tr>
           </thead>
           <tbody *ngIf="ordenados">
-          <tr *ngFor="let turno of turnos">
-          <!--
-          {
-            "id": 12,
-            "dia": "01-06-2017",
-            "hora": "12:30",
-            "status": "Pendiente",
-            "paciente": "Raul",
-            "doctor": "Dra. Manzazno"
-          }
-          -->
-            <td>
-            <div class="dropdown">
-              <button [ngClass]="claseEstadoTurno(turno.estado)" class="btn btn-xs dropdown-toggle" type="button" id="estadoturno" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                {{turno.estado}}
-                <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="estadoturno">
-                <li *ngFor="let estado of estadosTurnos"><a (click)="updateTurno(turno, estado.nombre)">{{estado.nombre}}</a></li>
-              </ul>
-            </div>
+            <tr *ngFor="let turno of turnos">
 
-            </td>
-            <td><i class="fa fa-calendar-o"></i> {{turno.horaInicial | amUtc | amDateFormat:'HH:mm'}}</td>
-            <td>{{turno.paciente.nombre}} {{turno.paciente.apellido}}</td>
+              <!-- Estado -->
+              <div *ngIf='!turno.esReserva; then estadoTurno; else estadoReserva'>this is ignored</div>
 
-            <td><i class="centro fa fa-check" aria-hidden="true" *ngIf="turno.paciente.primeraVez"></i><i class="centro fa fa-times" aria-hidden="true" *ngIf="!turno.paciente.primeraVez"></i></td>
-            <td>{{turno.paciente.obra.iniciales}}</td>
-            <td>{{turno.descripcion}}</td>
-            <td><span *ngIf="turno.estado === 'en espera' || turno.estado === 'en estudio'" class="text-warning"><i class="fa fa-clock-o"></i> Hace {{ aDate(turno.horaUltimoCambio)  | timeAgo }}</span></td>
-            <!-- <td>{{turno.medico.apellido}}</td> -->
+              <ng-template #estadoTurno>
+                <td >
+                  <div class="dropdown">
+                    <button [ngClass]="claseEstadoTurno(turno.estado)" class="btn btn-xs dropdown-toggle" type="button" id="estadoturno" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="true">
+                      {{turno.estado}}
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="estadoturno">
+                      <li *ngFor="let estado of estadosTurnos">
+                        <a (click)="updateTurno(turno, estado.nombre)">{{estado.nombre}}</a>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              </ng-template>
 
-            <td>
-              <!-- <button (click)="editar(turno)" class="btn btn-info"></button> -->
-              <button [disabled]="!comprobarEstado(turno)" (click)="llamarPaciente(turno)" class="btn btn-success">Llamar Paciente</button>
-              <button [disabled]="turno.estado != 'activo'" (click)="finalizarTurno(turno)" class="btn btn-danger">Finalizar Turno</button>
-              <button [disabled]="turno.estado != 'activo'" (click)="ponerEnEstudio(turno)" class="btn btn-info">Enviar a Estudio</button>
-            </td>
-          </tr>
+              <ng-template #estadoReserva>
+                <td>
+                  <div class="dropdown">
+                    <button class="btn btn-xs btn-success" type="button">
+                      Reserva
+                    </button>
+                  </div>
+                </td>
+              </ng-template>
+
+              <!-- Horario -->
+              <td>
+                <i class="fa fa-calendar-o"></i> {{turno.horaInicial | amUtc | amDateFormat:'HH:mm'}}</td>
+
+              <!-- Datos paciente -->
+              <td *ngIf='!turno.esReserva'>{{turno.paciente.nombre}} {{turno.paciente.apellido}}</td>
+              <td *ngIf='turno.esReserva'> - </td>
+
+              <!-- Primera vez -->
+              <td *ngIf='!turno.esReserva'>
+                <i class="centro fa fa-check" aria-hidden="true" *ngIf="turno.paciente.primeraVez"></i>
+                <i class="centro fa fa-times" aria-hidden="true" *ngIf="!turno.paciente.primeraVez"></i>
+              </td>
+              <td class='centro' *ngIf='turno.esReserva'> - </td>
+
+              <!-- Obra social -->
+              <td *ngIf='!turno.esReserva'>{{turno.paciente.obra.iniciales}}</td>
+              <td *ngIf='turno.esReserva'> - </td>
+
+              <!-- Descripcion -->
+              <td>{{turno.descripcion}}</td>
+
+              <!-- Tiempo de espera -->
+              <td *ngIf='!turno.esReserva'>
+                <span *ngIf="turno.estado === 'en espera' || turno.estado === 'en estudio'" class="text-warning">
+                  <i class="fa fa-clock-o"></i> Hace {{ aDate(turno.horaUltimoCambio) | timeAgo }}</span>
+              </td>
+              <td *ngIf='turno.esReserva'> - </td>
+              <!-- <td>{{turno.medico.apellido}}</td> -->
+
+              <!-- Acciones -->
+              <td *ngIf='!turno.esReserva'>
+                <!-- <button (click)="editar(turno)" class="btn btn-info"></button> -->
+                <button [disabled]="!comprobarEstado(turno)" (click)="llamarPaciente(turno)" class="btn btn-success">Llamar Paciente</button>
+                <button [disabled]="turno.estado != 'activo'" (click)="finalizarTurno(turno)" class="btn btn-danger">Finalizar Turno</button>
+                <button [disabled]="turno.estado != 'activo'" (click)="ponerEnEstudio(turno)" class="btn btn-info">Enviar a Estudio</button>
+              </td>
+              <td *ngIf='turno.esReserva'> - </td>
+
+
+            </tr>
           </tbody>
         </table>
       </div>
@@ -68,12 +102,13 @@
 </div>
 
 <style media="screen">
-  .centro{
+  .centro {
     margin: auto;
     width: 50%;
     display: block;
   }
-  .centro2{
+
+  .centro2 {
     margin: auto;
     width: 85%;
     display: block;

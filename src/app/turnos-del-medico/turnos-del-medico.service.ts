@@ -33,21 +33,19 @@ export class TurnosDelMedicoService {
 
   private notificaciones: any;
 
-  //private matricula: string;
+
   private feathersService;
   private socket;
 
   private miMatricula: String;
   constructor(private FeathersCambiarNombre: Feathers) {
-    //this.socket = io(this.urlServidor);
-    //const feathersApp = feathers().configure(feathers.socketio(this.socket));
 
-    //Obtenemos el service que queremos
+    // Obtenemos el service que queremos
     this.feathersService = FeathersCambiarNombre.devolverFeathers();
     this.turnosService = this.feathersService.service('turnos');
 
 
-    //Registramos eventos
+    // Registramos eventos
     this.turnosService.on('created', (turno) => this.onCreated(turno));
     this.turnosService.on('updated', (turno) => this.onUpdated(turno));
     this.turnosService.on('removed', (turno) => this.onRemoved(turno));
@@ -79,24 +77,22 @@ export class TurnosDelMedicoService {
           $lt: temp3
         },
         medico: idMedico,
-        $populate: 'paciente medico' //'paciente medico'
+        $populate: 'paciente medico'
       }
     }).then((turnos) => {
 
-      // Protegemos que sean turnos y no turnos-reservas de los medicos
-      const consultasMedicas = turnos.filter((t) => { return !t.esReserva; });
+      this.dataStore.turnos = turnos;
 
-      this.dataStore.turnos = consultasMedicas;
       this.turnosObserver.next(this.dataStore.turnos);
     }).catch(err => console.error(err));
   }
 
 
-  public updateTurno(turno, nuevoEstado){
+  public updateTurno(turno, nuevoEstado) {
     const now = new Date();
     const nueva = moment(now).utc();
 
-    this.turnosService.patch(turno._id, {'estado': nuevoEstado, 'horaUltimoCambio': nueva }).then((turnoActualizado) => {
+    this.turnosService.patch(turno._id, { 'estado': nuevoEstado, 'horaUltimoCambio': nueva }).then((turnoActualizado) => {
 
     }).catch(err => console.error(err));
   }
@@ -116,9 +112,9 @@ export class TurnosDelMedicoService {
   /*
   Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onCreated'
   */
-  private onCreated(turno: any) { //REMPLAZR EL ANY CON TURNO!
+  private onCreated(turno: any) {
 
-    if (this.miMatricula === turno.medico.matricula && !turno.esReserva){
+    if (this.miMatricula === turno.medico.matricula) {
       /*
       IMPORTANTE:
       Si hay algun problema, posiblemente haya que sumar +3horas a turnoDate O restar -3horas a diaHoy
@@ -156,7 +152,7 @@ export class TurnosDelMedicoService {
   private onUpdated(turno: Turno) {
     const index = this.getIndex(turno._id);
 
-    if (index > -1){
+    if (index > -1) {
       this.dataStore.turnos[index] = turno;
 
       this.turnosObserver.next(this.dataStore.turnos);
@@ -171,7 +167,7 @@ export class TurnosDelMedicoService {
   private onRemoved(turno: Turno) {
     const index = this.getIndex(turno._id);
 
-    if (index > -1){
+    if (index > -1) {
       this.dataStore.turnos.splice(index, 1);
 
       this.turnosObserver.next(this.dataStore.turnos);
@@ -183,16 +179,16 @@ export class TurnosDelMedicoService {
   Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onUpdated'
   */
 
-  private onPatched(turno){
+  private onPatched(turno) {
 
     const indexTurno = this.buscarIndexTurno(turno);
 
-    if (indexTurno > -1){
+    if (indexTurno > -1) {
 
       const turnoAnterior: any = this.dataStore.turnos[indexTurno];
 
       //El medico esta llamando un nuevo paciente
-      if (turnoAnterior.estado != 'en espera' && turno.estado == 'en espera'){
+      if (turnoAnterior.estado != 'en espera' && turno.estado == 'en espera') {
         this.notificarPacienteEspera(turno.paciente);
       }
       this.dataStore.turnos[indexTurno] = turno;
@@ -205,7 +201,7 @@ export class TurnosDelMedicoService {
   /*
   Al destruirse el servicio, se debe cerrar el socket y borrar el observable del mismo.
   */
-  ngOnDestroy(){
+  ngOnDestroy() {
 
     //this.socket.close();
     //this.socket.disconnect();
@@ -213,7 +209,7 @@ export class TurnosDelMedicoService {
   }
 
 
-  public asignarNotificaciones(notificaciones){
+  public asignarNotificaciones(notificaciones) {
     this.notificaciones = notificaciones;
   }
 
@@ -221,19 +217,19 @@ export class TurnosDelMedicoService {
     this.notificaciones.info(
       'El paciente ' + paciente.nombre + ' ' + paciente.apellido + ' se encuentra en sala de espera'
     );
-        const notificar = new Notificacion();
-        notificar.send(paciente.nombre + ' ' + paciente.apellido , 'se encuentra en sala de espera');
+    const notificar = new Notificacion();
+    notificar.send(paciente.nombre + ' ' + paciente.apellido, 'se encuentra en sala de espera');
   }
 
   //Metodos auxiliares
-  private buscarIndexTurno(turno): number{
+  private buscarIndexTurno(turno): number {
     let indexTurno = -1;
 
     const turnos = this.dataStore.turnos;
     // ////console.log(turnos);
 
-    turnos.forEach(function(elem, index){
-      if (elem._id.toString() == turno._id.toString()){
+    turnos.forEach(function (elem, index) {
+      if (elem._id.toString() == turno._id.toString()) {
 
         indexTurno = index;
       }
