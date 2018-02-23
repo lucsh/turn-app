@@ -5,6 +5,7 @@ import { Obra } from '../../shared/models/obra.tipo';
 import { ObrasService } from 'app/shared/services/obras.service';
 
 import {default as swal} from 'sweetalert2';
+import { AlertService } from 'app/shared/services/alerts.service';
 
 @Component({
   selector: 'editar-obra',
@@ -26,7 +27,8 @@ export class EditarObraComponent implements OnInit, OnChanges{
   public modeloObra = null;
 
   constructor(
-    private obrasService: ObrasService
+    private obrasService: ObrasService,
+    private alertService: AlertService
   ){
 
   }
@@ -90,29 +92,22 @@ export class EditarObraComponent implements OnInit, OnChanges{
 
   eliminar(obra){
     const yo = this;
-    swal({
-      title: '¿Estas seguro que queres eliminar a la obra social?',
-      //text: "No seras capaz de revertir esta accion!",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, Eliminar!',
-      cancelButtonText: 'Cancelar',
-    }).then(function () {
+
+    const eliminarObra = function () {
       yo.obrasService.eliminarObra(obra._id).then(obraEliminada => {
-        // ////console.log("Paciente eliminado");
-        // ////console.log(pac);
         yo.obraEliminada.next(obraEliminada);
-
-
         //Cerramos el modal y limpiamos variables
         // this.modeloPaciente = null;
         // this.obraSelected = null;
         yo.closeFormEditarObra.nativeElement.click();
-
       }).catch(err => console.error(err));
-    }).catch(swal.noop);
+    };
+
+    // this.alertService.warningCallbacks('¿Estas seguro que queres eliminar a la obra social?', 'Si, Eliminar!', true, eliminarObra );
+    this.alertService.warning('¿Estas seguro que queres eliminar a la obra social?', 'Si, Eliminar!', true )
+    .then(() => eliminarObra())
+    .catch(err => console.error(err))
+    .catch(swal.noop);
   }
 
 

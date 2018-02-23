@@ -4,10 +4,11 @@ import { Obra } from '../../shared/models/obra.tipo';
 import { ObrasService } from 'app/shared/services/obras.service';
 import { ObrasCompartidasService } from '../../routerService/obras.sistema';
 
-import {default as swal} from 'sweetalert2';
+import { default as swal } from 'sweetalert2';
 import { NgForm } from '@angular/forms';
 
-import {IMyDpOptions} from 'mydatepicker';
+import { IMyDpOptions } from 'mydatepicker';
+import { AlertService } from 'app/shared/services/alerts.service';
 
 declare var $: any;
 
@@ -16,7 +17,7 @@ declare var $: any;
   templateUrl: './agregarObra.html',
   styleUrls: ['./agregarObra.css']
 })
-export class AgregarObraComponent implements OnInit, OnChanges{
+export class AgregarObraComponent implements OnInit, OnChanges {
 
   // @Input() fechaNuevoTurno: any;
   // @Input() pacientes: Array<any>;
@@ -28,76 +29,56 @@ export class AgregarObraComponent implements OnInit, OnChanges{
 
   constructor(
     private obrasService: ObrasService,
-    private obrasCompartidas: ObrasCompartidasService
-  ){
+    private obrasCompartidas: ObrasCompartidasService,
+    private alertService: AlertService
+  ) {
     this.obraNueva = new Obra();
   }
 
-  /*
-  */
-  ngOnInit() {
 
-  }
+  ngOnInit() {}
 
-  /*
-  */
-  ngOnChanges(changes) {
-    // changes.prop contains the old and the new value...
-
-  }
-/* Este metodo se encarga de reiniciar el formulario, asi evita errores en las validaciones que quedan guardads.*/
-  public reiniciarFormulario(formulario: NgForm){
+  ngOnChanges(changes) {}
+  
+  /* Este metodo se encarga de reiniciar el formulario, asi evita errores en las validaciones que quedan guardads.*/
+  public reiniciarFormulario(formulario: NgForm) {
     formulario.resetForm();
     //this.fechaPaciente.nativeElement.value = null; //Reinicio el input de fecha para evitar errores.
   }
-      /*
 
-      */
-  public cancelar(){
-    //Limpiamos variables
-    //this.value = {};
+  public cancelar() {
+    // Limpiamos variables
+    // this.value = {};
 
-    //Cerramos el modal
+    // Cerramos el modal
     this.closeformCrearObra.nativeElement.click();
   }
 
-  crearObra(iniciales, nombre){
+  crearObra(iniciales, nombre) {
 
     this.obrasCompartidas.createObra(iniciales, nombre)
-    .then(obraCreada => {
-      // Limpiamos variables
-      this.obraNueva = new Obra();
+      .then(obraCreada => {
+        // Limpiamos variables
+        this.obraNueva = new Obra();
 
-      // Enviamos la eleccion al componente padre
-      this.obraAgregada.next(obraCreada);
-      this.closeformCrearObra.nativeElement.click();
+        // Enviamos la eleccion al componente padre
+        this.obraAgregada.next(obraCreada);
+        this.closeformCrearObra.nativeElement.click();
 
-      swal({
-        title: 'Éxito!',
-        text: 'Nueva obra registrada!',
-        type: 'success',
-        timer: 2000
-      }).then(
-        function () {},
-        // handling the promise rejection
-        function (dismiss) {
-          if (dismiss === 'timer') {
+        this.alertService.success('Éxito!', 'Nueva obra registrada!', 2000);
 
-          }
-        }
-      );
-    });
+      });
 
   }
 
-  abrirFormularioCrear(){
+  abrirFormularioCrear() {
     setTimeout(() => {
       $('#formCrearObra').modal('show');
     },
-    200);
+      200);
   }
 
-  cancelarModalCrear(){
+  cancelarModalCrear() {
     this.closeformCrearObra.nativeElement.click();
   }
 

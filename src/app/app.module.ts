@@ -118,6 +118,8 @@ import { MyDatePickerModule } from 'mydatepicker';
 import {ConfiguracionMedicoService} from './configuracion-medico/configuracion-medico.service';
 import { ObrasModule } from 'app/obras/obras.module';
 
+import { AlertService } from './shared/services/alerts.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -211,7 +213,8 @@ import { ObrasModule } from 'app/obras/obras.module';
     MedicosCompartidosService,
     PacientesCompartidosService,
     ObrasCompartidasService,
-    ConfiguracionMedicoService
+    ConfiguracionMedicoService,
+    AlertService
 
   ],
   bootstrap: [AppComponent]
