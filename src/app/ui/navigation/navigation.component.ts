@@ -89,22 +89,24 @@ export class NavigationComponent {
         }, (err) => {
           console.error(err);
         });
-        this.medicosCompartidos.iniciar(medicos);
+        this.medicosCompartidos.set(medicos); // reemplazamos los medicos por los nedicos nuestros
 
 
       });
-    }
-    else{
+    } else {
       // Logueado como admin
 
       this.medicosService.getDoctores().then((docs) => {
         this.medicosSubscription = this.medicosCompartidos.medicos$.subscribe((medicos) => {
+          console.log('Voy a recibir los medicos');
+
           this.medicos = medicos;
           // this.ref.markForCheck();
         }, (err) => {
           console.error(err);
         });
-        this.medicosCompartidos.iniciar(docs);
+        this.medicosCompartidos.getMedicos();
+        // this.medicosCompartidos.set(docs);
       });
     }
 
