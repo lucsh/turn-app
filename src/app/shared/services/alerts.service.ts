@@ -66,26 +66,85 @@ export class AlertService {
         }).catch(swal.noop);
 
     }
-    warning(titulo, textoConfirmar, showCancel) {
+    warning(titulo, textoConfirmar, showCancel, mensaje?) {
         return new Promise( (resolve, reject) => {
-          swal({
+            if (!mensaje) {
+                swal({
+                    title: titulo,
+                    type: 'warning',
+                    showCancelButton: showCancel,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: textoConfirmar,
+                    cancelButtonText: 'Cancelar',
+                })
+                .then(() => {
+                    resolve();
+                })
+                .catch(err => {
+                    reject(err);
+                });
+            } else {
+                swal({
+                    title: titulo,
+                    text: mensaje,
+                    type: 'warning',
+                    showCancelButton: showCancel,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: textoConfirmar,
+                    cancelButtonText: 'Cancelar',
+                })
+                .then(() => {
+                    resolve();
+                })
+                .catch(err => {
+                    reject(err);
+                });
+            }
+          
+
+        });
+
+    }
+
+    input(titulo: string, placeholder: string, showCancel ) {
+        
+        return new Promise((resolve, reject) => {
+            swal({
                 title: titulo,
-                type: 'warning',
+                input: 'text',
+                inputPlaceholder: placeholder,
                 showCancelButton: showCancel,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: textoConfirmar,
-                cancelButtonText: 'Cancelar',
+                inputValidator: function (value) {
+    
+                    return new Promise<void>(function (resolve, reject) {
+                    if (value) {
+                        resolve();
+                    } else {
+                        reject('No puede estar vacía!');
+                    }
+                    });
+                }
             })
-            .then(() => {
-                resolve();
+            .then(function(valorIngresado) {
+                console.log('Valor ingresado: ', valorIngresado);
+                resolve(valorIngresado);
             })
             .catch(err => {
                 reject(err);
             });
-
         });
 
+       
+    }
+
+    error(titulo:string, mensaje: string) {
+        swal(
+            titulo,
+            mensaje,
+            'error'
+          );
     }
 
     private handleError(error: any): Promise<any> {

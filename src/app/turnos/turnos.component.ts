@@ -22,7 +22,8 @@ import { PacientesService } from '../pacientes/pacientes.service';
 
 import { PacientesCompartidosService } from '../routerService/pacientes.sistema';
 import { Subscription } from 'rxjs/Subscription';
-import { default as swal } from 'sweetalert2';
+
+import { AlertService } from 'app/shared/services/alerts.service';
 // Declaramos esta variable para hacer uso de Jquery con los modals de Boostrap
 declare var $: any;
 
@@ -66,6 +67,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
     private pacientesService: PacientesService,
     private turnosSocketService: TurnoSocketService,
     private pacientesCompartidosService: PacientesCompartidosService,
+    private alertService: AlertService,
     private router: Router,
     private ref: ChangeDetectorRef
   ) {
@@ -166,13 +168,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
           if (date2 < today) {
           // Previous Day. show message if you want otherwise do nothing.
           // So it will be unselectable
-          swal(
-          'Error',
-          'No se puede crear un turno en una fecha pasada!',
-          'error'
-        ).catch(err => {
-          console.log('error en swal', err);
-        });
+          yo.alertService.error('Error', 'No se puede crear un turno en una fecha pasada!');
 
       }
       else {
@@ -205,17 +201,9 @@ eventDrop: function (event, delta, revertFunc) {
     if (this.fechaAntigua < today){
       duplicar = true;
     }
-    swal({
-      title: '¿Estas seguro que queres cambiar el turno?',
-      // text: 'You will not be able to recover this imaginary file!',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, modificar!',
-      cancelButtonText: 'Cancelar'
-    }).then(function () {
 
+    yo.alertService.warning( '¿Estas seguro que queres cambiar el turno?', 'Si, modificar!', true)
+    .then(() => {
       if (duplicar){
         yo.turnosSocketService.crearTurnoConFin(startUtc, endUtc, yo.obtenerTurno(event._id).paciente);
         // console.log("revert");
@@ -223,14 +211,12 @@ eventDrop: function (event, delta, revertFunc) {
       }else{
         yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
       }
-
-
-    }, function (dismiss) {
-      // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+    })
+    .catch(dismiss => {
       if (dismiss === 'cancel') {
-      revertFunc();
-    }
-  });
+        revertFunc();
+      }
+    });
 }
 },
 eventDragStart: function (event) {},
@@ -247,24 +233,17 @@ eventResize: function (event, delta, revertFunc) {
 
   if (startUtcAux < today) {
     revertFunc();
-  }
-  else {
-    swal({
-      title: '¿Estas seguro que queres agrandar el turno?',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, agrandar!',
-      cancelButtonText: 'Cancelar'
-    }).then(function () {
+  } else {
+
+    yo.alertService.warning('¿Estas seguro que queres agrandar el turno?', 'Si, agrandar!', true)
+    .then(() => {
       yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
-    }, function (dismiss) {
-      // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+    })
+    .catch( dismiss => {
       if (dismiss === 'cancel') {
-      revertFunc();
-    }
-  });
+        revertFunc();
+      }
+    });
 }
 // actualizar el turno en la db (tenemos el event.id)
 // ???
@@ -274,31 +253,16 @@ eventClick: function (calEvent, delta, view) {
   const turno_seleccionado = yo.obtenerTurno(calEvent._id);
 
   if (turno_seleccionado.esReserva){
-    swal({
-      title: '¿Desea eliminar este evento?',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, eliminar!',
-      cancelButtonText: 'Cancelar'
-    })
-    .then(function () {
-      swal(
-        'Evento eliminado!',
-        'El evento fue eliminado correctamente',
-        'success'
-      );
-      yo.cancelarReserva(turno_seleccionado);
 
-    }, function (dismiss) {
-      // dismiss can be 'cancel', 'overlay',
-      // 'close', and 'timer'
-      if (dismiss === 'cancel') {
-    }
-  });
-}
-else{
+    yo.alertService.warning('¿Desea eliminar este evento?', 'Si, eliminar!', true)
+    .then(() => {
+      yo.alertService.success('Evento eliminado!', 'El evento fue eliminado correctamente');
+      yo.cancelarReserva(turno_seleccionado);
+    })
+    .catch(dismiss => {
+      if (dismiss === 'cancel') {}
+    });
+} else {
   yo.turnoSeleccionado = turno_seleccionado;
   $('#formVerTurno').modal('show');
 }
@@ -331,68 +295,30 @@ onAsignacionPaciente(asignacion) {
       // Es decir, es una reserva de espacio SIN paciente
       const fechaString = this.fechaNuevoTurno.format('DD/MM [a las] HH:mm [hs]');
 
-      swal({
-        title: `Descrición Reserva para el dia ${fechaString}`,
-        input: 'text',
-        inputPlaceholder: 'Breve descripción',
-        showCancelButton: true,
-        inputValidator: function (value) {
-
-          return new Promise<void>(function (resolve, reject) {
-            if (value) {
-              resolve();
-            } else {
-              reject('No puede estar vacía!');
-            }
-          });
-        }
-      }).then(function (descripcionReserva) {
-
-        swal(
-          'Reserva realizada!',
-          'La reserva fue realizada correctamente',
-          'success'
-        );
-
+      this.alertService.input(`Descrición Reserva para el dia ${fechaString}`, 'Breve descripción', true )
+      .then(descripcionReserva => {
+        this.alertService.success('Reserva realizada!', 'La reserva fue realizada correctamente');
         yo.reservarHorario(yo.fechaNuevoTurno, descripcionReserva);
-
+      })
+      .catch(error => {
+        console.error(error);
       });
-
-    }
-    else{
+    } else {
       // Es decir, es una asignacion de un paciente
       const paciente = '' + asignacion.nombre + ' ' + asignacion.apellido;
       const fecha = this.fechaNuevoTurno.format('DD-MM-YYYY HH:mm');
-      swal({
-        title: 'Confirmacion de creacion de turno',
-        text: '¿Está seguro de crear un turno para el dia ' + fecha + ' para el paciente ' + paciente + ' ?',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, Crear!',
-        cancelButtonText: 'No, Cancelar!',
-        confirmButtonClass: 'btn btn-success',
-        cancelButtonClass: 'btn btn-danger',
-        // buttonsStyling: false
-      }).then(function () {
-      swal(
-        'Turno creado!',
-        'El turno fue creado correctamente',
-        'success'
-      ),
-      yo.crearTurno(yo.fechaNuevoTurno, asignacion);
-    }, function (dismiss) {
-      // dismiss can be 'cancel', 'overlay',
-      // 'close', and 'timer'
-      if (dismiss === 'cancel') {
-      swal(
-        'Cancelado',
-        'El turno fue descartado',
-        'error'
-      );
-    }
-  });
+
+      this.alertService.warning('Confirmacion de creacion de turno', 'Si, Crear!', true,
+      '¿Está seguro de crear un turno para el dia ' + fecha + ' para el paciente ' + paciente + ' ?')
+      .then(() => {
+        this.alertService.success('Turno creado!', 'El turno fue creado correctamente' );
+        yo.crearTurno(yo.fechaNuevoTurno, asignacion);
+      })
+      .catch(dismiss => {
+        if (dismiss === 'cancel') {
+          this.alertService.error('Cancelado', 'El turno fue descartado');
+        }
+      });
 }}}
 
 crearTurno(date, pacienteAsignado) {
