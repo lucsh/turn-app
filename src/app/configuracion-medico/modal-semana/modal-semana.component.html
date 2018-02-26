@@ -127,72 +127,8 @@
 
                     </div>
                     <div class="m-b-lg"></div>
-                    <div class="row m-sm">
-                        <div class="col-xs-8">
-                            <h3>Diás Solo Particular</h3>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row m-l-none m-r-none no-paddings m-t-sm border-bottom">
-                        <div class="col-xs-12">
-                            <div class="col-lg-6 col-xs-12">
-                                <div class="col-xs-1">
-                                    L
-                                    <div class="checkbox">
-                                        <label>
-                                            <input #diaLunes (click)="actualizarDiaParticular('lunes')" type="checkbox" value="">
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-xs-1">
-                                    M
-                                    <div class="checkbox">
-                                        <label>
-                                            <input #diaMartes (click)="actualizarDiaParticular('martes')" type="checkbox" value="">
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-xs-1">
-                                    M
-                                    <div class="checkbox">
-                                        <label>
-                                            <input #diaMiercoles (click)="actualizarDiaParticular('miercoles')" type="checkbox" value="">
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-xs-1">
-                                    J
-                                    <div class="checkbox">
-                                        <label>
-                                            <input #diaJueves (click)="actualizarDiaParticular('jueves')" type="checkbox" value="">
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-xs-1">
-                                    V
-                                    <div class="checkbox">
-                                        <label>
-                                            <input #diaViernes (click)="actualizarDiaParticular('viernes')" type="checkbox" value="">
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-xs-1">
-                                    S
-                                    <div class="checkbox">
-                                        <label>
-                                            <input #diaSabado (click)="actualizarDiaParticular('sabado')" type="checkbox" value="">
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <!-- TIME PICKER -->
-                                <p class="small no-margins">
-                                    Seleccione los días que solo desee atender particulares
-                                </p>
-                            </div>
-                    </div>
-                    </div>
+                    <app-particulares #appParticulares [particulares]='medico?.semanaEsquema.restricciones'></app-particulares>
+                    
                     <div class="m-b-lg"></div>              
                     <div class="row m-sm">
                         <div class="col-xs-8">

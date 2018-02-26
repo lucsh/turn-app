@@ -10,7 +10,9 @@ import { ObrasService } from 'app/shared/services/obras.service';
 import { MedicosService } from '../../medico/medicos.service';
 
 import { default as swal } from 'sweetalert2';
-import * as moment from 'moment';;
+import * as moment from 'moment';
+import { ParticularesComponent } from 'app/configuracion-medico/modal-semana/particulares/particulares.component';
+;
 declare var $: any;
 
 @Component({
@@ -24,6 +26,7 @@ export class ModalSemanaComponent implements OnInit, OnChanges, AfterViewInit, A
   @Input() medico: any;
   @Input() obrasDispTotales: any[];
 
+  @ViewChild('appParticulares') diasParticulares: ParticularesComponent;
   @ViewChild('closeFormConfigSemana') closeFormConfigSemana: ElementRef;
   // @ViewChild('selector') selector: ElementRef;
 
@@ -64,6 +67,8 @@ export class ModalSemanaComponent implements OnInit, OnChanges, AfterViewInit, A
       this.iniciarIntervalos();
       this.obras = this.obrasDispTotales;
       this.actualizarSelector();
+      console.log('El medico es: ');
+      console.log(this.medico)
     }
   }
 
@@ -390,6 +395,10 @@ export class ModalSemanaComponent implements OnInit, OnChanges, AfterViewInit, A
   public trackByIndex(index: number, item) {
     return index;
   }
+  
+  public actualizarDiaParticular(dia:Number) {
+
+  }
 
   private parsearObras() {
     const result = [];
@@ -446,15 +455,21 @@ export class ModalSemanaComponent implements OnInit, OnChanges, AfterViewInit, A
           elem.horaFin = elem.horaFinReal;
         });
 
-
+        const restricciones = yo.diasParticulares.getValues();
         const obras = yo.parsearObras();
+
         const semana = {
           intervalos: yo.intervalos,
+          restricciones: restricciones,
           obrasDisponibles: obras
         };
+
+        // yo.medico.restricciones = restricciones;
+
         yo.medicosService.actualizarSemana(yo.medico._id, semana).then(resultado => {
           yo.semenaCambiada.next(resultado);
         }).catch(error => { console.log(error); });
+
         yo.intervalos = [];
         yo.turnosPorObra = [];
         yo.closeFormConfigSemana.nativeElement.click();

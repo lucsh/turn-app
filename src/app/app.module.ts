@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { DataTableModule } from 'angular2-datatable';
@@ -119,6 +119,7 @@ import {ConfiguracionMedicoService} from './configuracion-medico/configuracion-m
 import { ObrasModule } from 'app/obras/obras.module';
 
 import { AlertService } from './shared/services/alerts.service';
+import { ParticularesComponent } from './configuracion-medico/modal-semana/particulares/particulares.component';
 
 @NgModule({
   declarations: [
@@ -149,11 +150,13 @@ import { AlertService } from './shared/services/alerts.service';
     VerTurnoComponent,
     AgePipe,
     AgregarMedicoComponent,
-    TablaPacientesComponent
+    TablaPacientesComponent,
+    ParticularesComponent
 
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
     FormsModule,
     HttpModule,
     BrowserAnimationsModule,
