@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ElementRef, ViewChild } from '@angular/core';
+import { SelectComponent, SelectItem } from 'ng2-select';
 //Declaramos esta variable para hacer uso de Jquery con los modals de Boostrap
 declare var $: any;
 
@@ -14,6 +15,7 @@ export class AsignarPacienteComponent implements OnChanges{
 
   @ViewChild('closeFormCrearTurno') closeFormCrearTurno: ElementRef;
   @ViewChild('selector2') selector: ElementRef;
+  @ViewChild('selector2') mySelectComponent: SelectComponent;
 
   public horaNuevoTurno: any;
   public diaNuevoTurno: any;
@@ -51,7 +53,7 @@ export class AsignarPacienteComponent implements OnChanges{
         un atributo 'text'
         */
         yo.pacientesSelector[index] = elem;
-        yo.pacientesSelector[index].id = elem.nombre + ' ' + elem.apellido + ' - ' + elem.dni;
+        yo.pacientesSelector[index].id = elem._id;
         yo.pacientesSelector[index].text = elem.nombre + ' ' + elem.apellido + ' - ' + elem.dni;
       });
       if (yo.pacientesSelector.length > 0){
@@ -139,9 +141,18 @@ export class AsignarPacienteComponent implements OnChanges{
       const yo = this;
       this.pacientes.forEach(function(elem, index){
         yo.pacientesSelector[index] = elem;
-        yo.pacientesSelector[index].id = elem.nombre + ' ' + elem.apellido + ' - ' + elem.dni;
+        yo.pacientesSelector[index].id = elem._id;
         yo.pacientesSelector[index].text = elem.nombre + ' ' + elem.apellido + ' - ' + elem.dni;
+        //Si es el que agregamos lo dejamos seleccionado
+        if(elem._id == pacienteNuevo._id){
+          yo.value.id = elem._id;
+          yo.value.text = elem.nombre + ' ' + elem.apellido + ' - ' + elem.dni;
+          //con esto lo seteamos en visual tambien
+          yo.mySelectComponent.active = [{id: elem._id, text: elem.nombre + ' ' + elem.apellido + ' - ' + elem.dni}];
+        }
       });
+
+      //refreshValue(value);
     }
 
     if (this.selector != undefined){
@@ -185,5 +196,6 @@ export class AsignarPacienteComponent implements OnChanges{
 
   public refreshValue(value: any): void {
     this.value = value;
+    //console.log(this.pacientesSelector);
   }
 }
