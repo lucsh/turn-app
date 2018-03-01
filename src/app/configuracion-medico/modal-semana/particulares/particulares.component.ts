@@ -11,7 +11,7 @@ export class ParticularesComponent implements OnInit, OnChanges {
 
   @Input() particulares;
   particularesForm: FormGroup;
-  
+
   constructor(private fb: FormBuilder) {
 
     this.createForm();
@@ -19,7 +19,14 @@ export class ParticularesComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     // Convertimos las restriccionesParticulares en el formulario inicial
-    this.particularesForm.setValue(this.iniciarRestriccionesParticulares(this.particulares));
+
+    if (!this.particulares) {
+      const partAux = [];
+      this.particularesForm.setValue(this.iniciarRestriccionesParticulares(partAux));
+    } else {
+      this.particularesForm.setValue(this.iniciarRestriccionesParticulares(this.particulares));
+    }
+
   }
 
   ngOnChanges(changes) {
