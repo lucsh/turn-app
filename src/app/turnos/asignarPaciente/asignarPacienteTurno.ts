@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, Output,EventEmitter,OnChanges, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ElementRef, ViewChild } from '@angular/core';
+import { SelectComponent, SelectItem } from 'ng2-select';
 //Declaramos esta variable para hacer uso de Jquery con los modals de Boostrap
 declare var $: any;
 
@@ -14,19 +15,20 @@ export class AsignarPacienteComponent implements OnChanges{
 
   @ViewChild('closeFormCrearTurno') closeFormCrearTurno: ElementRef;
   @ViewChild('selector2') selector: ElementRef;
+  @ViewChild('selector2') mySelectComponent: SelectComponent;
 
   public horaNuevoTurno: any;
   public diaNuevoTurno: any;
 
-  public descripcion = "";
+  public descripcion = '';
 
   public pacientesSelector: Array<any> = [];
 
-  public actualizado: boolean = false;
+  public actualizado = false;
 
-  private value:any = {};
-  private _disabledV:string = '0';
-  private disabled:boolean = false;
+  private value: any = {};
+  private _disabledV = '0';
+  private disabled = false;
 
   /*
   Este metodo es llamado cada vez que se cambia la fecha y/o los pacientes (inputs de este componente).
@@ -36,14 +38,14 @@ export class AsignarPacienteComponent implements OnChanges{
   ngOnChanges(changes) {
     // changes.prop contains the old and the new value...
 
-    if(this.pacientes!=null && this.fechaNuevoTurno != null){
+    if (this.pacientes != null && this.fechaNuevoTurno != null){
 
       //Asignamos las fechas para el modal
       this.horaNuevoTurno = this.fechaNuevoTurno.format('HH:mm');
       this.diaNuevoTurno = this.fechaNuevoTurno.format('DD [de] MMMM');
 
-      let yo = this;
-      this.pacientes.forEach(function(elem,index){
+      const yo = this;
+      this.pacientes.forEach(function(elem, index){
         /*
         Dado que estamos usando el componente ng2-select,
         debemos tener un arreglo en el que cada objeto TENGA:
@@ -51,10 +53,10 @@ export class AsignarPacienteComponent implements OnChanges{
         un atributo 'text'
         */
         yo.pacientesSelector[index] = elem;
-        yo.pacientesSelector[index].id = elem.nombre +' ' + elem.apellido + ' - ' + elem.dni;
-        yo.pacientesSelector[index].text = elem.nombre +' ' + elem.apellido + ' - ' + elem.dni;
+        yo.pacientesSelector[index].id = elem._id;
+        yo.pacientesSelector[index].text = elem.nombre + ' ' + elem.apellido + ' - ' + elem.dni;
       });
-      if(yo.pacientesSelector.length > 0){
+      if (yo.pacientesSelector.length > 0){
         ////console.log('TRUE');
         this.actualizado = true;
       }
@@ -68,12 +70,12 @@ export class AsignarPacienteComponent implements OnChanges{
   public asignarTurno(){
 
     let pacienteAsignado = null;
-    let yo = this;
+    const yo = this;
 
-    let desc = this.descripcion;
+    const desc = this.descripcion;
 
-    this.pacientesSelector.forEach(function(elem,index){
-      if(elem.id == yo.value.id){
+    this.pacientesSelector.forEach(function(elem, index){
+      if (elem.id == yo.value.id){
         pacienteAsignado = Object.assign({}, elem); //clonamos el elemento
         pacienteAsignado.descripcion = desc;
       }
@@ -107,7 +109,7 @@ export class AsignarPacienteComponent implements OnChanges{
   */
   public reservar(){
 
-    let turnoReserva = {
+    const turnoReserva = {
       esReserva: true
     };
 
@@ -127,24 +129,33 @@ export class AsignarPacienteComponent implements OnChanges{
 
   public onPacienteAgregado(pacienteNuevo){
 
-    if(this.pacientesSelector.length > 0){
+    if (this.pacientesSelector.length > 0){
       this.pacientesSelector = [];
     }
 
 
-    if(pacienteNuevo != null && pacienteNuevo.aprobado){
+    if (pacienteNuevo != null && pacienteNuevo.aprobado){
       this.pacientes.push(pacienteNuevo); //No se si es necesario hacerlo con pacientes
 
       //Reiniciamos el selector
-      let yo = this;
-      this.pacientes.forEach(function(elem,index){
+      const yo = this;
+      this.pacientes.forEach(function(elem, index){
         yo.pacientesSelector[index] = elem;
-        yo.pacientesSelector[index].id = elem.nombre +' ' + elem.apellido + ' - ' + elem.dni;
-        yo.pacientesSelector[index].text = elem.nombre +' ' + elem.apellido + ' - ' + elem.dni;
+        yo.pacientesSelector[index].id = elem._id;
+        yo.pacientesSelector[index].text = elem.nombre + ' ' + elem.apellido + ' - ' + elem.dni;
+        //Si es el que agregamos lo dejamos seleccionado
+        if(elem._id == pacienteNuevo._id){
+          yo.value.id = elem._id;
+          yo.value.text = elem.nombre + ' ' + elem.apellido + ' - ' + elem.dni;
+          //con esto lo seteamos en visual tambien
+          yo.mySelectComponent.active = [{id: elem._id, text: elem.nombre + ' ' + elem.apellido + ' - ' + elem.dni}];
+        }
       });
+
+      //refreshValue(value);
     }
 
-    if(this.selector != undefined){
+    if (this.selector != undefined){
       /*
       IMPORTANTE: Workaround para que se actualice segun obrasSelector
       Sacado de:
@@ -166,24 +177,25 @@ export class AsignarPacienteComponent implements OnChanges{
   //---------------------------------------------------------------------------
   //Metodos originales del componente
 
-  private get disabledV():string {
+  private get disabledV(): string {
     return this._disabledV;
   }
 
-  private set disabledV(value:string) {
+  private set disabledV(value: string) {
     this._disabledV = value;
     this.disabled = this._disabledV === '1';
   }
-  public selected(value:any):void {
+  public selected(value: any): void {
   }
 
-  public removed(value:any):void {
+  public removed(value: any): void {
   }
 
-  public typed(value:any):void {
+  public typed(value: any): void {
   }
 
-  public refreshValue(value:any):void {
+  public refreshValue(value: any): void {
     this.value = value;
+    //console.log(this.pacientesSelector);
   }
 }

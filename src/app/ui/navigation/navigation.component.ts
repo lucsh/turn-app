@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NavigationService } from './navigation.service';
 
 import { PacientesService } from '../../pacientes/pacientes.service';
-import { ObrasService } from '../../obras/obras.service';
+import { ObrasService } from '../../shared/services/obras.service';
 import { MedicosService } from '../../medico/medicos.service';
 import { Medico } from '../../medico/medico.tipo';
 
@@ -19,7 +19,7 @@ import { ObrasCompartidasService } from '../../routerService/obras.sistema';
 import { Subscription } from 'rxjs/Subscription';
 
 
-declare var jQuery:any;
+declare var jQuery: any;
 
 @Component({
   selector: 'navigation',
@@ -54,10 +54,10 @@ export class NavigationComponent {
   ngAfterViewInit() {
     jQuery('#side-menu').metisMenu();
 
-    if (jQuery("body").hasClass('fixed-sidebar')) {
+    if (jQuery('body').hasClass('fixed-sidebar')) {
       jQuery('.sidebar-collapse').slimscroll({
         height: '100%'
-      })
+      });
     }
 
     this.obtenerSubscripcionMedicos();
@@ -68,19 +68,19 @@ export class NavigationComponent {
 
   obtenerSubscripcionMedicos(){
 
-    let token = JSON.parse(localStorage.getItem('user'));
+    const token = JSON.parse(localStorage.getItem('user'));
 
-    if(token && token.clase == 'medico'){
+    if (token && token.clase == 'medico'){
       // Logueado como medico
 
-      this.medicosService.buscarMedico(token._idMedico).then(medico =>{
-        if(!medico.obras.length){
-            let aux = Object.assign({}, medico.obras);
+      this.medicosService.buscarMedico(token._idMedico).then(medico => {
+        if (!medico.obras.length){
+            const aux = Object.assign({}, medico.obras);
             medico.obras = [];
             medico.obras.push(aux);
         }
 
-        let medicos = []; // necesitamos la lista para trabajar con medicosCompartidos
+        const medicos = []; // necesitamos la lista para trabajar con medicosCompartidos
         medicos.push(medico);
 
         this.medicosSubscription = this.medicosCompartidos.medicos$.subscribe((medicos) => {
@@ -89,22 +89,24 @@ export class NavigationComponent {
         }, (err) => {
           console.error(err);
         });
-        this.medicosCompartidos.iniciar(medicos);
+        this.medicosCompartidos.set(medicos); // reemplazamos los medicos por los nedicos nuestros
 
 
-      })
-    }
-    else{
+      });
+    } else {
       // Logueado como admin
 
-      this.medicosService.getDoctores().then((docs)=>{
+      this.medicosService.getDoctores().then((docs) => {
         this.medicosSubscription = this.medicosCompartidos.medicos$.subscribe((medicos) => {
+          console.log('Voy a recibir los medicos');
+
           this.medicos = medicos;
           // this.ref.markForCheck();
         }, (err) => {
           console.error(err);
         });
-        this.medicosCompartidos.iniciar(docs);
+        this.medicosCompartidos.getMedicos();
+        // this.medicosCompartidos.set(docs);
       });
     }
 
@@ -112,7 +114,7 @@ export class NavigationComponent {
   }
 
   obtenerSubscripcionPacientes(){
-    this.pacientesService.getPacientesActivos().then((pacientes)=>{
+    this.pacientesService.getPacientesActivos().then((pacientes) => {
       this.pacientesSubscription = this.pacientesCompartidos.pacientes$.subscribe((pacientes) => {
         // this.ref.markForCheck();
       }, (err) => {
@@ -123,7 +125,7 @@ export class NavigationComponent {
   }
 
   obtenerSubscripcionObras(){
-    this.obrasService.getObras().then((obras)=>{
+    this.obrasService.getObras().then((obras) => {
       this.obrasSubscription = this.obrasCompartidas.obras$.subscribe((obras) => {
         // this.ref.markForCheck();
       }, (err) => {
@@ -144,8 +146,8 @@ export class NavigationComponent {
 
   getUsuario(){
 
-    var usuario: any = JSON.parse(localStorage.getItem('user'));
-    if(usuario!=undefined && usuario != null){
+    const usuario: any = JSON.parse(localStorage.getItem('user'));
+    if (usuario != undefined && usuario != null){
 
       this.profile = {};
       this.profile.nombre = usuario.nombre;
@@ -158,7 +160,7 @@ export class NavigationComponent {
 
   public actualizarListaMedicos(){
     const yo = this;
-    this.medicosService.getDoctores().then((docs)=>{
+    this.medicosService.getDoctores().then((docs) => {
     });
   }
 
@@ -172,17 +174,17 @@ export class NavigationComponent {
 
   public esMedico(){
 
-    var usuario: any = JSON.parse(localStorage.getItem('user'));
-    if(usuario!=undefined && usuario != null){
+    const usuario: any = JSON.parse(localStorage.getItem('user'));
+    if (usuario != undefined && usuario != null){
 
-      var clase = usuario.clase;
-      return clase === "medico";
+      const clase = usuario.clase;
+      return clase === 'medico';
 
     }
     return false;
   }
 
-  public ngOnInit():any {
+  public ngOnInit(): any {
     this.getUsuario();
   }
 

@@ -37,7 +37,7 @@ export class Feathers {
     return this._feathers.service(name);
   }
 
-  public devolverFeathers(){
+  public devolverFeathers() {
     return this._feathers;
   }
 
@@ -50,12 +50,12 @@ export class Feathers {
   public logout() {
     return this._feathers.logout();
   }
-  public autenticarSocket(): Promise<any>{
+  public autenticarSocket(): Promise<any> {
 
     // console.log("ENTRE AL AUTHENTICAR");
 
 
-    let token = localStorage.getItem('feathers-jwt');
+    const token = localStorage.getItem('feathers-jwt');
     // console.log(token);
     // this._feathers.authenticate({
     //   strategy: "jwt",
@@ -69,7 +69,7 @@ export class Feathers {
 
 
     return this._feathers.authenticate({
-      strategy: "jwt",
+      strategy: 'jwt',
       accessToken: token
     });
   }

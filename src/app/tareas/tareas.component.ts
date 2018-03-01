@@ -4,7 +4,7 @@ import {Tarea} from './tarea.tipo';
 
 @Component({
   selector: 'app-tareas',
-  providers:[TareasService],
+  providers: [TareasService],
   templateUrl: './tareas.component.html',
   styleUrls: ['./tareas.component.css']
 })
@@ -37,13 +37,13 @@ export class TareasComponent implements OnInit {
       data => {
         this.todoActual = {
           algo: null
-        };;
+        }; ;
         this.todos.push(data.json());
       });
       this.todoActual.algo = '';
   }
-  updateTodo(todoId:string, todo:string, newStatus:boolean){
-    this.tareasService.updateTodo(todoId,todo,newStatus).subscribe(
+  updateTodo(todoId: string, todo: string, newStatus: boolean){
+    this.tareasService.updateTodo(todoId, todo, newStatus).subscribe(
       data => {
         this.getAllTodos();
       });

@@ -21,8 +21,8 @@ import {MdSort} from '@angular/material';
 import {MdPaginator} from '@angular/material';
 
 
-import { ObrasService } from '../obras.service';
-import { Obra } from '../obra.tipo';
+import { ObrasService } from 'app/shared/services/obras.service';
+import { Obra } from '../../shared/models/obra.tipo';
 
 import { ObrasCompartidasService } from '../../routerService/obras.sistema';
 import { Subscription } from 'rxjs/Subscription';
@@ -89,7 +89,7 @@ export class TablaObrasComponent implements OnInit {
         return; }
         else{
 
-          let valorFiltro = this.filter.nativeElement.value;
+          const valorFiltro = this.filter.nativeElement.value;
           this.dataSource.filter = valorFiltro;
         }
       });
@@ -111,7 +111,7 @@ export class TablaObrasComponent implements OnInit {
       FIX TEMPORAL: El timeout es para obligar a que el ngIf que proteje el modal,
       alcance a hacerse true.
       */
-      setTimeout(()=> {
+      setTimeout(() => {
         $('#formEditarObra').modal('show');
       },
       200);
@@ -146,11 +146,11 @@ export class TablaObrasComponent implements OnInit {
         con los obras del navigator
       */
     observarObras(){
-      if(this.obrasCompartidasService.obras$){
+      if (this.obrasCompartidasService.obras$){
         this.obrasSubscription = this.obrasCompartidasService.obras$.subscribe((obras) => {
 
           // console.log("Obras subscriptas...", obras);
-          if(obras != null ){
+          if (obras != null ){
             obras = this.limpiarParticular(obras);
           }
           this.setObras(obras);
@@ -167,11 +167,11 @@ export class TablaObrasComponent implements OnInit {
 
     /** Este metodo es creado para quitar la obra Particular (que en realidad fue agregada a este arreglo para crear una sensacion visual, y no es una obra real en el BACKEND) */
     private limpiarParticular(obras){
-      let resultado =  [];
-      if(obras != null ){
-        for (var index = 0; index < obras.length; index++) {
-          var element = obras[index];
-          if(element.nombre !='Particular'){
+      const resultado =  [];
+      if (obras != null ){
+        for (let index = 0; index < obras.length; index++) {
+          const element = obras[index];
+          if (element.nombre != 'Particular'){
             resultado.push(element);
           }
 
@@ -185,7 +185,7 @@ export class TablaObrasComponent implements OnInit {
     Pasamos nuestros trabajos al observer
     */
     setObras(pacientes: Obra[]) {
-      let copiedData = pacientes;
+      const copiedData = pacientes;
       this.dataChange.next(pacientes);
 
     }
@@ -291,7 +291,7 @@ export class TablaObrasComponent implements OnInit {
           // let filtroFecha = diaString + '/' + mesString +  '/' + item.fechaRealizacion.getFullYear();
 
           // Concatenamos los filtros para armar el string de busqueda
-          let searchStr = (item.nombre + item.iniciales).toLowerCase();
+          const searchStr = (item.nombre + item.iniciales).toLowerCase();
 
           return searchStr.indexOf(this.filter.toLowerCase()) != -1;
         });
@@ -325,8 +325,8 @@ export class TablaObrasComponent implements OnInit {
           case 'iniciales': [propertyA, propertyB] = [a.iniciales, b.iniciales]; break;
         }
 
-        let valueA = isNaN(+propertyA) ? propertyA : +propertyA;
-        let valueB = isNaN(+propertyB) ? propertyB : +propertyB;
+        const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
+        const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
 
         return (valueA < valueB ? -1 : 1) * (this._sort.direction == 'asc' ? 1 : -1);
       });

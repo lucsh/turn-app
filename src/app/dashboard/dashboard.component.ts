@@ -4,20 +4,20 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs/Rx';
 
 
-declare var jQuery:any;
+declare var jQuery: any;
 
 
 import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'dashboard',
-  providers:[NotificationsService],
+  providers: [NotificationsService],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnDestroy, OnInit {
 
-  public nav:any;
+  public nav: any;
   todos: string[];
   citas: string[];
   mensajes: string[];
@@ -27,10 +27,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
   //Opciones de las notificiones
   public options = {
-       position: ["top", "right"],
+       position: ['top', 'right'],
       //  timeOut: 5000,
        showProgressBar: false,
-       animate: "fromRight",
+       animate: 'fromRight',
        lastOnBottom: false,
    };
 
@@ -40,28 +40,28 @@ export class DashboardComponent implements OnDestroy, OnInit {
     .map(x => moment()).share();
   }
   aDate(turno){
-    var momentDate = moment(turno);
-    var fecha = momentDate.toDate();
-    return fecha
+    const momentDate = moment(turno);
+    const fecha = momentDate.toDate();
+    return fecha;
   }
   claseEstadoCita(status){
-    var clase = "btn-default";
-    for (var i in this.estadosCitas) {
+    let clase = 'btn-default';
+    for (const i in this.estadosCitas) {
       if (status == this.estadosCitas[i].nombre){
-        clase = "btn-" + this.estadosCitas[i].clase;
+        clase = 'btn-' + this.estadosCitas[i].clase;
       }
     }
 
-    return clase
+    return clase;
   }
 
-  public ngOnInit():any {
-    this.nav.className += " white-bg";
+  public ngOnInit(): any {
+    this.nav.className += ' white-bg';
   }
 
 
-  public ngOnDestroy():any {
-    this.nav.classList.remove("white-bg");
+  public ngOnDestroy(): any {
+    this.nav.classList.remove('white-bg');
   }
 
 }

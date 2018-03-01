@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'footer',
-  template:`
+  template: `
 	    <section class="footer hidden-sm hidden-xs" style="z-index:999;">
             <div class="pull-right">
                 Centro de la Visión - <strong>Neuquén</strong>.

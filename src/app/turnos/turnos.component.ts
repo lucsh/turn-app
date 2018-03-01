@@ -10,7 +10,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Router, NavigationStart, NavigationEnd, NavigationError, NavigationCancel, RoutesRecognized } from '@angular/router';
 
 import 'rxjs/add/operator/filter';
-import { TurnosService } from './turnos.service';
 import { MedicosService } from '../medico/medicos.service';
 
 import * as moment from 'moment';
@@ -23,8 +22,9 @@ import { PacientesService } from '../pacientes/pacientes.service';
 
 import { PacientesCompartidosService } from '../routerService/pacientes.sistema';
 import { Subscription } from 'rxjs/Subscription';
-import { default as swal } from 'sweetalert2';
-//Declaramos esta variable para hacer uso de Jquery con los modals de Boostrap
+
+import { AlertService } from 'app/shared/services/alerts.service';
+// Declaramos esta variable para hacer uso de Jquery con los modals de Boostrap
 declare var $: any;
 
 @Component({
@@ -48,13 +48,13 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
   fechaNuevoTurno: any = null;
 
-  private iniciado: boolean = false;
-  private cambio: boolean = false;
+  private iniciado = false;
+  private cambio = false;
 
   private subscription: Subscription;
   private pacientesSubscription: Subscription;
 
-  public cargandoTurnos: boolean = true;
+  public cargandoTurnos = true;
 
   fechaAntigua: any[] = [];
 
@@ -63,18 +63,18 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
   constructor(
     route: ActivatedRoute,
-    private turnosService: TurnosService,
     private doctoresService: MedicosService,
     private pacientesService: PacientesService,
     private turnosSocketService: TurnoSocketService,
     private pacientesCompartidosService: PacientesCompartidosService,
+    private alertService: AlertService,
     private router: Router,
     private ref: ChangeDetectorRef
   ) {
     this.url = route.snapshot.params['doctor'];
     this.idDoctor = route.snapshot.params['idDoctor'];
 
-    let yo = this;
+    const yo = this;
     yo.turnosSocketService.setMedico(yo.idDoctor);
 
     router.events
@@ -82,23 +82,23 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
       if (event instanceof NavigationEnd) {
 
-        let tempUrl = event.url.split('/', 4)[1];
+        const tempUrl = event.url.split('/', 4)[1];
 
         if (tempUrl == 'turnos') {
 
-          let idDoctor = event.url.split('/', 4)[3];
-          if(yo.doctorSeleccionado){
-            let anteriorMedicoId = yo.doctorSeleccionado._id.toString();
+          const idDoctor = event.url.split('/', 4)[3];
+          if (yo.doctorSeleccionado){
+            const anteriorMedicoId = yo.doctorSeleccionado._id.toString();
 
-            if(idDoctor != anteriorMedicoId){
+            if (idDoctor != anteriorMedicoId){
 
               yo.cambiarMedico(idDoctor).then(res => {
                 yo.setDoctorSeleccionado(idDoctor);
                 yo.cargandoTurnos = true;
 
-                //Nuevo, cuando cambia el doc, no renderiza el calendar entonces tengo que llamar desde aca.
+                // Nuevo, cuando cambia el doc, no renderiza el calendar entonces tengo que llamar desde aca.
                 // al metodo obtenerTUrnosRango con las variables globales
-                yo.turnosSocketService.obtenerTurnosRango(yo.desdeRender,yo.hastaRender);
+                yo.turnosSocketService.obtenerTurnosRango(yo.desdeRender, yo.hastaRender);
               });
             }
           }
@@ -111,10 +111,10 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
     this.setDoctorSeleccionado(idDoctor);
 
-    //VARIABLE PARA EL LOADING
+    // VARIABLE PARA EL LOADING
     this.cargandoTurnos = true;
 
-    var yo = this;
+    const yo = this;
     $('#calendar')
     .fullCalendar({
       header: {
@@ -127,22 +127,22 @@ export class TurnosComponent implements OnInit, OnDestroy {
       defaultView: 'agendaWeek',
       height: 'auto',
       eventTextColor: 'black',
-      weekends: true, //COMENTADO SOLAMENTE COMO PRUEBA. PONER DE NUEVO PARA DEPLOY!
+      weekends: true, // COMENTADO SOLAMENTE COMO PRUEBA. PONER DE NUEVO PARA DEPLOY!
       hiddenDays: [ 0 ], // Ocultamos el domingo
       allDaySlot: false,
-      eventOverlap: true, //Previene que se sobrepongan 2 eventos!!!
-      //slotDuration: '00:15:00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
-      slotDuration: '00:'+10+':00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
+      eventOverlap: true, // Previene que se sobrepongan 2 eventos!!!
+      // slotDuration: '00:15:00',//deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
+      slotDuration: '00:' + 10 + ':00', // deberia ser dinamico, dependiendo del medico (doctor.turno) al menos para la vista de clientes
       minTime: '08:00:00',
       maxTime: '24:00:00',
       nowIndicator: true,
       navLinks: true, // can click day/week names to navigate views
-      editable: true, //falso para la vista de clientes
+      editable: true, // falso para la vista de clientes
       eventLimit: true, // allow "more" link when too many events
       events: this.turnos,
-      viewRender: function(view,element) {
-        var desde = new Date(view.start._d).toISOString();
-        var hasta = new Date(view.end._d).toISOString()
+      viewRender: function(view, element) {
+        const desde = new Date(view.start._d).toISOString();
+        const hasta = new Date(view.end._d).toISOString();
 
         // Seteo variables globales para cuando cambia de doctor (no renderiza y no llama a este metodo)
         yo.desdeRender = desde;
@@ -150,41 +150,35 @@ export class TurnosComponent implements OnInit, OnDestroy {
         yo.cargandoTurnos = true;
 
         // Obtenemos los turnos del rango esperado
-        yo.turnosSocketService.obtenerTurnosRango(desde,hasta);
+        yo.turnosSocketService.obtenerTurnosRango(desde, hasta);
 
       },
-      dayClick: function (date, jsEvent, view) { //date es un moment
+      dayClick: function (date, jsEvent, view) { // date es un moment
 
-        if (view.name == "month") {
+        if (view.name == 'month') {
           // Si la vista acutal es la del mes...
           $('#calendar').fullCalendar('changeView', 'agendaDay'/* aca podemos cambiar a lo que queramos! ej:  'basicDay' */);
           $('#calendar').fullCalendar('gotoDate', date);
         }
         else {
-          //Verificamos que la fecha sea mayor a la actual:
-          if (view.name == "agendaWeek" || view.name == "agendaDay") {
-          var today = moment();
-          var date2 = moment(date).add(3,'hours'); //Le sume 3 horas porque fullcalendar me devuelve 3 horas menos de donde hice click
+          // Verificamos que la fecha sea mayor a la actual:
+          if (view.name == 'agendaWeek' || view.name == 'agendaDay') {
+          let today = moment();
+          const date2 = moment(date).add(3, 'hours'); // Le sume 3 horas porque fullcalendar me devuelve 3 horas menos de donde hice click
           if (date2 < today) {
           // Previous Day. show message if you want otherwise do nothing.
           // So it will be unselectable
-          swal(
-          'Error',
-          'No se puede crear un turno en una fecha pasada!',
-          'error'
-        ).catch(err => {
-          console.log("error en swal", err);
-        })
+          yo.alertService.error('Error', 'No se puede crear un turno en una fecha pasada!');
 
       }
       else {
 
         // CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
-        let duracionTurno = parseInt($('#calendar').fullCalendar('option', 'slotDuration').split(':')[1]); //CAMBIARRRRRRRR
+        const duracionTurno = parseInt($('#calendar').fullCalendar('option', 'slotDuration').split(':')[1]); // CAMBIARRRRRRRR
         // CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 
-        //Windows: descomentar la linea de abajo
-        var temp = moment(date).utc(); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+        // Windows: descomentar la linea de abajo
+        const temp = moment(date).utc(); // LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
         yo.asignarPaciente(temp);
       }
 
@@ -192,115 +186,83 @@ export class TurnosComponent implements OnInit, OnDestroy {
   }
 },
 eventDrop: function (event, delta, revertFunc) {
-  var startUtcAux = moment(event.start).utc().add(3,'h');
-  var endUtcAux = moment(event.end).utc().add(3,'h');
-  var startUtc = moment(event.start).utc();
-  var endUtc = moment(event.end).utc();
-  var today = moment().utc();
+  const startUtcAux = moment(event.start).utc().add(3, 'h');
+  const endUtcAux = moment(event.end).utc().add(3, 'h');
+  const startUtc = moment(event.start).utc();
+  const endUtc = moment(event.end).utc();
+  let today = moment().utc();
 
   if (startUtcAux < today) {
-    //TODO: hacer funcionalidad de copiar un turno para crear uno nuevo.
+    // TODO: hacer funcionalidad de copiar un turno para crear uno nuevo.
     revertFunc();
   }
   else {
-    var duplicar = false;
-    if(this.fechaAntigua < today){
+    let duplicar = false;
+    if (this.fechaAntigua < today){
       duplicar = true;
     }
-    swal({
-      title: '¿Estas seguro que queres cambiar el turno?',
-      //text: 'You will not be able to recover this imaginary file!',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, modificar!',
-      cancelButtonText: 'Cancelar'
-    }).then(function () {
 
-      if(duplicar){
+    yo.alertService.warning( '¿Estas seguro que queres cambiar el turno?', 'Si, modificar!', true)
+    .then(() => {
+      if (duplicar){
         yo.turnosSocketService.crearTurnoConFin(startUtc, endUtc, yo.obtenerTurno(event._id).paciente);
         // console.log("revert");
         revertFunc();
       }else{
         yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
       }
-
-
-    }, function (dismiss) {
-      // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+    })
+    .catch(dismiss => {
       if (dismiss === 'cancel') {
-      revertFunc();
-    }
-  });
+        revertFunc();
+      }
+    });
 }
 },
 eventDragStart: function (event) {},
-eventDragStop: function (event) {this.fechaAntigua = moment(event.start).utc().add(3,'h');},
+eventDragStop: function (event) {this.fechaAntigua = moment(event.start).utc().add(3, 'h'); },
 eventResize: function (event, delta, revertFunc) {
 
-  var startUtcAux = moment(event.start).utc().add(3,'h');
-  var endUtcAux = moment(event.end).utc().add(3,'h');
-  var startUtc = moment(event.start).utc();
-  var endUtc = moment(event.end).utc();
-  var today = moment().utc();
+  const startUtcAux = moment(event.start).utc().add(3, 'h');
+  const endUtcAux = moment(event.end).utc().add(3, 'h');
+  const startUtc = moment(event.start).utc();
+  const endUtc = moment(event.end).utc();
+  let today = moment().utc();
 
-  var today = moment();
+  today = moment();
 
   if (startUtcAux < today) {
     revertFunc();
-  }
-  else {
-    swal({
-      title: '¿Estas seguro que queres agrandar el turno?',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, agrandar!',
-      cancelButtonText: 'Cancelar'
-    }).then(function () {
+  } else {
+
+    yo.alertService.warning('¿Estas seguro que queres agrandar el turno?', 'Si, agrandar!', true)
+    .then(() => {
       yo.turnosSocketService.actualizarTurno2(startUtc, endUtc, event._id);
-    }, function (dismiss) {
-      // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+    })
+    .catch( dismiss => {
       if (dismiss === 'cancel') {
-      revertFunc();
-    }
-  });
+        revertFunc();
+      }
+    });
 }
-//actualizar el turno en la db (tenemos el event.id)
-//???
+// actualizar el turno en la db (tenemos el event.id)
+// ???
 },
 eventClick: function (calEvent, delta, view) {
 
-  let turno_seleccionado = yo.obtenerTurno(calEvent._id);
+  const turno_seleccionado = yo.obtenerTurno(calEvent._id);
 
-  if(turno_seleccionado.esReserva){
-    swal({
-      title: '¿Desea eliminar este evento?',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, eliminar!',
-      cancelButtonText: 'Cancelar'
-    })
-    .then(function () {
-      swal(
-        'Evento eliminado!',
-        'El evento fue eliminado correctamente',
-        'success'
-      );
+  if (turno_seleccionado.esReserva){
+
+    yo.alertService.warning('¿Desea eliminar este evento?', 'Si, eliminar!', true)
+    .then(() => {
+      yo.alertService.success('Evento eliminado!', 'El evento fue eliminado correctamente');
       yo.cancelarReserva(turno_seleccionado);
-
-    }, function (dismiss) {
-      // dismiss can be 'cancel', 'overlay',
-      // 'close', and 'timer'
-      if (dismiss === 'cancel') {
-    }
-  })
-}
-else{
+    })
+    .catch(dismiss => {
+      if (dismiss === 'cancel') {}
+    });
+} else {
   yo.turnoSeleccionado = turno_seleccionado;
   $('#formVerTurno').modal('show');
 }
@@ -308,11 +270,11 @@ else{
 },
 eventMouseover: function(event, jsEvent, view){
   // Al hacer hover sobre el evento, mostramos el tittle que incluye la descripcion
-  let startUtc = moment(event.start).utc();
-  let endUtc = moment(event.end).utc();
+  const startUtc = moment(event.start).utc();
+  const endUtc = moment(event.end).utc();
 
-  $(this).tooltip({title: startUtc.format("DD/MM [:] HH:mm")
-  +' - '+ endUtc.format("HH:mm [hs]")+ "\n" + event.title});
+  $(this).tooltip({title: startUtc.format('DD/MM [:] HH:mm')
+  + ' - ' + endUtc.format('HH:mm [hs]') + '\n' + event.title});
 }
 });
 }
@@ -327,83 +289,45 @@ onAsignacionPaciente(asignacion) {
 
   if (asignacion != null) {
 
-    let yo = this;
+    const yo = this;
 
-    if( asignacion.esReserva ){
+    if ( asignacion.esReserva ){
       // Es decir, es una reserva de espacio SIN paciente
-      let fechaString = this.fechaNuevoTurno.format("DD/MM [a las] HH:mm [hs]");
+      const fechaString = this.fechaNuevoTurno.format('DD/MM [a las] HH:mm [hs]');
 
-      swal({
-        title: `Descrición Reserva para el dia ${fechaString}`,
-        input: 'text',
-        inputPlaceholder: 'Breve descripción',
-        showCancelButton: true,
-        inputValidator: function (value) {
-
-          return new Promise<void>(function (resolve, reject) {
-            if (value) {
-              resolve()
-            } else {
-              reject('No puede estar vacía!')
-            }
-          })
-        }
-      }).then(function (descripcionReserva) {
-
-        swal(
-          'Reserva realizada!',
-          'La reserva fue realizada correctamente',
-          'success'
-        );
-
+      this.alertService.input(`Descrición Reserva para el dia ${fechaString}`, 'Breve descripción', true )
+      .then(descripcionReserva => {
+        this.alertService.success('Reserva realizada!', 'La reserva fue realizada correctamente');
         yo.reservarHorario(yo.fechaNuevoTurno, descripcionReserva);
-
       })
-
-    }
-    else{
+      .catch(error => {
+        console.error(error);
+      });
+    } else {
       // Es decir, es una asignacion de un paciente
-      let paciente = "" + asignacion.nombre + " " + asignacion.apellido;
-      let fecha = this.fechaNuevoTurno.format("DD-MM-YYYY HH:mm")
-      swal({
-        title: 'Confirmacion de creacion de turno',
-        text: "¿Está seguro de crear un turno para el dia " + fecha + " para el paciente " + paciente + " ?",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, Crear!',
-        cancelButtonText: 'No, Cancelar!',
-        confirmButtonClass: 'btn btn-success',
-        cancelButtonClass: 'btn btn-danger',
-        // buttonsStyling: false
-      }).then(function () {
-      swal(
-        'Turno creado!',
-        'El turno fue creado correctamente',
-        'success'
-      ),
-      yo.crearTurno(yo.fechaNuevoTurno, asignacion);
-    }, function (dismiss) {
-      // dismiss can be 'cancel', 'overlay',
-      // 'close', and 'timer'
-      if (dismiss === 'cancel') {
-      swal(
-        'Cancelado',
-        'El turno fue descartado',
-        'error'
-      )
-    }
-  })
+      const paciente = '' + asignacion.nombre + ' ' + asignacion.apellido;
+      const fecha = this.fechaNuevoTurno.format('DD-MM-YYYY HH:mm');
+
+      this.alertService.warning('Confirmacion de creacion de turno', 'Si, Crear!', true,
+      '¿Está seguro de crear un turno para el dia ' + fecha + ' para el paciente ' + paciente + ' ?')
+      .then(() => {
+        this.alertService.success('Turno creado!', 'El turno fue creado correctamente' );
+        yo.crearTurno(yo.fechaNuevoTurno, asignacion);
+      })
+      .catch(dismiss => {
+        if (dismiss === 'cancel') {
+          this.alertService.error('Cancelado', 'El turno fue descartado');
+        }
+      });
 }}}
 
 crearTurno(date, pacienteAsignado) {
 
-  let paciente = pacienteAsignado;
+  const paciente = pacienteAsignado;
 
   this.turnosSocketService.crearTurno(date.format(), paciente);
 
-  //Restablecemos las variables
+  // Restablecemos las variables
   this.fechaNuevoTurno = null;
 }
 
@@ -412,7 +336,7 @@ reservarHorario(fecha, descripcion){
 
   this.turnosSocketService.reservarHorario(fecha.format(), descripcion);
 
-  //Restablecemos las variables
+  // Restablecemos las variables
   this.fechaNuevoTurno = null;
 
 }
@@ -423,19 +347,19 @@ cancelarReserva(reserva){
 
 cambiarMedico(idDoctor) {
 
-  let yo = this;
+  const yo = this;
 
   this.setDoctorSeleccionado(idDoctor);
 
-  return new Promise((resolve,reject)=> {
+  return new Promise((resolve, reject) => {
     this.pacientesService.getPacientesActivos().then(pacientes => {
       yo.pacientes = pacientes;
 
-      //Limpiamos el calendario
-      let calendario = $('#calendar');
+      // Limpiamos el calendario
+      const calendario = $('#calendar');
       calendario.fullCalendar('removeEvents');
 
-      //Limpiamos el service
+      // Limpiamos el service
       if (this.turnosSocketService) {
       this.turnosSocketService.cambiarMedico(idDoctor);
       resolve(true);
@@ -461,11 +385,11 @@ getAllDoctores(): void {
   .getDoctores()
   .then(docs => {
     this.doctores = docs;
-    this.getAllTurnos(this.url, this.idDoctor)
+    this.getAllTurnos(this.url, this.idDoctor);
   });
 }
 getAllTurnos(url, idDoctor): void {
-  this.loadCalendar(idDoctor)
+  this.loadCalendar(idDoctor);
 }
 
 
@@ -479,21 +403,21 @@ ngOnInit() {
     console.error(err);
   });
 
-  let yo = this;
+  const yo = this;
   this.getAllDoctores();
   this.pacientesService.getPacientesActivos().then(pacientes => {
     yo.pacientes = pacientes;
 
-  }).catch(err => console.error(err))
+  }).catch(err => console.error(err));
 
 }
 
 setDoctorSeleccionado(idDoctor) {
-  //Seteo el doctor seleccionado
-  if (this.doctores != undefined) {
-  var thisLocal = this;
+  // Seteo el doctor seleccionado
+  if (this.doctores !== undefined) {
+  const thisLocal = this;
   this.doctores.forEach(function (elem, index) {
-    if (elem._id == idDoctor) {
+    if (elem._id === idDoctor) {
       thisLocal.doctorSeleccionado = elem;
     }
   });

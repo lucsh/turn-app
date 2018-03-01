@@ -21,7 +21,7 @@ export class PacientesService {
 
 	}//Al ser promise (y no Observable), no le quita reactividad?
 	getPacientes(): Promise<Paciente[]>{
-		return this.http.get(this.pacientesURL,this.authService.jwt())
+		return this.http.get(this.pacientesURL, this.authService.jwt())
 		.toPromise()
 		.then(response => {
 			return response.json() as Paciente[];
@@ -30,7 +30,7 @@ export class PacientesService {
 	}
 
 	getPacientesActivos(): Promise<Paciente[]>{
-		return this.http.get(this.pacientesURL+"?eliminado=false&aprobado=true",this.authService.jwt())
+		return this.http.get(this.pacientesURL + '?eliminado=false&aprobado=true', this.authService.jwt())
 		.toPromise()
 		.then(response => {
 			return response.json() as Paciente[];
@@ -38,12 +38,12 @@ export class PacientesService {
 		.catch(this.handleError);
 	}
 
-	createPaciente(nombrePaciente,apellidoPaciente, dniPaciente, emailPaciente, nacimientoPaciente, telefonoPaciente, obraPaciente, ocupacion, observaciones):Promise<Paciente>{
+	createPaciente(nombrePaciente, apellidoPaciente, dniPaciente, emailPaciente, nacimientoPaciente, telefonoPaciente, obraPaciente, ocupacion, observaciones): Promise<Paciente>{
 
 		return this.http
-		.post(this.pacientesURL, JSON.stringify({nombre: nombrePaciente ,apellido: apellidoPaciente,
+		.post(this.pacientesURL, JSON.stringify({nombre: nombrePaciente , apellido: apellidoPaciente,
 			 dni: dniPaciente, email: emailPaciente, nacimiento: nacimientoPaciente,
-			 telefono: telefonoPaciente, obra: obraPaciente, ocupacion: ocupacion, observaciones:observaciones,
+			 telefono: telefonoPaciente, obra: obraPaciente, ocupacion: ocupacion, observaciones: observaciones,
 			 eliminado: false, aprobado: true, sancion: false
 		 }), this.authService.jwtContentType())
 		 .toPromise()
@@ -58,7 +58,7 @@ export class PacientesService {
 	}
 
 	buscarPaciente(id): Promise<Paciente[]>{
-		return this.http.get(this.pacientesURL+'/'+id,this.authService.jwt())
+		return this.http.get(this.pacientesURL + '/' + id, this.authService.jwt())
 		.toPromise()
 		.then(response => {
 			return response.json() as Paciente[];
@@ -66,8 +66,8 @@ export class PacientesService {
 		.catch(this.handleError);
 	}
 
-	actualizarPaciente(id,datos): Promise<Paciente[]>{
-		return this.http.put(this.pacientesURL+'/'+id,datos,this.authService.jwt())
+	actualizarPaciente(id, datos): Promise<Paciente[]>{
+		return this.http.put(this.pacientesURL + '/' + id, datos, this.authService.jwt())
 		.toPromise()
 		.then(response => {
 			return response.json() as Paciente[];
@@ -76,7 +76,7 @@ export class PacientesService {
 	}
 
 	sancionarPaciente(id): Promise<Paciente[]>{
-		return this.http.patch(this.pacientesURL+'/'+id,{sancion:true},this.authService.jwt())
+		return this.http.patch(this.pacientesURL + '/' + id, {sancion: true}, this.authService.jwt())
 		.toPromise()
 		.then(response => {
 			return response.json() as Paciente[];
@@ -85,7 +85,7 @@ export class PacientesService {
 	}
 
 	eliminarPaciente(id): Promise<Paciente[]>{
-		return this.http.patch(this.pacientesURL+'/'+id,{eliminado:true},this.authService.jwt())
+		return this.http.patch(this.pacientesURL + '/' + id, {eliminado: true}, this.authService.jwt())
 		.toPromise()
 		.then(response => {
 			return response.json() as Paciente[];
@@ -94,7 +94,7 @@ export class PacientesService {
 	}
 
 	habilitarPaciente(id): Promise<Paciente[]>{
-		return this.http.patch(this.pacientesURL+'/'+id,{sancion:false},this.authService.jwt())
+		return this.http.patch(this.pacientesURL + '/' + id, {sancion: false}, this.authService.jwt())
 		.toPromise()
 		.then(response => {
 			return response.json() as Paciente[];

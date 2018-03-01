@@ -19,7 +19,7 @@ export class RegisterComponent {
 
     public registrar(nombre, apellido, email, password){
       email = email.toLowerCase();
-      this.authService.signup(nombre, apellido, email, password).then(nuevo =>{
+      this.authService.signup(nombre, apellido, email, password).then(nuevo => {
 
         this.irLogin();
 

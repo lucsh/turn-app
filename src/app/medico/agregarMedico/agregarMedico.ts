@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, Output,EventEmitter,OnChanges, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ElementRef, ViewChild } from '@angular/core';
 
 import { Medico } from '../medico.tipo';
 import { MedicosService } from '../medicos.service';
 
-import { Obra } from '../../obras/obra.tipo';
-import { ObrasService } from '../../obras/obras.service';
+import { Obra } from '../../shared/models/obra.tipo';
+import { ObrasService } from 'app/shared/services/obras.service';
 
 import {default as swal} from 'sweetalert2';
 
@@ -12,7 +12,7 @@ import {default as swal} from 'sweetalert2';
   selector: 'agregar-medico',
   templateUrl: './agregarMedico.html'
 })
-export class AgregarMedicoComponent implements OnInit, OnChanges{
+export class AgregarMedicoComponent implements OnInit, OnChanges {
 
   @Input() obras: Obra[];
   @Output() medicoAgregado = new EventEmitter();
@@ -21,17 +21,17 @@ export class AgregarMedicoComponent implements OnInit, OnChanges{
 
   private obrasSelected: Obra[] = null;
 
-  //Para el selector de obras
+  // Para el selector de obras
   public obrasSelectorMedico: Array<any> = [];
   public options: Select2Options;
   public value: any[] = [];
   public current: string;
-  public actualizado: boolean = false;
+  public actualizado = false;
 
   constructor(
     private medicosService: MedicosService,
     private obrasService: ObrasService
-  ){
+  ) {
 
   }
 
@@ -49,12 +49,12 @@ export class AgregarMedicoComponent implements OnInit, OnChanges{
 
   /*
   */
-  public agregarMedico(nombreMedico,apellidoMedico, emailMedico, matriculaMedico,
-    nacimientoMedico, duracionMedico){
+  public agregarMedico(nombreMedico, apellidoMedico, emailMedico, matriculaMedico,
+    nacimientoMedico, duracionMedico) {
 
-      let obrasAsignadas = this.asignarObras();
+      const obrasAsignadas = this.asignarObras();
 
-      let nuevoMedico = {
+      const nuevoMedico = {
         matricula: matriculaMedico,
         email: emailMedico,
         nombre: nombreMedico,
@@ -62,38 +62,39 @@ export class AgregarMedicoComponent implements OnInit, OnChanges{
         duracion: duracionMedico,
         obras: obrasAsignadas,
         fechaNacimiento: nacimientoMedico
-      }
+      };
 
       this.medicosService.createMedico(nuevoMedico).then().catch(err => {
         console.log('Ha ocurrido un error en el componente AgregarMedico');
         console.log(err);
-      })
+      });
   }
 
 
       /*
 
       */
-  public cancelar(){
-    //Limpiamos variables
-    //this.value = {};
+  public cancelar() {
+    // Limpiamos variables
+    // this.value = {};
 
-    //Cerramos el modal
+    // Cerramos el modal
     this.obrasSelected = null;
     this.actualizado = false;
     this.closeFormAgregarMedico.nativeElement.click();
   }
 
-  //****************************************************************************
-  //Metodos del selector
+  // ****************************************************************************
+  // Metodos del selector
 
-  /** Este metodo es creado para quitar la obra Particular (que en realidad fue agregada a este arreglo para crear una sensacion visual, y no es una obra real en el BACKEND) */
-  private limpiarParticular(obras){
-    let resultado =  [];
-    if(obras != null ){
-      for (var index = 0; index < obras.length; index++) {
-        var element = obras[index];
-        if(element.nombre !='Particular'){
+  /** Este metodo es creado para quitar la obra Particular (que en realidad fue agregada a este arreglo para crear una sensacion visual,
+   * y no es una obra real en el BACKEND) */
+  private limpiarParticular(obras) {
+    const resultado =  [];
+    if (obras != null) {
+      for (let index = 0; index < obras.length; index++) {
+        const element = obras[index];
+        if (element.nombre != 'Particular') {
           resultado.push(element);
         }
 
@@ -102,12 +103,12 @@ export class AgregarMedicoComponent implements OnInit, OnChanges{
     return resultado;
   }
 
-  public actualizarSelector(){
-    if(this.obras!=null){
+  public actualizarSelector() {
+    if (this.obras != null) {
       this.obras = this.limpiarParticular(this.obras);
 
-      let yo = this;
-      this.obras.forEach(function(elem,index){
+      const yo = this;
+      this.obras.forEach(function(elem, index){
         /*
         Dado que estamos usando el componente ng2-select,
         debemos tener un arreglo en el que cada objeto TENGA:
@@ -120,35 +121,32 @@ export class AgregarMedicoComponent implements OnInit, OnChanges{
       });
       this.iniciarSelectorObras();
 
-      if(yo.obrasSelectorMedico.length > 0){
+      if (yo.obrasSelectorMedico.length > 0) {
         this.actualizado = true;
       }
     }
   }
 
-  private iniciarSelectorObras(){
-
-
-
+  private iniciarSelectorObras() {
 
     this.options = {
       multiple: true
-    }
+    };
 
     this.current = this.value.join(' | ');
   }
 
-  public asignarObras(){
+  public asignarObras() {
 
-    let obrasAsignadas = [];
-    let yo = this;
+    const obrasAsignadas = [];
+    const yo = this;
 
-    if(this.obrasSelectorMedico.length > 0){
-      this.obrasSelectorMedico.forEach(function(elem,index){
+    if (this.obrasSelectorMedico.length > 0) {
+      this.obrasSelectorMedico.forEach(function(elem, index){
         for (let i = 0; i < yo.value.length; i++) {
 
-          if(elem.id.toString() == yo.value[i]){
-            obrasAsignadas.push(elem._id); //clonamos el elemento
+          if (elem.id.toString() === yo.value[i]) {
+            obrasAsignadas.push(elem._id); // clonamos el elemento
           }
         }
 
@@ -157,7 +155,7 @@ export class AgregarMedicoComponent implements OnInit, OnChanges{
 
 
 
-    //Quitamos los atributos agregados para el selector del clone
+    // Quitamos los atributos agregados para el selector del clone
     // delete pacienteAsignado['id'];
     // delete pacienteAsignado['text'];
     // ////console.log(pacienteAsignado);
@@ -165,8 +163,8 @@ export class AgregarMedicoComponent implements OnInit, OnChanges{
     return obrasAsignadas;
   }
 
-  //---------------------------------------------------------------------------
-  //Metodos originales del componente
+  // ---------------------------------------------------------------------------
+  // Metodos originales del componente
 
 
   changedObraMedico(data: {value: string[]}) {

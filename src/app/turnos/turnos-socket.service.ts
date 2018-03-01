@@ -3,18 +3,17 @@ import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import * as io from 'socket.io-client';
 import * as moment from 'moment';
-//import * as feathers from 'feathers-client';
 import { environment } from '../../environments/environment';
 
-declare var feathers:any;
-declare var feathersClient:any;
+declare var feathers: any;
+declare var feathersClient: any;
 import * as feathersRx from 'feathers-reactive';
 import * as hooks from 'feathers-hooks';
 import * as Rx from 'rxjs';
 import * as authentication from 'feathers-authentication-client';
 
 import { Turno } from './turno.tipo';
-import { Feathers } from '../authentication/feathers.service'
+import { Feathers } from '../authentication/feathers.service';
 
 declare var $: any;
 
@@ -47,12 +46,12 @@ export class TurnoSocketService {
     private FeathersCambiarNombre: Feathers
   ) {
 
-    //Estamos usando el Service de Feathers, pues el que tiene la autenticacion del login
+    // Estamos usando el Service de Feathers, pues el que tiene la autenticacion del login
     this.feathersService = FeathersCambiarNombre.devolverFeathers();
-    //Obtenemos el service que queremos
+    // Obtenemos el service que queremos
     this.turnosSocketService = this.feathersService.service('turnos');
 
-    //Registramos eventos
+    // Registramos eventos
     this.turnosSocketService.on('created', (turno) => this.onCreated(turno));
     this.turnosSocketService.on('updated', (turno) => this.onUpdated(turno));
     this.turnosSocketService.on('removed', (turno) => this.onRemoved(turno));
@@ -65,23 +64,23 @@ export class TurnoSocketService {
 
   }
 
-  public setMedico(id){
+  public setMedico(id) {
     this.idDoctor = id;
   }
 
-  //-------------------------------------------------------------------------
+  // -------------------------------------------------------------------------
 
-  public obtenerTurnosRango(desde,hasta){
-    this.find(desde,hasta);
+  public obtenerTurnosRango(desde, hasta) {
+    this.find(desde, hasta);
   }
 
-  public obtenerTurnosActivosPaciente(id): Promise<any>{
+  public obtenerTurnosActivosPaciente(id): Promise<any> {
 
-    let horaActual = moment(new Date()).subtract(3, 'h').toISOString();
+    const horaActual = moment(new Date()).subtract(3, 'h').toISOString();
 
     return this.turnosSocketService.find({
       query: {
-        //matricula: m MOREMROE
+        // matricula: m MOREMROE
         paciente: id,
         horaInicial: { $gte : horaActual }
       }
@@ -89,16 +88,16 @@ export class TurnoSocketService {
       return turnos;
     }).catch(err => {
       console.error(err);
-      console.log("ocurrio un error en el find de turnos");
+      console.log('ocurrio un error en el find de turnos');
     });
 
   }
 
-  public cambiarMedico(id){
+  public cambiarMedico(id) {
     this.setMedico(id);
   }
 
-  public cleanService(){
+  public cleanService() {
     this.socket.disconnect();
     this.turnosSocketService = null;
     this.turnos$ = null;
@@ -109,162 +108,172 @@ export class TurnoSocketService {
   Grafica el turno que llega por parametro.
   */
 
-  private actualizarVisual(turno){
+  private actualizarVisual(turno) {
 
-    //let horaInicial = turno.horaInicial.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
-    let horaInicial = turno.horaInicial
-    //let horaFin = turno.horaFin.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
-    let horaFin = turno.horaFin;
-    //Le agregue el ID al final del nuevo turno para asi poder saber a que objeto corresponde cada evento grafico
+    // let horaInicial = turno.horaInicial.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
+    const horaInicial = turno.horaInicial;
+    // let horaFin = turno.horaFin.split('.')[0]; //Transformo la fecha sacandole LA ZONA HORARIA para que no explote el calendario.
+    const horaFin = turno.horaFin;
+    // Le agregue el ID al final del nuevo turno para asi poder saber a que objeto corresponde cada evento grafico
 
     let descripcion = '';
 
-    if(turno.descripcion){
+    if (turno.descripcion) {
       descripcion = ' , ' + turno.descripcion;
     }
 
-    if(turno.esReserva){
+    if (turno.esReserva) {
       // Es una reserva de horario SIN paciente
 
-      let newTurno = {"title": turno.descripcionReserva ,"allDay":false,"start": horaInicial,"end": horaFin,"color":"#a1c0dd","_id":turno._id, "id":turno._id};
-      $('#calendar').fullCalendar('renderEvent', newTurno, true)
+      const newTurno = {
+        'title': turno.descripcionReserva ,
+        'allDay': false,
+        'start': horaInicial,
+        'end': horaFin,
+        'color': '#a1c0dd',
+        '_id': turno._id,
+        'id': turno._id
+      };
 
-    }
-    else{
+      $('#calendar').fullCalendar('renderEvent', newTurno, true);
+    } else {
+      //Proteger pacientes sin obra
+      let obraIniciales = '';
+      if(turno.paciente.obra == null){
+        obraIniciales = 'Particular';
+      }else{
+        obraIniciales = turno.paciente.obra.iniciales;
+      }
+
       // Es una consulta medica
+      const newTurno = {
+        'title': turno.paciente.apellido + ' ' + turno.paciente.nombre +
+        ' | ' + obraIniciales + ' | ' + turno.paciente.telefono  +  descripcion,
+       'allDay': false, 'start': horaInicial, 'end': horaFin, 'color': '#f8ac59', '_id': turno._id, 'id': turno._id};
 
-      let newTurno = null;
-
-      // Workaround: Esto se debe a que en la BBDD existen pacientes SIN obra social.
-      // TODO: Quitar este IF una vez solucionada la BBDD.
-      if(turno.paciente.obra && turno.paciente.obra.iniciales){
-        newTurno = {"title":turno.paciente.apellido+' '+turno.paciente.nombre+' | '+turno.paciente.obra.iniciales+' | '+turno.paciente.telefono  +  descripcion,"allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59","_id":turno._id, "id":turno._id};
-      }
-      else{
-        newTurno = {"title":turno.paciente.apellido+' '+turno.paciente.nombre+' | '+turno.paciente.telefono  +  descripcion,"allDay":false,"start":horaInicial,"end":horaFin,"color":"#f8ac59","_id":turno._id, "id":turno._id};
-      }
-
-      $('#calendar').fullCalendar('renderEvent', newTurno, true)
+      $('#calendar').fullCalendar('renderEvent', newTurno, true);
     }
 
 
   }
 
 
-  //-------------------------------------------------------------------------
+  // -------------------------------------------------------------------------
   // Metodos principales
 
-  public crearTurno(fecha: Date, pacienteAsignado){
+  public crearTurno(fecha: Date, pacienteAsignado) {
 
-    let paciente = pacienteAsignado;
+    const paciente = pacienteAsignado;
 
-    //El color depende del medico al que le estoy cargando el turno
-    var color = '#f8ac59';
+    // El color depende del medico al que le estoy cargando el turno
+    const color = '#f8ac59';
 
-    //Windows: descomentar la linea de abajo
-    //var temp = moment(fecha).utc().add(15, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+    // Windows: descomentar la linea de abajo
+    // var temp = moment(fecha).utc().add(15, 'm');
+    // LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
 
-    //LINUX: descomentar la linea de abajo
-    var temp = moment(fecha,'YYYY-MM-DDTHH:mm:ss Z').add(10, 'm'); //LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+    // LINUX: descomentar la linea de abajo
+    // LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
+    const temp = moment(fecha, 'YYYY-MM-DDTHH:mm:ss Z').add(10, 'm');
 
-    //let nuevaFecha = temp.utc().format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
-    let nuevaFecha = temp.format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
+    // let nuevaFecha = temp.utc().format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
+    const nuevaFecha = temp.format('YYYY-MM-DDTHH:mm:ss'); // Le saco a la fecha la zona horaria!
 
-    let nuevoTurno = {
-      horaInicial: fecha,
-      horaFin: nuevaFecha,
-      medico:this.idDoctor,
-      estado:'pendiente',
-      paciente: paciente._id,
-      descripcion: paciente.descripcion
-    }
-
-    this.turnosSocketService.create(nuevoTurno).then((turnoNuevo)=>{});
-  }
-
-  public crearTurnoConFin(fechaIni,fechaFin, pacienteAsignado){
-
-    let paciente = pacienteAsignado;
-
-    var color = '#f8ac59';
-    fechaIni = moment(fechaIni).utc().subtract(3, 'h'); //Lo que estoy haciendo aca es homogenizar a UTC y sacarle 3 horas
-    fechaFin = moment(fechaFin).utc().subtract(3, 'h'); //Lo que estoy haciendo aca es homogenizar a UTC y sacarle 3 horas
-
-    let nuevaFechaIni = fechaIni.format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
-    let nuevaFechaFin = fechaFin.format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
-    let nuevoTurno = {
-      horaInicial: nuevaFechaIni,
-      horaFin: nuevaFechaFin,
-      medico:this.idDoctor,
-      estado:'pendiente',
-      paciente: paciente._id
-    }
-
-    this.turnosSocketService.create(nuevoTurno).then((turnoNuevo)=>{
-    });
-  }
-
-  public reservarHorario(fecha, descripcion){
-
-    var temp = moment(fecha,'YYYY-MM-DDTHH:mm:ss Z').add(10, 'm');
-
-    //let nuevaFecha = temp.utc().format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
-    let nuevaFecha = temp.format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
-
-    let reserva = {
+    const nuevoTurno = {
       horaInicial: fecha,
       horaFin: nuevaFecha,
       medico: this.idDoctor,
-      estado:'pendiente',
+      estado: 'pendiente',
+      paciente: paciente._id,
+      descripcion: paciente.descripcion
+    };
+
+    this.turnosSocketService.create(nuevoTurno).then((turnoNuevo) => {});
+  }
+
+  public crearTurnoConFin(fechaIni, fechaFin, pacienteAsignado) {
+
+    const paciente = pacienteAsignado;
+
+    const color = '#f8ac59';
+    fechaIni = moment(fechaIni).utc().subtract(3, 'h'); // Lo que estoy haciendo aca es homogenizar a UTC y sacarle 3 horas
+    fechaFin = moment(fechaFin).utc().subtract(3, 'h'); // Lo que estoy haciendo aca es homogenizar a UTC y sacarle 3 horas
+
+    const nuevaFechaIni = fechaIni.format('YYYY-MM-DDTHH:mm:ss'); // Le saco a la fecha la zona horaria!
+    const nuevaFechaFin = fechaFin.format('YYYY-MM-DDTHH:mm:ss'); // Le saco a la fecha la zona horaria!
+    const nuevoTurno = {
+      horaInicial: nuevaFechaIni,
+      horaFin: nuevaFechaFin,
+      medico: this.idDoctor,
+      estado: 'pendiente',
+      paciente: paciente._id
+    };
+
+    this.turnosSocketService.create(nuevoTurno).then((turnoNuevo) => {
+    });
+  }
+
+  public reservarHorario(fecha, descripcion) {
+
+    const temp = moment(fecha, 'YYYY-MM-DDTHH:mm:ss Z').add(10, 'm');
+
+    // let nuevaFecha = temp.utc().format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
+    const nuevaFecha = temp.format('YYYY-MM-DDTHH:mm:ss'); // Le saco a la fecha la zona horaria!
+
+    const reserva = {
+      horaInicial: fecha,
+      horaFin: nuevaFecha,
+      medico: this.idDoctor,
+      estado: 'pendiente',
       esReserva: true,
       descripcionReserva: descripcion
-    }
+    };
 
-    this.turnosSocketService.create(reserva).then((nuevaReserva)=>{
+    this.turnosSocketService.create(reserva).then((nuevaReserva) => {
 
     });
   }
 
-  public cancelarReserva(reserva){ this.turnosSocketService.remove(reserva._id).then((reservaEliminada)=>{});}
+  public cancelarReserva(reserva) { this.turnosSocketService.remove(reserva._id).then((reservaEliminada) => {}); }
 
-  public actualizarTurno(turno){
+  public actualizarTurno(turno) {
 
-    let newHoraInicial = turno.start.format();
-    let newHoraFin = turno.end.format();
-    let id = turno._id;
-    this.turnosSocketService.patch(id, {"horaInicial":newHoraInicial,"horaFin":newHoraFin}).then((turnoActualizado)=>{
+    const newHoraInicial = turno.start.format();
+    const newHoraFin = turno.end.format();
+    const id = turno._id;
+    this.turnosSocketService.patch(id, {'horaInicial': newHoraInicial, 'horaFin': newHoraFin}).then((turnoActualizado) => {
     });
   }
-  public actualizarTurno2(start, end, idTurno){
+  public actualizarTurno2(start, end, idTurno) {
 
-    let newHoraInicial = start.format();
-    let newHoraFin = end.format();
-    let id = idTurno;
-    this.turnosSocketService.patch(id, {"horaInicial":newHoraInicial,"horaFin":newHoraFin}).then((turnoActualizado)=>{
-    });
-  }
-
-  public eliminarTurno(idTurno){
-    let id = idTurno;
-    this.turnosSocketService.remove(idTurno).then((turnoEliminado)=>{
+    const newHoraInicial = start.format();
+    const newHoraFin = end.format();
+    const id = idTurno;
+    this.turnosSocketService.patch(id, {'horaInicial': newHoraInicial, 'horaFin': newHoraFin}).then((turnoActualizado) => {
     });
   }
 
-  public find(desde,hasta) {
+  public eliminarTurno(idTurno) {
+    const id = idTurno;
+    this.turnosSocketService.remove(idTurno).then((turnoEliminado) => {
+    });
+  }
 
-    let idMedico = this.idDoctor.toString();
+  public find(desde, hasta) {
+
+    const idMedico = this.idDoctor.toString();
     this.turnosSocketService.find({
       query: {
-        //matricula: m
+        // matricula: m
         medico: idMedico,
         horaInicial: { $gte : desde},
-        horaFin:{ $lte: hasta }
+        horaFin: { $lte: hasta }
       }
     }).then((turnos) => {
       this.dataStore.turnos = turnos;
 
       // Limpiamos los eventos para evitar repetidos
-      let calendario = $('#calendar');
+      const calendario = $('#calendar');
       calendario.fullCalendar('removeEvents');
 
       for (let i = 0; i < turnos.length; i++) {
@@ -274,7 +283,7 @@ export class TurnoSocketService {
       this.turnosObserver.next(this.dataStore.turnos);
     }).catch(err => {
       console.error(err);
-      console.log("ocurrio un error en el find de turnos");
+      console.log('ocurrio un error en el find de turnos');
     });
   }
 
@@ -292,7 +301,7 @@ export class TurnoSocketService {
   }
 
 
-  //-------------------------------------------------------------------------
+  // -------------------------------------------------------------------------
   // Metodos de recepcion de eventos de sockets
 
   /*
@@ -301,10 +310,10 @@ export class TurnoSocketService {
   private onCreated(turno: any) {
 
     // El nuevo turno es del DOCTOR actual
-    if(turno.medico._id.toString() == this.idDoctor){
+    if (turno.medico._id.toString() === this.idDoctor) {
 
       this.dataStore.turnos.push(turno);
-      //lo pusheo al calendar
+      // lo pusheo al calendar
       this.actualizarVisual(turno);
       this.turnosObserver.next(this.dataStore.turnos);
     }
@@ -315,7 +324,7 @@ export class TurnoSocketService {
   */
   private onUpdated(turno: Turno) {
     // El nuevo turno es del DOCTOR actual
-    if(turno.medico._id.toString() == this.idDoctor){
+    if (turno.medico._id.toString() === this.idDoctor) {
 
       const index = this.getIndex(turno._id);
 
@@ -330,16 +339,16 @@ export class TurnoSocketService {
   */
   private onRemoved(turno: Turno) {
     // El nuevo turno es del DOCTOR actual
-    if(turno.medico._id.toString() == this.idDoctor){
+    if (turno.medico._id.toString() === this.idDoctor) {
 
 
       const index = this.getIndex(turno._id);
 
-      let eventosCalendario = $('#calendar').fullCalendar('clientEvents');
+      const eventosCalendario = $('#calendar').fullCalendar('clientEvents');
 
       this.dataStore.turnos.splice(index, 1);
       this.turnosObserver.next(this.dataStore.turnos);
-      $('#calendar').fullCalendar('removeEvents',turno._id); // Esto elimina el evento (grafico) con el id = turno._id
+      $('#calendar').fullCalendar('removeEvents', turno._id); // Esto elimina el evento (grafico) con el id = turno._id
     }
   }
 
@@ -347,13 +356,13 @@ export class TurnoSocketService {
   Este metodo va a ser llamado cada vez que alguien (desde aca o desde el server) emita ese evento 'onUpdated'
   */
 
-  private onPatched(turno){
+  private onPatched(turno) {
     // El nuevo turno es del DOCTOR actual
-    if(turno.medico._id.toString() == this.idDoctor){
+    if (turno.medico._id.toString() === this.idDoctor) {
 
-      let id = turno._id;
+      const id = turno._id;
 
-      $('#calendar').fullCalendar('removeEvents',turno._id); // Esto elimina el evento (grafico) con el id = turno._id
+      $('#calendar').fullCalendar('removeEvents', turno._id); // Esto elimina el evento (grafico) con el id = turno._id
       this.actualizarVisual(turno); //
     }
   }
@@ -362,7 +371,7 @@ export class TurnoSocketService {
   /*
   Al destruirse el servicio, se debe cerrar el socket y borrar el observable del mismo.
   */
-  ngOnDestroy(){
+  ngOnDestroy() {
     // Removemos todos los eventos asociados a 'turnos' de este socket. Esto se debe a que se crean varias instancias a lo largo del sistema
     this.turnosSocketService.removeAllListeners('created');
     this.turnosSocketService.removeAllListeners('updated');

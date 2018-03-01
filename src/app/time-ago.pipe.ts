@@ -63,10 +63,10 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
   };
 
   private elapsed(): string {
-    let now = this.now().getTime();
+    const now = this.now().getTime();
 
     // time since message was sent in seconds
-    let delta = (now - this.value.getTime()) / 1000;
+    const delta = (now - this.value.getTime()) / 1000;
 
     // format string
     if (delta < 60) { // sent in last minute

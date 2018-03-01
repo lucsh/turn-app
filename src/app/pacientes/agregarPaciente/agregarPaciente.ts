@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, Output,EventEmitter,OnChanges, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ElementRef, ViewChild } from '@angular/core';
 
 import { Paciente } from '../paciente.tipo';
 import { PacientesService } from '../pacientes.service';
 
-import { Obra } from '../../obras/obra.tipo';
-import { ObrasService } from '../../obras/obras.service';
+import { Obra } from '../../shared/models/obra.tipo';
+import { ObrasService } from 'app/shared/services/obras.service';
 
 import { ObrasCompartidasService } from '../../routerService/obras.sistema';
 import { Subscription } from 'rxjs/Subscription';
@@ -25,8 +25,8 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
   @Output() pacienteAgregado = new EventEmitter();
 
   @ViewChild('closeFormAgregarPaciente') closeFormAgregarPaciente: ElementRef;
-  @ViewChild('fechaPaciente') fechaPaciente:ElementRef;
-  @ViewChild('formulario') formulario:NgForm;
+  @ViewChild('fechaPaciente') fechaPaciente: ElementRef;
+  @ViewChild('formulario') formulario: NgForm;
 
   public obras: Obra[];
   public obraSelected: Obra = null;
@@ -65,14 +65,14 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
       Subscribimos a los obras, para que tengan una correspondencia
       con los obras del navigator
     */
-    if(this.obrasCompartidasService.obras$){
+    if (this.obrasCompartidasService.obras$){
       this.obrasSubscription = this.obrasCompartidasService.obras$.subscribe((obras) => {
 
-        this.obras = obras;
+        this.obras = obras.slice();
 
-        if(this.devolverParticular()==null){
+        if (this.devolverParticular() == null){
 
-          let particular = {
+          const particular = {
           	_id: 'Particular',
           	nombre: 'Particular',
           	iniciales: 'Particular'
@@ -92,10 +92,10 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
   }
 
   private devolverParticular(){
-    let obraRes:Obra;
-    if(this.obras){
-      this.obras.forEach(function(obra,index){
-        if(obra.nombre == 'Particular' ){
+    let obraRes: Obra;
+    if (this.obras){
+      this.obras.forEach(function(obra, index){
+        if (obra.nombre == 'Particular' ){
           obraRes = obra;
         }
       });
@@ -113,7 +113,7 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
 
   }
 /* Este metodo se encarga de reiniciar el formulario, asi evita errores en las validaciones que quedan guardads.*/
-  public reiniciarFormulario(formulario:NgForm){
+  public reiniciarFormulario(formulario: NgForm){
     formulario.resetForm();
     //this.fechaPaciente.nativeElement.value = null; //Reinicio el input de fecha para evitar errores.
   }
@@ -121,7 +121,7 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
   /*
 
   */
-  public agregarPaciente(nombrePaciente,apellidoPaciente, dniPaciente,
+  public agregarPaciente(nombrePaciente, apellidoPaciente, dniPaciente,
     emailPaciente, telefonoPaciente, ocupacion, observaciones){
 
       this.pacienteCopia = new Paciente();
@@ -134,17 +134,17 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
       this.pacienteCopia.observaciones = observaciones;
       this.pacienteCopia.fechaNacimiento = this.fechaNacimiento.jsdate;
 
-      let emailPacienteLower = emailPaciente.toLowerCase();
+      const emailPacienteLower = emailPaciente.toLowerCase();
       let obraId = this.obraSelected._id;
 
-      if(obraId === 'Particular'){
+      if (obraId === 'Particular'){
         obraId = null;
       }
       else{
         this.pacienteCopia.obra = obraId;
       }
 
-      this.pacientesService.createPaciente(nombrePaciente,apellidoPaciente, dniPaciente,
+      this.pacientesService.createPaciente(nombrePaciente, apellidoPaciente, dniPaciente,
         emailPacienteLower, this.fechaNacimiento.jsdate, telefonoPaciente, obraId, ocupacion, observaciones)
         .then(pacienteNuevo => {
 
@@ -171,9 +171,9 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
               }
             }
           );
-        }).catch(err =>{
-          if(err.status === 500){
-            let yo = this;
+        }).catch(err => {
+          if (err.status === 500){
+            const yo = this;
             swal({
               title: 'Error al crear paciente!',
               text: 'Ocurrio un error a la hora de crear el paciente, compruebe que el email ingresado no este siendo utilizado por otro paciente',
@@ -185,7 +185,7 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
 
                 //REVISAR EL TEMA DE FECHA NACIMIENTO Y OBRA ELEGIDA:
                 yo.formulario.setValue({
-                  nombrePaciente:yo.pacienteCopia.nombre,
+                  nombrePaciente: yo.pacienteCopia.nombre,
                   apellidoPaciente: yo.pacienteCopia.apellido,
                   documentoPaciente: yo.pacienteCopia.dni,
                   emailPaciente: yo.pacienteCopia.email,
@@ -203,7 +203,7 @@ export class AgregarPacienteComponent implements OnInit, OnChanges{
 
                 }
               }
-            )
+            );
           }
         });
   }

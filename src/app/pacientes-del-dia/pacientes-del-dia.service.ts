@@ -4,10 +4,10 @@ import { Observer } from 'rxjs/Observer';
 import * as io from 'socket.io-client';
 import * as moment from 'moment';
 import { environment } from '../../environments/environment';
-import { Feathers } from '../authentication/feathers.service'
+import { Feathers } from '../authentication/feathers.service';
 //import * as feathers from 'feathers-client';
 
-declare var feathers:any;
+declare var feathers: any;
 
 import { Turno } from '../turnos/turno.tipo';
 
@@ -27,7 +27,7 @@ export class PacientesDelDiaService {
 
   private pacientesDelDiaService: any;
 
-  private notificaciones:any;
+  private notificaciones: any;
 
   private dataStore: {
     turnos: Turno[]
@@ -62,10 +62,10 @@ export class PacientesDelDiaService {
 
   public buscarTurnos() {
     //let m = this.matricula;
-    let fechaHoy = new Date();
-    let temp = moment(fechaHoy).format('YYYY-MM-DD');
-    let temp2 = moment(temp, "YYYY-MM-DD").add(1, 'days');
-    let temp3 = (moment(temp2).format('YYYY-MM-DD'));
+    const fechaHoy = new Date();
+    const temp = moment(fechaHoy).format('YYYY-MM-DD');
+    const temp2 = moment(temp, 'YYYY-MM-DD').add(1, 'days');
+    const temp3 = (moment(temp2).format('YYYY-MM-DD'));
     this.pacientesDelDiaService.find({
       query: {
         horaInicial: {
@@ -77,7 +77,7 @@ export class PacientesDelDiaService {
     }).then((turnos) => {
 
       // Protegemos que sean turnos y no turnos-reservas de los medicos
-      let consultasMedicas = turnos.filter((t) => { return !t.esReserva });
+      const consultasMedicas = turnos.filter((t) => { return !t.esReserva; });
 
       this.dataStore.turnos = consultasMedicas;
       this.turnosObserver.next(this.dataStore.turnos);
@@ -87,9 +87,9 @@ export class PacientesDelDiaService {
 
 
   public updateTurno(turno, nuevoEstado){
-    var now = new Date();
+    const now = new Date();
     // var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
-    this.pacientesDelDiaService.patch(turno._id,{"estado": nuevoEstado}).then((turnoActualizado) => {
+    this.pacientesDelDiaService.patch(turno._id, {'estado': nuevoEstado}).then((turnoActualizado) => {
     }).catch(err => console.error(err));
   }
 
@@ -110,15 +110,15 @@ export class PacientesDelDiaService {
   */
   private onCreated(turno: any) { //REMPLAZR EL ANY CON TURNO!
 
-    if(!turno.esReserva){
+    if (!turno.esReserva){
 
-      let hoy = moment(new Date());
-      let momentHoy = hoy.format('YYYY-MM-DD');
-      let diaHoy = (momentHoy.split('-'))[2]; // DD
+      const hoy = moment(new Date());
+      const momentHoy = hoy.format('YYYY-MM-DD');
+      const diaHoy = (momentHoy.split('-'))[2]; // DD
 
-      let turnoDate = moment(new Date(turno.horaInicial));
-      let momentTurno = turnoDate.format('YYYY-MM-DD');
-      let diaTurno = (momentTurno.split('-'))[2]; // DD
+      const turnoDate = moment(new Date(turno.horaInicial));
+      const momentTurno = turnoDate.format('YYYY-MM-DD');
+      const diaTurno = (momentTurno.split('-'))[2]; // DD
       // diaTurno.setUTCDate(diaTurno.getDate());
       // diaTurno.setUTCHours(diaTurno.getHours());
 
@@ -127,7 +127,7 @@ export class PacientesDelDiaService {
 
 
         // No aseguramos que SI O SI pertenezca a hoy
-        if(diaTurno == diaHoy && hoy.month() == turnoDate.month()) {
+        if (diaTurno == diaHoy && hoy.month() == turnoDate.month()) {
 
           this.dataStore.turnos.push(turno);
           // Lo pusheo al componente
@@ -160,7 +160,7 @@ export class PacientesDelDiaService {
   private onRemoved(turno: Turno) {
     const index = this.getIndex(turno._id);
 
-    if(index > -1){
+    if (index > -1){
       this.dataStore.turnos.splice(index, 1);
     }
 
@@ -173,18 +173,18 @@ export class PacientesDelDiaService {
 
   private onPatched(turno){
 
-    let indexTurno = this.buscarIndexTurno(turno);
+    const indexTurno = this.buscarIndexTurno(turno);
 
-    if(indexTurno > -1){
+    if (indexTurno > -1){
 
-      let turnoAnterior:any = this.dataStore.turnos[indexTurno];
+      const turnoAnterior: any = this.dataStore.turnos[indexTurno];
       //El medico esta llamando un nuevo paciente
-      if(turnoAnterior.estado=='en espera' && turno.estado == 'activo'){
+      if (turnoAnterior.estado == 'en espera' && turno.estado == 'activo'){
         console.log('Estaba en espera y ahora lo llamo el medico');
         this.notificarLlamado(turno.medico, turno.paciente);
       }else{
         // Esta puesto en otro IF por si queremos cambiar el mensaje que se usa de la notificacion
-        if(turnoAnterior.estado=='en estudio' && turno.estado == 'activo'){
+        if (turnoAnterior.estado == 'en estudio' && turno.estado == 'activo'){
           this.notificarLlamado(turno.medico, turno.paciente);
         }
       }
@@ -201,10 +201,10 @@ export class PacientesDelDiaService {
     this.notificaciones.info(
       'Llamar al paciente',
       '' + medico.nombre + ' llama a ' + paciente.nombre + ' ' + paciente.apellido
-    )
+    );
         const notificar = new Notificacion();
-        notificar.send(paciente.nombre + ' ' + paciente.apellido ,'fué llamado por' + ' ' + medico.nombre);
-  
+        notificar.send(paciente.nombre + ' ' + paciente.apellido , 'fué llamado por' + ' ' + medico.nombre);
+
   }
 
   /*
@@ -225,10 +225,10 @@ export class PacientesDelDiaService {
   private buscarIndexTurno(turno): number{
     let indexTurno = -1;
 
-    let turnos = this.dataStore.turnos;
+    const turnos = this.dataStore.turnos;
 
-    turnos.forEach(function(elem,index){
-      if(elem._id.toString() == turno._id.toString()){
+    turnos.forEach(function(elem, index){
+      if (elem._id.toString() == turno._id.toString()){
 
         indexTurno = index;
       }

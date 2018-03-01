@@ -6,10 +6,10 @@ import * as moment from 'moment';
 export class AgePipe implements PipeTransform {
 
   transform(value: string): string {
-    let today = moment();
-    let birthdate = moment(value);
-    let years = today.diff(birthdate, 'years');
-    let html:string = years + " años ";
+    const today = moment();
+    const birthdate = moment(value);
+    const years = today.diff(birthdate, 'years');
+    const html: string = years + ' años ';
     return html;
   }
 

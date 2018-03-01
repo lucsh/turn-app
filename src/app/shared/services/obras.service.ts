@@ -5,22 +5,22 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-import { Obra } from './obra.tipo';
-import { environment } from '../../environments/environment';
+import { Obra } from '../../shared/models/obra.tipo';
+import { environment } from '../../../environments/environment';
 
-import { AuthService } from '../authentication/auth.service';
+import { AuthService } from '../../authentication/auth.service';
 
 @Injectable()
 export class ObrasService {
 
   private headers = new Headers({'Content-Type': 'application/json'});
-  private obrasURL = environment.apiUrl +'/obras';  // URL to web api
+  private obrasURL = environment.apiUrl + '/obras';  // URL to web api
 
 
-  constructor(private http: Http,private authService: AuthService) { }
+  constructor(private http: Http, private authService: AuthService) { }
 
   getObras(): Promise<Obra[]>{
-    return this.http.get(this.obrasURL,this.authService.jwt())
+    return this.http.get(this.obrasURL, this.authService.jwt())
     .toPromise()
     .then(response => {
       return response.json() as Obra[];
@@ -28,8 +28,8 @@ export class ObrasService {
     .catch(this.handleError);
   }
 
-  actualizarObra(id,datos): Promise<Obra[]>{
-    return this.http.put(this.obrasURL+'/'+id,datos,this.authService.jwt())
+  actualizarObra(id, datos): Promise<Obra[]>{
+    return this.http.put(this.obrasURL + '/' + id, datos, this.authService.jwt())
 		.toPromise()
 		.then(response => {
 			return response.json() as Obra[];
@@ -37,8 +37,8 @@ export class ObrasService {
 		.catch(this.handleError);
   }
 
-  crearObra(iniciales,nombre): Promise<Obra>{
-    return this.http.post(this.obrasURL,{iniciales: iniciales,nombre:nombre},this.authService.jwtContentType())
+  crearObra(iniciales, nombre): Promise<Obra>{
+    return this.http.post(this.obrasURL, {iniciales: iniciales, nombre: nombre}, this.authService.jwtContentType())
 		.toPromise()
 		.then(response => {
 			return response.json() as Obra;
@@ -46,8 +46,8 @@ export class ObrasService {
 		.catch(this.handleError);
   }
 
-  eliminarObra(_id):Promise<Obra[]>{
-    return this.http.delete(this.obrasURL+'/'+_id,this.authService.jwt())
+  eliminarObra(_id): Promise<Obra[]>{
+    return this.http.delete(this.obrasURL + '/' + _id, this.authService.jwt())
 		.toPromise()
 		.then(response => {
 			return response.json() as Obra[];

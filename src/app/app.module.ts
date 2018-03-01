@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { DataTableModule } from "angular2-datatable";
+import { DataTableModule } from 'angular2-datatable';
 
 
 import 'hammerjs';
@@ -60,7 +60,6 @@ import 'moment/locale/es';
 
 import { SimpleNotificationsModule } from 'angular2-notifications';
 
-import { TurnosService } from './turnos/turnos.service';
 import { MedicosService } from './medico/medicos.service';
 import { NavigationService } from './ui/navigation/navigation.service';
 import { PacientesService } from './pacientes/pacientes.service';
@@ -81,20 +80,15 @@ import { SolicitudesComponent } from './pedidos/solicitudes.component';
 import { SolicitudesSocketService } from './pedidos/solicitudes-socket.service';
 import { PacientesDelDiaComponent } from './pacientes-del-dia/pacientes-del-dia.component';
 
-import { DataFilterPipe2 }   from './obras/obras-filter.pipe';
-
 
 import {AsignarPacienteComponent} from './turnos/asignarPaciente/asignarPacienteTurno';
 import {AgregarPacienteComponent} from './pacientes/agregarPaciente/agregarPaciente';
 import {SelectModule} from 'ng2-select';
-import { ObrasComponent } from './obras/obras.component';
 
-import { ObrasService } from './obras/obras.service';
 import { TurnosDelMedicoComponent } from './turnos-del-medico/turnos-del-medico.component';
 import { ConfiguracionMedicoComponent } from './configuracion-medico/configuracion-medico.component';
 import { ModalSemanaComponent } from './configuracion-medico/modal-semana/modal-semana.component';
 import { EditarPacienteComponent } from './pacientes/editarPaciente/editarPaciente';
-import { EditarObraComponent } from './obras/editarObra/editarObra';
 import { TablaMedicosComponent } from './medico/tablaMedicos/tablaMedicos.component';
 import { EditarMedicoComponent } from './medico/editarMedico/editarMedico';
 
@@ -121,10 +115,11 @@ import { TablaPacientesComponent } from './pacientes/tablaPacientes/tablaPacient
 
 import { MyDatePickerModule } from 'mydatepicker';
 
-import { AgregarObraComponent } from './obras/agregarObra/agregarObra';
-import { TablaObrasComponent } from './obras/tablaObras/tablaObras.component';
-
 import {ConfiguracionMedicoService} from './configuracion-medico/configuracion-medico.service';
+import { ObrasModule } from 'app/obras/obras.module';
+
+import { AlertService } from './shared/services/alerts.service';
+import { ParticularesComponent } from './configuracion-medico/modal-semana/particulares/particulares.component';
 
 @NgModule({
   declarations: [
@@ -137,15 +132,12 @@ import {ConfiguracionMedicoService} from './configuracion-medico/configuracion-m
     TurnosComponent,
     PacientesComponent,
     DataFilterPipe,
-    DataFilterPipe2,
     SolicitudesComponent,
     PacientesDelDiaComponent,
     AsignarPacienteComponent,
     AgregarPacienteComponent,
-    ObrasComponent,
     TurnosDelMedicoComponent,
     EditarPacienteComponent,
-    EditarObraComponent,
     TablaMedicosComponent,
     EditarMedicoComponent,
 
@@ -159,12 +151,12 @@ import {ConfiguracionMedicoService} from './configuracion-medico/configuracion-m
     AgePipe,
     AgregarMedicoComponent,
     TablaPacientesComponent,
-    AgregarObraComponent,
-    TablaObrasComponent
+    ParticularesComponent
 
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
     FormsModule,
     HttpModule,
     BrowserAnimationsModule,
@@ -206,16 +198,15 @@ import {ConfiguracionMedicoService} from './configuracion-medico/configuracion-m
     SelectModule,
     Select2Module,
     SimpleNotificationsModule.forRoot(),
-    MyDatePickerModule
+    MyDatePickerModule,
+    ObrasModule
   ],
   providers: [
-    TurnosService,
     PacientesService,
     MedicosService,
     NavigationService,
     TurnoSocketService,
     SolicitudesSocketService,
-    ObrasService,
     Feathers,
     AuthService,
     AuthGuard,
@@ -225,7 +216,8 @@ import {ConfiguracionMedicoService} from './configuracion-medico/configuracion-m
     MedicosCompartidosService,
     PacientesCompartidosService,
     ObrasCompartidasService,
-    ConfiguracionMedicoService
+    ConfiguracionMedicoService,
+    AlertService
 
   ],
   bootstrap: [AppComponent]

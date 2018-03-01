@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Http} from "@angular/http";
+import {Http} from '@angular/http';
 import {DataFilterPipe} from './pacientes-filter.pipe';
 import {PacientesService} from './pacientes.service';
 import {Paciente} from './paciente.tipo';
@@ -10,17 +10,17 @@ declare var $: any;
 
 @Component({
   selector: 'app-pacientes',
-  providers:[PacientesService],
+  providers: [PacientesService],
   templateUrl: './pacientes.component.html',
   styleUrls: ['./pacientes.component.css']
 })
 export class PacientesComponent implements OnInit {
 
   public data;
-  public filterQuery = "";
+  public filterQuery = '';
   public rowsOnPage = 10;
-  public sortBy = "email";
-  public sortOrder = "asc";
+  public sortBy = 'email';
+  public sortOrder = 'asc';
 
   public pacienteSelected = null;
 
@@ -57,7 +57,7 @@ export class PacientesComponent implements OnInit {
       return a.city.length;
   }
 
-  buscarPaciente(id:string){
+  buscarPaciente(id: string){
     this.pacientesService.buscarPaciente(id).then(paciente => {
     });
   }
@@ -69,7 +69,7 @@ export class PacientesComponent implements OnInit {
       FIX TEMPORAL: El timeout es para obligar a que el ngIf que proteje el modal,
       alcance a hacerse true.
     */
-    setTimeout(()=> {
+    setTimeout(() => {
       $('#formEditarPaciente').modal('show');
     },
     200);
@@ -79,14 +79,14 @@ export class PacientesComponent implements OnInit {
     Abrimos el modal para agregar un nuevo paciente
   */
   formAgregarPaciente(){
-    setTimeout(()=> {
+    setTimeout(() => {
       $('#formAgregarPaciente').modal('show');
     },
     200);
   }
 
   onPacienteAgregado(pacienteNuevo){
-    if(pacienteNuevo){
+    if (pacienteNuevo){
       //Actualizamos la vista
       this.pacientes.push(pacienteNuevo);
     }
@@ -95,11 +95,11 @@ export class PacientesComponent implements OnInit {
   onPacienteEditado(pacienteEditado){
     let encontrado = -1;
     this.pacientes.forEach(function(elem, index){
-      if(elem._id === pacienteEditado._id){
+      if (elem._id === pacienteEditado._id){
         encontrado = index;
       }
     });
-    if(encontrado >= 0){
+    if (encontrado >= 0){
       this.pacientes[encontrado] = Object.assign({}, pacienteEditado);
     }
 
@@ -107,7 +107,7 @@ export class PacientesComponent implements OnInit {
 
   sancionar(paciente){
 
-    let yo = this;
+    const yo = this;
     swal({
       title: '¿Estas seguro que queres sancionar al paciente?',
       //text: "No seras capaz de revertir esta accion!",
@@ -120,12 +120,12 @@ export class PacientesComponent implements OnInit {
     }).then(function () {
       yo.pacientesService.sancionarPaciente(paciente._id).then(pac => {
         paciente.sancion = true;
-      }).catch(err => console.error(err))
+      }).catch(err => console.error(err));
     }).catch(swal.noop);
   }
 
   habilitar(paciente){
-    let yo = this;
+    const yo = this;
     swal({
       title: '¿Estas seguro que queres habilitar al paciente?',
       //text: "No seras capaz de revertir esta accion!",
@@ -138,7 +138,7 @@ export class PacientesComponent implements OnInit {
     }).then(function () {
       yo.pacientesService.habilitarPaciente(paciente._id).then(pac => {
         paciente.sancion = false;
-      }).catch(err => console.error(err))
+      }).catch(err => console.error(err));
     }).catch(swal.noop);
 
 
@@ -146,7 +146,7 @@ export class PacientesComponent implements OnInit {
   }
 
   eliminar(paciente){
-    let yo = this;
+    const yo = this;
     swal({
       title: '¿Estas seguro que queres habilitar al paciente?',
       //text: "No seras capaz de revertir esta accion!",
@@ -158,12 +158,12 @@ export class PacientesComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then(function () {
       yo.pacientesService.eliminarPaciente(paciente._id).then(pac => {
-        var index = yo.data.indexOf(paciente);
+        const index = yo.data.indexOf(paciente);
         if (index > -1) {
           yo.data.splice(index, 1);
         }
         paciente.eliminado = true;
-      }).catch(err => console.error(err))
+      }).catch(err => console.error(err));
     }).catch(swal.noop);
   }
 

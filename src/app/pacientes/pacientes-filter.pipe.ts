@@ -1,14 +1,14 @@
-import * as _ from "lodash";
-import {Pipe, PipeTransform} from "@angular/core";
+import * as _ from 'lodash';
+import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
-    name: "dataFilter"
+    name: 'dataFilter'
 })
 export class DataFilterPipe implements PipeTransform {
 
     transform(array: any[], query: string): any {
         if (query) {
-            return _.filter(array, row=>{
+            return _.filter(array, row => {
               let filas = false;
               if (row.nombre.toLowerCase().indexOf(query.toLowerCase()) > -1){
                 filas = true;
@@ -18,11 +18,11 @@ export class DataFilterPipe implements PipeTransform {
                   filas = true;
                 }
                 else{
-                  if(row.email.toLowerCase().indexOf(query.toLowerCase()) > -1){
+                  if (row.email.toLowerCase().indexOf(query.toLowerCase()) > -1){
                     filas = true;
                   }
                   else{
-                    if(row.numeroPaciente.toLowerCase().indexOf(query.toLowerCase()) > -1){
+                    if (row.numeroPaciente.toLowerCase().indexOf(query.toLowerCase()) > -1){
                       filas = true;
                     }
                   }
