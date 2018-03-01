@@ -137,10 +137,18 @@ export class TurnoSocketService {
 
       $('#calendar').fullCalendar('renderEvent', newTurno, true);
     } else {
+      //Proteger pacientes sin obra
+      let obraIniciales = '';
+      if(turno.paciente.obra == null){
+        obraIniciales = 'Particular';
+      }else{
+        obraIniciales = turno.paciente.obra.iniciales;
+      }
+
       // Es una consulta medica
       const newTurno = {
         'title': turno.paciente.apellido + ' ' + turno.paciente.nombre +
-        ' | ' + turno.paciente.obra.iniciales + ' | ' + turno.paciente.telefono  +  descripcion,
+        ' | ' + obraIniciales + ' | ' + turno.paciente.telefono  +  descripcion,
        'allDay': false, 'start': horaInicial, 'end': horaFin, 'color': '#f8ac59', '_id': turno._id, 'id': turno._id};
 
       $('#calendar').fullCalendar('renderEvent', newTurno, true);
