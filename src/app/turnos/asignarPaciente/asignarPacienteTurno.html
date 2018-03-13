@@ -1,35 +1,37 @@
 <!-- Modal Formulario Crear Turno -->
-<div class="modal" id="formCrearTurno" #formCrearTurno tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+<div class="modal" id="formCrearTurno" #formCrearTurno tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content" *ngIf='horaNuevoTurno != null && diaNuevoTurno != null && pacientes != null'>
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeFormCrearTurno >&times;</button>
-        <h3 class="modal-title" id="myModalLabel">Asignar nuevo turno</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeFormCrearTurno>&times;</button>
+        <h3 class="modal-title" id="myModalLabel">Turno: {{diaNuevoTurno}} a las {{horaNuevoTurno}}hs</h3>
       </div>
 
       <!-- <div class="modal-body" > -->
-      <div class="modal-body" *ngIf = 'horaNuevoTurno != null && diaNuevoTurno != null && pacientes != null' >
+      <div class="modal-body">
 
         <div class="form-group">
-          <h4 >Turno: {{diaNuevoTurno}} a las {{horaNuevoTurno}}hs</h4>
+          <!-- <h4 >Turno: {{diaNuevoTurno}} a las {{horaNuevoTurno}}hs</h4> -->
         </div>
         <div class="form-group">
           <div style="width: 60%; margin-bottom: 1%;">
-            <h4>Seleccionar un paciente</h4>
-            <ng-select #selector2 *ngIf = 'actualizado == true'
-            [allowClear]="true"
-                        [items]="pacientesSelector"
-                        [disabled]="disabled"
-                        (data)="refreshValue($event)"
-                        (selected)="selected($event)"
-                        (removed)="removed($event)"
-                        (typed)="typed($event)"
-                        placeholder="buscar">
+            <h3>Seleccionar un paciente</h3>
+            <ng-select #selector2 *ngIf='actualizado == true' [allowClear]="true" [items]="pacientesSelector" [disabled]="disabled" (data)="refreshValue($event)"
+              (selected)="selected($event)" (removed)="removed($event)" (typed)="typed($event)" placeholder="buscar">
             </ng-select>
           </div>
+          <br>
           <div style="width: 60%; margin-bottom: 1%;">
-            <h4>Descripcion del turno:</h4>
-            <input #desc type="text" name="desc" [(ngModel)]="descripcion">
+            <h3>Descripcion del turno:</h3>
+            <textarea #desc type="text" name="desc" [(ngModel)]="descripcion"></textarea>
+          </div>
+          <div *ngIf="pacienteSelected.id">
+
+            <label for="checkid" style="word-wrap:break-word">
+              Particular:
+              <input id="checkid" [(ngModel)]="elijeParticular" (change)="clickeado()" type="checkbox">
+            </label>
+            <!-- <label>Particular:</label> -->
           </div>
           <button class="btn btn-sm btn-primary pull-right" (click)='agregarPaciente()'>
             <strong>Agregar paciente</strong>
@@ -48,7 +50,7 @@
           Cancelar
         </button>
 
-        <button class="btn btn-primary" (click)='asignarTurno()'>
+        <button class="btn btn-primary" (click)='asignarTurno()' [disabled]="!pacienteSelected.id">
           Agregar
         </button>
 
@@ -61,6 +63,4 @@
 </div>
 <!-- /.modal -->
 
-<agregar-paciente
-  (pacienteAgregado)='onPacienteAgregado($event)'
-></agregar-paciente>
+<agregar-paciente (pacienteAgregado)='onPacienteAgregado($event)'></agregar-paciente>

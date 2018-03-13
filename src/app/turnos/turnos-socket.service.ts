@@ -14,6 +14,7 @@ import * as authentication from 'feathers-authentication-client';
 
 import { Turno } from './turno.tipo';
 import { Feathers } from '../authentication/feathers.service';
+import { Obra } from '../shared/models/obra.tipo';
 
 declare var $: any;
 
@@ -161,7 +162,7 @@ export class TurnoSocketService {
   // -------------------------------------------------------------------------
   // Metodos principales
 
-  public crearTurno(fecha: Date, pacienteAsignado) {
+  public crearTurno(fecha: Date, pagoConsulta: Obra, pacienteAsignado) {
 
     const paciente = pacienteAsignado;
 
@@ -185,7 +186,8 @@ export class TurnoSocketService {
       medico: this.idDoctor,
       estado: 'pendiente',
       paciente: paciente._id,
-      descripcion: paciente.descripcion
+      descripcion: paciente.descripcion,
+      obra: pagoConsulta
     };
 
     this.turnosSocketService.create(nuevoTurno).then((turnoNuevo) => {});

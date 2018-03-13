@@ -33,7 +33,9 @@ export class VerTurnoComponent implements OnInit, OnChanges{
   public turnoModificable = true;
 
   constructor(
-    private obrasService: ObrasService, private turnosSocketService : TurnoSocketService, private pacientesCompartidosService: PacientesCompartidosService
+    private obrasService: ObrasService,
+    private turnosSocketService : TurnoSocketService,
+    private pacientesCompartidosService: PacientesCompartidosService
   ){
 
   }
@@ -49,7 +51,7 @@ export class VerTurnoComponent implements OnInit, OnChanges{
   ngOnChanges(changes) {
     // changes.prop contains the old and the new value...
 
-    //Asignamos las fechas para el modal
+    // Asignamos las fechas para el modal
     if (this.turno != null){
       if (this.turno.paciente.obra == null){
         this.turno.paciente.obra = {
@@ -63,20 +65,17 @@ export class VerTurnoComponent implements OnInit, OnChanges{
       const fechaNuevoTurno = moment(this.turno.horaInicial).utc().add(3, 'h');
       const today = moment();
 
-      //Verificamos que la fecha del turno, para conocer si lo podra eliminar o no.
+      // Verificamos que la fecha del turno, para conocer si lo podra eliminar o no.
       if (fechaNuevoTurno < today){
         this.turnoModificable = false;
-      }
-      else{
+      } else {
         this.turnoModificable = true;
       }
 
       this.horaNuevoTurno = fechaNuevoTurno.format('HH:mm');
       this.diaNuevoTurno = fechaNuevoTurno.format('DD [de] MMMM');
     }
-
-
-    this.modeloObra = Object.assign({}, this.obra); //clonamos el paciente
+    this.modeloObra = Object.assign({}, this.obra); // clonamos el paciente
   }
 
 
