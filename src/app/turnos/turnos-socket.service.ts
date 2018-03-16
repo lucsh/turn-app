@@ -162,7 +162,7 @@ export class TurnoSocketService {
   // -------------------------------------------------------------------------
   // Metodos principales
 
-  public crearTurno(fecha: Date, pagoConsulta: Obra, pacienteAsignado) {
+  public crearTurno(fecha: Date, pacienteAsignado, duracion) {
 
     const paciente = pacienteAsignado;
 
@@ -175,7 +175,7 @@ export class TurnoSocketService {
 
     // LINUX: descomentar la linea de abajo
     // LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
-    const temp = moment(fecha, 'YYYY-MM-DDTHH:mm:ss Z').add(10, 'm');
+    const temp = moment(fecha, 'YYYY-MM-DDTHH:mm:ss Z').add(duracion, 'm');
 
     // let nuevaFecha = temp.utc().format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
     const nuevaFecha = temp.format('YYYY-MM-DDTHH:mm:ss'); // Le saco a la fecha la zona horaria!

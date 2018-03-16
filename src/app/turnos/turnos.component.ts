@@ -323,7 +323,9 @@ onAsignacionPaciente(asignacion) {
         }
 
         this.alertService.success('Turno creado!', 'El turno fue creado correctamente' );
-        yo.crearTurno(yo.fechaNuevoTurno, pagoConsulta, asignacion);
+        console.log('yo.doctorSeleccionado.duracion');
+        console.log(yo.doctorSeleccionado.duracion);
+        yo.crearTurno(yo.fechaNuevoTurno, asignacion, yo.doctorSeleccionado.duracion);
       })
       .catch(dismiss => {
         if (dismiss === 'cancel') {
@@ -332,10 +334,12 @@ onAsignacionPaciente(asignacion) {
       });
 }}}
 
-crearTurno(date, pagoConsulta, pacienteAsignado) {
+crearTurno(date, pacienteAsignado, duracion) {
 
   const paciente = pacienteAsignado;
   this.turnosSocketService.crearTurno(date.format(), pagoConsulta, paciente);
+
+  this.turnosSocketService.crearTurno(date.format(), paciente, duracion);
 
   // Restablecemos las variables
   this.fechaNuevoTurno = null;

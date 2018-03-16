@@ -5,4 +5,5 @@ export class Medico{
 	matricula: string;
 	turno: number; // Duracion del turno de consulta
 	url: string;
+	duracion:number;
 }
