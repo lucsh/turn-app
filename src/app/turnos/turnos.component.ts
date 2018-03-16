@@ -323,9 +323,7 @@ onAsignacionPaciente(asignacion) {
         }
 
         this.alertService.success('Turno creado!', 'El turno fue creado correctamente' );
-        console.log('yo.doctorSeleccionado.duracion');
-        console.log(yo.doctorSeleccionado.duracion);
-        yo.crearTurno(yo.fechaNuevoTurno, asignacion, yo.doctorSeleccionado.duracion);
+        yo.crearTurno(yo.fechaNuevoTurno, asignacion, pagoConsulta, yo.doctorSeleccionado.duracion);
       })
       .catch(dismiss => {
         if (dismiss === 'cancel') {
@@ -334,20 +332,17 @@ onAsignacionPaciente(asignacion) {
       });
 }}}
 
-crearTurno(date, pacienteAsignado, duracion) {
+crearTurno(date, pacienteAsignado, pagoConsulta, duracion) {
 
   const paciente = pacienteAsignado;
-  this.turnosSocketService.crearTurno(date.format(), pagoConsulta, paciente);
 
-  this.turnosSocketService.crearTurno(date.format(), paciente, duracion);
+  this.turnosSocketService.crearTurno(date.format(), paciente, pagoConsulta, duracion);
 
   // Restablecemos las variables
   this.fechaNuevoTurno = null;
 }
 
 reservarHorario(fecha, descripcion){
-  console.log('## Reservar horario de turnos.component');
-
   this.turnosSocketService.reservarHorario(fecha.format(), descripcion);
 
   // Restablecemos las variables

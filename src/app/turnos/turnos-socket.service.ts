@@ -162,7 +162,7 @@ export class TurnoSocketService {
   // -------------------------------------------------------------------------
   // Metodos principales
 
-  public crearTurno(fecha: Date, pacienteAsignado, duracion) {
+  public crearTurno(fecha: Date, pacienteAsignado, pagoConsulta, duracion) {
 
     const paciente = pacienteAsignado;
 
