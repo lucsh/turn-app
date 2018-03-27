@@ -13,7 +13,7 @@ import { environment } from '../../environments/environment';
 
 import { Observer } from 'rxjs/Observer';
 import { Subscription, AnonymousSubscription } from 'rxjs/Subscription';
-import { Subject }           from 'rxjs/Subject';
+import { Subject } from 'rxjs/Subject';
 import * as Rx from 'rxjs';
 
 // Librerias de feathers
@@ -23,6 +23,7 @@ import { Feathers } from '../authentication/feathers.service';
 export class ObrasCompartidasService {
 
   private obras: any[];
+  private particular: any;
   public observer: Observer<any[]>;
   obras$: Observable<any[]>;
 
@@ -139,12 +140,22 @@ export class ObrasCompartidasService {
     obrasSinParticular = obras;
 
     // Removemos la obra 'Particular'
-    if (indexParticular > -1){
+    if (indexParticular > -1) {
+      this.particular =  Object.assign({}, obrasSinParticular[indexParticular]); // guardamos el particular
       obrasSinParticular.splice(indexParticular, 1);
     }
 
     return obrasSinParticular;
 
+  }
+
+  public getParticular() {
+    if (this.particular) {
+      return this.particular;
+    } else {
+      // TODO: Buscar en la base de datos la obra 'Particular'
+      return null;
+    }
   }
 
 /*

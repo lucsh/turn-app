@@ -24,6 +24,7 @@ import { PacientesCompartidosService } from '../routerService/pacientes.sistema'
 import { Subscription } from 'rxjs/Subscription';
 
 import { AlertService } from 'app/shared/services/alerts.service';
+import { ObrasCompartidasService } from '../routerService/obras.sistema';
 // Declaramos esta variable para hacer uso de Jquery con los modals de Boostrap
 declare var $: any;
 
@@ -67,6 +68,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
     private pacientesService: PacientesService,
     private turnosSocketService: TurnoSocketService,
     private pacientesCompartidosService: PacientesCompartidosService,
+    private obrasCompartidas: ObrasCompartidasService,
     private alertService: AlertService,
     private router: Router,
     private ref: ChangeDetectorRef
@@ -291,7 +293,7 @@ onAsignacionPaciente(asignacion) {
 
     const yo = this;
 
-    if ( asignacion.esReserva ){
+    if ( asignacion.esReserva ) {
       // Es decir, es una reserva de espacio SIN paciente
       const fechaString = this.fechaNuevoTurno.format('DD/MM [a las] HH:mm [hs]');
 
@@ -311,8 +313,17 @@ onAsignacionPaciente(asignacion) {
       this.alertService.warning('Confirmacion de creacion de turno', 'Si, Crear!', true,
       '¿Está seguro de crear un turno para el dia ' + fecha + ' para el paciente ' + paciente + ' ?')
       .then(() => {
+        let pagoConsulta;
+        if (asignacion.elijeParticular) {
+          // Decidio pagar Particularmente, ie, sin obra social
+          pagoConsulta = this.obrasCompartidas.getParticular();
+        } else {
+          // Entonces paga con la obra social del paciente
+          pagoConsulta = asignacion.obra;
+        }
+
         this.alertService.success('Turno creado!', 'El turno fue creado correctamente' );
-        yo.crearTurno(yo.fechaNuevoTurno, asignacion);
+        yo.crearTurno(yo.fechaNuevoTurno, asignacion, pagoConsulta, yo.doctorSeleccionado.duracion);
       })
       .catch(dismiss => {
         if (dismiss === 'cancel') {
@@ -321,19 +332,17 @@ onAsignacionPaciente(asignacion) {
       });
 }}}
 
-crearTurno(date, pacienteAsignado) {
+crearTurno(date, pacienteAsignado, pagoConsulta, duracion) {
 
   const paciente = pacienteAsignado;
 
-  this.turnosSocketService.crearTurno(date.format(), paciente);
+  this.turnosSocketService.crearTurno(date.format(), paciente, pagoConsulta, duracion);
 
   // Restablecemos las variables
   this.fechaNuevoTurno = null;
 }
 
 reservarHorario(fecha, descripcion){
-  console.log('## Reservar horario de turnos.component');
-
   this.turnosSocketService.reservarHorario(fecha.format(), descripcion);
 
   // Restablecemos las variables

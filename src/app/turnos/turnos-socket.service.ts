@@ -14,6 +14,7 @@ import * as authentication from 'feathers-authentication-client';
 
 import { Turno } from './turno.tipo';
 import { Feathers } from '../authentication/feathers.service';
+import { Obra } from '../shared/models/obra.tipo';
 
 declare var $: any;
 
@@ -161,7 +162,7 @@ export class TurnoSocketService {
   // -------------------------------------------------------------------------
   // Metodos principales
 
-  public crearTurno(fecha: Date, pacienteAsignado) {
+  public crearTurno(fecha: Date, pacienteAsignado, pagoConsulta, duracion) {
 
     const paciente = pacienteAsignado;
 
@@ -174,7 +175,7 @@ export class TurnoSocketService {
 
     // LINUX: descomentar la linea de abajo
     // LO QUE ESTOY HACIENDO ACA ES HACER TURNOS DE 15 MINUTOS! ESE 15 DEBE SER POR MEDICOOOOOOOO
-    const temp = moment(fecha, 'YYYY-MM-DDTHH:mm:ss Z').add(10, 'm');
+    const temp = moment(fecha, 'YYYY-MM-DDTHH:mm:ss Z').add(duracion, 'm');
 
     // let nuevaFecha = temp.utc().format('YYYY-MM-DDTHH:mm:ss'); //Le saco a la fecha la zona horaria!
     const nuevaFecha = temp.format('YYYY-MM-DDTHH:mm:ss'); // Le saco a la fecha la zona horaria!
@@ -185,7 +186,8 @@ export class TurnoSocketService {
       medico: this.idDoctor,
       estado: 'pendiente',
       paciente: paciente._id,
-      descripcion: paciente.descripcion
+      descripcion: paciente.descripcion,
+      obra: pagoConsulta
     };
 
     this.turnosSocketService.create(nuevoTurno).then((turnoNuevo) => {});

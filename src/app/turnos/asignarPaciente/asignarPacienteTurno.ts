@@ -5,7 +5,8 @@ declare var $: any;
 
 @Component({
   selector: 'asignacion-paciente',
-  templateUrl: './asignarPacienteTurno.html'
+  templateUrl: './asignarPacienteTurno.html',
+  styleUrls: ['./asignarPacienteTurno.css']
 })
 export class AsignarPacienteComponent implements OnChanges{
 
@@ -21,12 +22,13 @@ export class AsignarPacienteComponent implements OnChanges{
   public diaNuevoTurno: any;
 
   public descripcion = '';
+  public elijeParticular = false;
 
   public pacientesSelector: Array<any> = [];
 
   public actualizado = false;
 
-  private value: any = {};
+  private pacienteSelected: any = {};
   private _disabledV = '0';
   private disabled = false;
 
@@ -40,9 +42,10 @@ export class AsignarPacienteComponent implements OnChanges{
 
     if (this.pacientes != null && this.fechaNuevoTurno != null){
 
-      //Asignamos las fechas para el modal
+      // Asignamos las fechas para el modal
       this.horaNuevoTurno = this.fechaNuevoTurno.format('HH:mm');
       this.diaNuevoTurno = this.fechaNuevoTurno.format('DD [de] MMMM');
+      this.elijeParticular = false;
 
       const yo = this;
       this.pacientes.forEach(function(elem, index){
@@ -75,21 +78,26 @@ export class AsignarPacienteComponent implements OnChanges{
     const desc = this.descripcion;
 
     this.pacientesSelector.forEach(function(elem, index){
-      if (elem.id == yo.value.id){
+      if (elem.id == yo.pacienteSelected.id){
         pacienteAsignado = Object.assign({}, elem); //clonamos el elemento
         pacienteAsignado.descripcion = desc;
       }
     });
 
-    //Quitamos los atributos agregados para el selector del clone
+    if (this.elijeParticular) {
+      pacienteAsignado.elijeParticular = true;
+    } else {
+      pacienteAsignado.elijeParticular = false;
+    }
+
+    // Quitamos los atributos agregados para el selector del clone
     // delete pacienteAsignado['id'];
     // delete pacienteAsignado['text'];
     // ////console.log(pacienteAsignado);
-
-    //Cerramos el modal
+    // Cerramos el modal
     this.closeFormCrearTurno.nativeElement.click();
 
-    //Enviamos la eleccion al componente padre
+    // Enviamos la eleccion al componente padre
     this.nuevaAsignacion.next(pacienteAsignado);
   }
 
@@ -97,10 +105,10 @@ export class AsignarPacienteComponent implements OnChanges{
 
   */
   public cancelar(){
-    //Limpiamos variables
-    //this.value = {};
+    // Limpiamos variables
+    // this.pacienteSelected = {};
 
-    //Cerramos el modal
+    // Cerramos el modal
     this.closeFormCrearTurno.nativeElement.click();
   }
 
@@ -113,10 +121,10 @@ export class AsignarPacienteComponent implements OnChanges{
       esReserva: true
     };
 
-    //Cerramos el modal
+    // Cerramos el modal
     this.closeFormCrearTurno.nativeElement.click();
 
-    //Enviamos la eleccion al componente padre
+    // Enviamos la eleccion al componente padre
     this.nuevaAsignacion.next(turnoReserva);
   }
 
@@ -135,27 +143,27 @@ export class AsignarPacienteComponent implements OnChanges{
 
 
     if (pacienteNuevo != null && pacienteNuevo.aprobado){
-      this.pacientes.push(pacienteNuevo); //No se si es necesario hacerlo con pacientes
+      this.pacientes.push(pacienteNuevo); // No se si es necesario hacerlo con pacientes
 
-      //Reiniciamos el selector
+      // Reiniciamos el selector
       const yo = this;
       this.pacientes.forEach(function(elem, index){
         yo.pacientesSelector[index] = elem;
         yo.pacientesSelector[index].id = elem._id;
         yo.pacientesSelector[index].text = elem.nombre + ' ' + elem.apellido + ' - ' + elem.dni;
-        //Si es el que agregamos lo dejamos seleccionado
-        if(elem._id == pacienteNuevo._id){
-          yo.value.id = elem._id;
-          yo.value.text = elem.nombre + ' ' + elem.apellido + ' - ' + elem.dni;
-          //con esto lo seteamos en visual tambien
+        // Si es el que agregamos lo dejamos seleccionado
+        if (elem._id === pacienteNuevo._id) {
+          yo.pacienteSelected.id = elem._id;
+          yo.pacienteSelected.text = elem.nombre + ' ' + elem.apellido + ' - ' + elem.dni;
+          // con esto lo seteamos en visual tambien
           yo.mySelectComponent.active = [{id: elem._id, text: elem.nombre + ' ' + elem.apellido + ' - ' + elem.dni}];
         }
       });
 
-      //refreshValue(value);
+      // refreshValue(value);
     }
 
-    if (this.selector != undefined){
+    if (this.selector !== undefined) {
       /*
       IMPORTANTE: Workaround para que se actualice segun obrasSelector
       Sacado de:
@@ -174,8 +182,12 @@ export class AsignarPacienteComponent implements OnChanges{
     }
   }
 
-  //---------------------------------------------------------------------------
-  //Metodos originales del componente
+  public clickeado() {
+    console.log('Clickeado: ', this.elijeParticular);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Metodos originales del componente
 
   private get disabledV(): string {
     return this._disabledV;
@@ -195,7 +207,7 @@ export class AsignarPacienteComponent implements OnChanges{
   }
 
   public refreshValue(value: any): void {
-    this.value = value;
-    //console.log(this.pacientesSelector);
+    this.pacienteSelected = value;
+    // console.log(this.pacientesSelector);
   }
 }
