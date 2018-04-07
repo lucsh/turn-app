@@ -116,20 +116,21 @@ export class TurnoSocketService {
     let descripcion = "";
 
     if (turno.descripcion) {
-      descripcion = " , " + turno.descripcion;
+      //Pregunto si tiene descripcion, si es asi, la atacho.
+      descripcion = " | " + turno.descripcion;
+    } else {
+      //En el caso negativo, esto se da porque deberia ser un turno reserva (y con el formato viejo).
+      if (turno.descripcionReserva) {
+        //Igualmente, por las dudas pregunto si tiene descripcion reserva, ya que puede pasar que no tenga ninguna de las 2
+        descripcion = turno.descripcionReserva;
+      }
     }
 
     if (turno.esReserva) {
       // Es una reserva de horario SIN paciente
-      let desc =
-        turno.descripcion.length == 0
-          ? turno.descripcionReserva
-          : turno.descripcion;
 
-
-          
       const newTurno = {
-        title: desc,
+        title: descripcion,
         allDay: false,
         start: horaInicial,
         end: horaFin,
