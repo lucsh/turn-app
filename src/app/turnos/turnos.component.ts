@@ -86,7 +86,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
         const tempUrl = event.url.split('/', 4)[1];
 
-        if (tempUrl == 'turnos') {
+        if (tempUrl === 'turnos') {
 
           const idDoctor = event.url.split('/', 4)[3];
           if (yo.doctorSeleccionado){
@@ -275,8 +275,18 @@ eventMouseover: function(event, jsEvent, view){
   const startUtc = moment(event.start).utc();
   const endUtc = moment(event.end).utc();
 
+
+  const startTime = (startUtc.format('H:mm').toString()).split(':');
+
+  // Antes de las 8:10 el tooltip va abajo
+  const tooltipPos =  Number(startTime[0]) >= 8 && Number(startTime[1]) > 10 ?  'top' : 'bottom';
+
+  console.log(Number(startTime[1]));
+
   $(this).tooltip({title: startUtc.format('DD/MM [:] HH:mm')
-  + ' - ' + endUtc.format('HH:mm [hs]') + '\n' + event.title});
+  + ' - ' + endUtc.format('HH:mm [hs]') + '\n' + event.title,
+  placement: tooltipPos
+});
 }
 });
 }
