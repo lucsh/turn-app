@@ -65,16 +65,13 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
     this.obrasService.getObras().then(
       obras => {
         this.obras = obras;
-
-        if (this.devolverParticular() == null){
-
-          const particular = {
-          	_id: 'Particular',
-          	nombre: 'Particular',
-          	iniciales: 'Particular'
-          };
-          this.obras.push(particular);
-        }
+        console.log(this.obras);
+        const particular = {
+          _id: 'Particular',
+          nombre: 'Sin Obra',
+          iniciales: 'Sin Obra'
+        };
+        this.obras.unshift(particular);
 
         this.iniciarObraSeleccionada();
         this.modeloPaciente = null;
@@ -84,21 +81,34 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
   }
 
   private iniciarObraSeleccionada(){
+    
     this.obraSelected = null;
     const yo = this;
 
-    if (yo.paciente.obra != null){
-      if (this.obras && yo.paciente != null){
-        this.obras.forEach(function(obra, index){
-          if (obra._id == yo.paciente.obra._id){
-            yo.obraSelected = obra;
-          }
-        });
-      }
+    if (this.paciente.obras.length === 2){
+      // this.obraSelected = this.paciente.obras[1];
+      this.obras.forEach(function(obra, index){
+        if (obra._id === yo.paciente.obras[1]._id){
+          yo.obraSelected = obra;
+        }
+      });
+    }else {
+      this.obraSelected = this.obras[0];
     }
-    else{
-      this.obraSelected = this.devolverParticular();
-    }
+
+    // OBSOLETO
+    // if (yo.paciente.obra != null){
+    //   if (this.obras && yo.paciente != null){
+    //     this.obras.forEach(function(obra, index){
+    //       if (obra._id == yo.paciente.obra._id){
+    //         yo.obraSelected = obra;
+    //       }
+    //     });
+    //   }
+    // }
+    // else{
+    //   this.obraSelected = this.devolverParticular();
+    // }
   }
 
 
@@ -118,7 +128,10 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
   */
   ngOnChanges(changes) {
     // changes.prop contains the old and the new value...
-    this.iniciarObraSeleccionada();
+    console.log(this.obras);
+    if(this.obras !== undefined){
+      this.iniciarObraSeleccionada();
+    }
     this.modeloPaciente = Object.assign({}, this.paciente); //clonamos el paciente
   }
 

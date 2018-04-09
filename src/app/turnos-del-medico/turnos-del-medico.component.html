@@ -69,7 +69,9 @@
               <td class='centro' *ngIf='turno.esReserva'> - </td>
 
               <!-- Obra social -->
-              <td *ngIf='!turno.esReserva'>{{turno.paciente.obra?.iniciales}}</td>
+              <td *ngIf='!turno.esReserva && turno.paciente.obras.length === 2'>{{turno.paciente.obras[1].iniciales}}</td>
+              <td *ngIf='!turno.esReserva && turno.paciente.obras.length === 1'>{{turno.paciente.obras[0].iniciales}}</td>
+
               <td *ngIf='turno.esReserva'> - </td>
 
               <!-- Descripcion -->

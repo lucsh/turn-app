@@ -53,13 +53,15 @@ export class VerTurnoComponent implements OnInit, OnChanges{
 
     // Asignamos las fechas para el modal
     if (this.turno != null){
-      if (this.turno.paciente.obra == null){
-        this.turno.paciente.obra = {
-          _id: 'Particular',
-          nombre: 'Particular',
-          iniciales: 'Particular'
-        };
-      }
+
+      // OBSOLETO
+      //if (this.turno.paciente.obra == null){
+      //  this.turno.paciente.obra = {
+      //    _id: 'Particular',
+      //    nombre: 'Particular',
+      //    iniciales: 'Particular'
+      //  };
+      //}
       this.pacienteDelTurno = this.turno.paciente;
       // let fechaNuevoTurno = this.turno.horaInicial;
       const fechaNuevoTurno = moment(this.turno.horaInicial).utc().add(3, 'h');

@@ -21,7 +21,8 @@
         <div class="form-group">
           <label>Obra Social:</label>
           <div class="input-group">
-            <h5 *ngIf="turno != null">{{pacienteDelTurno.obra.nombre}}</h5>
+            <h5 *ngIf="turno != null && pacienteDelTurno.obras.length === 2">{{pacienteDelTurno.obras[1].nombre}}</h5>
+            <h5 *ngIf="turno != null && pacienteDelTurno.obras.length === 1">{{pacienteDelTurno.obras[0].nombre}}</h5>
           </div>
         </div>
 

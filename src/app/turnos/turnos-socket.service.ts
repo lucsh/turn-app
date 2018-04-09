@@ -141,12 +141,23 @@ export class TurnoSocketService {
 
       $("#calendar").fullCalendar("renderEvent", newTurno, true);
     } else {
-      //Proteger pacientes sin obra
+
+      // OBSOLETO
+        //Proteger pacientes sin obra
+        //let obraIniciales = "";
+        //if (turno.paciente.obra == null) {
+        //  obraIniciales = "Particular";
+        //} else {
+        //  obraIniciales = turno.paciente.obra.iniciales;
+        //}
+        
       let obraIniciales = "";
-      if (turno.paciente.obra == null) {
-        obraIniciales = "Particular";
-      } else {
-        obraIniciales = turno.paciente.obra.iniciales;
+      if (turno.paciente.obras.length === 2){
+        // En este caso es que tiene Obra y Particular
+        obraIniciales = turno.paciente.obras[1].iniciales;
+      }else{
+        // Tiene solo particular
+        obraIniciales = turno.paciente.obras[0].iniciales;
       }
 
       // Es una consulta medica
