@@ -125,6 +125,10 @@ export class TurnoSocketService {
         descripcion = turno.descripcionReserva;
       }
     }
+    let obraTurno = " ";
+    if (turno.obra) {
+      obraTurno = " | " + turno.obra.nombre;
+    }
 
     if (turno.esReserva) {
       // Es una reserva de horario SIN paciente
@@ -141,13 +145,14 @@ export class TurnoSocketService {
 
       $("#calendar").fullCalendar("renderEvent", newTurno, true);
     } else {
-      //Proteger pacientes sin obra
-      let obraIniciales = "";
-      if (turno.paciente.obra == null) {
-        obraIniciales = "Particular";
-      } else {
-        obraIniciales = turno.paciente.obra.iniciales;
-      }
+      // TODO: Quitar. Obsoleto
+      // Proteger pacientes sin obra
+      // let obraIniciales = "";
+      // if (turno.paciente.obra == null) {
+      //   obraIniciales = "Particular";
+      // } else {
+      //   obraIniciales = turno.paciente.obra.iniciales;
+      // }
 
       // Es una consulta medica
       const newTurno = {
@@ -155,8 +160,7 @@ export class TurnoSocketService {
           turno.paciente.apellido +
           " " +
           turno.paciente.nombre +
-          " | " +
-          obraIniciales +
+          obraTurno +
           " | " +
           turno.paciente.telefono +
           descripcion,
