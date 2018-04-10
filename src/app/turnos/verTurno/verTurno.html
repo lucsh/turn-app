@@ -18,10 +18,10 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" *ngIf="turno.obra">
           <label>Obra Social:</label>
           <div class="input-group">
-            <h5>{{pacienteDelTurno.obra.nombre}}</h5>
+            <h5>{{turno.obra.nombre}}</h5>
           </div>
         </div>
 
