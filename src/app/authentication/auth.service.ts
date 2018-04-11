@@ -20,6 +20,15 @@ export class AuthService {
     return this.feathers.authenticate(credentials);
   }
 
+  public isLogged(): Promise<any> {
+    return this.feathers.isLoggedIn()
+    .then((ret)=>{
+      console.log(ret);
+      return ret;
+    })
+    .catch(err => console.log(err));
+
+  }
   public logOut() {
     this.feathers.logout();
     localStorage.removeItem('user');

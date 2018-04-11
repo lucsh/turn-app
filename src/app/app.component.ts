@@ -25,6 +25,8 @@ import {
 	styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+	private isLogged: Boolean = false;
+
 	constructor(private auth: AuthService, private router: Router) {
 		router.events.subscribe((event: RouterEvent) => {
       this.navigationInterceptor(event);
@@ -58,7 +60,8 @@ navigationInterceptor(event: RouterEvent): void {
 
 	public ngOnInit(): any {
 		detectBody();
-		this.logueado();
+		this.isLogged = false;
+		//this.logueado();
 	}
 
 	public onResize(){
@@ -66,11 +69,26 @@ navigationInterceptor(event: RouterEvent): void {
 	}
 
 	estaLogueado(){
+		if(this.isLogged){
+			return true;
+		}else{
+			this.auth.isLogged()
+			.then((ret)=>{
+				console.log(ret);
+				this.isLogged = true;
+				return ret;
+			})
+			.catch(err => console.log(err));
+		}
+		
 		//console.log('localStorage');
 		//console.log(localStorage);
 		//console.log('estaLogueado');
-		const token = localStorage.getItem('user');
-		return token;
+		//const token = localStorage.getItem('user');
+		//return token;
+		//var ret = this.auth.isLogged();
+		//console.log(ret);
+		//return ret;
 		// return this.logueadoCache;
 	}
 

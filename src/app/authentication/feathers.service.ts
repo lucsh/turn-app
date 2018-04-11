@@ -46,6 +46,15 @@ export class Feathers {
     return this._feathers.authenticate(credentials);
   }
 
+  public isLoggedIn(): Promise<any> {
+    
+    return this._feathers.passport.getJWT()
+    .then((token)=>{
+      return this._feathers.passport.payloadIsValid(token);
+    })
+    .catch(err => console.log(err));
+  }
+
   // expose logout
   public logout() {
     return this._feathers.logout();
