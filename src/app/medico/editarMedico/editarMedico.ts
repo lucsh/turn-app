@@ -21,6 +21,7 @@ export class EditarMedicoComponent implements OnInit, OnChanges {
   @Output() medicoEliminado = new EventEmitter();
 
   @ViewChild('closeFormEditarMedico') closeFormEditarMedico: ElementRef;
+  @ViewChild('openEditarMedico') openEditarMedico: ElementRef;
 
   public obraSelected: Obra = null;
   public obras: Obra[];
@@ -131,12 +132,8 @@ export class EditarMedicoComponent implements OnInit, OnChanges {
     const obrasAsignadas = [];
     const yo = this;
 
-    console.log(yo.value);
-
     this.obrasSelector.forEach(function (elem, index) {
       for (let i = 0; i < yo.value.length; i++) {
-        console.log('elem> ', elem);
-        console.log('yo.value> ', yo.value[i]);
         if (elem.id.toString() == yo.value[i]) {
           obrasAsignadas.push(elem._id); // clonamos el elemento
         }
@@ -147,7 +144,6 @@ export class EditarMedicoComponent implements OnInit, OnChanges {
     // Quitamos los atributos agregados para el selector del clone
     // delete pacienteAsignado['id'];
     // delete pacienteAsignado['text'];
-    // ////console.log(pacienteAsignado);
 
     return obrasAsignadas;
   }
@@ -161,6 +157,7 @@ export class EditarMedicoComponent implements OnInit, OnChanges {
     this.obras = this.obrasRecibidas;
     this.actualizarSelector();
     this.modeloMedico = Object.assign({}, this.medicoSeleccionado); // clonamos el medico
+    this.openEditarMedico.nativeElement.click();
   }
 
   /*

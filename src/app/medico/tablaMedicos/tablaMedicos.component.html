@@ -1,23 +1,26 @@
 <div class=" example-container ">
-  <!-- <h4>Seleccione el trabajo deseado</h4> -->
-  <!-- <h2 class="col-xs-6">Pacientes</h2> -->
-  <!-- <h2 class="col-lg-6">Pacientes</h2> -->
 
+  <!-- TODO: implementar este spinner -->
+  <!-- <div class="example-loading-shade"
+         *ngIf="isLoadingResults || isRateLimitReached">
+      <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    </div> -->
 
   <div class="">
     <h2 class="col-lg-8">Medicos</h2>
     <div class="col-lg-4">
-          <style media="screen">
-          #agregarObra{
-              margin-top: 5%;
-              margin-bottom: 2%;
-            }
-	.mouse-pointer{
+      <style media="screen">
+        #agregarObra {
+          margin-top: 5%;
+          margin-bottom: 2%;
+        }
 
-            cursor: pointer;
-          }
-          </style>
-          <!--
+        .mouse-pointer {
+
+          cursor: pointer;
+        }
+      </style>
+      <!--
            <div id='agregarObra' class="row">
                <button class="btn btn-s btn-primary pull-right"  data-toggle="modal" data-target="#formAgregarMedico" ><i class="fa fa-plus"></i></button>
            </div>
@@ -28,106 +31,65 @@
   <br>
 
   <div class="example-header">
-
-    <md-form-field floatPlaceholder="never">
-      <input mdInput #filter placeholder="Buscar Medicos">
-    </md-form-field>
-
-
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar medico">
+    </mat-form-field>
   </div>
-  <md-table class='hoverTable col-lg-12 mouse-pointer'
-  selectable-rows="true"
-  table-card="{title: Nutrition, actionIcons: true}"
-  #table [dataSource]="dataSource" mdSort>
-
-  <!-- Matricula Column -->
-  <ng-container mdColumnDef="matricula">
-    <md-header-cell *mdHeaderCellDef md-sort-header> Matricula </md-header-cell>
-    <md-cell  (click)="editarMedico(row)" *mdCellDef="let row"> {{row.matricula}} </md-cell>
-  </ng-container>
-
-  <!-- Nombre Column -->
-  <ng-container mdColumnDef="nombre">
-    <md-header-cell *mdHeaderCellDef md-sort-header> Nombre </md-header-cell>
-    <md-cell (click)="editarMedico(row)" *mdCellDef="let row"> {{row.nombre}} </md-cell>
-  </ng-container>
-
-  <!-- Apellido Column -->
-  <ng-container mdColumnDef="apellido">
-    <md-header-cell *mdHeaderCellDef md-sort-header> Apellido </md-header-cell>
-    <md-cell (click)="editarMedico(row)" *mdCellDef="let row"> {{row.apellido}} </md-cell>
-  </ng-container>
-
-  <!-- Duracion Turnos Column -->
-  <ng-container mdColumnDef="duracion">
-    <md-header-cell *mdHeaderCellDef md-sort-header> Duracion Turnos </md-header-cell>
-    <md-cell (click)="editarMedico(row)" *mdCellDef="let row"> {{row.duracion}} </md-cell>
-  </ng-container>
-
-  <!-- Duracion Turnos Column -->
-  <ng-container mdColumnDef="acciones">
-    <md-header-cell *mdHeaderCellDef md-sort-header> Semana </md-header-cell>
-    <md-cell *mdCellDef="let row">
-      <button (click)="configurarSemana(row)" class="btn btn-primary"><i class="fa fa-cog" aria-hidden="true"></i></button>
-    </md-cell>
-  </ng-container>
 
 
-  <!-- Acciones  -->
-  <!-- <ng-container mdColumnDef="acciones">
-    <md-header-cell *mdHeaderCellDef> Acciones </md-header-cell>
-    <md-cell *mdCellDef="let row">
+  <mat-table #table [dataSource]="dataSource" class="hoverTable example-table" matSort matSortActive="apellido" matSortDisableClear
+    matSortDirection="asc">
 
+    <!-- Matricula Column -->
+    <ng-container matColumnDef="matricula">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Matricula </mat-header-cell>
+      <mat-cell (click)="editarMedico(row)" *matCellDef="let row"> {{row.matricula}} </mat-cell>
+    </ng-container>
 
-      <button *ngIf="!row.sancion" (click)="sancionar(row)" class="btn btn-warning">Sancionar</button>
-      <button *ngIf="row.sancion" (click)="habilitar(row)" class="btn btn-primary">Habilitar</button>
-      <button (click)="eliminar(row)" class="btn btn-danger">Eliminar</button>
+    <!-- Nombre Column -->
+    <ng-container matColumnDef="nombre">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
+      <mat-cell (click)="editarMedico(row)" *matCellDef="let row"> {{row.nombre}} </mat-cell>
+    </ng-container>
 
-    </md-cell>
-  </ng-container> -->
+    <!-- Apellido Column -->
+    <ng-container matColumnDef="apellido">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Apellido </mat-header-cell>
+      <mat-cell (click)="editarMedico(row)" *matCellDef="let row"> {{row.apellido}} </mat-cell>
+    </ng-container>
 
+    <!-- Duracion Turnos Column -->
+    <ng-container matColumnDef="duracion">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Duracion Turnos </mat-header-cell>
+      <mat-cell (click)="editarMedico(row)" *matCellDef="let row"> {{row.duracion}} </mat-cell>
+    </ng-container>
 
-  <md-header-row  *mdHeaderRowDef="displayedColumns"></md-header-row>
-  <md-row  [ngClass]="{'isSpecial':  row._id == medicoSeleccionado._id}" *mdRowDef="let row; columns: displayedColumns;" (click)="rowClick(row)"></md-row>
+    <!-- Duracion Turnos Column -->
+    <ng-container matColumnDef="acciones">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Semana </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <button (click)="configurarSemana(row)" class="btn btn-primary">
+          <i class="fa fa-cog" aria-hidden="true"></i>
+        </button>
+      </mat-cell>
+    </ng-container>
 
-</md-table>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row [ngClass]="{'isSpecial':  row._id == medicoSeleccionado._id}" *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
-<div class="example-no-results"
-[style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
-No se encuentran medicos que coincidan con la búsqueda!
-</div>
+  </mat-table>
 
-<md-paginator #paginator
-[length]="exampleDatabase.data.length"
-[pageIndex]="0"
-[pageSize]="5"
-[pageSizeOptions]="[5, 10, 25, 100]">
-</md-paginator>
+  <!-- TODO: una vez arreglado el CSS, agregar mas opciones de page size  -->
+  <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5]" [pageSize]="5">
+  </mat-paginator>
 
 </div>
 <br>
 
-
-<editar-medico *ngIf = 'medicoSeleccionado._id'
-[obrasRecibidas]='obras'
-[medicoSeleccionado]='medicoSeleccionado'
-(medicoEditado)='onMedicoEditado($event)'
->
+<editar-medico *ngIf='medicoSeleccionado._id' [obrasRecibidas]='obras' [medicoSeleccionado]='medicoSeleccionado' (medicoEditado)='onMedicoEditado($event)'>
 </editar-medico>
 
-<app-modal-semana *ngIf="medicoSeleccionado != null && medicoSeleccionado.obras && medicoSeleccionado.obras.length > 0" [obrasDispTotales]="medicoSeleccionado.obras" [medico]="medicoSeleccionado"
-(semenaCambiada)='onIntervalosGuardados($event)'
-></app-modal-semana>
+<app-modal-semana *ngIf="medicoSeleccionado != null && medicoSeleccionado.obras && medicoSeleccionado.obras.length > 0" [obrasDispTotales]="medicoSeleccionado.obras"
+  [medico]="medicoSeleccionado" (semenaCambiada)='onIntervalosGuardados($event)'></app-modal-semana>
 
-<agregar-medico  *ngIf="obras && obras.length > 0"
-[obras]='obras'
-(medicoAgregado)='onMedicoAgregado($event)'
-></agregar-medico>
-<!-- <editar-obra *ngIf = 'medicoSeleccionado._id'
-  [obra]='medicoSeleccionado'
-  (obraEditada)='onObraEditada($event)'
-  (obraEliminada)='onObraEliminada($event)'
-></editar-obra>
-<agregar-obra
-  (obraAgregada)='onObraAgregada($event)'
-></agregar-obra> -->
+<agregar-medico *ngIf="obras && obras.length > 0" [obras]='obras' (medicoAgregado)='onMedicoAgregado($event)'></agregar-medico>
