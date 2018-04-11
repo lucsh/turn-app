@@ -34,12 +34,38 @@ export class PacientesCompartidosService {
     private feathersAuthenticated: Feathers
   ) {
     // Conectamos con servidor Featherjs
-    this.subscribeToServer();
-
-    this.pacientes$ = new Observable((observer) => {
-      this.observer = observer;
+    this.subscribeToServer()
+    .then((algo) => {
+      console.log('11111111111111 Pase el algo');
+      this.pacientes$ = new Observable((observer) => {
+        this.observer = observer;
+      });
+      // this.findPacientes();
+    })
+    .catch(err => {
+      console.error(err);
     });
+
+
   }
+
+  public findPacientes() {
+    console.log('$$$$$$$$$$$$ Entre en find');
+    setTimeout(() => {
+      this.pacientesSocketService.find()
+      .then(pacientes => {
+        console.log('EL find de pacientes');
+        console.log(pacientes);
+        this.pacientes = pacientes;
+
+        if (this.observer) {
+          this.observer.next(this.pacientes);
+        }
+      });
+    }, 3000);
+
+  }
+
   public iniciarPacientes(pacientes) {
     this.pacientes = pacientes;
     this.getPacientes();
@@ -94,16 +120,20 @@ export class PacientesCompartidosService {
 
   public subscribeToServer() {
 
-    // Estamos usando el Service de Feathers, pues el que tiene la autenticacion del login
-    this.feathersService = this.feathersAuthenticated.devolverFeathers();
-    // Obtenemos el service que queremos
-    this.pacientesSocketService = this.feathersService.service('pacientes');
+    return new Promise((resolve, reject) => {
+      // Estamos usando el Service de Feathers, pues el que tiene la autenticacion del login
+      this.feathersService = this.feathersAuthenticated.devolverFeathers();
+      // Obtenemos el service que queremos
+      this.pacientesSocketService = this.feathersService.service('pacientes');
 
-    // Registramos eventos
-    this.pacientesSocketService.on('created', (paciente) => this.onCreated(paciente));
-    this.pacientesSocketService.on('updated', (paciente) => this.onUpdated(paciente));
-    this.pacientesSocketService.on('removed', (paciente) => this.onRemoved(paciente));
-    this.pacientesSocketService.on('patched', (paciente) => this.onPatched(paciente));
+      // Registramos eventos
+      this.pacientesSocketService.on('created', (paciente) => this.onCreated(paciente));
+      this.pacientesSocketService.on('updated', (paciente) => this.onUpdated(paciente));
+      this.pacientesSocketService.on('removed', (paciente) => this.onRemoved(paciente));
+      this.pacientesSocketService.on('patched', (paciente) => this.onPatched(paciente));
+      resolve(true);
+    });
+
   }
 
   private onCreated(paciente) {

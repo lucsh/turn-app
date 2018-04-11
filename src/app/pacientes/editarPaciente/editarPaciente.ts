@@ -29,6 +29,7 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
   @Output() pacienteEliminado = new EventEmitter();
 
   @ViewChild('closeFormEditarPaciente') closeFormEditarPaciente: ElementRef;
+  @ViewChild('openEditarPaciente') openEditarPaciente: ElementRef;
 
   private obras: Obra[];
   public obraSelected: Obra = null;
@@ -62,6 +63,7 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
     const fechaParcial = new Date(this.paciente.fechaNacimiento);
     this.fechaNacimiento = { date: { year: fechaParcial.getFullYear(), month: fechaParcial.getMonth() + 1, day: fechaParcial.getDate() } };
 
+    // TODO: Cambiar esto a UTILIZAR las obars compartidas!!
     this.obrasService.getObras().then(
       obras => {
         this.obras = obras;
@@ -120,6 +122,7 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
     // changes.prop contains the old and the new value...
     this.iniciarObraSeleccionada();
     this.modeloPaciente = Object.assign({}, this.paciente); //clonamos el paciente
+    this.openEditarPaciente.nativeElement.click();
   }
 
   /*

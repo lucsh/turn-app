@@ -1,85 +1,73 @@
-<div class=" example-container ">
-  <!-- <h4>Seleccione el trabajo deseado</h4> -->
-  <!-- <h2 class="col-xs-6">Pacientes</h2> -->
-  <!-- <h2 class="col-lg-6">Pacientes</h2> -->
+<div class="example-container">
 
+    <!-- TODO: implementar este spinner -->
+    <!-- <div class="example-loading-shade"
+         *ngIf="isLoadingResults || isRateLimitReached">
+      <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    </div> -->
 
-  <div class="row m-b-sm">
-    <div class="col-md-12">
-      <h2>Pacientes<button class="btn btn-s btn-primary pull-right"  data-toggle="modal" data-target="#formAgregarPaciente" ><i class="fa fa-plus"></i></button></h2>
+    <!-- TODO: Cambiar esto a como esta hecho el editar. Es decir, con un click y que la responsabilidad
+    de mostrarse sea del componente agregar-paciente -->
+    <div class="row m-b-sm">
+        <div class="col-md-12">
+            <h2>Pacientes
+                <button class="btn btn-s btn-primary pull-right" data-toggle="modal" data-target="#formAgregarPaciente">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </h2>
+        </div>
     </div>
-  </div>
 
-  <div class="example-header">
+    <div class="example-header">
+        <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar Paciente">
+        </mat-form-field>
+    </div>
 
-    <md-form-field floatPlaceholder="never">
-      <input mdInput #filter placeholder="Buscar Pacientes">
-    </md-form-field>
+    <mat-table #table [dataSource]="dataSource" class="hoverTable example-table" matSort matSortActive="apellido" matSortDisableClear
+        matSortDirection="asc">
 
+        <!-- DNI Column -->
+        <ng-container matColumnDef="dni">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> DNI </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.dni}} </mat-cell>
+        </ng-container>
 
-  </div>
-  <md-table class='hoverTable col-lg-12' selectable-rows="true" table-card="{title: Nutrition, actionIcons: true}" #table [dataSource]="dataSource" mdSort>
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+            <mat-header-cell class="hidden-sm hidden-xs col-md-2" *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+            <mat-cell class="hidden-sm hidden-xs col-md-2" *matCellDef="let row">
+                <div *ngIf="row.email.substr((row.email.length-10),row.email.length) == '@email.com'">Sin email - {{row.email.substr(0,row.email.length-10)}}</div>
+                <div *ngIf="row.email.substr((row.email.length-10),row.email.length) != '@email.com'">{{row.email}}</div>
+            </mat-cell>
+        </ng-container>
 
-    <!-- DNI Column -->
-    <ng-container mdColumnDef="dni">
-      <md-header-cell *mdHeaderCellDef md-sort-header> DNI </md-header-cell>
-      <md-cell *mdCellDef="let row"> {{row.dni}} </md-cell>
-    </ng-container>
+        <!-- Nombre Column -->
+        <ng-container matColumnDef="nombre">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.nombre}} </mat-cell>
+        </ng-container>
 
-    <!-- Email Column -->
-    <ng-container mdColumnDef="email">
-      <md-header-cell class="hidden-sm hidden-xs col-md-2" *mdHeaderCellDef md-sort-header> Email </md-header-cell>
-      <md-cell class="hidden-sm hidden-xs col-md-2" *mdCellDef="let row"> <div *ngIf="row.email.substr((row.email.length-10),row.email.length) == '@email.com'">Sin email - {{row.email.substr(0,row.email.length-10)}}</div><div *ngIf="row.email.substr((row.email.length-10),row.email.length) != '@email.com'">{{row.email}}</div> </md-cell>
-    </ng-container>
+        <!-- Apellido Column -->
+        <ng-container matColumnDef="apellido">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Apellido </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.apellido}} </mat-cell>
+        </ng-container>
 
-    <!-- Nombre Column -->
-    <ng-container mdColumnDef="nombre">
-      <md-header-cell *mdHeaderCellDef md-sort-header> Nombre </md-header-cell>
-      <md-cell *mdCellDef="let row"> {{row.nombre}} </md-cell>
-    </ng-container>
+        <!-- Teléfono Column -->
+        <ng-container matColumnDef="telefono">
+            <mat-header-cell class="hidden-sm hidden-xs" *matHeaderCellDef mat-sort-header> Teléfono </mat-header-cell>
+            <mat-cell class="hidden-sm hidden-xs" *matCellDef="let row"> {{row.telefono}} </mat-cell>
+        </ng-container>
 
-    <!-- Apellido Column -->
-    <ng-container mdColumnDef="apellido">
-      <md-header-cell *mdHeaderCellDef md-sort-header> Apellido </md-header-cell>
-      <md-cell *mdCellDef="let row"> {{row.apellido}} </md-cell>
-    </ng-container>
-
-    <!-- Teléfono Column -->
-    <ng-container mdColumnDef="telefono">
-      <md-header-cell class="hidden-sm hidden-xs" *mdHeaderCellDef md-sort-header> Teléfono </md-header-cell>
-      <md-cell class="hidden-sm hidden-xs" *mdCellDef="let row"> {{row.telefono}} </md-cell>
-    </ng-container>
-
-    <!-- Acciones  -->
-    <!-- <ng-container mdColumnDef="acciones">
-    <md-header-cell *mdHeaderCellDef> Acciones </md-header-cell>
-    <md-cell *mdCellDef="let row">
-
-
-      <button *ngIf="!row.sancion" (click)="sancionar(row)" class="btn btn-warning">Sancionar</button>
-      <button *ngIf="row.sancion" (click)="habilitar(row)" class="btn btn-primary">Habilitar</button>
-      <button (click)="eliminar(row)" class="btn btn-danger">Eliminar</button>
-
-    </md-cell>
-  </ng-container> -->
-
-
-    <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
-    <md-row (click)="editar(row)" [ngClass]="{'isSpecial':  row._id == seleccionado._id}" *mdRowDef="let row; columns: displayedColumns;" (click)="rowClick(row)"></md-row>
-
-  </md-table>
-
-  <div class="example-no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
-    No se encuentran pacientes que coincidan con la búsqueda!
-  </div>
-
-  <md-paginator #paginator [length]="exampleDatabase.data.length" [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]">
-  </md-paginator>
-
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editar(row)" [ngClass]="{'isSpecial':  row._id == seleccionado._id}"></mat-row>
+    </mat-table>
+    <!-- TODO: una vez arreglado el CSS, agregar mas opciones de page size  -->
+    <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5]" [pageSize]="5">
+    </mat-paginator>
 </div>
-<br>
 
-<editar-paciente *ngIf='seleccionado._id' [paciente]='seleccionado' (pacienteEditado)='onPacienteEditado($event)' (pacienteEliminado)='onPacienteEliminado($event)'></editar-paciente>
+<editar-paciente *ngIf='seleccionado._id !== "" ' [paciente]='seleccionado' (pacienteEditado)='onPacienteEditado($event)'
+    (pacienteEliminado)='onPacienteEliminado($event)'></editar-paciente>
 <agregar-paciente (pacienteAgregado)='onPacienteAgregado($event)'></agregar-paciente>
-
-<!-- <button type="button" class="btn btn-lg btn-success pull-right" (click)='siguiente()'[disabled]="seleccionado._id =='' " >Siguiente</button> -->
