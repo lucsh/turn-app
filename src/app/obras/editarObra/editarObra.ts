@@ -20,9 +20,7 @@ export class EditarObraComponent implements OnInit, OnChanges{
   @Output() obraEliminada = new EventEmitter();
 
   @ViewChild('closeFormEditarObra') closeFormEditarObra: ElementRef;
-
-  // private obras: Obra[];
-  // private obraSelected: Obra = null;
+  @ViewChild('openEditarObra') openEditarObra: ElementRef;
 
   public modeloObra = null;
 
@@ -35,34 +33,20 @@ export class EditarObraComponent implements OnInit, OnChanges{
 
   /*
   */
-  ngOnInit() {
-    // this.obrasService.getObras().then(
-    //   obras =>{
-    //     console.log('Tengo las obras!!');
-    //     this.obras = obras;
-    //     this.modeloPaciente = Object.assign({}, this.paciente); //clonamos el paciente
-    //
-    //     console.log(this.paciente);
-    //   }
-    // ).catch(error=>{console.log(error)})
-  }
+  ngOnInit() {}
 
   /*
   */
   ngOnChanges(changes) {
     // changes.prop contains the old and the new value...
     this.modeloObra = Object.assign({}, this.obra); //clonamos el paciente
+    this.openEditarObra.nativeElement.click();
   }
 
   /*
 
   */
   public editarObra(){
-    ////console.log('Entre a agregar Paciente');
-    //  let obraId = this.obraSelected._id;
-
-    console.log('this.modeloObra');
-    console.log(this.modeloObra);
 
     this.obrasService.actualizarObra(this.modeloObra._id, this.modeloObra)
     .then(obraEdit => {

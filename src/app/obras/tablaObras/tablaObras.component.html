@@ -1,82 +1,57 @@
 <div class=" example-container ">
-  <!-- <h4>Seleccione el trabajo deseado</h4> -->
-  <!-- <h2 class="col-xs-6">Pacientes</h2> -->
-  <!-- <h2 class="col-lg-6">Pacientes</h2> -->
 
-  <div class="row m-b-sm">
-    <div class="col-md-12">
-      <h2>Obras Sociales<button class="btn btn-s btn-primary pull-right"  data-toggle="modal" data-target="#formCrearObra" ><i class="fa fa-plus"></i></button></h2>
+      <!-- TODO: implementar este spinner -->
+    <!-- <div class="example-loading-shade"
+         *ngIf="isLoadingResults || isRateLimitReached">
+      <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    </div> -->
+
+    <!-- TODO: Cambiar esto a como esta hecho el editar. Es decir, con un click y que la responsabilidad
+    de mostrarse sea del componente agregar-obra -->
+    <div class="row m-b-sm">
+        <div class="col-md-12">
+            <h2>Obras Sociales
+                <button class="btn btn-s btn-primary pull-right" data-toggle="modal" data-target="#formCrearObra">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </h2>
+        </div>
     </div>
-  </div>
 
 
-  <div class="example-header">
+    <div class="example-header">
+        <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar Obra Social">
+        </mat-form-field>
+    </div>
 
-    <md-form-field floatPlaceholder="never">
-      <input mdInput #filter placeholder="Buscar Obras Sociales">
-    </md-form-field>
+    <mat-table #table [dataSource]="dataSource" class="hoverTable example-table" matSort matSortActive="nombre" matSortDisableClear
+        matSortDirection="asc">
 
+        <!-- Iniciales Column -->
+        <ng-container matColumnDef="iniciales">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Iniciales </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.iniciales}} </mat-cell>
+        </ng-container>
 
-  </div>
-  <md-table class='hoverTable col-lg-12'
-  selectable-rows="true"
-  table-card="{title: Nutrition, actionIcons: true}"
-  #table [dataSource]="dataSource" mdSort>
+        <!-- Nombre Column -->
+        <ng-container matColumnDef="nombre">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.nombre}} </mat-cell>
+        </ng-container>
 
-  <!-- Iniciales Column -->
-  <ng-container mdColumnDef="iniciales">
-    <md-header-cell *mdHeaderCellDef md-sort-header> Iniciales </md-header-cell>
-    <md-cell *mdCellDef="let row"> {{row.iniciales}} </md-cell>
-  </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row (click)="editar(row)" [ngClass]="{'isSpecial':  row._id == seleccionado._id}" 
+        *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
-  <!-- Nombre Column -->
-  <ng-container mdColumnDef="nombre">
-    <md-header-cell *mdHeaderCellDef md-sort-header> Nombre </md-header-cell>
-    <md-cell *mdCellDef="let row"> {{row.nombre}} </md-cell>
-  </ng-container>
-
-
-  <!-- Acciones  -->
-  <!-- <ng-container mdColumnDef="acciones">
-    <md-header-cell *mdHeaderCellDef> Acciones </md-header-cell>
-    <md-cell *mdCellDef="let row">
-
-
-      <button *ngIf="!row.sancion" (click)="sancionar(row)" class="btn btn-warning">Sancionar</button>
-      <button *ngIf="row.sancion" (click)="habilitar(row)" class="btn btn-primary">Habilitar</button>
-      <button (click)="eliminar(row)" class="btn btn-danger">Eliminar</button>
-
-    </md-cell>
-  </ng-container> -->
-
-
-  <md-header-row  *mdHeaderRowDef="displayedColumns"></md-header-row>
-  <md-row (click)="editar(row)" [ngClass]="{'isSpecial':  row._id == seleccionado._id}" *mdRowDef="let row; columns: displayedColumns;" (click)="rowClick(row)"></md-row>
-
-</md-table>
-
-<div class="example-no-results"
-[style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
-No se encuentran obras que coincidan con la búsqueda!
-</div>
-
-<md-paginator #paginator
-[length]="exampleDatabase.data.length"
-[pageIndex]="0"
-[pageSize]="5"
-[pageSizeOptions]="[5, 10, 25, 100]">
-</md-paginator>
+    </mat-table>
+    
+    <!-- TODO: una vez arreglado el CSS, agregar mas opciones de page size  -->
+    <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5]" [pageSize]="5">
+    </mat-paginator>
 
 </div>
 <br>
 
-<editar-obra *ngIf = 'seleccionado._id'
-  [obra]='seleccionado'
-  (obraEditada)='onObraEditada($event)'
-  (obraEliminada)='onObraEliminada($event)'
-></editar-obra>
-<agregar-obra
-  (obraAgregada)='onObraAgregada($event)'
-></agregar-obra>
-
-<!-- <button type="button" class="btn btn-lg btn-success pull-right" (click)='siguiente()'[disabled]="seleccionado._id =='' " >Siguiente</button> -->
+<editar-obra *ngIf='seleccionado._id !== "" ' [obra]='seleccionado'></editar-obra>
+<agregar-obra></agregar-obra>
