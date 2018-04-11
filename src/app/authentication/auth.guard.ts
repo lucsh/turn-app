@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
       .logIn()
       .then(() => {
         ////console.log('TODO OK');
-        this.app.logueado();
+        //this.app.logueado();
         return true;
       })
       .catch(() => {
