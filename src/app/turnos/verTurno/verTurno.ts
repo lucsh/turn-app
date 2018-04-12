@@ -16,7 +16,8 @@ declare var $: any;
 
 @Component({
   selector: 'ver-turno',
-  templateUrl: './verTurno.html'
+  templateUrl: './verTurno.html',
+  styleUrls: ['./verTurno.css']
 })
 export class VerTurnoComponent implements OnInit, OnChanges{
 
