@@ -55,7 +55,7 @@ export class PacientesCompartidosService {
       this.pacientesSocketService.find()
       .then(pacientes => {
         console.log('EL find de pacientes');
-        console.log(pacientes);
+        //console.log(pacientes);
         this.pacientes = pacientes;
 
         if (this.observer) {
