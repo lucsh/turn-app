@@ -67,6 +67,19 @@ export class AsignarPacienteComponent implements OnChanges{
         this.actualizado = true;
       }
 
+      /* START Orden de lista */
+
+      const ordered = this.pacientesSelector.sort((a, b) => {
+        const uno = `${a.apellido} ${a.nombre}`.toLowerCase();
+        const dos = `${b.apellido} ${b.nombre}`.toLowerCase();
+        return uno > dos ? 1 : -1;
+      });
+      this.pacientesSelector = ordered;
+      // console.table(this.pacientesSelector);
+      // Se pega una frenada, deberiamos pasarlo a servidor.
+
+      /* END Orden de lista */
+
     }
 
   }
