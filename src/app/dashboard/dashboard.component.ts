@@ -56,12 +56,12 @@ export class DashboardComponent implements OnDestroy, OnInit {
   }
 
   public ngOnInit(): any {
-    this.nav.className += ' white-bg';
+    //this.nav.className += ' white-bg';
   }
 
 
   public ngOnDestroy(): any {
-    this.nav.classList.remove('white-bg');
+    //this.nav.classList.remove('white-bg');
   }
 
 }

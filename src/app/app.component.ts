@@ -25,7 +25,8 @@ import {
 	styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-	private isLogged: Boolean = false;
+	public isLoggedIn: Boolean = false;
+  public isLoggedInCheck: Boolean = false;
 
 	constructor(private auth: AuthService, private router: Router) {
 		router.events.subscribe((event: RouterEvent) => {
@@ -60,7 +61,7 @@ navigationInterceptor(event: RouterEvent): void {
 
 	public ngOnInit(): any {
 		detectBody();
-		this.isLogged = false;
+		//this.isLoggedIn = false;
 		//this.logueado();
 	}
 
@@ -69,27 +70,14 @@ navigationInterceptor(event: RouterEvent): void {
 	}
 
 	estaLogueado(){
-		if(this.isLogged){
-			return true;
-		}else{
-			this.auth.isLogged()
-			.then((ret)=>{
-				console.log(ret);
-				this.isLogged = true;
-				return ret;
-			})
-			.catch(err => console.log(err));
-		}
+
+      return this.auth.isLogged();
+    
+	}
+	
+	private aux(){
+		console.log('aux');
 		
-		//console.log('localStorage');
-		//console.log(localStorage);
-		//console.log('estaLogueado');
-		//const token = localStorage.getItem('user');
-		//return token;
-		//var ret = this.auth.isLogged();
-		//console.log(ret);
-		//return ret;
-		// return this.logueadoCache;
 	}
 
 	public logueado(){
@@ -107,6 +95,7 @@ navigationInterceptor(event: RouterEvent): void {
 			//console.log('No logueado');
             localStorage.clear();
 			this.logueadoCache = false;
+			//this.isLogged = false;
 		});
 	}
 }
