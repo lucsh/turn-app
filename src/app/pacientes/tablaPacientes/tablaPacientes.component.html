@@ -61,7 +61,7 @@
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editar(row)" [ngClass]="{'isSpecial':  row._id == seleccionado._id}"></mat-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editar(row)" ></mat-row>
     </mat-table>
     <!-- TODO: una vez arreglado el CSS, agregar mas opciones de page size  -->
     <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5]" [pageSize]="5">

@@ -21,7 +21,7 @@ import { Feathers } from '../authentication/feathers.service';
 @Injectable()
 export class PacientesCompartidosService {
 
-  private pacientes: any[];
+  private pacientes: any[] = [];
   public observer: Observer<any[]>;
   pacientes$: Observable<any[]>;
 
@@ -33,13 +33,14 @@ export class PacientesCompartidosService {
     private pacientesService: PacientesService,
     private feathersAuthenticated: Feathers
   ) {
+    this.pacientes$ = new Observable((observer) => {
+      this.observer = observer;
+    });
     // Conectamos con servidor Featherjs
     this.subscribeToServer()
       .then((algo) => {
         console.log('11111111111111 Pase el algo');
-        this.pacientes$ = new Observable((observer) => {
-          this.observer = observer;
-        });
+
         // this.findPacientes();
       })
       .catch(err => {
@@ -52,13 +53,32 @@ export class PacientesCompartidosService {
   public findPacientes() {
     this.pacientesSocketService.find()
       .then(pacientes => {
-        console.log('EL find de pacientes');
-        //console.log(pacientes);
+        // console.log('EL find de pacientes');
+        // console.log(pacientes);
         this.pacientes = pacientes;
-
-        if (this.observer) {
+        
+        // if (this.observer) {
+          // console.log('Voy a enviarlos!');
           this.observer.next(this.pacientes);
-        }
+        // }
+      });
+  }
+  
+  public findPacientesPromise() {
+    return this.pacientesSocketService.find();
+  }
+
+  public findPacientesObserver(observer) {
+    this.pacientesSocketService.find()
+      .then(pacientes => {
+        console.log('EL find de pacientes');
+        console.log(pacientes);
+        this.pacientes = pacientes;
+        
+        // if (this.observer) {
+          console.log('Voy a enviarlos!');
+         observer.next(this.pacientes);
+        // }
       });
   }
 
@@ -79,7 +99,19 @@ export class PacientesCompartidosService {
   }
 
   public getPacientes() {
-    this.observer.next(this.pacientes);
+    if (this.pacientes && this.pacientes.length > 0){
+      this.observer.next(this.pacientes);
+    } else {
+      this.findPacientes();
+    }
+  }
+  public getPacientesObserver(observer) {
+   
+    if (this.pacientes && this.pacientes.length > 0){
+      observer.next(this.pacientes);
+    } else {
+      this.findPacientesObserver(observer);
+    }
   }
 
   public updatePaciente(paciente) {

@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 
 import { PacientesCompartidosService } from '../../routerService/pacientes.sistema';
@@ -24,7 +24,8 @@ export class TablaPacientesComponent implements OnInit {
         '_id': ''
     };
 
-    constructor(private pacientesCompartidosService: PacientesCompartidosService) {
+    constructor(private pacientesCompartidosService: PacientesCompartidosService,
+        private ref: ChangeDetectorRef) {
         this.observarPacientes();
     }
 
@@ -48,22 +49,33 @@ export class TablaPacientesComponent implements OnInit {
     }
 
     private observarPacientes() {
+        // console.log('Entre en observar pacientes');
         /*
           Subscribimos a los pacientes, para que tengan una correspondencia
           con los pacientes del sistema
         */
-        if (this.pacientesCompartidosService.pacientes$) {
-            this.subscription = this.pacientesCompartidosService.pacientes$.subscribe((pacientes) => {
-                this.addPacientes(pacientes);
-                // this.ref.markForCheck();
-            }, (err) => {
-                console.log('Error en observarPacientes de tablaPacientes');
-                console.error(err);
-            });
+       var yo = this;
+        this.subscription = this.pacientesCompartidosService.pacientes$.subscribe((pacientes) => {
 
-            // Obtenemos los pacientes compartidos
-            this.pacientesCompartidosService.getPacientes();
-        }
+            // console.log('### Voy a cargarlos!');
+            // console.log(pacientes);
+            yo.addPacientes(pacientes);
+
+
+        }, (err) => {
+            console.log('Error en observarPacientes de tablaPacientes');
+            console.error(err);
+        });
+
+        // Obtenemos los pacientes compartidos
+        // this.pacientesCompartidosService.getPacientesObserver(this.subscription);
+        this.pacientesCompartidosService.findPacientesPromise()
+        .then(pacientes => {
+            console.log('#### Pacientes: ', pacientes);
+            this.addPacientes(pacientes);
+        })
+        .catch(err => console.error(err));
+
     }
     /**
     * Aplicamos un filtro a la tabla.
