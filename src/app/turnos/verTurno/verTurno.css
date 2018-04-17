@@ -1,0 +1,16 @@
+.font-large{
+  font-size:large;
+}
+h3>.detalle{
+  float: right;
+}
+
+.disclamer{
+  background-color: #2f4050;
+  text-align: center;
+  color: whitesmoke;
+  vertical-align: middle;
+  line-height: 16px;
+  font-size: 13px;
+  font-weight: lighter;
+}

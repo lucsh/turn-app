@@ -281,7 +281,7 @@ eventMouseover: function(event, jsEvent, view){
   // Antes de las 8:10 el tooltip va abajo
   const tooltipPos =  Number(startTime[0]) >= 8 && Number(startTime[1]) > 10 ?  'top' : 'bottom';
 
-  console.log(Number(startTime[1]));
+  //console.log(Number(startTime[1]));
 
   $(this).tooltip({title: startUtc.format('DD/MM [:] HH:mm')
   + ' - ' + endUtc.format('HH:mm [hs]') + '\n' + event.title,
