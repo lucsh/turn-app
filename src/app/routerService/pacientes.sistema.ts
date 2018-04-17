@@ -35,24 +35,22 @@ export class PacientesCompartidosService {
   ) {
     // Conectamos con servidor Featherjs
     this.subscribeToServer()
-    .then((algo) => {
-      console.log('11111111111111 Pase el algo');
-      this.pacientes$ = new Observable((observer) => {
-        this.observer = observer;
+      .then((algo) => {
+        console.log('11111111111111 Pase el algo');
+        this.pacientes$ = new Observable((observer) => {
+          this.observer = observer;
+        });
+        // this.findPacientes();
+      })
+      .catch(err => {
+        console.error(err);
       });
-      // this.findPacientes();
-    })
-    .catch(err => {
-      console.error(err);
-    });
 
 
   }
 
   public findPacientes() {
-    console.log('$$$$$$$$$$$$ Entre en find');
-    setTimeout(() => {
-      this.pacientesSocketService.find()
+    this.pacientesSocketService.find()
       .then(pacientes => {
         console.log('EL find de pacientes');
         //console.log(pacientes);
@@ -62,8 +60,6 @@ export class PacientesCompartidosService {
           this.observer.next(this.pacientes);
         }
       });
-    }, 3000);
-
   }
 
   public iniciarPacientes(pacientes) {

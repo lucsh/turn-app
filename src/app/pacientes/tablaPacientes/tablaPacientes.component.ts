@@ -62,7 +62,7 @@ export class TablaPacientesComponent implements OnInit {
             });
 
             // Obtenemos los pacientes compartidos
-            this.pacientesCompartidosService.findPacientes();
+            this.pacientesCompartidosService.getPacientes();
         }
     }
     /**
