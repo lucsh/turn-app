@@ -62,7 +62,7 @@ export class NavigationComponent {
 
     this.obtenerSubscripcionMedicos();
     // this.obtenerSubscripcionObras();
-    this.obtenerSubscripcionPacientes();
+    // this.obtenerSubscripcionPacientes();
 
   }
 

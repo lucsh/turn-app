@@ -46,7 +46,7 @@ export class PacientesCompartidosService {
       .catch(err => {
         console.error(err);
       });
-
+    this.findPacientes();
 
   }
 
@@ -57,10 +57,10 @@ export class PacientesCompartidosService {
         // console.log(pacientes);
         this.pacientes = pacientes;
         
-        // if (this.observer) {
+        if (this.observer) {
           // console.log('Voy a enviarlos!');
           this.observer.next(this.pacientes);
-        // }
+        }
       });
   }
   
@@ -99,10 +99,11 @@ export class PacientesCompartidosService {
   }
 
   public getPacientes() {
-    if (this.pacientes && this.pacientes.length > 0){
+    console.log('getPacientes');
+    //console.log(this.pacientes);
+    if(this.pacientes !== undefined){
+      console.log('hago next');
       this.observer.next(this.pacientes);
-    } else {
-      this.findPacientes();
     }
   }
   public getPacientesObserver(observer) {

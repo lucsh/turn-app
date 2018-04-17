@@ -63,7 +63,9 @@ export class MedicosCompartidosService {
   }
 
   public getMedicos() {
-    this.observer.next(this.medicos);
+    if(this.medicos !== undefined){
+      this.observer.next(this.medicos);
+    }
   }
 
   public updateMedico(medico) {

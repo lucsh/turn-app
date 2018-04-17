@@ -58,7 +58,7 @@ export class TablaPacientesComponent implements OnInit {
         this.subscription = this.pacientesCompartidosService.pacientes$.subscribe((pacientes) => {
 
             // console.log('### Voy a cargarlos!');
-            // console.log(pacientes);
+            console.log(pacientes);
             yo.addPacientes(pacientes);
 
 
@@ -68,13 +68,13 @@ export class TablaPacientesComponent implements OnInit {
         });
 
         // Obtenemos los pacientes compartidos
-        // this.pacientesCompartidosService.getPacientesObserver(this.subscription);
-        this.pacientesCompartidosService.findPacientesPromise()
-        .then(pacientes => {
-            console.log('#### Pacientes: ', pacientes);
-            this.addPacientes(pacientes);
-        })
-        .catch(err => console.error(err));
+        this.pacientesCompartidosService.getPacientes();
+        // this.pacientesCompartidosService.findPacientesPromise()
+        // .then(pacientes => {
+        //     console.log('#### Pacientes: ', pacientes);
+        //     this.addPacientes(pacientes);
+        // })
+        // .catch(err => console.error(err));
 
     }
     /**

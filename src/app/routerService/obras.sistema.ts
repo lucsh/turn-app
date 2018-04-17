@@ -51,9 +51,10 @@ export class ObrasCompartidasService {
   }
 
   public findObras(){
+    console.log('FIND OBRAS');
     this.obrasSocketService.find()
     .then(obras => {
-
+      console.log(obras);
       const obrasSinParticular = this.removerObraParticularVista(obras);
       this.obras = obrasSinParticular;
 
@@ -87,7 +88,9 @@ export class ObrasCompartidasService {
   }
 
   public getObras(){
-      this.observer.next(this.obras);
+      if(this.obras !== undefined){
+        this.observer.next(this.obras);
+      }
   }
 
   public updateObra(obra) {
