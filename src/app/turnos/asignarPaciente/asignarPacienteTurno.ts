@@ -8,7 +8,7 @@ declare var $: any;
   templateUrl: './asignarPacienteTurno.html',
   styleUrls: ['./asignarPacienteTurno.css']
 })
-export class AsignarPacienteComponent implements OnChanges{
+export class AsignarPacienteComponent implements OnChanges {
 
   @Input() fechaNuevoTurno: any;
   @Input() pacientes: Array<any>;
@@ -40,7 +40,7 @@ export class AsignarPacienteComponent implements OnChanges{
   ngOnChanges(changes) {
     // changes.prop contains the old and the new value...
 
-    if (this.pacientes != null && this.fechaNuevoTurno != null){
+    if (this.pacientes != null && this.fechaNuevoTurno != null) {
 
       // Asignamos las fechas para el modal
       this.horaNuevoTurno = this.fechaNuevoTurno.format('HH:mm');
@@ -48,7 +48,7 @@ export class AsignarPacienteComponent implements OnChanges{
       this.elijeParticular = false;
 
       const yo = this;
-      this.pacientes.forEach(function(elem, index){
+      this.pacientes.forEach(function (elem, index) {
         /*
         Dado que estamos usando el componente ng2-select,
         debemos tener un arreglo en el que cada objeto TENGA:
@@ -57,12 +57,29 @@ export class AsignarPacienteComponent implements OnChanges{
         */
         yo.pacientesSelector[index] = elem;
         yo.pacientesSelector[index].id = elem._id;
-        yo.pacientesSelector[index].text = elem.nombre + ' ' + elem.apellido + ' - ' + elem.dni;
+        yo.pacientesSelector[index].text = elem.apellido + ' ' + elem.nombre + ' - ' + elem.dni;
       });
-      if (yo.pacientesSelector.length > 0){
+
+
+      if (yo.pacientesSelector.length > 0) {
         ////console.log('TRUE');
+
         this.actualizado = true;
       }
+
+      /* START Orden de lista */
+
+      const ordered = this.pacientesSelector.sort((a, b) => {
+        const uno = `${a.apellido} ${a.nombre}`.toLowerCase();
+        const dos = `${b.apellido} ${b.nombre}`.toLowerCase();
+        return uno > dos ? 1 : -1;
+      });
+      this.pacientesSelector = ordered;
+      // console.table(this.pacientesSelector);
+      // Se pega una frenada, deberiamos pasarlo a servidor.
+
+      /* END Orden de lista */
+
     }
 
   }
@@ -70,15 +87,15 @@ export class AsignarPacienteComponent implements OnChanges{
   /*
 
   */
-  public asignarTurno(){
+  public asignarTurno() {
 
     let pacienteAsignado = null;
     const yo = this;
 
     const desc = this.descripcion;
 
-    this.pacientesSelector.forEach(function(elem, index){
-      if (elem.id == yo.pacienteSelected.id){
+    this.pacientesSelector.forEach(function (elem, index) {
+      if (elem.id == yo.pacienteSelected.id) {
         pacienteAsignado = Object.assign({}, elem); //clonamos el elemento
         pacienteAsignado.descripcion = desc;
       }
@@ -104,7 +121,7 @@ export class AsignarPacienteComponent implements OnChanges{
   /*
 
   */
-  public cancelar(){
+  public cancelar() {
     // Limpiamos variables
     // this.pacienteSelected = {};
 
@@ -115,7 +132,7 @@ export class AsignarPacienteComponent implements OnChanges{
   /*
     Este metodo reserva un turno SIN paciente para un medico
   */
-  public reservar(){
+  public reservar() {
 
     const turnoReserva = {
       esReserva: true
@@ -131,32 +148,32 @@ export class AsignarPacienteComponent implements OnChanges{
   /*
 
   */
-  public agregarPaciente(){
+  public agregarPaciente() {
     $('#formAgregarPaciente').modal('show');
   }
 
-  public onPacienteAgregado(pacienteNuevo){
+  public onPacienteAgregado(pacienteNuevo) {
 
-    if (this.pacientesSelector.length > 0){
+    if (this.pacientesSelector.length > 0) {
       this.pacientesSelector = [];
     }
 
 
-    if (pacienteNuevo != null && pacienteNuevo.aprobado){
+    if (pacienteNuevo != null && pacienteNuevo.aprobado) {
       this.pacientes.push(pacienteNuevo); // No se si es necesario hacerlo con pacientes
 
       // Reiniciamos el selector
       const yo = this;
-      this.pacientes.forEach(function(elem, index){
+      this.pacientes.forEach(function (elem, index) {
         yo.pacientesSelector[index] = elem;
         yo.pacientesSelector[index].id = elem._id;
-        yo.pacientesSelector[index].text = elem.nombre + ' ' + elem.apellido + ' - ' + elem.dni;
+        yo.pacientesSelector[index].text = elem.apellido + ' ' + elem.nombre + ' - ' + elem.dni;
         // Si es el que agregamos lo dejamos seleccionado
         if (elem._id === pacienteNuevo._id) {
           yo.pacienteSelected.id = elem._id;
-          yo.pacienteSelected.text = elem.nombre + ' ' + elem.apellido + ' - ' + elem.dni;
+          yo.pacienteSelected.text = elem.apellido + ' ' + elem.nombre + ' - ' + elem.dni;
           // con esto lo seteamos en visual tambien
-          yo.mySelectComponent.active = [{id: elem._id, text: elem.nombre + ' ' + elem.apellido + ' - ' + elem.dni}];
+          yo.mySelectComponent.active = [{ id: elem._id, text: elem.apellido + ' ' + elem.nombre + ' - ' + elem.dni }];
         }
       });
 
@@ -211,3 +228,4 @@ export class AsignarPacienteComponent implements OnChanges{
     // console.log(this.pacientesSelector);
   }
 }
+;
