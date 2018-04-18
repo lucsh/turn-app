@@ -9,6 +9,8 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
  */
 @Injectable()
 export class AuthService {
+  public isLoggedIn: Boolean = false;
+  public isLoggedInCheck: Boolean = false;
 
   constructor(private feathers: Feathers, private router: Router) {}
 
@@ -17,17 +19,40 @@ export class AuthService {
   }
 
   public logIn(credentials?): Promise<any> {
-    return this.feathers.authenticate(credentials);
+    return this.feathers.authenticate(credentials)
+    .then((ret) => {
+      //console.log('asd');
+      //console.log(ret);
+      this.isLoggedIn = true;
+    })
+    .catch((err) => {
+      //console.log('err');
+      //console.log(err);
+      throw new Error(err);
+    });
   }
 
-  public isLogged(): Promise<any> {
-    return this.feathers.isLoggedIn()
-    .then((ret)=>{
-      console.log(ret);
-      return ret;
-    })
-    .catch(err => console.log(err));
+  public isLogged(){
+    return this.isLoggedIn;
+    /*if(this.isLoggedInCheck == true){
 
+      return this.isLoggedIn;
+    }else{
+      console.log('voy a chequear');
+      return this.feathers.isLoggedIn()
+      .then((ret)=>{
+        console.log('then auth');
+        this.isLoggedInCheck = true;
+        this.isLoggedIn = true;
+        return true;
+      })
+      .catch((err) => {
+        console.log('catch auth');
+        this.isLoggedInCheck = true;
+        this.isLoggedIn = false;
+        return false;
+      });
+    }*/
   }
   public logOut() {
     this.feathers.logout();

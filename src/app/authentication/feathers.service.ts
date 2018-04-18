@@ -50,9 +50,19 @@ export class Feathers {
     
     return this._feathers.passport.getJWT()
     .then((token)=>{
-      return this._feathers.passport.payloadIsValid(token);
+      if(token == null){
+        // console.log('token null');
+        throw new Error('token null');
+      }else{
+        // console.log('this._feathers.passport.payloadIsValid(token)');
+        // console.log(this._feathers.passport.payloadIsValid(token));
+        return this._feathers.passport.payloadIsValid(token);
+      }
     })
-    .catch(err => console.log(err));
+    .catch((err) => {
+      // console.log(err);
+      throw new Error('token null');
+    });
   }
 
   // expose logout
