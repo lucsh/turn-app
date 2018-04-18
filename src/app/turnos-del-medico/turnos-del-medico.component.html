@@ -73,7 +73,7 @@
               <td *ngIf='turno.esReserva'> - </td>
 
               <!-- Descripcion -->
-              <td class="descripcion" [ngClass]="{'pequeno': turno.descripcion.length >= 30 }">{{turno.descripcion}}</td>
+              <td class="descripcion" [ngClass]="{'pequeno': turno.descripcion?.length >= 30 }">{{turno.descripcion}}</td>
 
               <!-- Tiempo de espera -->
               <td *ngIf='!turno.esReserva'>
