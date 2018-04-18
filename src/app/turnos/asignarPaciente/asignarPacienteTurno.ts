@@ -32,6 +32,7 @@ export class AsignarPacienteComponent implements OnChanges {
   private _disabledV = '0';
   private disabled = false;
 
+  private sorted = false;
   /*
   Este metodo es llamado cada vez que se cambia la fecha y/o los pacientes (inputs de este componente).
   Principalmente, se completa la variable 'pacientesSelector', para poder ser utilizados con el componente ng2-select.
@@ -48,35 +49,39 @@ export class AsignarPacienteComponent implements OnChanges {
       this.elijeParticular = false;
 
       const yo = this;
-      this.pacientes.forEach(function (elem, index) {
-        /*
-        Dado que estamos usando el componente ng2-select,
-        debemos tener un arreglo en el que cada objeto TENGA:
-        un atributo 'id'
-        un atributo 'text'
-        */
-        yo.pacientesSelector[index] = elem;
-        yo.pacientesSelector[index].id = elem._id;
-        yo.pacientesSelector[index].text = elem.apellido + ' ' + elem.nombre + ' - ' + elem.dni;
-      });
-
-
-      if (yo.pacientesSelector.length > 0) {
-        ////console.log('TRUE');
-
-        this.actualizado = true;
-      }
+    
 
       /* START Orden de lista */
-
-      const ordered = this.pacientesSelector.sort((a, b) => {
-        const uno = `${a.apellido} ${a.nombre}`.toLowerCase();
-        const dos = `${b.apellido} ${b.nombre}`.toLowerCase();
-        return uno > dos ? 1 : -1;
-      });
-      this.pacientesSelector = ordered;
-      // console.table(this.pacientesSelector);
-      // Se pega una frenada, deberiamos pasarlo a servidor.
+      if (changes.pacientes || !this.sorted) {
+        this.pacientes.forEach(function (elem, index) {
+          /*
+          Dado que estamos usando el componente ng2-select,
+          debemos tener un arreglo en el que cada objeto TENGA:
+          un atributo 'id'
+          un atributo 'text'
+          */
+          yo.pacientesSelector[index] = elem;
+          yo.pacientesSelector[index].id = elem._id;
+          yo.pacientesSelector[index].text = elem.apellido + ' ' + elem.nombre + ' - ' + elem.dni;
+        });
+  
+  
+        if (yo.pacientesSelector.length > 0) {
+          ////console.log('TRUE');
+  
+          this.actualizado = true;
+        }
+        
+        const ordered = this.pacientesSelector.sort((a, b) => {
+          const uno = `${a.apellido} ${a.nombre}`.toLowerCase();
+          const dos = `${b.apellido} ${b.nombre}`.toLowerCase();
+          return uno > dos ? 1 : -1;
+        });
+        this.pacientesSelector = ordered;
+        this.sorted = true;
+        // console.table(this.pacientesSelector);
+        // Se pega una frenada, deberiamos pasarlo a servidor.
+      }
 
       /* END Orden de lista */
 
