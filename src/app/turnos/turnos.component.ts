@@ -78,6 +78,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
     const yo = this;
     yo.turnosSocketService.setMedico(yo.idDoctor);
+    this.observarPacientes();
 
     router.events
     .forEach((event) => {
@@ -108,6 +109,24 @@ export class TurnosComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  private observarPacientes() {
+    /*
+      Subscribimos a los pacientes, para que tengan una correspondencia
+      con los pacientes del sistema
+    */
+   var yo = this;
+    this.pacientesSubscription = this.pacientesCompartidosService.pacientes$.subscribe((pacientes) => {
+      this.pacientes = pacientes;
+    }, (err) => {
+        console.log('Error en observarPacientes de tablaPacientes');
+        console.error(err);
+    });
+
+    // Obtenemos los pacientes compartidos
+    this.pacientesCompartidosService.getPacientes();
+
+}
 
   loadCalendar(idDoctor: string) {
 
@@ -371,8 +390,6 @@ cambiarMedico(idDoctor) {
   this.setDoctorSeleccionado(idDoctor);
 
   return new Promise((resolve, reject) => {
-    this.pacientesService.getPacientesActivos().then(pacientes => {
-      yo.pacientes = pacientes;
 
       // Limpiamos el calendario
       const calendario = $('#calendar');
@@ -383,7 +400,7 @@ cambiarMedico(idDoctor) {
       this.turnosSocketService.cambiarMedico(idDoctor);
       resolve(true);
     }
-  }).catch(err => console.error(err));
+
 });
 }
 

@@ -30,7 +30,7 @@ export class PacientesService {
 	}
 
 	getPacientesActivos(): Promise<Paciente[]>{
-		return this.http.get(this.pacientesURL + '?eliminado=false&aprobado=true', this.authService.jwt())
+		return this.http.get(this.pacientesURL + '?eliminado=false&aprobado=true&$sort[apellido]=1', this.authService.jwt())
 		.toPromise()
 		.then(response => {
 			return response.json() as Paciente[];
