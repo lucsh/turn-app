@@ -11,6 +11,7 @@ import { Router, NavigationStart, NavigationEnd, NavigationError, NavigationCanc
 
 import 'rxjs/add/operator/filter';
 import { MedicosService } from '../medico/medicos.service';
+import { ObrasService } from 'app/shared/services/obras.service';
 
 import * as moment from 'moment';
 
@@ -61,6 +62,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
   private desdeRender: any = null;
   private hastaRender: any = null;
+
+  public turnosPorObra: any[] = [];
 
   constructor(
     route: ActivatedRoute,

@@ -1,5 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ElementRef, ViewChild } from '@angular/core';
+import { ISlimScrollOptions } from 'ng2-slimscroll';
 import { SelectComponent, SelectItem } from 'ng2-select';
+import { elementAt } from 'rxjs/operators';
+
 //Declaramos esta variable para hacer uso de Jquery con los modals de Boostrap
 declare var $: any;
 
@@ -33,6 +36,101 @@ export class AsignarPacienteComponent implements OnChanges {
   private disabled = false;
 
   private sorted = false;
+  private slimScrollOpts: ISlimScrollOptions;
+  private obrasDisponibles: Array<any> = [];
+
+  ngOnInit() {
+    this.slimScrollOpts = {
+      gridOpacity: '0.2',
+      barOpacity: '0.5',
+      gridBackground: '#c2c2c2',
+      gridWidth: '6',
+      gridMargin: '2px 2px',
+      barBackground: '#a2a2a2',
+      barWidth: '6',
+      barMargin: '2px 2px'
+    }
+
+    /* Deberian venir ordenadas por la que mas uso tiene */
+    this.obrasDisponibles = [
+      {
+        iniciales: 'OSDE',
+        cantDisponible: '10',
+        totalAsignadas: '10'
+      },
+      {
+        iniciales: 'OASD',
+        cantDisponible: '8',
+        totalAsignadas: '10'
+      },
+      {
+        iniciales: 'IPVV',
+        cantDisponible: '-3',
+        totalAsignadas: '10'
+      },
+      {
+        iniciales: 'OSECAC',
+        cantDisponible: '0',
+        totalAsignadas: '10'
+      },
+      {
+        iniciales: 'SARF',
+        cantDisponible: '4',
+        totalAsignadas: '10'
+      },
+      {
+        iniciales: 'OSDIP',
+        cantDisponible: '3',
+        totalAsignadas: '10'
+      },
+      {
+        iniciales: 'Poder Judicial',
+        cantDisponible: '2',
+        totalAsignadas: '10'
+      },
+      {
+        iniciales: 'Petroleros',
+        cantDisponible: '6',
+        totalAsignadas: '10'
+      },
+      {
+        iniciales: 'RNDO',
+        cantDisponible: '1',
+        totalAsignadas: '10'
+      },
+      {
+        iniciales: 'ASDOS',
+        cantDisponible: '0',
+        totalAsignadas: '10'
+      },
+      {
+        iniciales: 'NARF',
+        cantDisponible: '10',
+        totalAsignadas: '10'
+      },
+      {
+        iniciales: 'SORT',
+        cantDisponible: '10',
+        totalAsignadas: '10'
+      },
+      {
+        iniciales: 'SORT',
+        cantDisponible: '5',
+        totalAsignadas: '10'
+      },
+      {
+        iniciales: 'YKAMF',
+        cantDisponible: '4',
+        totalAsignadas: '10'
+      },
+      {
+        iniciales: 'MFTAS',
+        cantDisponible: '10',
+        totalAsignadas: '10'
+      }
+    ];
+
+  }
   /*
   Este metodo es llamado cada vez que se cambia la fecha y/o los pacientes (inputs de este componente).
   Principalmente, se completa la variable 'pacientesSelector', para poder ser utilizados con el componente ng2-select.
@@ -49,7 +147,7 @@ export class AsignarPacienteComponent implements OnChanges {
       this.elijeParticular = false;
 
       const yo = this;
-    
+
 
       /* START Orden de lista */
       if (changes.pacientes || !this.sorted) {
@@ -60,18 +158,19 @@ export class AsignarPacienteComponent implements OnChanges {
           un atributo 'id'
           un atributo 'text'
           */
+         // console.log(elem)
           yo.pacientesSelector[index] = elem;
           yo.pacientesSelector[index].id = elem._id;
           yo.pacientesSelector[index].text = elem.apellido + ' ' + elem.nombre + ' - ' + elem.dni;
-        });
-  
-  
+         });
+
+
         if (yo.pacientesSelector.length > 0) {
           ////console.log('TRUE');
-  
+
           this.actualizado = true;
         }
-        
+
         const ordered = this.pacientesSelector.sort((a, b) => {
           const uno = `${a.apellido} ${a.nombre}`.toLowerCase();
           const dos = `${b.apellido} ${b.nombre}`.toLowerCase();
@@ -229,8 +328,9 @@ export class AsignarPacienteComponent implements OnChanges {
   }
 
   public refreshValue(value: any): void {
+    const pacienteOriginal = this.pacientes.find(el => el.id === value.id);
     this.pacienteSelected = value;
-    // console.log(this.pacientesSelector);
+    this.pacienteSelected.obra = pacienteOriginal.obra.iniciales;
   }
 }
 ;

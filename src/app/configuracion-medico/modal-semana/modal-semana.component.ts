@@ -395,7 +395,7 @@ export class ModalSemanaComponent implements OnInit, OnChanges, AfterViewInit, A
   public trackByIndex(index: number, item) {
     return index;
   }
-  
+
   public actualizarDiaParticular(dia:Number) {
 
   }
@@ -487,10 +487,10 @@ export class ModalSemanaComponent implements OnInit, OnChanges, AfterViewInit, A
   }
 
   /**
-   * Verifica que un conjunto de intervalos sea valido. 
+   * Verifica que un conjunto de intervalos sea valido.
    * Un intervalo es valido si su horaInicial < horaFin && dias.length > 0.
    * Devuelve si los intervalos son validos o no.
-   * @param intervalos 
+   * @param intervalos
    */
   private intervalosValidos(intervalos): boolean {
     let valido = true;

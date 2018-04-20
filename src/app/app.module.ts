@@ -84,6 +84,8 @@ import { PacientesDelDiaComponent } from './pacientes-del-dia/pacientes-del-dia.
 import {AsignarPacienteComponent} from './turnos/asignarPaciente/asignarPacienteTurno';
 import {AgregarPacienteComponent} from './pacientes/agregarPaciente/agregarPaciente';
 import {SelectModule} from 'ng2-select';
+import { SlimScrollModule } from 'ng2-slimscroll';
+
 
 import { TurnosDelMedicoComponent } from './turnos-del-medico/turnos-del-medico.component';
 import { ConfiguracionMedicoComponent } from './configuracion-medico/configuracion-medico.component';
@@ -199,6 +201,7 @@ import { ParticularesComponent } from './configuracion-medico/modal-semana/parti
     Select2Module,
     SimpleNotificationsModule.forRoot(),
     MyDatePickerModule,
+    SlimScrollModule,
     ObrasModule
   ],
   providers: [
