@@ -47,20 +47,20 @@
               </div>
             </div>
           </div>
-          <div class="col-md-5">
+          <div *ngIf='semanaActual'  class="col-md-5">
             <div class="ibox float-e-margins">
               <div class="ibox-title">
-                <h5>Turnos Disponibles </h5>
+                <h5>Turnos Ocupados </h5>
               </div>
               <div class="ibox-content">
                 <div class="obras" slimScroll [options]="slimScrollOpts" style="max-height:250px">
-                  <!-- { iniciales: 'OSDE', cantDisponible: '9', totalAsignadas: '10' } -->
+                  <!-- { nombre: 'OSDE', cantDisponible: '9', totalAsignadas: '10' } -->
                   <div class="obra row" *ngFor="let obra of obrasDisponibles">
                     <div class="nombre col-md-8" [ngClass]="{
                         'no-disponible': (obra.cantDisponible<=0)
-                      }">{{obra.iniciales}}</div>
+                      }">{{obra.nombre}}</div>
                     <div class="disp col-md-4">
-                      {{(obra.totalAsignadas - obra.cantDisponible) * 100 / obra.totalAsignadas }}%
+                      {{obra.totalAsignadas - obra.cantDisponible}}/{{obra.totalAsignadas}}: {{(obra.totalAsignadas - obra.cantDisponible) * 100.0 / obra.totalAsignadas }}%
                       <i class="fa" [ngClass]="{
                         'fa-check text-navy': (obra.cantDisponible > 0),
                         'fa-times text-danger': (obra.cantDisponible<=0)

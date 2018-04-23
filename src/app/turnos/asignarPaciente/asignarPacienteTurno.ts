@@ -15,6 +15,7 @@ export class AsignarPacienteComponent implements OnChanges {
 
   @Input() fechaNuevoTurno: any;
   @Input() pacientes: Array<any>;
+  @Input() semanaActual: any;
   @Output() nuevaAsignacion = new EventEmitter();
 
   @ViewChild('closeFormCrearTurno') closeFormCrearTurno: ElementRef;
@@ -40,6 +41,7 @@ export class AsignarPacienteComponent implements OnChanges {
   private obrasDisponibles: Array<any> = [];
 
   ngOnInit() {
+    this.parseSemana(this.semanaActual);
     this.slimScrollOpts = {
       gridOpacity: '0.2',
       barOpacity: '0.5',
@@ -50,86 +52,6 @@ export class AsignarPacienteComponent implements OnChanges {
       barWidth: '6',
       barMargin: '2px 2px'
     }
-
-    /* Deberian venir ordenadas por la que mas uso tiene */
-    this.obrasDisponibles = [
-      {
-        iniciales: 'OSDE',
-        cantDisponible: '10',
-        totalAsignadas: '10'
-      },
-      {
-        iniciales: 'OASD',
-        cantDisponible: '8',
-        totalAsignadas: '10'
-      },
-      {
-        iniciales: 'IPVV',
-        cantDisponible: '-3',
-        totalAsignadas: '10'
-      },
-      {
-        iniciales: 'OSECAC',
-        cantDisponible: '0',
-        totalAsignadas: '10'
-      },
-      {
-        iniciales: 'SARF',
-        cantDisponible: '4',
-        totalAsignadas: '10'
-      },
-      {
-        iniciales: 'OSDIP',
-        cantDisponible: '3',
-        totalAsignadas: '10'
-      },
-      {
-        iniciales: 'Poder Judicial',
-        cantDisponible: '2',
-        totalAsignadas: '10'
-      },
-      {
-        iniciales: 'Petroleros',
-        cantDisponible: '6',
-        totalAsignadas: '10'
-      },
-      {
-        iniciales: 'RNDO',
-        cantDisponible: '1',
-        totalAsignadas: '10'
-      },
-      {
-        iniciales: 'ASDOS',
-        cantDisponible: '0',
-        totalAsignadas: '10'
-      },
-      {
-        iniciales: 'NARF',
-        cantDisponible: '10',
-        totalAsignadas: '10'
-      },
-      {
-        iniciales: 'SORT',
-        cantDisponible: '10',
-        totalAsignadas: '10'
-      },
-      {
-        iniciales: 'SORT',
-        cantDisponible: '5',
-        totalAsignadas: '10'
-      },
-      {
-        iniciales: 'YKAMF',
-        cantDisponible: '4',
-        totalAsignadas: '10'
-      },
-      {
-        iniciales: 'MFTAS',
-        cantDisponible: '10',
-        totalAsignadas: '10'
-      }
-    ];
-
   }
   /*
   Este metodo es llamado cada vez que se cambia la fecha y/o los pacientes (inputs de este componente).
@@ -138,6 +60,9 @@ export class AsignarPacienteComponent implements OnChanges {
   */
   ngOnChanges(changes) {
     // changes.prop contains the old and the new value...
+    if (changes.semanaActual) {
+      this.parseSemana(this.semanaActual);
+    }
 
     if (this.pacientes != null && this.fechaNuevoTurno != null) {
 
@@ -186,6 +111,21 @@ export class AsignarPacienteComponent implements OnChanges {
 
     }
 
+  }
+
+  // TODO: ordenar segun porcentaje
+  private parseSemana(semana) {
+    console.log('Entre al parse Semana');
+    const yo = this;
+    yo.obrasDisponibles = [];
+    semana.obrasDisponibles.forEach(ob => {
+      let cantDispActual  = !ob.cantDispActual ? ob.cantDispActual : ob.cantDispActual;
+      yo.obrasDisponibles.push({
+        nombre: ob.obraExpandida.nombre,
+        totalAsignadas: ob.cantDisponible,
+        cantDisponible: cantDispActual
+      });
+    });
   }
 
   /*

@@ -15,9 +15,10 @@
 				<br>
     	</div>
 
-		<asignacion-paciente
+		<asignacion-paciente *ngIf='semanaActual'
 		[fechaNuevoTurno]='fechaNuevoTurno'
 		[pacientes]='pacientes'
+		[semanaActual]='semanaActual'
 		(nuevaAsignacion)='onAsignacionPaciente($event)'
 		 ></asignacion-paciente>
 
