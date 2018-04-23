@@ -119,7 +119,7 @@ export class AsignarPacienteComponent implements OnChanges {
     const yo = this;
     yo.obrasDisponibles = [];
     semana.obrasDisponibles.forEach(ob => {
-      let cantDispActual  = !ob.cantDispActual ? ob.cantDispActual : ob.cantDispActual;
+      let cantDispActual  = !ob.cantDispActual ? ob.cantDisponible : ob.cantDispActual;
       yo.obrasDisponibles.push({
         nombre: ob.obraExpandida.nombre,
         totalAsignadas: ob.cantDisponible,
