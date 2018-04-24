@@ -100,7 +100,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
           if (yo.doctorSeleccionado){
             const anteriorMedicoId = yo.doctorSeleccionado._id.toString();
             if (idDoctor != anteriorMedicoId){
-              yo.getSemanaActual(idDoctor, new Date(yo.desdeRender));
+              yo.getSemanaActual(idDoctor, new Date(yo.hastaRender));
               yo.cambiarMedico(idDoctor).then(res => {
                 yo.setDoctorSeleccionado(idDoctor);
                 yo.cargandoTurnos = true;
@@ -157,7 +157,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
         yo.desdeRender = desde;
         yo.hastaRender = hasta;
         yo.cargandoTurnos = true;
-        yo.getSemanaActual(yo.doctorSeleccionado._id, fechaDesde);
+        yo.getSemanaActual(yo.doctorSeleccionado._id, new Date(view.end._d));
         // Obtenemos los turnos del rango esperado
         yo.turnosSocketService.obtenerTurnosRango(desde, hasta);
 
@@ -413,7 +413,7 @@ getSemanaActual(idDoctor: String, fecha: Date) {
   const weekYear = this.utilsService.getWeekNumber(fecha);
   this.semanasService.findByDoctor(idDoctor, weekYear[1], weekYear[0])
   .then(semanas => {
-    console.log('Semanas: ', semanas);
+    // console.log('Semanas: ', semanas);
     if (semanas && semanas.length > 0) {
       this.semanaActual = semanas[0];
     }

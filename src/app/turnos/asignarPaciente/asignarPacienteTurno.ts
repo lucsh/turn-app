@@ -115,11 +115,11 @@ export class AsignarPacienteComponent implements OnChanges {
 
   // TODO: ordenar segun porcentaje
   private parseSemana(semana) {
-    console.log('Entre al parse Semana');
+    // console.log('Entre al parse Semana');
     const yo = this;
     yo.obrasDisponibles = [];
     semana.obrasDisponibles.forEach(ob => {
-      let cantDispActual  = !ob.cantDispActual ? ob.cantDispActual : ob.cantDispActual;
+      let cantDispActual  = (ob.cantDispActual === undefined) ? ob.cantDisponible : ob.cantDispActual;
       yo.obrasDisponibles.push({
         nombre: ob.obraExpandida.nombre,
         totalAsignadas: ob.cantDisponible,
