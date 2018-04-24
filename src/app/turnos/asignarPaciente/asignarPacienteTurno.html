@@ -60,7 +60,7 @@
                         'no-disponible': (obra.cantDisponible<=0)
                       }">{{obra.nombre}}</div>
                     <div class="disp col-md-4">
-                      {{obra.totalAsignadas - obra.cantDisponible}}/{{obra.totalAsignadas}}: {{(obra.totalAsignadas - obra.cantDisponible) * 100.0 / obra.totalAsignadas }}%
+                      {{obra.totalAsignadas - obra.cantDisponible}}/{{obra.totalAsignadas}}: {{((obra.totalAsignadas - obra.cantDisponible) * 100.0 / obra.totalAsignadas) | number }}%
                       <i class="fa" [ngClass]="{
                         'fa-check text-navy': (obra.cantDisponible > 0),
                         'fa-times text-danger': (obra.cantDisponible<=0)

@@ -187,7 +187,7 @@ export class TurnoSocketService {
       estado: 'pendiente',
       paciente: paciente._id,
       descripcion: paciente.descripcion,
-      obra: pagoConsulta
+      obra: pagoConsulta._id
     };
 
     this.turnosSocketService.create(nuevoTurno).then((turnoNuevo) => {});
