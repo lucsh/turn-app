@@ -70,6 +70,7 @@ import { FooterComponent } from './ui/footer.component';
 import { NavigationComponent } from './ui/navigation/navigation.component';
 import { TopnavbarComponent } from './ui/topnavbar/topnavbar.component';
 import { TimeAgoPipe } from './time-ago.pipe';
+import { FiltroPorEstado } from "./pacientes-del-dia/filtro-por-estado";
 import { TurnosComponent } from './turnos/turnos.component';
 
 import { TurnoSocketService } from './turnos/turnos-socket.service';
@@ -129,6 +130,7 @@ import { ParticularesComponent } from './configuracion-medico/modal-semana/parti
     NavigationComponent,
     TopnavbarComponent,
     TimeAgoPipe,
+    FiltroPorEstado, // Solo lo usamos en pacientes del dia
     TurnosComponent,
     PacientesComponent,
     DataFilterPipe,
