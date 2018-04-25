@@ -39,7 +39,6 @@ export class MedicosCompartidosService {
     // TODO: actualmente se esta usando el http service. Posteriormente posiblemente se haga con sockets como obras.sistema.ts
     this.medicosService.getDoctores()
       .then(docs => {
-        console.log('Voy a enviar los medicos');
         this.medicos = docs;
         if (this.observer) {
           this.observer.next(this.medicos);

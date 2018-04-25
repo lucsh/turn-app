@@ -67,8 +67,6 @@ export class ModalSemanaComponent implements OnInit, OnChanges, AfterViewInit, A
       this.iniciarIntervalos();
       this.obras = this.obrasDispTotales;
       this.actualizarSelector();
-      console.log('El medico es: ');
-      console.log(this.medico)
     }
   }
 

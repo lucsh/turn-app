@@ -39,8 +39,6 @@ export class PacientesCompartidosService {
     // Conectamos con servidor Featherjs
     this.subscribeToServer()
       .then((algo) => {
-        console.log('11111111111111 Pase el algo');
-
         // this.findPacientes();
       })
       .catch(err => {
@@ -79,12 +77,9 @@ export class PacientesCompartidosService {
   public findPacientesObserver(observer) {
     this.pacientesSocketService.find()
       .then(pacientes => {
-        console.log('EL find de pacientes');
-        console.log(pacientes);
         this.pacientes = pacientes;
         
         // if (this.observer) {
-          console.log('Voy a enviarlos!');
          observer.next(this.pacientes);
         // }
       });
@@ -107,10 +102,7 @@ export class PacientesCompartidosService {
   }
 
   public getPacientes() {
-    console.log('getPacientes');
-    //console.log(this.pacientes);
     if(this.pacientes !== undefined){
-      console.log('hago next');
       this.observer.next(this.pacientes);
     }
   }

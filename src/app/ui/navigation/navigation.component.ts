@@ -98,8 +98,6 @@ export class NavigationComponent {
 
       this.medicosService.getDoctores().then((docs) => {
         this.medicosSubscription = this.medicosCompartidos.medicos$.subscribe((medicos) => {
-          console.log('Voy a recibir los medicos');
-
           this.medicos = medicos;
           // this.ref.markForCheck();
         }, (err) => {

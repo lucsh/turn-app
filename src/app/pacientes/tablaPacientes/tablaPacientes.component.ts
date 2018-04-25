@@ -56,9 +56,6 @@ export class TablaPacientesComponent implements OnInit {
         */
        var yo = this;
         this.subscription = this.pacientesCompartidosService.pacientes$.subscribe((pacientes) => {
-
-            // console.log('### Voy a cargarlos!');
-            console.log(pacientes);
             yo.addPacientes(pacientes);
 
 
