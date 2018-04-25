@@ -12,7 +12,7 @@
               <th>Estado</th>
               <th>Horario</th>
               <th>Paciente</th>
-              <th class="centro2">1ºVez</th>
+              <th class="2">1ºVez</th>
               <th>O.S.</th>
               <th>Observación</th>
               <th>Tiempo de espera</th>
@@ -21,10 +21,10 @@
             </tr>
           </thead>
           <tbody *ngIf="ordenados">
-            <tr *ngFor="let turno of turnos">
+            <tr *ngFor="let turno of turnos | porEstado:'no tiene,finalizado'">
 
               <!-- Estado -->
-              <div *ngIf='!turno.esReserva; then estadoTurno; else estadoReserva'>this is ignored</div>
+              <div *ngIf='!turno.esReserva; then estadoTurno; else estadoReserva'></div>
 
               <ng-template #estadoTurno>
                 <td >
@@ -58,13 +58,13 @@
                 <i class="fa fa-calendar-o"></i> {{turno.horaInicial | amUtc | amDateFormat:'HH:mm'}}</td>
 
               <!-- Datos paciente -->
-              <td *ngIf='!turno.esReserva'>{{turno.paciente.nombre}} {{turno.paciente.apellido}}</td>
+              <td *ngIf='!turno.esReserva'>{{turno.paciente.apellido}} {{turno.paciente.nombre}}</td>
               <td *ngIf='turno.esReserva'> - </td>
 
               <!-- Primera vez -->
               <td *ngIf='!turno.esReserva'>
-                <i class="centro fa fa-check" aria-hidden="true" *ngIf="turno.paciente.primeraVez"></i>
-                <i class="centro fa fa-times" aria-hidden="true" *ngIf="!turno.paciente.primeraVez"></i>
+                <i class=" fa fa-check" aria-hidden="true" *ngIf="turno.paciente.primeraVez"></i>
+                <i class=" fa fa-times" aria-hidden="true" *ngIf="!turno.paciente.primeraVez"></i>
               </td>
               <td class='centro' *ngIf='turno.esReserva'> - </td>
 
@@ -73,7 +73,7 @@
               <td *ngIf='turno.esReserva'> - </td>
 
               <!-- Descripcion -->
-              <td>{{turno.descripcion}}</td>
+              <td class="descripcion" [ngClass]="{'pequeno': turno.descripcion?.length >= 30 }">{{turno.descripcion}}</td>
 
               <!-- Tiempo de espera -->
               <td *ngIf='!turno.esReserva'>
@@ -86,11 +86,69 @@
               <!-- Acciones -->
               <td *ngIf='!turno.esReserva'>
                 <!-- <button (click)="editar(turno)" class="btn btn-info"></button> -->
-                <button [disabled]="!comprobarEstado(turno)" (click)="llamarPaciente(turno)" class="btn btn-success">Llamar Paciente</button>
-                <button [disabled]="turno.estado != 'activo'" (click)="finalizarTurno(turno)" class="btn btn-danger">Finalizar Turno</button>
-                <button [disabled]="turno.estado != 'activo'" (click)="ponerEnEstudio(turno)" class="btn btn-info">Enviar a Estudio</button>
+                <button [disabled]="!comprobarEstado(turno)" (click)="llamarPaciente(turno)" class="btn btn-xs btn-success">Llamar</button>
+                <button [disabled]="turno.estado != 'activo'" (click)="finalizarTurno(turno)" class="btn btn-xs btn-danger">Finalizar</button>
+                <button [disabled]="turno.estado != 'activo'" (click)="ponerEnEstudio(turno)" class="btn btn-xs btn-info">a Estudio</button>
               </td>
               <td *ngIf='turno.esReserva'> - </td>
+
+
+            </tr>
+            <tr *ngFor="let turno of turnos | porEstado:'tiene,finalizado'" class="finalizado">
+
+              <!-- Estado -->
+
+
+                <td >
+                  <div class="dropdown">
+                    <button [ngClass]="claseEstadoTurno(turno.estado)" class="btn btn-xs dropdown-toggle" type="button" id="estadoturno" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="true">
+                      {{turno.estado}}
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="estadoturno">
+                      <li *ngFor="let estado of estadosTurnos">
+                        <a (click)="updateTurno(turno, estado.nombre)">{{estado.nombre}}</a>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+
+
+              <!-- Horario -->
+              <td>
+                <i class="fa fa-calendar-o"></i> {{turno.horaInicial | amUtc | amDateFormat:'HH:mm'}}</td>
+
+              <!-- Datos paciente -->
+              <td>{{turno.paciente.apellido}} {{turno.paciente.nombre}}</td>
+
+
+              <!-- Primera vez -->
+              <td>
+                <i class=" fa fa-check" aria-hidden="true" *ngIf="turno.paciente.primeraVez"></i>
+                <i class=" fa fa-times" aria-hidden="true" *ngIf="!turno.paciente.primeraVez"></i>
+              </td>
+              <td class='centro' *ngIf='turno.esReserva'> - </td>
+
+              <!-- Obra social -->
+              <td>{{turno.paciente.obra?.iniciales}}</td>
+
+              <!-- Descripcion -->
+              <td class="descripcion" [ngClass]="{'pequeno': turno.descripcion.length >= 30 }">{{turno.descripcion}}</td>
+
+
+              <!-- Tiempo de espera -->
+              <td>
+                <span *ngIf="turno.estado === 'en espera' || turno.estado === 'en estudio'" class="text-warning">
+                  <i class="fa fa-clock-o"></i> Hace {{ aDate(turno.horaUltimoCambio) | timeAgo }}</span>
+              </td>
+
+              <!-- Acciones -->
+              <td>
+                <button [disabled]="!comprobarEstado(turno)" (click)="llamarPaciente(turno)" class="btn btn-xs btn-success">Llamar</button>
+                <button [disabled]="turno.estado != 'activo'" (click)="finalizarTurno(turno)" class="btn btn-xs btn-danger">Finalizar</button>
+                <button [disabled]="turno.estado != 'activo'" (click)="ponerEnEstudio(turno)" class="btn btn-xs btn-info">a Estudio</button>
+              </td>
 
 
             </tr>
@@ -101,17 +159,4 @@
   </div>
 </div>
 
-<style media="screen">
-  .centro {
-    margin: auto;
-    width: 50%;
-    display: block;
-  }
-
-  .centro2 {
-    margin: auto;
-    width: 85%;
-    display: block;
-  }
-</style>
 <simple-notifications [options]="options"></simple-notifications>

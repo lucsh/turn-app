@@ -17,20 +17,25 @@
           </tr>
           </thead>
           <tbody *ngIf="ordenados">
-          <tr *ngFor="let turno of turnos">
-          <!--
-          {
-            "id": 12,
-            "dia": "01-06-2017",
-            "hora": "12:30",
-            "status": "Pendiente",
-            "paciente": "Raul",
-            "doctor": "Dra. Manzazno"
-          }
-          -->
+            <!--
+            {
+              "id": 12,
+              "dia": "01-06-2017",
+              "hora": "12:30",
+              "status": "Pendiente",
+              "paciente": "Raul",
+              "doctor": "Dra. Manzazno"
+            }
+            -->
+          <tr *ngFor="let turno of turnos | porEstado:'no tiene,finalizado'">
             <td >
             <div class="dropdown">
-              <button [ngClass]="claseEstadoTurno(turno.estado)" class="btn btn-xs dropdown-toggle" type="button" id="estadoturno" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              <button [ngClass]="claseEstadoTurno(turno.estado)"
+              class="btn btn-xs dropdown-toggle"
+              type="button" id="estadoturno"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="true">
                 {{turno.estado}}
                 <span class="caret"></span>
               </button>
@@ -41,9 +46,34 @@
 
             </td>
             <td><i class="fa fa-calendar-o"></i> {{turno.horaInicial | amUtc | amDateFormat:'HH:mm'}}</td>
-            <td>{{turno.paciente.nombre}} {{turno.paciente.apellido}}</td>
-            <!-- <td><span *ngIf="turno.estado == 'en espera'" class="text-warning"><i class="fa fa-clock-o"></i> Hace {{ aDate(turno.horaUltimoCambio)  | timeAgo }}</span></td> -->
+            <td>{{turno.paciente.apellido}} {{turno.paciente.nombre}}</td>
             <td><span *ngIf="turno.estado === 'en espera' || turno.estado === 'en estudio'" class="text-warning"><i class="fa fa-clock-o"></i> Hace {{ aDate(turno.horaUltimoCambio)  | timeAgo }}</span></td>
+
+            <td>{{turno.medico.apellido}}</td>
+          </tr>
+          <tr *ngFor="let turno of turnos | porEstado:'tiene,finalizado'" class="finalizado">
+            <td>
+              <div class="dropdown">
+                <button [ngClass]="claseEstadoTurno(turno.estado)" class="btn btn-xs dropdown-toggle" type="button" id="estadoturno" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="true">
+                  {{turno.estado}}
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="estadoturno">
+                  <li *ngFor="let estado of estadosTurnos">
+                    <a (click)="updateTurno(turno, estado.nombre)">{{estado.nombre}}</a>
+                  </li>
+                </ul>
+              </div>
+
+            </td>
+            <td>
+              <i class="fa fa-calendar-o"></i> {{turno.horaInicial | amUtc | amDateFormat:'HH:mm'}}</td>
+            <td>{{turno.paciente.apellido}} {{turno.paciente.nombre}}</td>
+            <td>
+              <span *ngIf="turno.estado === 'en espera' || turno.estado === 'en estudio'" class="text-warning">
+                <i class="fa fa-clock-o"></i> Hace {{ aDate(turno.horaUltimoCambio) | timeAgo }}</span>
+            </td>
 
             <td>{{turno.medico.apellido}}</td>
           </tr>

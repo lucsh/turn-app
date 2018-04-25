@@ -4,7 +4,8 @@ export class Turno {
     title: string;
     allDay: boolean;
 	// start:Date;
-	// end:Date;
+    // end:Date;
+    estado: string;
     horaInicial: Date;
     horaFin: Date;
     esReserva: boolean;
