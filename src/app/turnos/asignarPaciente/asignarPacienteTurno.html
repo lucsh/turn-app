@@ -56,10 +56,10 @@
                 <div class="obras" slimScroll [options]="slimScrollOpts" style="max-height:250px">
                   <!-- { nombre: 'OSDE', cantDisponible: '9', totalAsignadas: '10' } -->
                   <div class="obra row" *ngFor="let obra of obrasDisponibles">
-                    <div class="nombre col-md-8" [ngClass]="{
+                    <div class="nombre col-md-7" [ngClass]="{
                         'no-disponible': (obra.cantDisponible<=0)
-                      }">{{obra.nombre}}</div>
-                    <div class="disp col-md-4">
+                      }"> {{ (obra.nombre.length>17)? (obra.nombre | slice:0:17)+'...':(obra.nombre) }}</div>
+                    <div class="disp col-md-5">
                       {{obra.totalAsignadas - obra.cantDisponible}}/{{obra.totalAsignadas}}: {{((obra.totalAsignadas - obra.cantDisponible) * 100.0 / obra.totalAsignadas) | number }}%
                       <i class="fa" [ngClass]="{
                         'fa-check text-navy': (obra.cantDisponible > 0),
