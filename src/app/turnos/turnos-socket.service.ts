@@ -256,9 +256,7 @@ export class TurnoSocketService {
   }
 
   public eliminarTurno(idTurno) {
-    const id = idTurno;
-    this.turnosSocketService.remove(idTurno).then((turnoEliminado) => {
-    });
+    return this.turnosSocketService.remove(idTurno);
   }
 
   public find(desde, hasta) {

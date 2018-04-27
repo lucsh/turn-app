@@ -339,6 +339,11 @@ onAsignacionPaciente(asignacion) {
       });
 }}}
 
+onTurnoEliminado(turnoEliminado) {
+  // Actualizamos la semana actual
+  this.getSemanaActual(this.doctorSeleccionado._id, new Date(this.hastaRender));  
+}
+
 crearTurno(date, pacienteAsignado, pagoConsulta, duracion) {
 
   const paciente = pacienteAsignado;

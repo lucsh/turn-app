@@ -23,6 +23,7 @@ export class VerTurnoComponent implements OnInit, OnChanges{
   @Input() obra: any;
   @Input() turno: any;
   @Output() obraEditado = new EventEmitter();
+  @Output() turnoEliminado = new EventEmitter();
 
   @ViewChild('closeformVerTurno') closeformVerTurno: ElementRef;
 
@@ -49,8 +50,6 @@ export class VerTurnoComponent implements OnInit, OnChanges{
   /*
   */
   ngOnChanges(changes) {
-    // changes.prop contains the old and the new value...
-
     // Asignamos las fechas para el modal
     if (this.turno != null){
       if (this.turno.paciente.obra == null){
@@ -61,7 +60,6 @@ export class VerTurnoComponent implements OnInit, OnChanges{
         };
       }
       this.pacienteDelTurno = this.turno.paciente;
-      // let fechaNuevoTurno = this.turno.horaInicial;
       const fechaNuevoTurno = moment(this.turno.horaInicial).utc().add(3, 'h');
       const today = moment();
 
@@ -77,7 +75,6 @@ export class VerTurnoComponent implements OnInit, OnChanges{
     }
     this.modeloObra = Object.assign({}, this.obra); // clonamos el paciente
   }
-
 
   public editarPaciente(){
     $('#formEditarPaciente').modal('show');
@@ -96,8 +93,6 @@ export class VerTurnoComponent implements OnInit, OnChanges{
     this.obrasService.actualizarObra(this.modeloObra._id, this.modeloObra)
     .then(obraEdit => {
       this.obraEditado.next(obraEdit);
-
-
       //Cerramos el modal y limpiamos variables
       //this.modeloPaciente = null;
       // this.obraSelected = null;
@@ -120,10 +115,10 @@ export class VerTurnoComponent implements OnInit, OnChanges{
       confirmButtonText: 'Si, eliminar!',
       cancelButtonText: 'Cancelar'
     }).then(function() {
-      // $('#calendar').fullCalendar('removeEvents', function (event) {
-      //   return event == calEvent; //Esto remueve solamente el evento "clickeado" que entra por parametro del evento del calendario 'calEvent'
-      // });
-      yo.turnosSocketService.eliminarTurno(yo.turno._id);
+      yo.turnosSocketService.eliminarTurno(yo.turno._id)
+      .then(turnoEliminado => {
+        yo.turnoEliminado.next(turnoEliminado);
+      }).catch(err => {console.error(err)});
     }, function(dismiss){
       //Aca entra si se arrepiente de eliminar el turno!!!!
       $('#formVerTurno').modal('show');

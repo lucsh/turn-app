@@ -22,6 +22,6 @@
 		(nuevaAsignacion)='onAsignacionPaciente($event)'
 		 ></asignacion-paciente>
 
-		 <ver-turno [turno]=turnoSeleccionado></ver-turno>
+		 <ver-turno [turno]=turnoSeleccionado (turnoEliminado)='onTurnoEliminado($event)' ></ver-turno>
     </div>
 </div>
