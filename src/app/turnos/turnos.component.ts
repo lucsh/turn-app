@@ -343,10 +343,14 @@ crearTurno(date, pacienteAsignado, pagoConsulta, duracion) {
 
   const paciente = pacienteAsignado;
 
-  this.turnosSocketService.crearTurno(date.format(), paciente, pagoConsulta, duracion);
+  this.turnosSocketService.crearTurno(date.format(), paciente, pagoConsulta, duracion)
+  .then(turnoCreado => {
+    // Restablecemos las variables
+    this.fechaNuevoTurno = null;
+    this.getSemanaActual(this.doctorSeleccionado._id, new Date(this.hastaRender));
+  }).catch(err => {console.error(err)});;
 
-  // Restablecemos las variables
-  this.fechaNuevoTurno = null;
+
 }
 
 reservarHorario(fecha, descripcion){

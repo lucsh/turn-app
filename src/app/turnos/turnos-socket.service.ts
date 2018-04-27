@@ -190,7 +190,7 @@ export class TurnoSocketService {
       obra: pagoConsulta._id
     };
 
-    this.turnosSocketService.create(nuevoTurno).then((turnoNuevo) => {});
+    return this.turnosSocketService.create(nuevoTurno);
   }
 
   public crearTurnoConFin(fechaIni, fechaFin, pacienteAsignado) {
