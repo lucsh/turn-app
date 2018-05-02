@@ -52,19 +52,14 @@ export class PacientesCompartidosService {
     this.pacientesSocketService.find({
       query: {
         "aprobado": true,
-        "eliminado": false
-      },
-      $sort: {
-        apellido: 1
-      } 
-    })
-      .then(pacientes => {
-        // console.log('EL find de pacientes');
-        // console.log(pacientes);
+        "eliminado": false,
+        $sort: {
+          "apellido": 1
+        }
+      }
+    }).then(pacientes => {
         this.pacientes = pacientes;
-        
         if (this.observer) {
-          // console.log('Voy a enviarlos!');
           this.observer.next(this.pacientes);
         }
       });
