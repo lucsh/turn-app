@@ -49,7 +49,6 @@ export class TablaPacientesComponent implements OnInit {
     }
 
     private observarPacientes() {
-        // console.log('Entre en observar pacientes');
         /*
           Subscribimos a los pacientes, para que tengan una correspondencia
           con los pacientes del sistema
@@ -57,8 +56,6 @@ export class TablaPacientesComponent implements OnInit {
        var yo = this;
         this.subscription = this.pacientesCompartidosService.pacientes$.subscribe((pacientes) => {
             yo.addPacientes(pacientes);
-
-
         }, (err) => {
             console.log('Error en observarPacientes de tablaPacientes');
             console.error(err);
@@ -66,13 +63,6 @@ export class TablaPacientesComponent implements OnInit {
 
         // Obtenemos los pacientes compartidos
         this.pacientesCompartidosService.getPacientes();
-        // this.pacientesCompartidosService.findPacientesPromise()
-        // .then(pacientes => {
-        //     console.log('#### Pacientes: ', pacientes);
-        //     this.addPacientes(pacientes);
-        // })
-        // .catch(err => console.error(err));
-
     }
     /**
     * Aplicamos un filtro a la tabla.
