@@ -125,4 +125,4 @@
 
 
 
-<editar-paciente (pacienteEditado)="onEditarPaciente($event)" *ngIf='pacienteDelTurno' [paciente]=pacienteDelTurno></editar-paciente>
+<editar-paciente (pacienteEditado)="onEditarPaciente($event)" *ngIf='puedeEditar && pacienteDelTurno' [paciente]=pacienteDelTurno></editar-paciente>

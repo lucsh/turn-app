@@ -131,15 +131,12 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
   public editarPaciente(){
 
     //Actualizamos la obra seleccionada
-    console.log('Entre a editar paciente y tengo de id... ', this.obraSelected._id);
     if (this.obraSelected && this.obraSelected.nombre == 'Particular'){
       this.modeloPaciente.obra = null;
-      console.log('Entre al if de Particular');
     }
     else{
       if (this.obraSelected){
         this.modeloPaciente.obra = this.obraSelected._id;
-        console.log('Entre al else, y tengo... ', this.modeloPaciente.obra);
       }
     }
 
@@ -152,7 +149,7 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
       this.pacienteEditado.next(pacienteEdit);
 
       //Cerramos el modal y limpiamos variables
-      //this.modeloPaciente = null;
+      this.modeloPaciente = null;
       this.obraSelected = null;
       this.closeFormEditarPaciente.nativeElement.click();
 
@@ -225,7 +222,6 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
       showLoaderOnConfirm: true,
       preConfirm: function () {
         return new Promise(function (resolve) {
-
             yo.pacientesService.actualizarPaciente(yo.modeloPaciente._id, yo.modeloPaciente)
             .then(pacienteEdit => {
                 swal.insertQueueStep(yo.modeloPaciente.password);
@@ -242,12 +238,10 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
     let turnos;
     this.turnosSocketService.obtenerTurnosActivosPaciente(paciente._id).then((turnos) => {
       let mensaje = '';
-      console.log(turnos.length);
       if (turnos.length != 0){
 
         mensaje += 'El paciente tiene los siguientes turnos activos:';
         turnos.forEach(function(elem, index){
-          console.log(elem);
           //CAMBIAR HORA
           const horaInicial = moment(elem.horaInicial).add(3, 'h');
           mensaje += '<hr>' + horaInicial.format('dddd D') + ' de ' + horaInicial.format('MMMM') + ' a las ' + horaInicial.format('HH:mm') + ' con Doc: <strong>' + elem.medico.apellido + '</strong>';
@@ -259,21 +253,13 @@ export class EditarPacienteComponent implements OnInit, OnChanges{
         title: 'Turnos Activos',
         //type: 'info',
         html:
-
-          mensaje,
+        mensaje,
         showCloseButton: true,
         showCancelButton: false,
-
-        confirmButtonText:
-          'Cerrar!',
-        //confirmButtonAriaLabel: 'Cerrar!',
-
+        confirmButtonText: 'Cerrar!',
       });
 
     });
-
-
-
 
   }
 

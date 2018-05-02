@@ -10,7 +10,7 @@ import { TurnoSocketService } from '../turnos-socket.service';
 
 import { PacientesCompartidosService } from '../../routerService/pacientes.sistema';
 
-import {default as swal} from 'sweetalert2';
+import { default as swal } from 'sweetalert2';
 import * as moment from 'moment';
 declare var $: any;
 
@@ -19,7 +19,7 @@ declare var $: any;
   templateUrl: './verTurno.html',
   styleUrls: ['./verTurno.css']
 })
-export class VerTurnoComponent implements OnInit, OnChanges{
+export class VerTurnoComponent implements OnInit, OnChanges {
 
   @Input() obra: any;
   @Input() turno: any;
@@ -32,29 +32,28 @@ export class VerTurnoComponent implements OnInit, OnChanges{
   public diaNuevoTurno: any;
   public pacienteDelTurno: any = null;
   public turnoModificable = true;
+  public puedeEditar = false;
 
   constructor(
     private obrasService: ObrasService,
-    private turnosSocketService : TurnoSocketService,
+    private turnosSocketService: TurnoSocketService,
     private pacientesCompartidosService: PacientesCompartidosService
-  ){
+  ) {
 
   }
 
   /*
   */
-  ngOnInit() {
-
-  }
+  ngOnInit() { }
 
   /*
   */
   ngOnChanges(changes) {
     // changes.prop contains the old and the new value...
-
+    this.puedeEditar = false;
     // Asignamos las fechas para el modal
-    if (this.turno != null){
-      if (this.turno.paciente.obra == null){
+    if (this.turno != null) {
+      if (this.turno.paciente.obra == null) {
         this.turno.paciente.obra = {
           _id: 'Particular',
           nombre: 'Particular',
@@ -67,12 +66,11 @@ export class VerTurnoComponent implements OnInit, OnChanges{
       const today = moment();
 
       // Verificamos que la fecha del turno, para conocer si lo podra eliminar o no.
-      if (fechaNuevoTurno < today){
+      if (fechaNuevoTurno < today) {
         this.turnoModificable = false;
       } else {
         this.turnoModificable = true;
       }
-
       this.horaNuevoTurno = fechaNuevoTurno.format('HH:mm');
       this.diaNuevoTurno = fechaNuevoTurno.format('DD [de] MMMM');
     }
@@ -80,35 +78,32 @@ export class VerTurnoComponent implements OnInit, OnChanges{
   }
 
 
-  public editarPaciente(){
+  public editarPaciente() {
+    this.puedeEditar = true;
     $('#formEditarPaciente').modal('show');
   }
 
-  public onEditarPaciente(pacienteEditado){
-    if (pacienteEditado != null && pacienteEditado != undefined){
+  public onEditarPaciente(pacienteEditado) {
+    if (pacienteEditado != null && pacienteEditado != undefined) {
       this.pacienteDelTurno = pacienteEditado;
-      this.pacientesCompartidosService.updatePaciente(pacienteEditado);
+      this.puedeEditar = false;
     }
   }
   /*
 
   */
-  public editarObra(){
+  public editarObra() {
     this.obrasService.actualizarObra(this.modeloObra._id, this.modeloObra)
-    .then(obraEdit => {
-      this.obraEditado.next(obraEdit);
+      .then(obraEdit => {
+        this.obraEditado.next(obraEdit);
+        //Cerramos el modal y limpiamos variables
+        this.closeformVerTurno.nativeElement.click();
 
-
-      //Cerramos el modal y limpiamos variables
-      //this.modeloPaciente = null;
-      // this.obraSelected = null;
-      this.closeformVerTurno.nativeElement.click();
-
-    }).catch(err => {console.log(err); });
+      }).catch(err => { console.log(err); });
   }
 
 
-  public cancelarTurno(){
+  public cancelarTurno() {
     $('#formVerTurno').modal('hide');
     const yo = this;
     swal({
@@ -120,12 +115,12 @@ export class VerTurnoComponent implements OnInit, OnChanges{
       cancelButtonColor: '#d33',
       confirmButtonText: 'Si, eliminar!',
       cancelButtonText: 'Cancelar'
-    }).then(function() {
+    }).then(function () {
       // $('#calendar').fullCalendar('removeEvents', function (event) {
       //   return event == calEvent; //Esto remueve solamente el evento "clickeado" que entra por parametro del evento del calendario 'calEvent'
       // });
       yo.turnosSocketService.eliminarTurno(yo.turno._id);
-    }, function(dismiss){
+    }, function (dismiss) {
       //Aca entra si se arrepiente de eliminar el turno!!!!
       $('#formVerTurno').modal('show');
     }).catch(swal.noop);
@@ -135,7 +130,7 @@ export class VerTurnoComponent implements OnInit, OnChanges{
   /*
 
   */
-  public cancelar(){
+  public cancelar() {
     //Limpiamos variables
     //this.value = {};
 
