@@ -441,10 +441,10 @@ ngOnInit() {
 
   const yo = this;
   this.getAllDoctores();
-  this.pacientesService.getPacientesActivos().then(pacientes => {
-    yo.pacientes = pacientes;
+  // this.pacientesService.getPacientesActivos().then(pacientes => {
+  //   yo.pacientes = pacientes;
 
-  }).catch(err => console.error(err));
+  // }).catch(err => console.error(err));
 
 }
 
