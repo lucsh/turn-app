@@ -86,7 +86,7 @@
 </div>
 <br>
 
-<editar-medico *ngIf='medicoSeleccionado._id' [obrasRecibidas]='obras' [medicoSeleccionado]='medicoSeleccionado'>
+<editar-medico *ngIf='puedeEditar && medicoSeleccionado._id' [obrasRecibidas]='obras' [medicoSeleccionado]='medicoSeleccionado'>
 </editar-medico>
 
 <app-modal-semana *ngIf="medicoSeleccionado != null && medicoSeleccionado.obras && medicoSeleccionado.obras.length > 0" [obrasDispTotales]="medicoSeleccionado.obras"

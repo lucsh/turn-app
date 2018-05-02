@@ -27,6 +27,7 @@ export class TablaMedicosComponent implements OnInit {
   private obrasSubscription: Subscription;
   private medicosSubscription: Subscription;
   public obras: Obra[];
+  public puedeEditar = false;
 
   medicoSeleccionado = {
     'id': '',
@@ -111,11 +112,12 @@ export class TablaMedicosComponent implements OnInit {
 
   editarMedico(medico) {
     this.medicoSeleccionado = medico;
+    this.puedeEditar = true;
   }
 
   // Metodos de configurar semana
   configurarSemana(medico) {
-
+    this.puedeEditar = false;
     this.medicoSeleccionado = medico;
     let semanaGuardada;
     this.configuracionMedicoService.getSemanaModelo(medico).then(semana => {
