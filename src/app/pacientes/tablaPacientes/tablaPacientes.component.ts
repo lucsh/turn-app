@@ -74,7 +74,7 @@ export class TablaPacientesComponent implements OnInit {
     }
 
     editar(paciente) {
-        this.seleccionado = paciente;
+        this.seleccionado = Object.assign({}, paciente);
     }
 
     onPacienteEditado(pacienteEditado) {
