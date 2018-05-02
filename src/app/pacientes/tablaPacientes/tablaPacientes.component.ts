@@ -76,4 +76,11 @@ export class TablaPacientesComponent implements OnInit {
     editar(paciente) {
         this.seleccionado = paciente;
     }
+
+    onPacienteEditado(pacienteEditado) {
+        this.seleccionado = {
+            'id': '',
+            '_id': ''
+        };
+    }
 }
