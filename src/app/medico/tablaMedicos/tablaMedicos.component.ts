@@ -79,7 +79,6 @@ export class TablaMedicosComponent implements OnInit {
     */
     if (this.medicosCompartidos.medicos$) {
       this.medicosSubscription = this.medicosCompartidos.medicos$.subscribe((medicos) => {
-
         this.addMedicos(medicos);
         // this.ref.markForCheck();
       }, (err) => {
@@ -130,12 +129,25 @@ export class TablaMedicosComponent implements OnInit {
   }
 
   onIntervalosGuardados(medicoCambiado) {
+    this.updateDataSource(medicoCambiado);
     // Sacamos la seleccion del medico, para que dsps no haya inconsistencias
     this.medicoSeleccionado = {
       'id': '',
       '_id': '',
       'obras': []
     };
+  }
+
+  /**
+   * Este metodo actualiza un medico del data source de la tabla de configuraciones 
+   * @param medicoUpdated 
+   */
+  private updateDataSource(medicoUpdated) {
+    const medicoIndex = this.dataSource.data.map((medico) => medico._id).indexOf(medicoUpdated._id);
+    if (medicoIndex > -1) {
+      this.dataSource.data[medicoIndex] = medicoUpdated;
+      this.dataSource.data = this.dataSource.data.slice();
+    }
   }
 
 }
