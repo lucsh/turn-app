@@ -203,10 +203,10 @@ export class TurnoSocketService {
       estado: "pendiente",
       paciente: paciente._id,
       descripcion: paciente.descripcion,
-      obra: pagoConsulta
+      obra: pagoConsulta._id
     };
 
-    this.turnosSocketService.create(nuevoTurno).then(turnoNuevo => {});
+    return this.turnosSocketService.create(nuevoTurno);
   }
 
   public crearTurnoConFin(fechaIni, fechaFin, pacienteAsignado) {
@@ -273,8 +273,7 @@ export class TurnoSocketService {
   }
 
   public eliminarTurno(idTurno) {
-    const id = idTurno;
-    this.turnosSocketService.remove(idTurno).then(turnoEliminado => {});
+    return this.turnosSocketService.remove(idTurno);
   }
 
   public find(desde, hasta) {

@@ -1,6 +1,6 @@
 <!-- Modal Formulario Crear Turno -->
 <div class="modal" id="formCrearTurno" #formCrearTurno tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content" *ngIf='horaNuevoTurno != null && diaNuevoTurno != null && pacientes != null'>
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closeFormCrearTurno>&times;</button>
@@ -8,36 +8,86 @@
       </div>
 
       <!-- <div class="modal-body" > -->
-      <div class="modal-body">
+      <div class="modal-body gray-bg">
+        <div class="row">
+          <div class="col-md-7">
+            <div class="form-group">
+              <!-- <h4 >Turno: {{diaNuevoTurno}} a las {{horaNuevoTurno}}hs</h4> -->
+            </div>
+            <div class="form-group">
+              <div>
+                <h3>Seleccionar un paciente</h3>
+                <ng-select #selector2 *ngIf='actualizado == true' [allowClear]="true" [items]="pacientesSelector" [disabled]="disabled" (data)="refreshValue($event)"
+                  (selected)="selected($event)" (removed)="removed($event)" (typed)="typed($event)" placeholder="buscar">
+                </ng-select>
+              </div>
+              <br>
+              <div *ngIf=pacienteSelected.id>
+                <div class="form-group">
+                  <span>Obra Social del Paciente: </span> {{pacienteSelected.obra}}
+                </div>
+                <div class="form-group">
+                  <h3>Descripcion del turno:</h3>
+                  <textarea rows="4" #desc type="text" name="desc" [(ngModel)]="descripcion"></textarea>
+                </div>
+              </div>
+              <div *ngIf="pacienteSelected.id">
+                <div class="form-group">
+                  <label for="checkid" style="word-wrap:break-word">
+                    Particular:
+                    <input id="checkid" [(ngModel)]="elijeParticular" (change)="clickeado()" type="checkbox">
+                  </label>
+                  <!-- <label>Particular:</label> -->
+                </div>
+              </div>
+              <div class="form-group">
+                <button class="btn btn-sm btn-primary pull-right" (click)='agregarPaciente()'>
+                  <strong>Agregar paciente</strong>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div *ngIf='semanaActual'  class="col-md-5">
+            <div class="ibox float-e-margins">
+              <div class="ibox-title">
+                <h5>Turnos Ocupados </h5>
+              </div>
+              <div class="ibox-content">
+                <div class="obras" slimScroll [options]="slimScrollOpts" style="max-height:250px">
+                  <!-- { nombre: 'OSDE', cantDisponible: '9', totalAsignadas: '10' } -->
+                  <div class="obra row" *ngFor="let obra of obrasDisponibles">
+                    <div class="nombre col-md-7" [ngClass]="{
+                        'no-disponible': (obra.cantDisponible<=0)
+                      }"> {{ (obra.nombre.length>17)? (obra.nombre | slice:0:17)+'...':(obra.nombre) }}</div>
+                    <div class="disp col-md-5">
+                      {{obra.totalAsignadas - obra.cantDisponible}}/{{obra.totalAsignadas}}: {{((obra.totalAsignadas - obra.cantDisponible) * 100.0 / obra.totalAsignadas) | number }}%
+                      <i class="fa" [ngClass]="{
+                        'fa-check text-navy': (obra.cantDisponible > 0),
+                        'fa-times text-danger': (obra.cantDisponible<=0)
+                      }
+                        ">
+                      </i>
 
-        <div class="form-group">
-          <!-- <h4 >Turno: {{diaNuevoTurno}} a las {{horaNuevoTurno}}hs</h4> -->
+                    </div>
+                    <div class="col-md-12">
+                      <div class="barra">
+                        <div class="filled" [ngClass]="{
+                        'filled-ok': (obra.cantDisponible > 0),
+                        'filled-warning': (obra.cantDisponible==0),
+                        'filled-danger': (obra.cantDisponible/obra.totalAsignadas>1)
+                      }" [ngStyle]="{
+                        'width': ((obra.totalAsignadas-obra.cantDisponible)/obra.totalAsignadas * 100)+'%'
+                      }">
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngIf="obra.cantDisponible<=0" class="error"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <div style="width: 60%; margin-bottom: 1%;">
-            <h3>Seleccionar un paciente</h3>
-            <ng-select #selector2 *ngIf='actualizado == true' [allowClear]="true" [items]="pacientesSelector" [disabled]="disabled" (data)="refreshValue($event)"
-              (selected)="selected($event)" (removed)="removed($event)" (typed)="typed($event)" placeholder="buscar">
-            </ng-select>
-          </div>
-          <br>
-          <div style="width: 60%; margin-bottom: 1%;">
-            <h3>Descripcion del turno:</h3>
-            <textarea #desc type="text" name="desc" [(ngModel)]="descripcion"></textarea>
-          </div>
-          <div *ngIf="pacienteSelected.id">
-
-            <label for="checkid" style="word-wrap:break-word">
-              Particular:
-              <input id="checkid" [(ngModel)]="elijeParticular" (change)="clickeado()" type="checkbox">
-            </label>
-            <!-- <label>Particular:</label> -->
-          </div>
-          <button class="btn btn-sm btn-primary pull-right" (click)='agregarPaciente()'>
-            <strong>Agregar paciente</strong>
-          </button>
-        </div>
-
       </div>
 
       <div class="modal-footer">

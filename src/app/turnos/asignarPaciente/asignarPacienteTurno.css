@@ -2,6 +2,26 @@
 {
     vertical-align:text-top;
 }
-textarea {
+.obra * {
+    line-height: 25px;
+}
+.obras{
+    width: 300px;
+}
+textarea
+{
     width: 100%;
+}
+.obra .nombre{
+    font-weight: bold;
+}
+.obra .disp{
+    font-weight: bolder;
+}
+
+.error{
+    border: 1px solid rgba(255,0,0,0.5);
+    border-radius: 1px;
+    width: 85%;
+    margin: 12px;
 }

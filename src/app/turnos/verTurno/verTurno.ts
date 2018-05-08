@@ -24,6 +24,7 @@ export class VerTurnoComponent implements OnInit, OnChanges {
   @Input() obra: any;
   @Input() turno: any;
   @Output() obraEditado = new EventEmitter();
+  @Output() turnoEliminado = new EventEmitter();
 
   @ViewChild('closeformVerTurno') closeformVerTurno: ElementRef;
 
@@ -49,7 +50,6 @@ export class VerTurnoComponent implements OnInit, OnChanges {
   /*
   */
   ngOnChanges(changes) {
-    // changes.prop contains the old and the new value...
     this.puedeEditar = false;
     // Asignamos las fechas para el modal
     if (this.turno != null) {
@@ -61,7 +61,6 @@ export class VerTurnoComponent implements OnInit, OnChanges {
         };
       }
       this.pacienteDelTurno = this.turno.paciente;
-      // let fechaNuevoTurno = this.turno.horaInicial;
       const fechaNuevoTurno = moment(this.turno.horaInicial).utc().add(3, 'h');
       const today = moment();
 
@@ -76,7 +75,6 @@ export class VerTurnoComponent implements OnInit, OnChanges {
     }
     this.modeloObra = Object.assign({}, this.obra); // clonamos el paciente
   }
-
 
   public editarPaciente() {
     this.puedeEditar = true;
@@ -115,12 +113,12 @@ export class VerTurnoComponent implements OnInit, OnChanges {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Si, eliminar!',
       cancelButtonText: 'Cancelar'
-    }).then(function () {
-      // $('#calendar').fullCalendar('removeEvents', function (event) {
-      //   return event == calEvent; //Esto remueve solamente el evento "clickeado" que entra por parametro del evento del calendario 'calEvent'
-      // });
-      yo.turnosSocketService.eliminarTurno(yo.turno._id);
-    }, function (dismiss) {
+    }).then(function() {
+      yo.turnosSocketService.eliminarTurno(yo.turno._id)
+      .then(turnoEliminado => {
+        yo.turnoEliminado.next(turnoEliminado);
+      }).catch(err => {console.error(err)});
+    }, function(dismiss){
       //Aca entra si se arrepiente de eliminar el turno!!!!
       $('#formVerTurno').modal('show');
     }).catch(swal.noop);

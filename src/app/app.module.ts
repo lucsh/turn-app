@@ -85,6 +85,8 @@ import { PacientesDelDiaComponent } from './pacientes-del-dia/pacientes-del-dia.
 import {AsignarPacienteComponent} from './turnos/asignarPaciente/asignarPacienteTurno';
 import {AgregarPacienteComponent} from './pacientes/agregarPaciente/agregarPaciente';
 import {SelectModule} from 'ng2-select';
+import { SlimScrollModule } from 'ng2-slimscroll';
+
 
 import { TurnosDelMedicoComponent } from './turnos-del-medico/turnos-del-medico.component';
 import { ConfiguracionMedicoComponent } from './configuracion-medico/configuracion-medico.component';
@@ -121,6 +123,8 @@ import { ObrasModule } from 'app/obras/obras.module';
 
 import { AlertService } from './shared/services/alerts.service';
 import { ParticularesComponent } from './configuracion-medico/modal-semana/particulares/particulares.component';
+import { SemanasService } from 'app/shared/services/semanas.service';
+import { UtilsService } from 'app/shared/services/utils.service';
 
 @NgModule({
   declarations: [
@@ -203,6 +207,7 @@ import { ParticularesComponent } from './configuracion-medico/modal-semana/parti
     Select2Module,
     SimpleNotificationsModule.forRoot(),
     MyDatePickerModule,
+    SlimScrollModule,
     ObrasModule
   ],
   providers: [
@@ -221,6 +226,8 @@ import { ParticularesComponent } from './configuracion-medico/modal-semana/parti
     PacientesCompartidosService,
     ObrasCompartidasService,
     ConfiguracionMedicoService,
+    SemanasService,
+    UtilsService,
     AlertService
 
   ],

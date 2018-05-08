@@ -11,6 +11,7 @@ import { Router, NavigationStart, NavigationEnd, NavigationError, NavigationCanc
 
 import 'rxjs/add/operator/filter';
 import { MedicosService } from '../medico/medicos.service';
+import { ObrasService } from 'app/shared/services/obras.service';
 
 import * as moment from 'moment';
 
@@ -25,6 +26,8 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { AlertService } from 'app/shared/services/alerts.service';
 import { ObrasCompartidasService } from '../routerService/obras.sistema';
+import { SemanasService } from 'app/shared/services/semanas.service';
+import { UtilsService } from 'app/shared/services/utils.service';
 // Declaramos esta variable para hacer uso de Jquery con los modals de Boostrap
 declare var $: any;
 
@@ -62,6 +65,9 @@ export class TurnosComponent implements OnInit, OnDestroy {
   private desdeRender: any = null;
   private hastaRender: any = null;
 
+  public turnosPorObra: any[] = [];
+  public semanaActual: any;
+
   constructor(
     route: ActivatedRoute,
     private doctoresService: MedicosService,
@@ -69,6 +75,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
     private turnosSocketService: TurnoSocketService,
     private pacientesCompartidosService: PacientesCompartidosService,
     private obrasCompartidas: ObrasCompartidasService,
+    private semanasService: SemanasService,
+    private utilsService: UtilsService,
     private alertService: AlertService,
     private router: Router,
     private ref: ChangeDetectorRef
@@ -92,13 +100,11 @@ export class TurnosComponent implements OnInit, OnDestroy {
           const idDoctor = event.url.split('/', 4)[3];
           if (yo.doctorSeleccionado){
             const anteriorMedicoId = yo.doctorSeleccionado._id.toString();
-
             if (idDoctor != anteriorMedicoId){
-
+              yo.getSemanaActual(idDoctor, new Date(yo.hastaRender));
               yo.cambiarMedico(idDoctor).then(res => {
                 yo.setDoctorSeleccionado(idDoctor);
                 yo.cargandoTurnos = true;
-
                 // Nuevo, cuando cambia el doc, no renderiza el calendar entonces tengo que llamar desde aca.
                 // al metodo obtenerTUrnosRango con las variables globales
                 yo.turnosSocketService.obtenerTurnosRango(yo.desdeRender, yo.hastaRender);
@@ -162,14 +168,15 @@ export class TurnosComponent implements OnInit, OnDestroy {
       eventLimit: true, // allow "more" link when too many events
       events: this.turnos,
       viewRender: function(view, element) {
-        const desde = new Date(view.start._d).toISOString();
+        const fechaDesde = new Date(view.start._d);
+        const desde = fechaDesde.toISOString();
         const hasta = new Date(view.end._d).toISOString();
 
         // Seteo variables globales para cuando cambia de doctor (no renderiza y no llama a este metodo)
         yo.desdeRender = desde;
         yo.hastaRender = hasta;
         yo.cargandoTurnos = true;
-
+        yo.getSemanaActual(yo.doctorSeleccionado._id, new Date(view.end._d));
         // Obtenemos los turnos del rango esperado
         yo.turnosSocketService.obtenerTurnosRango(desde, hasta);
 
@@ -361,14 +368,23 @@ onAsignacionPaciente(asignacion) {
       });
 }}}
 
+onTurnoEliminado(turnoEliminado) {
+  // Actualizamos la semana actual
+  this.getSemanaActual(this.doctorSeleccionado._id, new Date(this.hastaRender));  
+}
+
 crearTurno(date, pacienteAsignado, pagoConsulta, duracion) {
 
   const paciente = pacienteAsignado;
 
-  this.turnosSocketService.crearTurno(date.format(), paciente, pagoConsulta, duracion);
+  this.turnosSocketService.crearTurno(date.format(), paciente, pagoConsulta, duracion)
+  .then(turnoCreado => {
+    // Restablecemos las variables
+    this.fechaNuevoTurno = null;
+    this.getSemanaActual(this.doctorSeleccionado._id, new Date(this.hastaRender));
+  }).catch(err => {console.error(err)});;
 
-  // Restablecemos las variables
-  this.fechaNuevoTurno = null;
+
 }
 
 reservarHorario(fecha, descripcion){
@@ -387,8 +403,8 @@ cambiarMedico(idDoctor) {
 
   const yo = this;
 
-  this.setDoctorSeleccionado(idDoctor);
-
+  this.setDoctorSeleccionado(idDoctor);        
+  
   return new Promise((resolve, reject) => {
 
       // Limpiamos el calendario
@@ -426,6 +442,17 @@ getAllDoctores(): void {
 }
 getAllTurnos(url, idDoctor): void {
   this.loadCalendar(idDoctor);
+}
+
+getSemanaActual(idDoctor: String, fecha: Date) {
+  const weekYear = this.utilsService.getWeekNumber(fecha);
+  this.semanasService.findByDoctor(idDoctor, weekYear[1], weekYear[0])
+  .then(semanas => {
+    // console.log('Semanas: ', semanas);
+    if (semanas && semanas.length > 0) {
+      this.semanaActual = semanas[0];
+    }
+  }).catch(err => console.error(err));
 }
 
 

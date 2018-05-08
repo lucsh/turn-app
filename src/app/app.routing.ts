@@ -60,7 +60,7 @@ const appRoutes: Routes = [
 		canActivate: [AuthGuard]
 	},
 	{ path: 'login', component: LoginComponent },
-	{ path: 'registro', component: RegisterComponent }
+	// { path: 'registro', component: RegisterComponent }
 ];
 
 

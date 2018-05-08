@@ -29,3 +29,25 @@
 .mat-form-field {
   font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif!important;
 }
+
+/* nuevas barras de 3px */
+.barra,
+.filled{
+  height: 3px;
+  margin: 0;
+  padding: 0;
+  border-radius: 3px;
+}
+.barra{
+  width: 90%;
+  background-color: $dark-gray;
+}
+.filled-ok{
+  background-color: $lazur;
+}
+.filled-warning{
+  background-color: $yellow;
+}
+.filled-danger{
+  background-color: $red;
+}
