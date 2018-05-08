@@ -42,6 +42,7 @@ export class AsignarPacienteComponent implements OnChanges {
 
   ngOnInit() {
     this.parseSemana(this.semanaActual);
+    
     this.slimScrollOpts = {
       gridOpacity: '0.2',
       barOpacity: '0.5',
@@ -60,6 +61,10 @@ export class AsignarPacienteComponent implements OnChanges {
   */
  ngOnChanges(changes) {
   // changes.prop contains the old and the new value...
+
+  if (changes.semanaActual) { 
+    this.parseSemana(this.semanaActual); 
+  } 
 
   if (this.pacientes != null && this.fechaNuevoTurno != null) {
 
@@ -85,20 +90,6 @@ export class AsignarPacienteComponent implements OnChanges {
     if (yo.pacientesSelector.length > 0) {
       this.actualizado = true;
     }
-
-    // /* START Orden de lista */
-
-    // const ordered = this.pacientesSelector.sort((a, b) => {
-    //   const uno = `${a.apellido} ${a.nombre}`.toLowerCase();
-    //   const dos = `${b.apellido} ${b.nombre}`.toLowerCase();
-    //   return uno > dos ? 1 : -1;
-    // });
-    // this.pacientesSelector = ordered;
-    // // console.table(this.pacientesSelector);
-    // // Se pega una frenada, deberiamos pasarlo a servidor.
-
-    // /* END Orden de lista */
-
   }
 
 }
@@ -107,16 +98,18 @@ export class AsignarPacienteComponent implements OnChanges {
   private parseSemana(semana) {
     const yo = this;
     yo.obrasDisponibles = [];
-    semana.obrasDisponibles.forEach(ob => {
-      if (ob.cantDisponible > 0) {
-        const cantDispActual  = (ob.cantDispActual === undefined) ? ob.cantDisponible : ob.cantDispActual;
-        yo.obrasDisponibles.push({
-          nombre: ob.obraExpandida.nombre,
-          totalAsignadas: ob.cantDisponible,
-          cantDisponible: cantDispActual
-        });
-      }
-    });
+    if (semana && semana.obrasDisponibles) {
+      semana.obrasDisponibles.forEach(ob => {
+        if (ob.cantDisponible > 0) {
+          const cantDispActual  = (ob.cantDispActual === undefined) ? ob.cantDisponible : ob.cantDispActual;
+          yo.obrasDisponibles.push({
+            nombre: ob.obraExpandida.nombre,
+            totalAsignadas: ob.cantDisponible,
+            cantDisponible: cantDispActual
+          });
+        }
+      });
+    }
   }
 
   /*
