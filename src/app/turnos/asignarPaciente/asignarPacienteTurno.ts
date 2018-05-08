@@ -1,5 +1,5 @@
-
-import { ISlimScrollOptions } from 'ng2-slimscroll';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ElementRef, ViewChild } from '@angular/core';
+import { ISlimScrollOptions } from 'ngx-slimscroll';
 import { SelectComponent, SelectItem } from 'ng2-select';
 import { elementAt } from 'rxjs/operators';
 
@@ -58,68 +58,50 @@ export class AsignarPacienteComponent implements OnChanges {
   Principalmente, se completa la variable 'pacientesSelector', para poder ser utilizados con el componente ng2-select.
   Tambien se preparan las variables de horaNuevoTurno y diaNuevoTurno para la visual del modal.
   */
-  ngOnChanges(changes) {
-    // changes.prop contains the old and the new value...
-    if (changes.semanaActual) {
-      this.parseSemana(this.semanaActual);
+ ngOnChanges(changes) {
+  // changes.prop contains the old and the new value...
+
+  if (this.pacientes != null && this.fechaNuevoTurno != null) {
+
+    // Asignamos las fechas para el modal
+    this.horaNuevoTurno = this.fechaNuevoTurno.format('HH:mm');
+    this.diaNuevoTurno = this.fechaNuevoTurno.format('DD [de] MMMM');
+    this.elijeParticular = false;
+
+    const yo = this;
+    this.pacientes.forEach(function (elem, index) {
+      /*
+      Dado que estamos usando el componente ng2-select,
+      debemos tener un arreglo en el que cada objeto TENGA:
+      un atributo 'id'
+      un atributo 'text'
+      */
+      yo.pacientesSelector[index] = elem;
+      yo.pacientesSelector[index].id = elem._id;
+      yo.pacientesSelector[index].text = elem.apellido + ' ' + elem.nombre + ' - ' + elem.dni;
+    });
+
+
+    if (yo.pacientesSelector.length > 0) {
+      this.actualizado = true;
     }
 
-    if (this.pacientes != null && this.fechaNuevoTurno != null) {
+    // /* START Orden de lista */
 
-      // Asignamos las fechas para el modal
-      this.horaNuevoTurno = this.fechaNuevoTurno.format('HH:mm');
-      this.diaNuevoTurno = this.fechaNuevoTurno.format('DD [de] MMMM');
-      this.elijeParticular = false;
+    // const ordered = this.pacientesSelector.sort((a, b) => {
+    //   const uno = `${a.apellido} ${a.nombre}`.toLowerCase();
+    //   const dos = `${b.apellido} ${b.nombre}`.toLowerCase();
+    //   return uno > dos ? 1 : -1;
+    // });
+    // this.pacientesSelector = ordered;
+    // // console.table(this.pacientesSelector);
+    // // Se pega una frenada, deberiamos pasarlo a servidor.
 
-      const yo = this;
-      this.pacientes.forEach(function(elem, index){
-        /*
-        Dado que estamos usando el componente ng2-select,
-        debemos tener un arreglo en el que cada objeto TENGA:
-        un atributo 'id'
-        un atributo 'text'
-        */
-        yo.pacientesSelector[index] = elem;
-        yo.pacientesSelector[index].id = elem._id;
-        yo.pacientesSelector[index].text = elem.nombre + ' ' + elem.apellido + ' - ' + elem.dni;
-      });
-      if (yo.pacientesSelector.length > 0){
-        ////console.log('TRUE');
-        this.actualizado = true;
-      if (changes.pacientes) {
-      this.pacientes.forEach(function (elem, index) {
-        /*
-        Dado que estamos usando el componente ng2-select,
-        debemos tener un arreglo en el que cada objeto TENGA:
-        un atributo 'id'
-        un atributo 'text'
-        */
-        yo.pacientesSelector[index] = elem;
-        yo.pacientesSelector[index].id = elem._id;
-        yo.pacientesSelector[index].text = elem.apellido + ' ' + elem.nombre + ' - ' + elem.dni;
-      });
-
-
-      if (yo.pacientesSelector.length > 0) {
-        this.actualizado = true;
-      }
-
-      // /* START Orden de lista */
-
-      // const ordered = this.pacientesSelector.sort((a, b) => {
-      //   const uno = `${a.apellido} ${a.nombre}`.toLowerCase();
-      //   const dos = `${b.apellido} ${b.nombre}`.toLowerCase();
-      //   return uno > dos ? 1 : -1;
-      // });
-      // this.pacientesSelector = ordered;
-      // // console.table(this.pacientesSelector);
-      // // Se pega una frenada, deberiamos pasarlo a servidor.
-
-      // /* END Orden de lista */
-
-    }
+    // /* END Orden de lista */
 
   }
+
+}
 
   // TODO: ordenar segun porcentaje
   private parseSemana(semana) {
@@ -226,7 +208,7 @@ export class AsignarPacienteComponent implements OnChanges {
           yo.pacienteSelected.id = elem._id;
           yo.pacienteSelected.text = elem.apellido + ' ' + elem.nombre + ' - ' + elem.dni;
           // con esto lo seteamos en visual tambien
-          yo.mySelectComponent.active = [{id: elem._id, text: elem.nombre + ' ' + elem.apellido + ' - ' + elem.dni}];
+          yo.mySelectComponent.active = [{ id: elem._id, text: elem.apellido + ' ' + elem.nombre + ' - ' + elem.dni }];
         }
       });
 

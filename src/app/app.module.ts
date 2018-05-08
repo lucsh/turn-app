@@ -85,7 +85,7 @@ import { PacientesDelDiaComponent } from './pacientes-del-dia/pacientes-del-dia.
 import {AsignarPacienteComponent} from './turnos/asignarPaciente/asignarPacienteTurno';
 import {AgregarPacienteComponent} from './pacientes/agregarPaciente/agregarPaciente';
 import {SelectModule} from 'ng2-select';
-import { SlimScrollModule } from 'ng2-slimscroll';
+import { NgSlimScrollModule } from 'ngx-slimscroll';
 
 
 import { TurnosDelMedicoComponent } from './turnos-del-medico/turnos-del-medico.component';
@@ -207,7 +207,7 @@ import { UtilsService } from 'app/shared/services/utils.service';
     Select2Module,
     SimpleNotificationsModule.forRoot(),
     MyDatePickerModule,
-    SlimScrollModule,
+    NgSlimScrollModule,
     ObrasModule
   ],
   providers: [
