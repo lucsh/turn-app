@@ -425,6 +425,8 @@ getSemanaActual(idDoctor: String, fecha: Date) {
     // console.log('Semanas: ', semanas);
     if (semanas && semanas.length > 0) {
       this.semanaActual = semanas[0];
+    } else {
+      this.semanaActual = null;
     }
   }).catch(err => console.error(err));
 }
