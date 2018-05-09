@@ -448,9 +448,10 @@ getSemanaActual(idDoctor: String, fecha: Date) {
   const weekYear = this.utilsService.getWeekNumber(fecha);
   this.semanasService.findByDoctor(idDoctor, weekYear[1], weekYear[0])
   .then(semanas => {
-    // console.log('Semanas: ', semanas);
     if (semanas && semanas.length > 0) {
       this.semanaActual = semanas[0];
+    } else {
+      this.semanaActual = null;
     }
   }).catch(err => console.error(err));
 }
@@ -468,10 +469,6 @@ ngOnInit() {
 
   const yo = this;
   this.getAllDoctores();
-  // this.pacientesService.getPacientesActivos().then(pacientes => {
-  //   yo.pacientes = pacientes;
-
-  // }).catch(err => console.error(err));
 
 }
 
