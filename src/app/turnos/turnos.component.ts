@@ -363,8 +363,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
         // TODO: detectar tipo de error!!
         // console.error(err) 
         const yo = this;
-        this.alertService.warning('Ha superado la cantidad de turnos de la semana.', 'Si, Crear!', true,
-          '¿Crear un turno para el paciente ' + paciente + ' de todas formas?')
+        this.alertService.warning('Ha superado la cantidad de turnos de '+ pagoConsulta.nombre +'.', 'Si, Crear!', true,
+          '¿Crear un turno para el paciente \"' + paciente.apellido + '\" de todas formas?')
           .then(() => {
             const saltarRestriccion = true;
             yo.crearTurno(date, paciente, pagoConsulta, duracion, saltarRestriccion);
