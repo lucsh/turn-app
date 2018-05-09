@@ -117,16 +117,18 @@ export class AsignarPacienteComponent implements OnChanges {
   private parseSemana(semana) {
     const yo = this;
     yo.obrasDisponibles = [];
-    semana.obrasDisponibles.forEach(ob => {
-      if (ob.cantDisponible > 0) {
-        const cantDispActual  = (ob.cantDispActual === undefined) ? ob.cantDisponible : ob.cantDispActual;
-        yo.obrasDisponibles.push({
-          nombre: ob.obraExpandida.nombre,
-          totalAsignadas: ob.cantDisponible,
-          cantDisponible: cantDispActual
-        });
-      }
-    });
+    if (semana && semana.obrasDisponibles) {
+      semana.obrasDisponibles.forEach(ob => {
+        if (ob.cantDisponible > 0) {
+          const cantDispActual  = (ob.cantDispActual === undefined) ? ob.cantDisponible : ob.cantDispActual;
+          yo.obrasDisponibles.push({
+            nombre: ob.obraExpandida.nombre,
+            totalAsignadas: ob.cantDisponible,
+            cantDisponible: cantDispActual
+          });
+        }
+      });
+    }
   }
 
   /*
