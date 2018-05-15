@@ -179,7 +179,8 @@ export class TurnoSocketService {
   // -------------------------------------------------------------------------
   // Metodos principales
 
-  public crearTurno(fecha: Date, pacienteAsignado, pagoConsulta, duracion) {
+  public crearTurno(fecha: Date, pacienteAsignado, pagoConsulta, duracion, saltarRestriccion = false) {
+
     const paciente = pacienteAsignado;
 
     // El color depende del medico al que le estoy cargando el turno
@@ -203,7 +204,8 @@ export class TurnoSocketService {
       estado: "pendiente",
       paciente: paciente._id,
       descripcion: paciente.descripcion,
-      obra: pagoConsulta._id
+      obra: pagoConsulta._id,
+      saltarRestriccion
     };
 
     return this.turnosSocketService.create(nuevoTurno);
