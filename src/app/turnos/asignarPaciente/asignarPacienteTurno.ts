@@ -3,7 +3,7 @@ import { ISlimScrollOptions } from 'ngx-slimscroll';
 import { SelectComponent, SelectItem } from 'ng2-select';
 import { elementAt } from 'rxjs/operators';
 
-//Declaramos esta variable para hacer uso de Jquery con los modals de Boostrap
+// Declaramos esta variable para hacer uso de Jquery con los modals de Boostrap
 declare var $: any;
 
 @Component({
@@ -41,18 +41,17 @@ export class AsignarPacienteComponent implements OnChanges {
   private obrasDisponibles: Array<any> = [];
 
   ngOnInit() {
-    this.parseSemana(this.semanaActual);
-    
     this.slimScrollOpts = {
-      gridOpacity: '0.2',
-      barOpacity: '0.5',
-      gridBackground: '#c2c2c2',
-      gridWidth: '6',
-      gridMargin: '2px 2px',
-      barBackground: '#a2a2a2',
-      barWidth: '6',
-      barMargin: '2px 2px'
-    }
+        gridOpacity: '0.2',
+        barOpacity: '0.5',
+        gridBackground: '#c2c2c2',
+        gridWidth: '6',
+        gridMargin: '2px 2px',
+        barBackground: '#a2a2a2',
+        barWidth: '6',
+        barMargin: '2px 2px'
+      };
+      this.parseSemana(this.semanaActual);
   }
   /*
   Este metodo es llamado cada vez que se cambia la fecha y/o los pacientes (inputs de este componente).
@@ -108,7 +107,7 @@ export class AsignarPacienteComponent implements OnChanges {
             cantDisponible: cantDispActual
           });
         }
-      });
+    });
     }
   }
 
