@@ -5,10 +5,9 @@ import { HttpModule } from '@angular/http';
 
 import { DataTableModule } from 'angular2-datatable';
 
-
 import 'hammerjs';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {CdkTableModule} from '@angular/cdk/table';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CdkTableModule } from '@angular/cdk/table';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -41,7 +40,7 @@ import {
   MatTableModule,
   MatTabsModule,
   MatToolbarModule,
-  MatTooltipModule,
+  MatTooltipModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -53,7 +52,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 // http://valor-software.com/ngx-bootstrap/
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import {MomentModule} from 'angular2-moment';
+import { MomentModule } from 'angular2-moment';
 
 import { Select2Module } from 'ng2-select2';
 import 'moment/locale/es';
@@ -64,29 +63,26 @@ import { MedicosService } from './medico/medicos.service';
 import { NavigationService } from './ui/navigation/navigation.service';
 import { PacientesService } from './pacientes/pacientes.service';
 
-
 import { routing } from './app.routing';
 import { FooterComponent } from './ui/footer.component';
 import { NavigationComponent } from './ui/navigation/navigation.component';
 import { TopnavbarComponent } from './ui/topnavbar/topnavbar.component';
 import { TimeAgoPipe } from './time-ago.pipe';
-import { FiltroPorEstado } from "./pacientes-del-dia/filtro-por-estado";
+import { FiltroPorEstado } from './pacientes-del-dia/filtro-por-estado';
 import { TurnosComponent } from './turnos/turnos.component';
 
 import { TurnoSocketService } from './turnos/turnos-socket.service';
 
 import { PacientesComponent } from './pacientes/pacientes.component';
-import { DataFilterPipe }   from './pacientes/pacientes-filter.pipe';
+import { DataFilterPipe } from './pacientes/pacientes-filter.pipe';
 import { SolicitudesComponent } from './pedidos/solicitudes.component';
 import { SolicitudesSocketService } from './pedidos/solicitudes-socket.service';
 import { PacientesDelDiaComponent } from './pacientes-del-dia/pacientes-del-dia.component';
 
-
-import {AsignarPacienteComponent} from './turnos/asignarPaciente/asignarPacienteTurno';
-import {AgregarPacienteComponent} from './pacientes/agregarPaciente/agregarPaciente';
-import {SelectModule} from 'ng2-select';
-import { NgSlimScrollModule } from 'ngx-slimscroll';
-
+import { AsignarPacienteComponent } from './turnos/asignarPaciente/asignarPacienteTurno';
+import { AgregarPacienteComponent } from './pacientes/agregarPaciente/agregarPaciente';
+import { SelectModule } from 'ng2-select';
+import { NgSlimScrollModule, SLIMSCROLL_DEFAULTS } from 'ngx-slimscroll';
 
 import { TurnosDelMedicoComponent } from './turnos-del-medico/turnos-del-medico.component';
 import { ConfiguracionMedicoComponent } from './configuracion-medico/configuracion-medico.component';
@@ -94,7 +90,6 @@ import { ModalSemanaComponent } from './configuracion-medico/modal-semana/modal-
 import { EditarPacienteComponent } from './pacientes/editarPaciente/editarPaciente';
 import { TablaMedicosComponent } from './medico/tablaMedicos/tablaMedicos.component';
 import { EditarMedicoComponent } from './medico/editarMedico/editarMedico';
-
 
 import { AuthService } from './authentication/auth.service';
 import { AuthGuard } from './authentication/auth.guard';
@@ -115,10 +110,9 @@ import { ObrasCompartidasService } from './routerService/obras.sistema';
 
 import { TablaPacientesComponent } from './pacientes/tablaPacientes/tablaPacientes.component';
 
-
 import { MyDatePickerModule } from 'mydatepicker';
 
-import {ConfiguracionMedicoService} from './configuracion-medico/configuracion-medico.service';
+import { ConfiguracionMedicoService } from './configuracion-medico/configuracion-medico.service';
 import { ObrasModule } from 'app/obras/obras.module';
 
 import { AlertService } from './shared/services/alerts.service';
@@ -158,7 +152,6 @@ import { UtilsService } from 'app/shared/services/utils.service';
     AgregarMedicoComponent,
     TablaPacientesComponent,
     ParticularesComponent
-
   ],
   imports: [
     BrowserModule,
@@ -199,7 +192,7 @@ import { UtilsService } from 'app/shared/services/utils.service';
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    
+
     BsDropdownModule.forRoot(),
     MomentModule,
     routing,
@@ -211,6 +204,19 @@ import { UtilsService } from 'app/shared/services/utils.service';
     ObrasModule
   ],
   providers: [
+    {
+      provide: SLIMSCROLL_DEFAULTS,
+      useValue: {
+        gridOpacity: '1',
+        barOpacity: '1',
+        gridBackground: '#E5E5E5',
+        gridWidth: '6',
+        gridMargin: '2px 2px',
+        barBackground: '#B3B3B3',
+        barWidth: '6',
+        barMargin: '2px 2px'
+      }
+    },
     PacientesService,
     MedicosService,
     NavigationService,
@@ -229,8 +235,7 @@ import { UtilsService } from 'app/shared/services/utils.service';
     SemanasService,
     UtilsService,
     AlertService
-
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
