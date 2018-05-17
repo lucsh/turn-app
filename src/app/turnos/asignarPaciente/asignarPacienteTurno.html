@@ -47,21 +47,23 @@
               </div>
             </div>
           </div>
-          <div *ngIf='semanaActual'  class="col-md-5">
+          <div *ngIf='semanaActual' class="col-md-5">
             <div class="ibox float-e-margins">
               <div class="ibox-title">
                 <h5>Turnos Ocupados </h5>
               </div>
               <div class="ibox-content">
-                  <!-- TODO: Revisar con Lucas: slimScroll [options]='slimScrollOpts' style='max-height:250px'-->
-                <div class="obras"> 
+                <!-- TODO: Revisar con Lucas: slimScroll [options]='slimScrollOpts' style='max-height:250px'-->
+                <div class="obras">
                   <!-- { nombre: 'OSDE', cantDisponible: '9', totalAsignadas: '10' } -->
                   <div class="obra row" *ngFor="let obra of obrasDisponibles">
                     <div class="nombre col-md-7" [ngClass]="{
                         'no-disponible': (obra.cantDisponible<=0)
                       }"> {{ (obra.nombre.length>17)? (obra.nombre | slice:0:17)+'...':(obra.nombre) }}</div>
                     <div class="disp col-md-5">
-                      {{obra.totalAsignadas - obra.cantDisponible}}/{{obra.totalAsignadas}}: {{((obra.totalAsignadas - obra.cantDisponible) * 100.0 / obra.totalAsignadas) | number }}%
+                      {{obra.totalAsignadas - obra.cantDisponible}}/{{obra.totalAsignadas}}: {{((obra.totalAsignadas - obra.cantDisponible) * 100.0
+                      / obra.totalAsignadas) | number:'1.0-0' }}%
+                      <!-- {{14}}/{{30}}: {{(46.667) | number:'1.0-0' }}% -->
                       <i class="fa" [ngClass]="{
                         'fa-check text-navy': (obra.cantDisponible > 0),
                         'fa-times text-danger': (obra.cantDisponible<=0)
@@ -88,7 +90,7 @@
               </div>
             </div>
           </div>
-          <div *ngIf='!semanaActual'  class="col-md-5">
+          <div *ngIf='!semanaActual' class="col-md-5">
             Aca tiene que ir algo cuando no existe la semana
           </div>
         </div>
