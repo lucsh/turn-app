@@ -12,6 +12,9 @@ import { ISlimScrollOptions } from 'ngx-slimscroll';
 import { SelectComponent, SelectItem } from 'ng2-select';
 import { elementAt } from 'rxjs/operators';
 
+
+import * as _ from "lodash";
+
 // Declaramos esta variable para hacer uso de Jquery con los modals de Boostrap
 declare var $: any;
 
@@ -103,6 +106,10 @@ export class AsignarPacienteComponent implements OnChanges {
           });
         }
       });
+
+      //TODO: Revisar esto =>
+      //Vamos a ordenar la lista de obras sociales por nombre en forma Ascendente.
+      yo.obrasDisponibles = _.orderBy(yo.obrasDisponibles,['nombre'],['asc']);
     }
   }
 
