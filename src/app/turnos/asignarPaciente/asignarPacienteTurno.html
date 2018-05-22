@@ -17,7 +17,8 @@
             <div class="form-group">
               <div>
                 <h3>Seleccionar un paciente</h3>
-                <ng-select #selector2 *ngIf='actualizado == true' [allowClear]="true" [items]="pacientesSelector" [disabled]="disabled" (data)="refreshValue($event)"
+                <ng-select #selector2 *ngIf='actualizado == true' [allowClear]="true" [items]="pacientesSelector" 
+                    (data)="refreshValue($event)"
                   (selected)="selected($event)" (removed)="removed($event)" (typed)="typed($event)" placeholder="buscar">
                 </ng-select>
               </div>
@@ -91,7 +92,7 @@
             </div>
           </div>
           <div *ngIf='!semanaActual' class="col-md-5">
-            Aca tiene que ir algo cuando no existe la semana
+            <!-- Aca tiene que ir algo cuando no existe la semana -->
           </div>
         </div>
       </div>

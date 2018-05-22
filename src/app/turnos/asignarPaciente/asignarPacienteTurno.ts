@@ -14,10 +14,13 @@ import { elementAt } from 'rxjs/operators';
 
 
 import * as _ from "lodash";
+import { Subject } from 'rxjs/Subject';
+import { debounceTime } from 'rxjs/operators/debounceTime';
+// import { distinctUntilChanged } from 'rxjs/operator/distinctUntilChanged';
+// import { switchMap } from 'rxjs/operators/switchMap';
 
 // Declaramos esta variable para hacer uso de Jquery con los modals de Boostrap
 declare var $: any;
-
 @Component({
     selector: 'asignacion-paciente',
     templateUrl: './asignarPacienteTurno.html',
@@ -35,24 +38,21 @@ export class AsignarPacienteComponent implements OnChanges {
 
     public horaNuevoTurno: any;
     public diaNuevoTurno: any;
-
     public descripcion = '';
     public elijeParticular = false;
-
     public pacientesSelector: Array<any> = [];
-
     public actualizado = false;
-
     private pacienteSelected: any = {};
-    private _disabledV = '0';
-    private disabled = false;
-
     private sorted = false;
     private obrasDisponibles: Array<any> = [];
+    
+    private searchTerms = new Subject<string>();
+    private CANT_SELECTOR = 50; // TODO: aca?
 
     ngOnInit() {
+        this.subscribeSearch();
         this.parseSemana(this.semanaActual);
-        this.updateSelector(this.pacientes);
+        this.updateSelector(this.pacientes.slice(0,this.CANT_SELECTOR));
         this.updateFechaTurno(this.fechaNuevoTurno);
     }
     /*
@@ -65,7 +65,7 @@ export class AsignarPacienteComponent implements OnChanges {
             this.parseSemana(this.semanaActual);
         }
         if (changes.pacientes) {
-            this.updateSelector(this.pacientes);
+            this.updateSelector(this.pacientes.slice(0,this.CANT_SELECTOR));
         }
         if (changes.fechaNuevoTurno) {
             this.updateFechaTurno(this.fechaNuevoTurno);
@@ -107,6 +107,7 @@ export class AsignarPacienteComponent implements OnChanges {
     private updateSelector(pacientes): void {
         const yo = this;
         if (pacientes && pacientes.length > 0) {
+            yo.pacientesSelector = [];
             pacientes.forEach(function (elem, index) {
                 /*
                 Dado que estamos usando el componente ng2-select,
@@ -124,9 +125,6 @@ export class AsignarPacienteComponent implements OnChanges {
         }
     }
 
-    /*
-  
-    */
     public asignarTurno() {
         let pacienteAsignado = null;
         const yo = this;
@@ -229,22 +227,48 @@ export class AsignarPacienteComponent implements OnChanges {
         }
     }
 
+
+    /**
+     * Metodo para buscar un termino dentro de la lista de pacientes
+     * @param termino 
+     */
+    private searchByTerm(termino: string): any[] {
+        let pacientesFiltrados;
+        if (!termino.trim() || this.pacientes.length < 1) {
+            pacientesFiltrados = [];
+        } else {
+            termino = termino.toLowerCase();
+            pacientesFiltrados = this.pacientes.filter((paciente) => {
+                return paciente.apellido.toLowerCase().includes(termino.toLowerCase()) || 
+                paciente.dni.toLowerCase().includes(termino) || 
+                paciente.nombre.toLowerCase().includes(termino);
+            });
+        }
+        return pacientesFiltrados;
+      }
+
+    /**
+     * Metodo para actualizar el selector cada vez que escriben.
+     */
+    private subscribeSearch(): void {
+        const yo = this;
+        this.searchTerms.pipe(
+            // debounceTime(100),
+        ).subscribe(term => {
+            let pacientesFiltrados = yo.searchByTerm(term);
+            yo.updateSelector(pacientesFiltrados);
+        });
+    }
+
     // ---------------------------------------------------------------------------
-    // Metodos originales del componente
-
-    private get disabledV(): string {
-        return this._disabledV;
+    
+    // Metodo invocado por el evento de tipeo de ng2-select2
+    public typed(value: string): void {
+        // if (value.length > 2) {
+        // Push a search term into the observable stream.        
+        this.searchTerms.next(value);
+        // }
     }
-
-    private set disabledV(value: string) {
-        this._disabledV = value;
-        this.disabled = this._disabledV === '1';
-    }
-    public selected(value: any): void { }
-
-    public removed(value: any): void { }
-
-    public typed(value: any): void { }
 
     public refreshValue(value: any): void {
         const pacienteOriginal = this.pacientes.find(el => el.id === value.id);
