@@ -16,6 +16,7 @@ import { elementAt } from 'rxjs/operators';
 import * as _ from "lodash";
 import { Subject } from 'rxjs/Subject';
 import { debounceTime } from 'rxjs/operators/debounceTime';
+import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
 // import { distinctUntilChanged } from 'rxjs/operator/distinctUntilChanged';
 // import { switchMap } from 'rxjs/operators/switchMap';
 
@@ -47,7 +48,7 @@ export class AsignarPacienteComponent implements OnChanges {
     private obrasDisponibles: Array<any> = [];
     
     private searchTerms = new Subject<string>();
-    private CANT_SELECTOR = 50; // TODO: aca?
+    private CANT_SELECTOR = 0; // TODO: aca?
 
     ngOnInit() {
         this.subscribeSearch();
@@ -119,9 +120,8 @@ export class AsignarPacienteComponent implements OnChanges {
                 yo.pacientesSelector[index].id = elem._id;
                 yo.pacientesSelector[index].text = elem.apellido + ' ' + elem.nombre + ' - ' + elem.dni;
             });
-        }
-        if (yo.pacientesSelector.length > 0) {
-            this.actualizado = true;
+        } else {
+            yo.pacientesSelector = [];
         }
     }
 
@@ -233,15 +233,12 @@ export class AsignarPacienteComponent implements OnChanges {
      * @param termino 
      */
     private searchByTerm(termino: string): any[] {
-        let pacientesFiltrados;
-        if (!termino.trim() || this.pacientes.length < 1) {
-            pacientesFiltrados = [];
-        } else {
-            termino = termino.toLowerCase();
+        let pacientesFiltrados = [];
+        if (termino.length < 5) {
             pacientesFiltrados = this.pacientes.filter((paciente) => {
-                return paciente.apellido.toLowerCase().includes(termino.toLowerCase()) || 
-                paciente.dni.toLowerCase().includes(termino) || 
-                paciente.nombre.toLowerCase().includes(termino);
+            const cadena = (paciente.apellido +  paciente.dni + paciente.nombre).toLowerCase();
+            // console.log('cadena: ', cadena);
+            return cadena.includes(termino);
             });
         }
         return pacientesFiltrados;
@@ -253,10 +250,12 @@ export class AsignarPacienteComponent implements OnChanges {
     private subscribeSearch(): void {
         const yo = this;
         this.searchTerms.pipe(
+            distinctUntilChanged(),
             // debounceTime(100),
         ).subscribe(term => {
             let pacientesFiltrados = yo.searchByTerm(term);
             yo.updateSelector(pacientesFiltrados);
+          
         });
     }
 
@@ -264,10 +263,17 @@ export class AsignarPacienteComponent implements OnChanges {
     
     // Metodo invocado por el evento de tipeo de ng2-select2
     public typed(value: string): void {
-        // if (value.length > 2) {
-        // Push a search term into the observable stream.        
-        this.searchTerms.next(value);
-        // }
+        if (!(!value.trim() || this.pacientes.length < 1)) {
+            let termino = value.trim().replace(/\s/g,'').toLowerCase();
+            if (termino.length >= 3) {
+                if (termino.length < 5) {
+                    // Push a search term into the observable stream.
+                    this.searchTerms.next(termino);
+                }
+            } else {
+                this.updateSelector([]);
+            }
+        }
     }
 
     public refreshValue(value: any): void {

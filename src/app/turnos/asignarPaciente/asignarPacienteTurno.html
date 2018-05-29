@@ -17,9 +17,9 @@
             <div class="form-group">
               <div>
                 <h3>Seleccionar un paciente</h3>
-                <ng-select #selector2 *ngIf='actualizado == true' [allowClear]="true" [items]="pacientesSelector" 
+                <ng-select #selector2 [allowClear]="true" [items]="pacientesSelector" 
                     (data)="refreshValue($event)"
-                  (selected)="selected($event)" (removed)="removed($event)" (typed)="typed($event)" placeholder="buscar">
+                    (typed)="typed($event)" placeholder="buscar (al menos 3 letras)">
                 </ng-select>
               </div>
               <br>
