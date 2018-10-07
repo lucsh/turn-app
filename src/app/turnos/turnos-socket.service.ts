@@ -155,19 +155,28 @@ export class TurnoSocketService {
       // }
 
       // Es una consulta medica
-      const newTurno = {
-        title:
-          turno.paciente.apellido +
+      let title;
+      let color;
+      if (turno.paciente === undefined || turno.paciente === null) {
+        title = "Error en el Turno" + descripcion;
+        color = "#ff0000";
+      } else {
+        title = turno.paciente.apellido +
           " " +
           turno.paciente.nombre +
           obraTurno +
           " | " +
           turno.paciente.telefono +
-          descripcion,
+          descripcion;
+        color = "#f8ac59";
+      }
+      const newTurno = {
+        title: title,
         allDay: false,
         start: horaInicial,
         end: horaFin,
-        color: "#f8ac59",
+        color: color,
+        
         _id: turno._id,
         id: turno._id
       };
