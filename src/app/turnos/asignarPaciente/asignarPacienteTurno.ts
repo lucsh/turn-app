@@ -20,6 +20,7 @@ import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
 // import { distinctUntilChanged } from 'rxjs/operator/distinctUntilChanged';
 // import { switchMap } from 'rxjs/operators/switchMap';
 
+import {default as swal} from 'sweetalert2';
 // Declaramos esta variable para hacer uso de Jquery con los modals de Boostrap
 declare var $: any;
 @Component({
@@ -125,34 +126,52 @@ export class AsignarPacienteComponent implements OnChanges {
         }
     }
 
-    public asignarTurno() {
+    public async asignarTurno () {
         let pacienteAsignado = null;
         const yo = this;
 
         const desc = this.descripcion;
 
-        this.pacientesSelector.forEach(function (elem, index) {
+        await this.pacientesSelector.forEach(function (elem, index) {
             if (elem.id == yo.pacienteSelected.id) {
                 pacienteAsignado = Object.assign({}, elem); //clonamos el elemento
                 pacienteAsignado.descripcion = desc;
             }
         });
+        //console.log(pacienteAsignado);
+        if (pacienteAsignado.id === null || pacienteAsignado.id === undefined) {
+            console.log("ERROR");
+            swal({
+                title: 'Error!',
+                text: 'Hubo un problema registrando el turno!',
+                type: 'error',
+                timer: 2000
+              }).then(
+                function () {},
+                // handling the promise rejection
+                function (dismiss) {
+                  if (dismiss === 'timer') {
+                  }
+                }
+              );
+        }else{
 
-        if (this.elijeParticular) {
-            pacienteAsignado.elijeParticular = true;
-        } else {
-            pacienteAsignado.elijeParticular = false;
+            if (this.elijeParticular) {
+                pacienteAsignado.elijeParticular = true;
+            } else {
+                pacienteAsignado.elijeParticular = false;
+            }
+
+            // Quitamos los atributos agregados para el selector del clone
+            // delete pacienteAsignado['id'];
+            // delete pacienteAsignado['text'];
+            // ////console.log(pacienteAsignado);
+            // Cerramos el modal
+            this.closeFormCrearTurno.nativeElement.click();
+
+            // Enviamos la eleccion al componente padre
+            this.nuevaAsignacion.next(pacienteAsignado);
         }
-
-        // Quitamos los atributos agregados para el selector del clone
-        // delete pacienteAsignado['id'];
-        // delete pacienteAsignado['text'];
-        // ////console.log(pacienteAsignado);
-        // Cerramos el modal
-        this.closeFormCrearTurno.nativeElement.click();
-
-        // Enviamos la eleccion al componente padre
-        this.nuevaAsignacion.next(pacienteAsignado);
     }
 
     /*
